@@ -182,8 +182,8 @@ label {
 }
 
 .tags .label .label-default {
-  background-color: #666;
-  font-size: 9px;
+  background-color: #666 !important;
+  font-size: 9px !important;
   font-weight: normal !important;
 }
 
