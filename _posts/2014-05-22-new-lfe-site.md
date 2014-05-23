@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "New LFE Site!"
-description: "LFE Has a new Main Site"
+description: "LFE has a new main site"
 category: site
 tags: [site,web,news]
 ---
