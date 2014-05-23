@@ -6,7 +6,7 @@ category: site
 tags: [site,web,news]
 ---
 {% include JB/setup %}
-Good news, everyone! Professor Farnsworth has nodded off, and we've had some fun while he slept.
+Good news, everyone! Professor Farnsworth nodded off, and we've had some fun while he slept.
 
 LFE has a new main site for the project: <a href="http://lfe.io/">lfe.io</a>.
 
