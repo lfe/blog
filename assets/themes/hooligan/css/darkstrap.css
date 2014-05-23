@@ -181,6 +181,10 @@ label {
   color: #c6c6c6;
 }
 
+.label-warning {
+  background-color: #C4AA02;
+}
+
 /* line 154, ../sass/darkstrap.scss */
 input,
 input[type="file"],
