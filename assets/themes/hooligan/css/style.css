@@ -409,3 +409,9 @@ div.sidebar section img.icon {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
+
+span.tags .label .label-default {
+  background-color: #666 !important;
+  font-size: 9px !important;
+  font-weight: normal !important;
+}
