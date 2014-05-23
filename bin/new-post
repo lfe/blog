@@ -1,1 +1,2 @@
-rake post title="$@" 
+output=$(rake post title="$@")
+vim $(echo $output|awk '{print $4}')
