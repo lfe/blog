@@ -4,9 +4,11 @@ title: LFE News &amp; Updates
 tagline: A Microblog for the Syntaxless Ones
 ---
 {% include JB/setup %}
-
-<h2>All Pages</h2>
-
+<div class="page-header-wrapper">
+        <div class="page-header">
+                <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
+        </div>
+</div>
 {% for post in site.posts offset: 0 limit: 50 %}
 <div class="row">
   <div class="span7">
