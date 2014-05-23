@@ -410,7 +410,7 @@ div.sidebar section img.icon {
   border-radius: 5px;
 }
 
-span.tags .label .label-default {
+span.tags .label .badge {
   background-color: #666 !important;
   font-size: 9px !important;
   font-weight: normal !important;
