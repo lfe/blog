@@ -20,8 +20,7 @@ tagline: A Microblog for the Syntaxless Ones
         <h4>{{ post.description }}</h4>
         <p>
           {{ post.excerpt }}
-        </p>
-        <p>
+          <br />
           <a href="{{ post.url }}">Read more</a>
         </p>
         <p>
