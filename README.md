@@ -11,6 +11,12 @@ $ rake post title="New Post Title"
 $ vi _posts/...
 ```
 
+Or using the convenience ``make`` target:
+
+```bash
+$ make post
+```
+
 Check it out before publishing:
 
 ```bash
