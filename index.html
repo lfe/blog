@@ -25,7 +25,7 @@ tagline: A Microblog for the Syntaxless Ones
         </p>
         <p>
           <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
-          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-warning">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
+          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-default">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
         </p>
       </div>
     </div>
