@@ -24,8 +24,11 @@ tagline: A Microblog for the Syntaxless Ones
           <a href="{{ post.url }}">Read more</a>
         </p>
         <p>
+
+http://blog.lfe.io/tags.html#site-ref
+
           <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
-          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags/{{ tag }}" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-info">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
+          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-info">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
         </p>
       </div>
     </div>
