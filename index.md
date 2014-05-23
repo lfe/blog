@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Hello World!
-tagline: Supporting tagline
+title: LFE News &amp; Updates
+tagline: A Microblog for the Syntaxless Ones
 ---
 {% include JB/setup %}
 
