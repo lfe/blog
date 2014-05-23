@@ -181,6 +181,12 @@ label {
   color: #c6c6c6;
 }
 
+.tags .label {
+  background-color: #666;
+  font-size: 9px;
+  font-weight: normal !important;
+}
+
 .label-warning {
   background-color: #C4AA02;
 }
