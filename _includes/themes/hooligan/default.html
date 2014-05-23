@@ -54,6 +54,13 @@
               </ul>
               <ul class="nav pull-right social visible-desktop">
                 <li class="divider-vertical"></li>
+                {% if site.author.freenode %}
+                <li>
+                  <a href="http://webchat.freenode.net/?channels={{ site.author.freenode }}" style="color: #999" target="_blank">
+                    <span class="">#</span>
+                  </a>
+                </li>
+                {% endif %}
                 {% if site.author.github %}
                 <li>
                   <a href="https://github.com/{{ site.author.github }}" class="zocial github icon" target="_blank">
