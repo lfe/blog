@@ -9,7 +9,7 @@ pygments: true
 # Themes are encouraged to use these universal variables
 # so be sure to set them if your theme uses them.
 #
-title : LFE News & Updates
+title : LFE News &amp; Updates
 tagline: A Microblog for the Syntaxless Ones
 author :
   name : LFE Contributors
