@@ -6,3 +6,13 @@ category: site
 tags: [site,web,news]
 ---
 {% include JB/setup %}
+Good news, everyone! Professor Farnsworth has nodded off, and we've had some fun while he slept.
+
+LFE has a new main site for the project: <a href="http://lfe.io/">lfe.io</a>.
+
+This has allowed us to remedy the split personality that the LFE docs site was suffering from:
+documentation factory and project home page. Things are better organized, now:
+
+* Main site: <a href="http://lfe.io/">lfe.io</a>
+* Dedicated docs site: <a href="http://docs.lfe.io/">docs.lfe.io</a>
+* The new microblog you're reading: <a href="http://blog.lfe.io/">blog.lfe.io</a>

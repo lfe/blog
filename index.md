@@ -14,9 +14,10 @@ tagline: A Microblog for the Syntaxless Ones
   <div class="span7">
     <div class="row">
       <div class="span5">
-		    <h4>
+        <h2>
           <strong><a href="{{ post.url }}">{{ post.title }}</a></strong>
-        </h4>
+        </h2>
+        <h4>{{ post.description }}</h4>
         <p>
           {{ post.excerpt }}
         </p>
