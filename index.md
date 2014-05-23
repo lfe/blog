@@ -9,7 +9,7 @@ tagline: A Microblog for the Syntaxless Ones
                 <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
         </div>
 </div>
-{% for post in site.posts offset: 0 limit: 50 %}
+{% for post in paginator.posts %}
 <div class="row">
   <div class="span7">
     <div class="row">
