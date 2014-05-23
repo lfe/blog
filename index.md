@@ -5,6 +5,8 @@ tagline: A Microblog for the Syntaxless Ones
 ---
 {% include JB/setup %}
 
+<h2>All Pages</h2>
+
 {% for post in site.posts offset: 0 limit: 50 %}
 <div class="row">
   <div class="span7">
