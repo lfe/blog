@@ -11,10 +11,10 @@ $ rake post title="New Post Title"
 $ vi _posts/...
 ```
 
-Or using the convenience ``make`` target:
+Or using the convenience script provided:
 
 ```bash
-$ make post
+$ ./bin/new-post "New Post Title"
 ```
 
 Check it out before publishing:
