@@ -21,12 +21,13 @@ tagline: A Microblog for the Syntaxless Ones
         <p>
           {{ post.excerpt }}
         </p>
-		    <p>
-          <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
-          </a>
-		  | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags/{{ tag }}" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-info">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
+        <p>
+          <a href="{{ post.url }}">Read more</a>
         </p>
-        <p><a href="{{ post.url }}">Read more</a></p>
+        <p>
+          <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
+          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags/{{ tag }}" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="label label-info">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
+        </p>
       </div>
     </div>
 	<hr>
