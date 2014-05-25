@@ -11,6 +11,7 @@ For a full understanding of one's field, a thorough knowledge of that field's
 origins of that field and its tools is necessary. To encourge a deepter
 understanding of Lisp, Erlang, and LFE we have added a new section on the docs
 site main page:
+
  * <a href="http://docs.lfe.io/#History">History</a>
 
 The Erlang history is quite rich and worth the reads (and watches -- video is
