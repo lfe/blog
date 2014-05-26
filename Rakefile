@@ -50,7 +50,7 @@ task :post do
   category = "\"#{category.gsub(/-/,' ')}\"" if !category.empty?
   slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   begin
-    date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d_%H%M')
+    date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d-%H%M')
   rescue => e
     puts "Error - date format must be YYYY-MM-DD, please check you typed it correctly!"
     exit -1

@@ -1,2 +1,7 @@
 output=$(rake post title="$@")
-vim $(echo $output|awk '{print $4}')
+for ELEMENT in $output
+do
+    if [[ "$ELEMENT" =~ .md$ ]]; then
+        vim $ELEMENT
+    fi
+done

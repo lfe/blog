@@ -12,7 +12,7 @@ it became clear that more interesting material accumulates over the course of a 
 rather than 24 hours.
 
 As such, we've updated both the release schedule as well as the name: "LFE Daily" is now
-names "LFE Sunday Times".
+named "LFE Sunday Times".
 
 You can access the paper at any time <a href="https://paper.li/ErlangLisp/1397422779">here</a>.
 
