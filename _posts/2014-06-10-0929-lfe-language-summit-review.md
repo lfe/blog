@@ -23,12 +23,12 @@ the talk was dedicated to a discussion on maps and changes to the
 <code>lfe</code> executable that will make it more shell-like.
 
 Additional topics covered:
-* A Standard Library for LFE
-* Getting to Types in LFE
+ * A Standard Library for LFE
+ * Getting to Types in LFE
 
 Topics we didn't get to but will bring up on the mail list:
-* An Object System for LFE
-* Lazy Evaluation
+ * An Object System for LFE
+ * Lazy Evaluation
 
 In general, LFE development is very mellow, done casually in the spare time of
 the contributors, completely for the fun of it. It was nice to see that the design
