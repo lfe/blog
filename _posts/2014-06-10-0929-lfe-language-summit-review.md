@@ -11,7 +11,7 @@ tags: [conferences,euc,summits,updates]
 assist Robert Virding in setting up the first "language summit" for LFE here at
 <a href="http://www.erlang-factory.com/euc2014">Erlang User Conference</a>
 in Stockholm. (We use the term "summit" playfully, since it's a very unofficial
-affair within a small developer community.
+affair within a small developer community.)
 
 We took notes in an
 <a href="https://etherpad.wikimedia.org/p/lfe-design-summit-euc2014">etherpad</a>,
