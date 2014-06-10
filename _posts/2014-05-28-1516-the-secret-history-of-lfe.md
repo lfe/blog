@@ -6,7 +6,6 @@ category: history
 tags: [history,discussion]
 ---
 {% include JB/setup %}
-
 When asked recently about the history of LFE on the <a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/XA5HeLbQQDk/Jdbf0KJV7dUJ">LFE mail list</a>,
 Robert replied with some nice information that we couldn't resist highlighing/duplicating here:
 

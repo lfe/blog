@@ -6,7 +6,6 @@ category: news
 tags: [news,user groups,meetups,conferences,summits]
 ---
 {% include JB/setup %}
-
 As you may have heard, we'll be hosting LFE's first "Language Summit" at the
 Erlang User Conference this year in Stockholm. Keep in mind that when we say
 "Language Summit", we are using the time-honored tongue-in-cheek method of

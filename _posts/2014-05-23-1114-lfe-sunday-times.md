@@ -6,7 +6,6 @@ category: news
 tags: [news]
 ---
 {% include JB/setup %}
-
 After watching the LFE Daily from <a href="http://paper.li">paper.li</a> for a few weeks,
 it became clear that more interesting material accumulates over the course of a week
 rather than 24 hours.

@@ -6,7 +6,6 @@ category: site
 tags: [docs,site,web]
 ---
 {% include JB/setup %}
-
 Prior to the new site getting launched, the documentation pages had been
 serving multiple-duty:
 

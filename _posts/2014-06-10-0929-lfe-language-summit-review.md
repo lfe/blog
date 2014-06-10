@@ -6,7 +6,6 @@ category: update
 tags: [conferences,euc,summits,updates]
 ---
 {% include JB/setup %}
-
 <a href="http://www.erlang-factory.com/">Erlang Factory</a> was very kind to
 assist Robert Virding in setting up the first "language summit" for LFE here at
 <a href="http://www.erlang-factory.com/euc2014">Erlang User Conference</a>
