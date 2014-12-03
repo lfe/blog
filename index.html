@@ -7,6 +7,7 @@ tagline: A Microblog for the Syntaxless Ones
 <div class="page-header-wrapper">
         <div class="page-header">
                 <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
+                <p>Got some LFE news? <a href="https://github.com/lfe/blog/fork">Fork us</a> and make a PR!</p>
         </div>
 </div>
 {% for post in paginator.posts %}
@@ -24,6 +25,7 @@ tagline: A Microblog for the Syntaxless Ones
           <a href="{{ post.url }}">Read more</a>
         </p>
         <p>
+          <i class="icon-user"></i> {{ post.author }}
           <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
           | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="tags badge label">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
         </p>
