@@ -4,6 +4,7 @@ title: "History of Erlang"
 description: "Updated the docs site with a new 'History' section."
 category: site
 tags: [history,site,web,docs]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 For a full understanding of one's field, a thorough knowledge of that field's

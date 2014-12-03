@@ -4,6 +4,7 @@ title: "LFE Microblog is Open for Business ..."
 description: "Another web property update"
 category: site
 tags: [site,web,blog,news]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 The LFE micoblog site (powered by Jekyll and Bootsrap) is live and ready to go.

@@ -4,6 +4,7 @@ title: "LFE Language Summit Review"
 description: "A report on how the first LFE language 'summit' went"
 category: update
 tags: [conferences,euc,summits,updates]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 <a href="http://www.erlang-factory.com/">Erlang Factory</a> was very kind to

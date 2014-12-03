@@ -4,6 +4,7 @@ title: "Docs Site Overhaul"
 description: "With the new site, docs pages get better focus."
 category: site
 tags: [docs,site,web]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 Prior to the new site getting launched, the documentation pages had been

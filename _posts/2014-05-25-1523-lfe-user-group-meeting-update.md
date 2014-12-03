@@ -4,6 +4,7 @@ title: "LFE User Group Meeting: Update"
 description: "We now have a date and time for the User Group meeting in Stockholm!"
 category: news
 tags: [news,user groups,meetups,conferences,summits]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 As you may have heard, we'll be hosting LFE's first "Language Summit" at the

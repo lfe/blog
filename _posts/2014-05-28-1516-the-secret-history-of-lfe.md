@@ -4,6 +4,7 @@ title: "The Secret History of LFE"
 description: "A post to the mail list too good to just keep there :-)"
 category: history
 tags: [history,discussion]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 When asked recently about the history of LFE on the <a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/XA5HeLbQQDk/Jdbf0KJV7dUJ">LFE mail list</a>,

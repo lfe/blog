@@ -4,6 +4,7 @@ title: "LFE Sunday Times"
 description: "LFE Daily moved to weekly release"
 category: news
 tags: [news]
+author: Duncan McGreggor
 ---
 {% include JB/setup %}
 After watching the LFE Daily from <a href="http://paper.li">paper.li</a> for a few weeks,
