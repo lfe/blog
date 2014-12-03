@@ -1,5 +1,9 @@
 _site/*
 _theme_packages/*
+staged/*
+Gemfile.lock
+_drafts/*
+_posts/*.sw[po]
 
 Thumbs.db
 .DS_Store
