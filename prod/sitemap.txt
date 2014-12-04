@@ -10,10 +10,6 @@ http://blog.lfe.io//sitemap.txt
 http://blog.lfe.io//tags.html
 http://blog.lfe.io//page2/index.html
 
-http://blog.lfe.io//tutorials/2014/12/04/0137-erlport-and-python-opaque-objects-in-lfe
-http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe
-http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content
-http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe
 http://blog.lfe.io//releases/2014/08/31/2024-lfetool-v12-is-out
 http://blog.lfe.io//dev/2014/07/23/1141-lfetool-v20-dev
 http://blog.lfe.io//conferences/2014/07/23/0849-erlang--oscon-2014
