@@ -1,9 +1,8 @@
-_site/*
-_theme_packages/*
+src/_theme_packages/*
+src/Gemfile.lock
+src/_drafts/*
+src/_posts/*.sw[po]
 staged/*
-Gemfile.lock
-_drafts/*
-_posts/*.sw[po]
 
 Thumbs.db
 .DS_Store
