@@ -1,6 +1,6 @@
 src/_theme_packages/*
 src/Gemfile.lock
-src/_drafts/*
+src/_drafts/*.sw[po]
 src/_posts/*.sw[po]
 staged/*
 
