@@ -2,6 +2,38 @@
 
 *The code repo for the LFE News & Updates Blog*
 
+## Requirements
+
+Install [git-subtree](https://github.com/andrewmwhite/git-subtree):
+
+```bash
+$ git clone git@github.com:andrewmwhite/git-subtree.git
+$ cd git-subtree
+$ sudo make install
+```
+
+## Workflow
+
+* Fork this repo (you might want to rename yours from "blog" to "lfe-blog")
+* See the usage below to create a post
+* Regenerate the static content
+* Push the updated static content to the gh-pages branch your fork
+* Issue a PR from your gh-pages branch to the upstream gh-pages branch
+
+There are some ``make`` targets defined that should make this easier for you.
+Here's an example:
+
+```bash
+$ ./bin/new-post "Quick Test"
+$ git add src/_posts/2014-12-04-1323-quick-test.md
+$ make publish
+```
+
+The ``make`` target of that final command rebuilds the site and then pushes the
+content of your newly-refreshed``./prod`` directory up to the ``gh-pages``
+branch of your fork.
+
+
 ## Usage
 
 We welcome blog contributors! Just
