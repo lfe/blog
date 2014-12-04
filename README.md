@@ -1,26 +1,43 @@
-# Jekyll-Bootstrap
+# LFE Blog
 
-This site is built using the Jekyll-Bootstrap Hooligan template.
+*The code repo for the LFE News & Updates Blog*
 
 ## Usage
 
-Create a new post:
+We welcome blog contributors! Just
+[fork the repo](https://github.com/lfe/blog/fork), write your post, and submit
+a PR. Be sure to enter your name in the post meta data after the ``Author:``
+header ...
+
+To create a new post:
+```bash
+$ ./bin/new-post "Super-Sweet LFE Tutorial"
+```
+This will open a draft with ``vi``. Edit to your heart's content, save, commit,
+push, and send the PR!
+
+Useful ``make`` targets:
+
+*Run a local copy of the site available on http://localhost:4000, served from
+the ``./staged`` directory*:
 
 ```bash
-$ rake post title="New Post Title"
-$ vi _posts/...
+$ make run
 ```
 
-Or using the convenience script provided:
+*Build a local copy of the site in the ``./staged`` directory*:
 
 ```bash
-$ ./bin/new-post "New Post Title"
+$ make build
 ```
 
-Check it out before publishing:
+*Update your jekyll Ruby gem. This will also update your gems and install
+jekyll, if it's not already installed*:
 
 ```bash
-jekyll serve
+$ make update
 ```
 
-For any other usage and documentation, please see: <http://jekyllbootstrap.com>
+## Built With
+
+This site is built using the Jekyll-Bootstrap Hooligan template.
