@@ -48,5 +48,5 @@ staging: $(STAGE_DIR)
 
 publish: clean build
 	git subtree push --prefix $(PROD_DIR) origin gh-pages
-	git commit -a && git push --all
+	#git commit -a && git push --all
 
