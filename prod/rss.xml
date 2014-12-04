@@ -5,10 +5,32 @@
         <description>LFE News &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-04T13:05:30-06:00</lastBuildDate>
-        <pubDate>2014-12-04T13:05:30-06:00</pubDate>
+        <lastBuildDate>2014-12-04T13:14:46-06:00</lastBuildDate>
+        <pubDate>2014-12-04T13:14:46-06:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Community Generated Content</title>
+                <description>
+&lt;p&gt;As was just mentioned on the
+&lt;a href=&quot;https://groups.google.com/d/msg/lisp-flavoured-erlang/61AtcsWcdPY/R2rdE6wy0wQJ&quot;&gt;Lisp Flavoured Erlang mail list&lt;/a&gt;,
+this blog is explicitly powered by users from the community sharing their
+stories, ideas, tutorials, manifestos, sonnets, and novellas about LFE and, in
+fact, any Lisp running on the Erlang VM.&lt;/p&gt;
+
+&lt;p&gt;This was an implicit understanding before, but (to borrow from the
+&lt;a href=&quot;&quot;&gt;Zen of Python&lt;/a&gt;, explicit is better than implicit. There’s now a link in the
+header of the blog where you can &lt;a href=&quot;https://github.com/lfe/blog/fork&quot;&gt;fork&lt;/a&gt; the
+repository. This information is also supplied in the repo’s
+&lt;a href=&quot;https://github.com/lfe/blog&quot;&gt;README&lt;/a&gt; file.&lt;/p&gt;
+
+&lt;p&gt;We look forward to receiving your PRs :-)&lt;/p&gt;
+</description>
+                <link>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</link>
+                <guid>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</guid>
+                <pubDate>2014-12-03T00:00:00-06:00</pubDate>
+        </item>
 
         <item>
                 <title>lfetool v1.2 Is Out!</title>
@@ -49,15 +71,6 @@ experience for current users :-)&lt;/p&gt;
                 <link>http://blog.lfe.io//releases/2014/08/31/2024-lfetool-v12-is-out</link>
                 <guid>http://blog.lfe.io//releases/2014/08/31/2024-lfetool-v12-is-out</guid>
                 <pubDate>2014-08-31T00:00:00-05:00</pubDate>
-        </item>
-
-        <item>
-                <title>lfetool v2.0 dev</title>
-                <description>
-</description>
-                <link>http://blog.lfe.io//dev/2014/07/23/1141-lfetool-v20-dev</link>
-                <guid>http://blog.lfe.io//dev/2014/07/23/1141-lfetool-v20-dev</guid>
-                <pubDate>2014-07-23T00:00:00-05:00</pubDate>
         </item>
 
         <item>

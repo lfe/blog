@@ -4,13 +4,35 @@
  <title>LFE News &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-04T13:05:30-06:00</updated>
+ <updated>2014-12-04T13:14:46-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Community Generated Content</title>
+   <link href="http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content"/>
+   <updated>2014-12-03T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</id>
+   <content type="html">
+&lt;p&gt;As was just mentioned on the
+&lt;a href=&quot;https://groups.google.com/d/msg/lisp-flavoured-erlang/61AtcsWcdPY/R2rdE6wy0wQJ&quot;&gt;Lisp Flavoured Erlang mail list&lt;/a&gt;,
+this blog is explicitly powered by users from the community sharing their
+stories, ideas, tutorials, manifestos, sonnets, and novellas about LFE and, in
+fact, any Lisp running on the Erlang VM.&lt;/p&gt;
+
+&lt;p&gt;This was an implicit understanding before, but (to borrow from the
+&lt;a href=&quot;&quot;&gt;Zen of Python&lt;/a&gt;, explicit is better than implicit. There’s now a link in the
+header of the blog where you can &lt;a href=&quot;https://github.com/lfe/blog/fork&quot;&gt;fork&lt;/a&gt; the
+repository. This information is also supplied in the repo’s
+&lt;a href=&quot;https://github.com/lfe/blog&quot;&gt;README&lt;/a&gt; file.&lt;/p&gt;
+
+&lt;p&gt;We look forward to receiving your PRs :-)&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>lfetool v1.2 Is Out!</title>
@@ -50,15 +72,6 @@ dependencies in rebar.&lt;/p&gt;
 (code is being converted from Bash to LFE), and this release isn’t a
 distraction from this effort, but rather an attempt at an improved user
 experience for current users :-)&lt;/p&gt;
-</content>
- </entry>
- 
- <entry>
-   <title>lfetool v2.0 dev</title>
-   <link href="http://blog.lfe.io//dev/2014/07/23/1141-lfetool-v20-dev"/>
-   <updated>2014-07-23T00:00:00-05:00</updated>
-   <id>http://blog.lfe.io//dev/2014/07/23/1141-lfetool-v20-dev</id>
-   <content type="html">
 </content>
  </entry>
  
