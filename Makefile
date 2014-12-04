@@ -2,8 +2,11 @@ SRC=./src
 GEM_PATH=/Users/oubiwann/.chefdk/gem/ruby/2.1.0/bin
 STAGING_HOST=staging-blog.lfe.io
 STAGING_PATH=/var/www/lfe/staging-blog
-BUILD_DIR=$(shell pwd)
-STAGE_DIR=$(BUILD_DIR)/staged
+BASE_DIR=$(shell pwd)
+PROD_DIR=prod
+PROD_PATH=$(BASE_DIR)/$(PROD_DIR)
+STAGE_DIR=stage
+STAGE_PATH=$(BASE_DIR)/$(STAGE_DIR)
 
 update-gems:
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) \
@@ -20,29 +23,30 @@ update: install-jekyll
 	bundle update
 
 clean:
-	rm -rf $(STAGE_DIR)
+	rm -rf $(STAGE_PATH)
 
 $(STAGE_DIR):
 	cd $(SRC) && \
-	bundle exec jekyll build --destination $(STAGE_DIR)
+	bundle exec jekyll build --destination $(STAGE_PATH)
 
 run-stage: clean
 	cd $(SRC) && \
-	bundle exec jekyll serve --destination $(STAGE_DIR)
+	bundle exec jekyll serve --destination $(STAGE_PATH)
 
-build: clean
+build:
 	cd $(SRC) && \
-	bundle exec jekyll build --destination $(BUILD_DIR)
+	bundle exec jekyll build --destination $(PROD_PATH)
 
-run: clean
+run:
 	cd $(SRC) && \
-	bundle exec jekyll serve --destination $(BUILD_DIR)
+	bundle exec jekyll serve --destination $(PROD_PATH)
 
 staging: $(STAGE_DIR)
 	git pull --all && \
-	rsync -azP ./$(BUILD_DIR)/* $(STAGING_HOST):$(STAGING_PATH)
+	rsync -azP ./$(STAGE_DIR)/* $(STAGING_HOST):$(STAGING_PATH)
 	make clean
 
-publish: clean
+publish: clean build
+	git subtree push --prefix $(PROD_DIR) origin gh-pages
 	git commit -a && git push --all
 
