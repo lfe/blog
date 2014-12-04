@@ -1,0 +1,67 @@
+/* Overrides */
+
+div.highlight pre {
+    background-color: rgba(0,0,0,0.1) !important;
+    color: #0a0;
+}
+
+code span.nv, code span.nb {
+    color: #0f0;
+}
+
+code span.p {
+    color: #0aa;
+}
+
+img.left {
+    float: left !important;
+}
+
+img.right {
+    float: right !important;
+}
+
+img.right.thumb, img.right.small, img.right.medium, img.right.large,
+img.left.thumb, img.left.small, img.left.medium, img.left.large {
+    max-width: auto !important;
+    width: auto !important;
+    vertical-align: top !important;
+    margin-bottom: 1.0em;
+}
+
+img.right.thumb, img.left.thumb {
+    max-height: 175px;
+    height: 175px;
+}
+
+img.right.small, img.left.small {
+    max-height: 200px;
+    height: 200px;
+}
+
+img.right.medium, img.left.medium {
+    max-height: 300px;
+    height: 300px;
+}
+
+img.right.large, img.left.large {
+    max-height: 500px;
+    height: 500px;
+}
+
+img.right.thumb, img.right.small, img.right.medium, img.right.large {
+    margin-left: 3.0em;
+    margin-right: 0.3em;
+}
+
+img.left.thumb, img.left.small, img.left.medium, img.left.large {
+    margin-right: 3.0em;
+}
+
+p {
+    word-spacing: 0.15em;
+}
+
+pree code {
+    word-spacing: 0.05em;
+}

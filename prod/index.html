@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        LFE News &amp; Updates -
+      
+      LFE News &amp; Updates
+    </title>
+    
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE News &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header-wrapper">
+        <div class="page-header">
+                <h1>LFE News &amp; Updates  <small>A Microblog for the Syntaxless Ones</small></h1>
+                <p>Got some LFE news? <a href="https://github.com/lfe/blog/fork">Fork us</a> and make a PR!</p>
+        </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/tutorials/2014/12/04/0137-erlport-and-python-opaque-objects-in-lfe">ErlPort and Python: Opaque Objects in LFE</a></strong>
+        </h2>
+        <h4>A continuation of using ErlPort from LFE</h4>
+        <p>
+          
+<p><a href="/assets/images/posts/Erlang-Python-Greats.png"><img class="right thumb" src="/assets/images/posts/Erlang-Python-Greats.png" /></a>
+In our <a href="">last post</a> in this series, we touched upon calling Python module
+hierarchies from LFE. In this session we’re going to revisit that, but with a
+twist: what happens when ErlPort doesn’t know how to serialize that data?</p>
+
+
+          <br />
+          <a href="/tutorials/2014/12/04/0137-erlport-and-python-opaque-objects-in-lfe">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> December  4, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#howtos-ref" rel="tooltip" title="View posts tagged with &quot;howtos&quot;"><span class="tags badge label">howtos</span></a>     <a href="/tags.html#docs-ref" rel="tooltip" title="View posts tagged with &quot;docs&quot;"><span class="tags badge label">docs</span></a>     <a href="/tags.html#erlport-ref" rel="tooltip" title="View posts tagged with &quot;erlport&quot;"><span class="tags badge label">erlport</span></a>     <a href="/tags.html#python-ref" rel="tooltip" title="View posts tagged with &quot;python&quot;"><span class="tags badge label">python</span></a>     <a href="/tags.html#interop-ref" rel="tooltip" title="View posts tagged with &quot;interop&quot;"><span class="tags badge label">interop</span></a>     <a href="/tags.html#lfe-ref" rel="tooltip" title="View posts tagged with &quot;lfe&quot;"><span class="tags badge label">lfe</span></a>     <a href="/tags.html#code-ref" rel="tooltip" title="View posts tagged with &quot;code&quot;"><span class="tags badge label">code</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe">ErlPort and Python: Making More Calls from LFE</a></strong>
+        </h2>
+        <h4>Part II of an introduction to ErlPort with LFE</h4>
+        <p>
+          
+<p><a href="/assets/images/posts/Erlang-Python-Greats.png"><img class="left thumb" src="/assets/images/posts/Erlang-Python-Greats.png" /></a>
+A short while ago, I did a
+<a href="http://technicae.cogitat.io/2014/11/erlport-using-python-from-erlanglfe.html">teaser post</a>
+about calling Python from LFE. There was only a tiny bit of code… but! It
+came with one of the best Erlang/Python pictures EVAR. You know which one I’m
+talking about.</p>
+
+
+          <br />
+          <a href="/tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> December  3, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#howtos-ref" rel="tooltip" title="View posts tagged with &quot;howtos&quot;"><span class="tags badge label">howtos</span></a>     <a href="/tags.html#docs-ref" rel="tooltip" title="View posts tagged with &quot;docs&quot;"><span class="tags badge label">docs</span></a>     <a href="/tags.html#erlport-ref" rel="tooltip" title="View posts tagged with &quot;erlport&quot;"><span class="tags badge label">erlport</span></a>     <a href="/tags.html#python-ref" rel="tooltip" title="View posts tagged with &quot;python&quot;"><span class="tags badge label">python</span></a>     <a href="/tags.html#interop-ref" rel="tooltip" title="View posts tagged with &quot;interop&quot;"><span class="tags badge label">interop</span></a>     <a href="/tags.html#lfe-ref" rel="tooltip" title="View posts tagged with &quot;lfe&quot;"><span class="tags badge label">lfe</span></a>     <a href="/tags.html#code-ref" rel="tooltip" title="View posts tagged with &quot;code&quot;"><span class="tags badge label">code</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/announcements/2014/12/03/1810-community-generated-content">Community Generated Content</a></strong>
+        </h2>
+        <h4>Readers, submit your PRs for blog posts!</h4>
+        <p>
+          
+<p>As was just mentioned on the
+<a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/61AtcsWcdPY/R2rdE6wy0wQJ">Lisp Flavoured Erlang mail list</a>,
+this blog is explicitly powered by users from the community sharing their
+stories, ideas, tutorials, manifestos, sonnets, and novellas about LFE and, in
+fact, any Lisp running on the Erlang VM.</p>
+
+
+          <br />
+          <a href="/announcements/2014/12/03/1810-community-generated-content">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> December  3, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#blog-ref" rel="tooltip" title="View posts tagged with &quot;blog&quot;"><span class="tags badge label">blog</span></a>     <a href="/tags.html#community-ref" rel="tooltip" title="View posts tagged with &quot;community&quot;"><span class="tags badge label">community</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe">ErlPort: Using Python from Erlang/LFE</a></strong>
+        </h2>
+        <h4>A Quick Introduction to ErlPort via LFE</h4>
+        <p>
+          
+<p>This post was originally featured on
+<a href="http://technicae.cogitat.io/2014/11/erlport-using-python-from-erlanglfe.html">cogitat.io</a>
+and is being reblogged here as an expeiment. This repost is an adventure into
+github pages as a blogging platform for code-heavy posts. For year, I have found
+Google’s blogger.com cumbersome as a medium for sharing code. The burden has
+finally grown too great. It makes sense to use the same platform to share the
+prose description of code as that which shares the code itself (i.e.,
+repositories and <code>README</code> files). I can only imagine this will be much less
+painful than creating gist code snippets and tweaking them in blogger. As a
+bonus, code should now appear in RSS/Atom feeds :-)</p>
+
+
+          <br />
+          <a href="/tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> November 21, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#howtos-ref" rel="tooltip" title="View posts tagged with &quot;howtos&quot;"><span class="tags badge label">howtos</span></a>     <a href="/tags.html#docs-ref" rel="tooltip" title="View posts tagged with &quot;docs&quot;"><span class="tags badge label">docs</span></a>     <a href="/tags.html#erlport-ref" rel="tooltip" title="View posts tagged with &quot;erlport&quot;"><span class="tags badge label">erlport</span></a>     <a href="/tags.html#python-ref" rel="tooltip" title="View posts tagged with &quot;python&quot;"><span class="tags badge label">python</span></a>     <a href="/tags.html#interop-ref" rel="tooltip" title="View posts tagged with &quot;interop&quot;"><span class="tags badge label">interop</span></a>     <a href="/tags.html#lfe-ref" rel="tooltip" title="View posts tagged with &quot;lfe&quot;"><span class="tags badge label">lfe</span></a>     <a href="/tags.html#code-ref" rel="tooltip" title="View posts tagged with &quot;code&quot;"><span class="tags badge label">code</span></a>     <a href="/tags.html#ports-ref" rel="tooltip" title="View posts tagged with &quot;ports&quot;"><span class="tags badge label">ports</span></a>     <a href="/tags.html#jinterface-ref" rel="tooltip" title="View posts tagged with &quot;jinterface&quot;"><span class="tags badge label">jinterface</span></a>     <a href="/tags.html#clojure-ref" rel="tooltip" title="View posts tagged with &quot;clojure&quot;"><span class="tags badge label">clojure</span></a>     <a href="/tags.html#java-ref" rel="tooltip" title="View posts tagged with &quot;java&quot;"><span class="tags badge label">java</span></a>     <a href="/tags.html#libraries-ref" rel="tooltip" title="View posts tagged with &quot;libraries&quot;"><span class="tags badge label">libraries</span></a>     <a href="/tags.html#lisp-ref" rel="tooltip" title="View posts tagged with &quot;lisp&quot;"><span class="tags badge label">lisp</span></a>     <a href="/tags.html#python 3-ref" rel="tooltip" title="View posts tagged with &quot;python 3&quot;"><span class="tags badge label">python 3</span></a>     <a href="/tags.html#tools-ref" rel="tooltip" title="View posts tagged with &quot;tools&quot;"><span class="tags badge label">tools</span></a>     <a href="/tags.html#reblog-ref" rel="tooltip" title="View posts tagged with &quot;reblog&quot;"><span class="tags badge label">reblog</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/releases/2014/08/31/2024-lfetool-v12-is-out">lfetool v1.2 Is Out!</a></strong>
+        </h2>
+        <h4>Notes on the latest interim release of lfetool</h4>
+        <p>
+          
+
+          <br />
+          <a href="/releases/2014/08/31/2024-lfetool-v12-is-out">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> August 31, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#releases-ref" rel="tooltip" title="View posts tagged with &quot;releases&quot;"><span class="tags badge label">releases</span></a>     <a href="/tags.html#updates-ref" rel="tooltip" title="View posts tagged with &quot;updates&quot;"><span class="tags badge label">updates</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/dev/2014/07/23/1141-lfetool-v20-dev">lfetool v2.0 dev</a></strong>
+        </h2>
+        <h4>Status update on the lfetool v2 rewrite</h4>
+        <p>
+          
+
+          <br />
+          <a href="/dev/2014/07/23/1141-lfetool-v20-dev">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> July 23, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#updates-ref" rel="tooltip" title="View posts tagged with &quot;updates&quot;"><span class="tags badge label">updates</span></a>     <a href="/tags.html#lfe-ref" rel="tooltip" title="View posts tagged with &quot;lfe&quot;"><span class="tags badge label">lfe</span></a>     <a href="/tags.html#code-ref" rel="tooltip" title="View posts tagged with &quot;code&quot;"><span class="tags badge label">code</span></a>     <a href="/tags.html#projects-ref" rel="tooltip" title="View posts tagged with &quot;projects&quot;"><span class="tags badge label">projects</span></a>     <a href="/tags.html#tools-ref" rel="tooltip" title="View posts tagged with &quot;tools&quot;"><span class="tags badge label">tools</span></a>     <a href="/tags.html#utilities-ref" rel="tooltip" title="View posts tagged with &quot;utilities&quot;"><span class="tags badge label">utilities</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/conferences/2014/07/23/0849-erlang--oscon-2014">Erlang @ OSCON 2014</a></strong>
+        </h2>
+        <h4>Updates from the conference ground zero</h4>
+        <p>
+          
+<p>Even though there’s no Erlang-specific booth (or a booth by an Erlang company),
+the Erlang OSCON presence has been palpable, albeit in a small-town, gentle
+way.</p>
+
+
+          <br />
+          <a href="/conferences/2014/07/23/0849-erlang--oscon-2014">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> July 23, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#conferences-ref" rel="tooltip" title="View posts tagged with &quot;conferences&quot;"><span class="tags badge label">conferences</span></a>     <a href="/tags.html#social-ref" rel="tooltip" title="View posts tagged with &quot;social&quot;"><span class="tags badge label">social</span></a>     <a href="/tags.html#portland-ref" rel="tooltip" title="View posts tagged with &quot;portland&quot;"><span class="tags badge label">portland</span></a>     <a href="/tags.html#oregon-ref" rel="tooltip" title="View posts tagged with &quot;oregon&quot;"><span class="tags badge label">oregon</span></a>     <a href="/tags.html#community-ref" rel="tooltip" title="View posts tagged with &quot;community&quot;"><span class="tags badge label">community</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/update/2014/06/10/0929-lfe-language-summit-review">LFE Language Summit Review</a></strong>
+        </h2>
+        <h4>A report on how the first LFE language 'summit' went</h4>
+        <p>
+          
+<p><a href="http://www.erlang-factory.com/">Erlang Factory</a> was very kind to
+assist Robert Virding in setting up the first “language summit” for LFE here at
+<a href="http://www.erlang-factory.com/euc2014">Erlang User Conference</a>
+in Stockholm. (We use the term “summit” playfully, since it’s a very unofficial
+affair within a small developer community.)</p>
+
+
+          <br />
+          <a href="/update/2014/06/10/0929-lfe-language-summit-review">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> June 10, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#conferences-ref" rel="tooltip" title="View posts tagged with &quot;conferences&quot;"><span class="tags badge label">conferences</span></a>     <a href="/tags.html#euc-ref" rel="tooltip" title="View posts tagged with &quot;euc&quot;"><span class="tags badge label">euc</span></a>     <a href="/tags.html#summits-ref" rel="tooltip" title="View posts tagged with &quot;summits&quot;"><span class="tags badge label">summits</span></a>     <a href="/tags.html#updates-ref" rel="tooltip" title="View posts tagged with &quot;updates&quot;"><span class="tags badge label">updates</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/history/2014/05/28/1516-the-secret-history-of-lfe">The Secret History of LFE</a></strong>
+        </h2>
+        <h4>A post to the mail list too good to just keep there :-)</h4>
+        <p>
+          
+<p>When asked recently about the history of LFE on the <a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/XA5HeLbQQDk/Jdbf0KJV7dUJ">LFE mail list</a>,
+Robert replied with some nice information that we couldn’t resist highlighing/duplicating here:</p>
+
+
+          <br />
+          <a href="/history/2014/05/28/1516-the-secret-history-of-lfe">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> May 28, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#history-ref" rel="tooltip" title="View posts tagged with &quot;history&quot;"><span class="tags badge label">history</span></a>     <a href="/tags.html#discussion-ref" rel="tooltip" title="View posts tagged with &quot;discussion&quot;"><span class="tags badge label">discussion</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/news/2014/05/25/1523-lfe-user-group-meeting-update">LFE User Group Meeting: Update</a></strong>
+        </h2>
+        <h4>We now have a date and time for the User Group meeting in Stockholm!</h4>
+        <p>
+          
+<p>As you may have heard, we’ll be hosting LFE’s first “Language Summit” at the
+Erlang User Conference this year in Stockholm. Keep in mind that when we say
+“Language Summit”, we are using the time-honored tongue-in-cheek method of
+making self-deprecatory remarks.</p>
+
+
+          <br />
+          <a href="/news/2014/05/25/1523-lfe-user-group-meeting-update">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> May 25, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#news-ref" rel="tooltip" title="View posts tagged with &quot;news&quot;"><span class="tags badge label">news</span></a>     <a href="/tags.html#user groups-ref" rel="tooltip" title="View posts tagged with &quot;user groups&quot;"><span class="tags badge label">user groups</span></a>     <a href="/tags.html#meetups-ref" rel="tooltip" title="View posts tagged with &quot;meetups&quot;"><span class="tags badge label">meetups</span></a>     <a href="/tags.html#conferences-ref" rel="tooltip" title="View posts tagged with &quot;conferences&quot;"><span class="tags badge label">conferences</span></a>     <a href="/tags.html#summits-ref" rel="tooltip" title="View posts tagged with &quot;summits&quot;"><span class="tags badge label">summits</span></a>   
+        </p>
+      </div>
+    </div>
+	<hr>
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+

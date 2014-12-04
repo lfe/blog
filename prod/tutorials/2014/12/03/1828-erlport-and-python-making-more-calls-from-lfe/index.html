@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        ErlPort and Python: Making More Calls from LFE -
+      
+      LFE News &amp; Updates
+    </title>
+    <meta name="description" content="Part II of an introduction to ErlPort with LFE">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE News &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    ErlPort and Python: Making More Calls from LFE 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/Erlang-Python-Greats.png"><img class="left thumb" src="/assets/images/posts/Erlang-Python-Greats.png" /></a>
+A short while ago, I did a
+<a href="http://technicae.cogitat.io/2014/11/erlport-using-python-from-erlanglfe.html">teaser post</a>
+about calling Python from LFE. There was only a tiny bit of code… but! It
+came with one of the best Erlang/Python pictures EVAR. You know which one I’m
+talking about.</p>
+
+<p>In this post, we’re going to venture further into this strange and wonderful
+landscape, essentially converting the
+<a href="http://erlport.org/docs/python.html">ErlPort Python docs</a> from Erlang to LFE.</p>
+
+<p>Without further ado, let’s get started!</p>
+
+<h2 id="warming-up">Warming Up</h2>
+
+<p>We’re going to re-use the demo repo from the last post:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>git clone git@github.com:oubiwann/erlport-demo.git
+<span class="nv">$ </span><span class="nb">cd </span>erlport-demo/python
+<span class="nv">$ </span>python3.4 -m venv .venv
+<span class="nv">$ </span>. .venv/bin/activate
+<span class="nv">$ </span><span class="nb">cd</span> ../lfe
+<span class="nv">$ </span>make repl</code></pre></div>
+
+<p>If you’ve already downloaded and run the REPL before, you can skip the build
+step with this:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>make repl-no-deps</code></pre></div>
+
+<p>Let’s do our walkthrough, starting with creating two separate running Python
+servers:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(</span><span class="nv">ok</span> <span class="o">,</span><span class="nv">pid-1</span><span class="p">)</span> <span class="p">(</span><span class="nv">python:start</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">&lt;0.32.0&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(</span><span class="nv">ok</span> <span class="o">,</span><span class="nv">pid-2</span><span class="p">)</span> <span class="p">(</span><span class="nv">python:start</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">&lt;0.33.0&gt;</span><span class="p">)</span></code></pre></div>
+
+<h2 id="using-operators">Using Operators</h2>
+
+<p>Next, let’s do some basic math:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;add</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">21</span> <span class="mi">21</span><span class="p">))</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;sub</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">294</span> <span class="mi">252</span><span class="p">))</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;mul</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">21</span> <span class="mi">2</span><span class="p">))</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;floordiv</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">294</span> <span class="mi">7</span><span class="p">))</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;truediv</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">294</span> <span class="mi">7</span><span class="p">))</span>
+<span class="mf">42.0</span></code></pre></div>
+<p>The full list of operators provided as builtin functions is available
+<a href="https://docs.python.org/3.4/library/operator.html">here</a>.</p>
+
+<h2 id="using-builtins">Using Builtins</h2>
+
+<p>Just for fun, we’ll switch to our other Python server for these examples:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-2</span> <span class="ss">&#39;builtins</span> <span class="ss">&#39;sorted</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">42</span> <span class="mi">3</span> <span class="mi">19</span> <span class="mi">11</span> <span class="mi">7</span> <span class="mi">5</span> <span class="mi">11</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="mi">11</span> <span class="mi">11</span> <span class="mi">19</span> <span class="mi">42</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-2</span> <span class="ss">&#39;builtins</span> <span class="ss">&#39;dir</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">str</span><span class="p">))</span>
+<span class="p">(</span><span class="s">&quot;_Atom__atoms&quot;</span>
+ <span class="s">&quot;__add__&quot;</span>
+ <span class="s">&quot;__class__&quot;</span>
+ <span class="s">&quot;__contains__&quot;</span>
+ <span class="s">&quot;__delattr__&quot;</span>
+ <span class="s">&quot;__dir__&quot;</span>
+ <span class="s">&quot;__doc__&quot;</span>
+ <span class="s">&quot;__eq__&quot;</span>
+ <span class="s">&quot;__format__&quot;</span>
+ <span class="s">&quot;__ge__&quot;</span>
+ <span class="s">&quot;__getattribute__&quot;</span>
+ <span class="s">&quot;__getitem__&quot;</span>
+ <span class="s">&quot;__getnewargs__&quot;</span>
+ <span class="s">&quot;__gt__&quot;</span>
+ <span class="s">&quot;__hash__&quot;</span>
+ <span class="s">&quot;__init__&quot;</span>
+ <span class="s">&quot;__iter__&quot;</span>
+ <span class="s">&quot;__le__&quot;</span>
+ <span class="s">&quot;__len__&quot;</span>
+ <span class="s">&quot;__lt__&quot;</span>
+ <span class="s">&quot;__module__&quot;</span>
+ <span class="s">&quot;__mul__&quot;</span>
+ <span class="s">&quot;__ne__&quot;</span>
+ <span class="s">&quot;__new__&quot;</span>
+ <span class="s">&quot;__reduce__&quot;</span>
+ <span class="s">&quot;__reduce_ex__&quot;</span>
+ <span class="s">&quot;__repr__&quot;</span>
+ <span class="s">&quot;__rmul__&quot;</span>
+ <span class="s">&quot;__setattr__&quot;</span>
+ <span class="s">&quot;__sizeof__&quot;</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>For a full list, see the following:</p>
+
+<ul>
+  <li>Python <a href="https://docs.python.org/3/library/functions.html#built-in-funcs">builtin functions</a></li>
+  <li>Python <a href="https://docs.python.org/3/library/constants.html#built-in-consts">builtin constants</a></li>
+</ul>
+
+<h2 id="python-module-hierarchies">Python Module Hierarchies</h2>
+
+<p>We can also call dotted names. Let’s get the cosine of 2$\pi$:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;math</span> <span class="ss">&#39;cos</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="mf">3.1459</span><span class="p">)))</span>
+<span class="mf">0.9999628937632861</span></code></pre></div>
+
+<p>Note that we’re executing the multiplication in LFE before sending it to
+Python. But what if we wanted to get Python’s <code>math.pi</code> value?</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="o">#(</span><span class="nv">python</span> <span class="nv">builtins.TypeError</span>
+                   <span class="s">&quot;&#39;float&#39; object is not callable&quot;</span>
+                   <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>No such luck: <code>math.pi</code> is a <code>float</code> and we’re limited to making calls.
+Fortunately, though, we have a way out – a hack, but a way out: we can call
+methods on constants!</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi.__float__</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="mf">3.141592653589793</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi.__int__</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="mi">3</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi.__str__</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="s">&quot;3.141592653589793&quot;</span></code></pre></div>
+
+<p>Yeah, perhaps a bit ugly … but you <em>knew</em> this wasn’t going to be pretty :-)</p>
+
+<h2 id="errors">Errors</h2>
+
+<p>Python exceptions are returned in the <code>error</code> values. Here’s a function
+which prints the error returned from Python as well as the stacktrace in LFE:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">print-error-data</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nv">try</span>
+      <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;unknown</span> <span class="ss">&#39;unknown</span> <span class="o">&#39;</span><span class="p">())</span>
+      <span class="p">(</span><span class="k">catch</span> <span class="p">(</span><span class="o">`#(</span><span class="nb">error</span> <span class="o">,</span><span class="nv">value</span> <span class="o">,</span><span class="nv">tracebock</span><span class="p">)</span>
+                <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;Error value: ~p~n&quot;</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">value</span><span class="p">))</span>
+                <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;Error stacktrace: ~p~n&quot;</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">tracebock</span><span class="p">))))))</span>
+<span class="nv">print-error-data</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">print-error-data</span><span class="p">)</span>
+<span class="nv">Error</span> <span class="nv">value:</span> <span class="o">#(</span><span class="nv">python</span> <span class="nv">builtins.ImportError</span>
+               <span class="s">&quot;No module named &#39;unknown&#39;&quot;</span>
+               <span class="p">(</span><span class="o">#(</span><span class="s">&quot;/Users/oubiwann/lab/erlang/erlport-demo/lfe...&quot;</span>
+                  <span class="mi">236</span>
+                  <span class="s">&quot;_incoming_call&quot;</span>
+                  <span class="s">&quot;f = __import__(mod, {}, {}, [objects[0]])&quot;</span><span class="p">)</span>
+                <span class="o">#(</span><span class="s">&quot;/Users/oubiwann/lab/erlang/erlport-demo/lfe...&quot;</span>
+                  <span class="mi">244</span>
+                  <span class="s">&quot;_call_with_error_handler&quot;</span>
+                  <span class="s">&quot;function(*args)&quot;</span><span class="p">)))</span>
+<span class="nv">Error</span> <span class="nv">stacktrace:</span> <span class="p">(</span><span class="o">#(</span><span class="nv">erlport</span> <span class="nv">call</span> <span class="mi">3</span> <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;src/erlport.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">234</span><span class="p">)))</span>
+                  <span class="o">#(</span><span class="nv">lfe_eval</span> <span class="nv">eval_try</span> <span class="mi">5</span>
+                    <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;src/lfe_eval.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">663</span><span class="p">)))</span>
+                  <span class="o">#(</span><span class="nv">lfe_shell</span> <span class="nv">eval_form_1</span> <span class="mi">2</span>
+                    <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;src/lfe_shell.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">253</span><span class="p">)))</span>
+                  <span class="o">#(</span><span class="nv">lists</span> <span class="nv">foldl</span> <span class="mi">3</span> <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;lists.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">1261</span><span class="p">)))</span>
+                  <span class="o">#(</span><span class="nv">lfe_shell</span> <span class="nv">server_loop</span> <span class="mi">1</span>
+                    <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;src/lfe_shell.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">99</span><span class="p">))))</span>
+<span class="nv">ok</span></code></pre></div>
+
+<p>The Python error is comprised of the following:
+ * The <code>'python</code> atom,
+ * The Python exception class, and
+ * The Python traceback from the ErlPort library</p>
+
+<p>Here’s a function that just displays those:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">print-python-error</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nv">try</span>
+      <span class="p">(</span><span class="nv">python:call</span> <span class="nv">pid-1</span> <span class="ss">&#39;operator</span> <span class="ss">&#39;truediv</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+      <span class="p">(</span><span class="k">catch</span> <span class="p">(</span><span class="o">`#(</span><span class="nb">error</span> <span class="o">#(</span><span class="nv">python</span> <span class="o">,</span><span class="nc">class</span> <span class="o">,</span><span class="nv">msg</span> <span class="o">,</span><span class="nv">traceback</span><span class="p">)</span> <span class="o">,</span><span class="nv">_</span><span class="p">)</span>
+                <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;Python exception class: ~p~n&quot;</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nc">class</span><span class="p">))</span>
+                <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;Python exception text: ~p~n&quot;</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">msg</span><span class="p">))</span>
+                <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;ErlPort traceback: ~p~n&quot;</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">traceback</span><span class="p">))))))</span>
+<span class="nv">print-python-error</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">print-python-error</span><span class="p">)</span>
+<span class="nv">Python</span> <span class="nv">exception</span> <span class="nv">class:</span> <span class="nv">builtins.ZeroDivisionError</span>
+<span class="nv">Python</span> <span class="nv">exception</span> <span class="nv">text:</span> <span class="s">&quot;division by zero&quot;</span>
+<span class="nv">ErlPort</span> <span class="nv">traceback:</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;/Users/oubiwann/Dropbox/lab/erlang/erlport-demo/lfe...&quot;</span>
+                     <span class="mi">239</span>
+                     <span class="s">&quot;_incoming_call&quot;</span>
+                     <span class="s">&quot;result = Atom(b\&quot;r\&quot;), mid,</span>
+<span class="s">                     self.encoder(f(*map(self.decoder, args)))&quot;</span><span class="p">)</span>
+                   <span class="o">#(</span><span class="s">&quot;/Users/oubiwann/Dropbox/lab/erlang/erlport-demo/lfe...&quot;</span>
+                     <span class="mi">244</span>
+                     <span class="s">&quot;_call_with_error_handler&quot;</span>
+                     <span class="s">&quot;function(*args)&quot;</span><span class="p">))</span>
+<span class="nv">ok</span></code></pre></div>
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/announcements/2014/12/03/1810-community-generated-content" title="Community Generated Content">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next" href="/tutorials/2014/12/04/0137-erlport-and-python-opaque-objects-in-lfe" title="ErlPort and Python: Opaque Objects in LFE">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Duncan McGreggor</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>03 December 2014</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          tutorials
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#howtos-ref">howtos <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#docs-ref">docs <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#erlport-ref">erlport <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#python-ref">python <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#interop-ref">interop <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#code-ref">code <span>4</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    
+  </body>
+</html>
+
