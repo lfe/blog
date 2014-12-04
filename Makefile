@@ -7,13 +7,13 @@ update-gems:
 	PATH=$(PATH):$(GEM_PATH) \
 	sudo gem update --system
 
-install-jekyll:
+install-jekyll: update-gems
 	PATH=$(PATH):$(GEM_PATH) \
 	sudo gem install bundler
 	PATH=$(PATH):$(GEM_PATH) \
 	bundle install
 
-update: update-gems install-jekyll
+update: install-jekyll
 	PATH=$(PATH):$(GEM_PATH) \
 	bundle update
 
