@@ -65,3 +65,12 @@ p {
 pree code {
     word-spacing: 0.05em;
 }
+
+p.subtagline {
+    padding-top: 1em;
+}
+
+.meddot {
+    font-size: 1em;
+    padding: 0.5em;
+}
