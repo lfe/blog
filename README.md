@@ -2,6 +2,10 @@
 
 *The code repo for the LFE News & Updates Blog*
 
+We welcome blog contributors! Just
+[fork the repo](https://github.com/lfe/blog/fork), write your post, and submit
+a PR.
+
 
 ## Requirements
 
@@ -54,7 +58,8 @@ $ git add src/_posts/2014-12-04-1323-exciting-lfe-news.md
 ```
 
 Also at this point you'll want to add any new directories that were created,
-e.g., for tags, archives, years, etc.
+e.g., for tags, archives, years, etc. Make sure you didn't miss anything by
+checkout the untracked files in the ``git status`` output.
 
 
 #### Publish
@@ -76,11 +81,6 @@ Github Pages build warning about the ``CNAME`` file. You can ignore that :-)
 
 
 ## Usage
-
-We welcome blog contributors! Just
-[fork the repo](https://github.com/lfe/blog/fork), write your post, and submit
-a PR. Be sure to enter your name in the post meta data after the ``Author:``
-header ...
 
 To create a new post:
 ```bash
