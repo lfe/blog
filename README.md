@@ -6,7 +6,7 @@ We welcome blog contributors! Just
 [fork the repo](https://github.com/lfe/blog/fork), write your post, and submit
 a PR.
 
-You can view the blog [here](http://blog.lfe.io/)
+You can view the blog [here](http://blog.lfe.io/).
 
 
 ## Requirements
