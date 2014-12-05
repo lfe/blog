@@ -4,7 +4,7 @@ title: "ErlPort and Python Part II: Making More Calls from LFE"
 description: "Part II of an Introduction to ErlPort with LFE"
 category: tutorials
 tags: [howtos,docs,erlport,python,interop,lfe,code,libraries,lisp,python 3,
-       tools]
+       tools,tutorials]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
