@@ -16,22 +16,48 @@ $ sudo make install
 
 ## Workflow
 
+#### Summary
+
 * Fork this repo (you might want to rename yours from "blog" to "lfe-blog")
 * See the usage below to create a post
 * Regenerate the static content
 * Push the updated static content to the ``gh-pages`` branch your fork
 * Issue a PR from your ``gh-pages`` branch to the upstream ``gh-pages`` branch
 
-There are some ``make`` targets defined that should make this easier for you.
-Here's an example:
+#### Get the code
+
+ * [Fork us](https://github.com/lfe/blog/fork).
+ * Update the name in your new repo's settings
+ * Clone:
+
+    ```bash
+    $ git clone git@github.com:<YOURNAME>/lfe-blog.git
+    $ cd lfe-blog
+    ```
+
+#### Create a post
 
 ```bash
-$ TITLE="Quick Test" make new
-$ git add src/_posts/2014-12-04-1323-quick-test.md
+$ TITLE="Exciting LFE News" make new
+```
+
+Edit to your heart's content. Be sure to update the following:
+ * Category (theme of your post)
+ * Descriptive tags
+ * Your name as ``author``
+
+
+#### Add to the repo
+
+```bash
+$ git add src/_posts/2014-12-04-1323-exciting-lfe-news.md
 ```
 
 Also at this point you'll want to add any new directories that were created,
-e.g., for tags, archives, years, etc. Then:
+e.g., for tags, archives, years, etc.
+
+
+#### Publish
 
 ```bash
 $ make publish
