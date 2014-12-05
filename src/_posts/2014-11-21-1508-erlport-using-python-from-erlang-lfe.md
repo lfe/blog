@@ -19,9 +19,8 @@ repositories and ``README`` files). I can only imagine this will be much less
 painful than creating gist code snippets and tweaking them in blogger. As a
 bonus, code should now appear in RSS/Atom feeds :-)
 
-<a href="/assets/images/posts/Erlang-Python-Greats.png"><img class="right thumb" src="/assets/images/posts/Erlang-Python-Greats.png" /></a>
-
 ## Intro
+<a href="/assets/images/posts/Erlang-Python-Greats.png"><img class="right thumb" src="/assets/images/posts/Erlang-Python-Greats.png" /></a>
 
 This blog post is one I've been wanting to get out there ever since
 I ran across [the erlport project](http://erlport.org/) a few years ago. I'm
