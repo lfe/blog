@@ -4,13 +4,246 @@
  <title>LFE News &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-04T18:37:01-06:00</updated>
+ <updated>2014-12-04T19:08:13-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>ErlPort and Python Part II: Making More Calls from LFE</title>
+   <link href="http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe"/>
+   <updated>2014-12-03T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot; /&gt;&lt;/a&gt;
+A short while ago, I did a
+&lt;a href=&quot;http://blog.lfe.io/tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe/&quot;&gt;teaser post&lt;/a&gt;
+about calling Python from LFE. There was only a tiny bit of code… but! It
+came with one of the best Erlang/Python pictures EVAR. You know which one I’m
+talking about.&lt;/p&gt;
+
+&lt;p&gt;In this post, we’re going to venture further into this strange and wonderful
+landscape. We’ll do this by adapting
+&lt;a href=&quot;https://twitter.com/hdima&quot;&gt;Dmitry Vasiliev&lt;/a&gt;’s’ essentially
+&lt;a href=&quot;http://erlport.org/docs/python.html&quot;&gt;ErlPort Python docs&lt;/a&gt; from Erlang to LFE.
+We won’t get through all the docs in this post, but we’ll definitely get
+further than last time :-)&lt;/p&gt;
+
+&lt;h2 id=&quot;warming-up&quot;&gt;Warming Up&lt;/h2&gt;
+
+&lt;p&gt;We’re going to re-use the demo repo from the last post. If you didn’t get
+chance to set it up, you can do that now:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:oubiwann/erlport-demo.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;erlport-demo/python
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python3.4 -m venv .venv
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;. .venv/bin/activate
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ../lfe
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make repl&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If you’ve already downloaded and run the REPL before, you can skip the build
+step with this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make repl-no-deps&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s start the walkthrough by creating two separate running Python servers:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&amp;lt;0.32.0&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&amp;lt;0.33.0&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;using-operators&quot;&gt;Using Operators&lt;/h2&gt;
+
+&lt;p&gt;Next, let’s do some basic math:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;add&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;sub&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;294&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;252&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;mul&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;floordiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;294&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;truediv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;294&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;42.0&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The use of operators is extremely convenity, since with ErlPort we are bound
+to same the module-function-args approach used in Erlang and LFE. There are
+many othe operators we can call, but this should give you a taste.&lt;/p&gt;
+
+&lt;p&gt;The full list of operators provided as builtin functions is available
+&lt;a href=&quot;https://docs.python.org/3.4/library/operator.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-builtins&quot;&gt;Using Builtins&lt;/h2&gt;
+
+&lt;p&gt;Just for fun, we’ll switch to our other Python server for these examples:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;builtins&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;sorted&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;builtins&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;dir&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;_Atom__atoms&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__add__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__class__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__contains__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__delattr__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__dir__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__doc__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__eq__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__format__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__ge__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__getattribute__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__getitem__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__getnewargs__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__gt__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__hash__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__init__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__iter__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__le__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__len__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__lt__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__module__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__mul__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__ne__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__new__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__reduce__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__reduce_ex__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__repr__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__rmul__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__setattr__&amp;quot;&lt;/span&gt;
+ &lt;span class=&quot;s&quot;&gt;&amp;quot;__sizeof__&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In Python, if you want to use a module’s functions, classes, and other obejcts,
+you need to import them. Some, however, are available as part of the language
+and don’t require any importing. These are called the “builtins”.&lt;/p&gt;
+
+&lt;p&gt;Here are a couple more examples:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;builtins&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;len&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;builtins&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;265&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;builtins&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;65536&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For a full list, see the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Python &lt;a href=&quot;https://docs.python.org/3/library/functions.html#built-in-funcs&quot;&gt;builtin functions&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Python &lt;a href=&quot;https://docs.python.org/3/library/constants.html#built-in-consts&quot;&gt;builtin constants&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you’re wondering how to deal with constants (since there are no constants in
+LFE, and everything is a function), hang tight – we’ll cover that below.&lt;/p&gt;
+
+&lt;h2 id=&quot;python-module-hierarchies&quot;&gt;Python Module Hierarchies&lt;/h2&gt;
+
+&lt;p&gt;We can also call dotted names. Let’s get the cosine of 2$\pi$:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;cos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.1459&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;0.9999628937632861&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that we’re executing the multiplication in LFE before sending it to
+Python. But what if we wanted to get Python’s &lt;code&gt;math.pi&lt;/code&gt; value instead of
+using our own? How do we access Python module constants?&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;exception&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;builtins.TypeError&lt;/span&gt;
+                   &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;#39;float&amp;#39; object is not callable&amp;quot;&lt;/span&gt;
+                   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;No such luck: &lt;code&gt;math.pi&lt;/code&gt; is a &lt;code&gt;float&lt;/code&gt; and we’re limited to making calls.
+Fortunately, though, we have a way out – a hack, but a way out: we can call
+methods on constants!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pi.__float__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;3.141592653589793&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pi.__int__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pi.__str__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;3.141592653589793&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yeah, perhaps a bit ugly … but you &lt;em&gt;knew&lt;/em&gt; this wasn’t going to be pretty :-)&lt;/p&gt;
+
+&lt;p&gt;Now we can re-do our example, though:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pi&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;pi.__float__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;3.141592653589793&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;math&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;cos&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s more like it :-)&lt;/p&gt;
+
+&lt;h2 id=&quot;errors&quot;&gt;Errors&lt;/h2&gt;
+
+&lt;p&gt;Python exceptions are returned in the &lt;code&gt;error&lt;/code&gt; values. Here’s a function
+which prints the error returned from Python as well as the stacktrace in LFE:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;defun&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;print-error-data&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;try&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;unknown&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;unknown&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`#(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;tracebock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_io:format&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Error value: ~p~n&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_io:format&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Error stacktrace: ~p~n&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;tracebock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;print-error-data&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;print-error-data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Error&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;builtins.ImportError&lt;/span&gt;
+               &lt;span class=&quot;s&quot;&gt;&amp;quot;No module named &amp;#39;unknown&amp;#39;&amp;quot;&lt;/span&gt;
+               &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/oubiwann/lab/erlang/erlport-demo/lfe...&amp;quot;&lt;/span&gt;
+                  &lt;span class=&quot;mi&quot;&gt;236&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&amp;quot;_incoming_call&amp;quot;&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&amp;quot;f = __import__(mod, {}, {}, [objects[0]])&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/oubiwann/lab/erlang/erlport-demo/lfe...&amp;quot;&lt;/span&gt;
+                  &lt;span class=&quot;mi&quot;&gt;244&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&amp;quot;_call_with_error_handler&amp;quot;&lt;/span&gt;
+                  &lt;span class=&quot;s&quot;&gt;&amp;quot;function(*args)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Error&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stacktrace:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlport&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;src/erlport.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;234&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_eval&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;eval_try&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;src/lfe_eval.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;663&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_shell&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;eval_form_1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;src/lfe_shell.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;253&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foldl&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;lists.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1261&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_shell&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;server_loop&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+                    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;src/lfe_shell.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The Python error is comprised of the following:
+ * The &lt;code&gt;&#39;python&lt;/code&gt; atom,
+ * The Python exception class, and
+ * The Python traceback from the ErlPort library&lt;/p&gt;
+
+&lt;p&gt;Here’s a function that just displays those:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;defun&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;print-python-error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;try&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid-1&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;operator&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;truediv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;`#(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;traceback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_io:format&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Python exception class: ~p~n&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_io:format&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Python exception text: ~p~n&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lfe_io:format&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;ErlPort traceback: ~p~n&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;traceback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;print-python-error&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;print-python-error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Python&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;exception&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;class:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;builtins.ZeroDivisionError&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;Python&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;exception&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;division by zero&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ErlPort&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;traceback:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/oubiwann/Dropbox/lab/erlang/erlport-demo/lfe...&amp;quot;&lt;/span&gt;
+                     &lt;span class=&quot;mi&quot;&gt;239&lt;/span&gt;
+                     &lt;span class=&quot;s&quot;&gt;&amp;quot;_incoming_call&amp;quot;&lt;/span&gt;
+                     &lt;span class=&quot;s&quot;&gt;&amp;quot;result = Atom(b\&amp;quot;r\&amp;quot;), mid,&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;                     self.encoder(f(*map(self.decoder, args)))&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                   &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;/Users/oubiwann/Dropbox/lab/erlang/erlport-demo/lfe...&amp;quot;&lt;/span&gt;
+                     &lt;span class=&quot;mi&quot;&gt;244&lt;/span&gt;
+                     &lt;span class=&quot;s&quot;&gt;&amp;quot;_call_with_error_handler&amp;quot;&lt;/span&gt;
+                     &lt;span class=&quot;s&quot;&gt;&amp;quot;function(*args)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In the next post we’ll take a look at ErlPorts opaque Python objects.&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>Community Generated Content</title>
