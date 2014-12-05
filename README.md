@@ -19,14 +19,14 @@ $ sudo make install
 * Fork this repo (you might want to rename yours from "blog" to "lfe-blog")
 * See the usage below to create a post
 * Regenerate the static content
-* Push the updated static content to the gh-pages branch your fork
-* Issue a PR from your gh-pages branch to the upstream gh-pages branch
+* Push the updated static content to the ``gh-pages`` branch your fork
+* Issue a PR from your ``gh-pages`` branch to the upstream ``gh-pages`` branch
 
 There are some ``make`` targets defined that should make this easier for you.
 Here's an example:
 
 ```bash
-$ ./bin/new-post "Quick Test"
+$ TITLE="Quick Test" make new
 $ git add src/_posts/2014-12-04-1323-quick-test.md
 ```
 
@@ -45,6 +45,10 @@ At that point, you're ready to go to your fork on Github, switch to the
 ``gh-pages`` branch, and issue the pull request to ``gh-pages`` on ``lfe/blog``.
 
 
+Note: when you push this change up to your ``gh-pages`` branch, you may see a
+Github Pages build warning about the ``CNAME`` file. You can ignore that :-)
+
+
 ## Usage
 
 We welcome blog contributors! Just
@@ -54,12 +58,12 @@ header ...
 
 To create a new post:
 ```bash
-$ ./bin/new-post "Super-Sweet LFE Tutorial"
+$ TITLE="Super-Sweet LFE Tutorial" make new
 ```
 This will open a draft with ``vi``. Edit to your heart's content, save, commit,
 push, and send the PR!
 
-Useful ``make`` targets:
+Other useful ``make`` targets:
 
 *Run a local copy of the site available on http://localhost:4000, served from
 the ``./staged`` directory*:
