@@ -5,8 +5,8 @@
         <description>LFE News &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-04T15:38:55-06:00</lastBuildDate>
-        <pubDate>2014-12-04T15:38:55-06:00</pubDate>
+        <lastBuildDate>2014-12-04T18:26:36-06:00</lastBuildDate>
+        <pubDate>2014-12-04T18:26:36-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -30,6 +30,128 @@ repository. This information is also supplied in the repo’s
                 <link>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</guid>
                 <pubDate>2014-12-03T00:00:00-06:00</pubDate>
+        </item>
+
+        <item>
+                <title>ErlPort: Using Python from Erlang/LFE</title>
+                <description>
+&lt;p&gt;This post was originally featured on
+&lt;a href=&quot;http://technicae.cogitat.io/2014/11/erlport-using-python-from-erlanglfe.html&quot;&gt;cogitat.io&lt;/a&gt;
+and is being reblogged here as an expeiment. This repost is an adventure into
+github pages as a blogging platform for code-heavy posts. For year, I have found
+Google’s blogger.com cumbersome as a medium for sharing code. The burden has
+finally grown too great. It makes sense to use the same platform to share the
+prose description of code as that which shares the code itself (i.e.,
+repositories and &lt;code&gt;README&lt;/code&gt; files). I can only imagine this will be much less
+painful than creating gist code snippets and tweaking them in blogger. As a
+bonus, code should now appear in RSS/Atom feeds :-)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+
+&lt;p&gt;This blog post is one I’ve been wanting to get out there ever since
+I ran across &lt;a href=&quot;http://erlport.org/&quot;&gt;the erlport project&lt;/a&gt; a few years ago. I’m
+glad to finally have the chance to sit down and get it out there. I hope that
+more people who need to take advantage of Python’s strengths from Erlang/LFE
+find out about this project.&lt;/p&gt;
+
+&lt;h2 id=&quot;strengths-and-weaknesses&quot;&gt;Strengths and Weaknesses&lt;/h2&gt;
+
+&lt;p&gt;Erlang was built for fault-tolerance. It had a goal of unprecedented uptimes,
+and these have been achieved. It powers 40% of our world’s telecommunications
+traffic. It’s capable of supporting amazing levels of concurrency
+(remember the &lt;a href=&quot;https://www.sics.se/~joe/apachevsyaws.html&quot;&gt;2007 announcement&lt;/a&gt;
+about the performance of YAWS vs. Apache?).&lt;/p&gt;
+
+&lt;p&gt;However, with this knowledge in mind, a common mistake by folks new to Erlang
+is to think these performance characteristics will be applicable to their own
+particular domain. This has often resulted in failure, disappointment, and the
+unjust blaming of Erlang. If you want to process huge files, do lots of string
+manipulation, or crunch tons of numbers, Erlang’s not your bag, baby. Try
+&lt;a href=&quot;https://www.python.org/&quot;&gt;Python&lt;/a&gt; or &lt;a href=&quot;http://julialang.org/&quot;&gt;Julia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;But then, you may be thinking: I like supervision trees. I have long-running
+processes that I want to be managed per the rules I establish. I want to run
+lots of jobs in parallel on my 64-core box. I want to run jobs in parallel
+over the network on 64 of my 64-core boxes. Python’s the right tool for the
+jobs, but I wish I could manage them with Erlang.&lt;/p&gt;
+
+&lt;p&gt;(There are sooo many other options for the use cases above, many of them
+really excellent. But this post is about Erlang/LFE :-)).&lt;/p&gt;
+
+&lt;h2 id=&quot;erlang-ports&quot;&gt;Erlang Ports&lt;/h2&gt;
+
+&lt;p&gt;Traditionally, if you want to run other languages with Erlang in a reliable
+way that doesn’t bring your Erlang nodes down with badly behaved code, you
+use &lt;a href=&quot;http://erlang.org/doc/reference_manual/ports.html&quot;&gt;Ports&lt;/a&gt;.
+(more info is available in the
+&lt;a href=&quot;http://www.erlang.org/doc/tutorial/overview.html&quot;&gt;Interoperability Guide&lt;/a&gt;).
+This is what
+&lt;a href=&quot;http://www.erlang.org/doc/apps/jinterface/jinterface_users_guide.html&quot;&gt;JInterface&lt;/a&gt;
+builds upon (and, incidentally, allows for some pretty cool
+&lt;a href=&quot;https://github.com/oubiwann/lfecljapp&quot;&gt;integration with Clojure&lt;/a&gt;). However,
+this still leaves a pretty significant burden for the Python or Ruby developer
+for any serious application needs (quick one-offs that only use one or two
+data types are not that big a deal).&lt;/p&gt;
+
+&lt;h2 id=&quot;erlport-quick-start&quot;&gt;ErlPort Quick-Start&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/hdima/erlport&quot;&gt;erlport&lt;/a&gt; was created by
+&lt;a href=&quot;https://twitter.com/hdima&quot;&gt;Dmitry Vasiliev&lt;/a&gt; in 2009 in an effort to solve just this
+problem, making it easier to use of and integrate between Erlang and more common
+languages like Python and Ruby. The project is maintained, and in fact has just
+received a few updates. Below, we’ll demonstrate some usage in
+&lt;a href=&quot;http://lfe.io/&quot;&gt;LFE&lt;/a&gt; with &lt;a href=&quot;https://docs.python.org/3/&quot;&gt;Python 3&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you want to follow along, there’s a demo repo you can check out:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:oubiwann/erlport-demo.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;erlport-demo&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Change into the repo directory and set up your Python environment:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;python
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python3.4 -m venv .venv
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;. .venv/bin/activate
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ../&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, switch over to the LFE directory, and fire up a REPL:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;lfe
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make repl
+
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;snip&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
+Starting an LFE REPL ...
+Erlang/OTP &lt;span class=&quot;m&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;erts-6.2&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;64-bit&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;smp:8:8&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; ...
+
+LFE Shell V6.2 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;abort with ^G&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that this will first download the necessary dependencies and compile them
+(that’s what the &lt;code&gt;[snip]&lt;/code&gt; is eliding).&lt;/p&gt;
+
+&lt;p&gt;Now we’re ready to take erlport for a quick trip down to the local:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;pid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&amp;lt;0.32.0&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;python:call&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pid&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;sys&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;version.__str__&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()))&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;3.4.2 (v3.4.2:ab2c023a9432, Oct  5 2014, 20:42:22) ...&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And that’s all there is to it :-)&lt;/p&gt;
+
+&lt;p&gt;Perhaps in a future post we can dive into the internals, showing you more of the
+glory that is erlport. Even better, we could look at more compelling example
+usage, approaching some of the functionality offered by such projects as
+&lt;a href=&quot;http://discoproject.org/&quot;&gt;Disco&lt;/a&gt; or
+&lt;a href=&quot;http://continuum.io/anaconda-server&quot;&gt;Anaconda&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+                <link>http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe</link>
+                <guid>http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe</guid>
+                <pubDate>2014-11-21T00:00:00-06:00</pubDate>
         </item>
 
         <item>
