@@ -65,17 +65,30 @@ push, and send the PR!
 
 Other useful ``make`` targets:
 
+*Rebuild the site static files in the ``./prod`` directory*:
+
+```bash
+$ make build
+```
+
 *Run a local copy of the site available on http://localhost:4000, served from
-the ``./staged`` directory*:
+the ``./prod`` directory*:
 
 ```bash
 $ make run
 ```
 
-*Build a local copy of the site in the ``./staged`` directory*:
+*Run a staged copy of the site available on http://localhost:4000, served from
+the ``./stage`` directory*:
 
 ```bash
-$ make build
+$ make run-stage
+```
+
+*Clean up your staged files*:
+
+```bash
+$ make clean
 ```
 
 *Update your jekyll Ruby gem. This will also update your gems and install
