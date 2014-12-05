@@ -1,7 +1,0 @@
-output=$(cd src;rake post title="$@")
-for ELEMENT in $output
-do
-    if [[ "$ELEMENT" =~ .md$ ]]; then
-        vim src/$ELEMENT
-    fi
-done
