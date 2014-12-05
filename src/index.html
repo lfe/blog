@@ -7,7 +7,15 @@ tagline: A Microblog for the Syntaxless Ones
 <div class="page-header-wrapper">
         <div class="page-header">
                 <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
-                <p>Got some LFE news? <a href="https://github.com/lfe/blog/fork">Fork us</a> and make a PR!</p>
+                <p><span>A proud member of
+                         <a href="http://planeterlang.com/">PlanetErlang</a>
+                   </span>
+                   &#183;
+                   <span>Got some LFE news?
+                         <a href="https://github.com/lfe/blog/fork">Fork us</a>
+                         and make a PR!
+                   </span>
+                </p>
         </div>
 </div>
 {% for post in paginator.posts %}
