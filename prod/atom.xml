@@ -4,7 +4,7 @@
  <title>LFE News &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-04T18:30:47-06:00</updated>
+ <updated>2014-12-04T18:32:13-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -51,9 +51,8 @@ repositories and &lt;code&gt;README&lt;/code&gt; files). I can only imagine this
 painful than creating gist code snippets and tweaking them in blogger. As a
 bonus, code should now appear in RSS/Atom feeds :-)&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
 &lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;This blog post is one I’ve been wanting to get out there ever since
 I ran across &lt;a href=&quot;http://erlport.org/&quot;&gt;the erlport project&lt;/a&gt; a few years ago. I’m
