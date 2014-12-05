@@ -4,7 +4,7 @@
  <title>LFE News &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-04T19:10:35-06:00</updated>
+ <updated>2014-12-05T10:49:10-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -211,10 +211,13 @@ which prints the error returned from Python as well as the stacktrace in LFE:&lt
                     &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;src/lfe_shell.erl&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
 &lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The Python error is comprised of the following:
- * The &lt;code&gt;&#39;python&lt;/code&gt; atom,
- * The Python exception class, and
- * The Python traceback from the ErlPort library&lt;/p&gt;
+&lt;p&gt;The Python error is comprised of the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The &lt;code&gt;&#39;python&lt;/code&gt; atom,&lt;/li&gt;
+  &lt;li&gt;The Python exception class, and&lt;/li&gt;
+  &lt;li&gt;The Python traceback from the ErlPort library&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;Here’s a function that just displays those:&lt;/p&gt;
 

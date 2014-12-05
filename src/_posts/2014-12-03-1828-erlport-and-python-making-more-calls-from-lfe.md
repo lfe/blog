@@ -227,6 +227,7 @@ ok
 ```
 
 The Python error is comprised of the following:
+
  * The ``'python`` atom,
  * The Python exception class, and
  * The Python traceback from the ErlPort library

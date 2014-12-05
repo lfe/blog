@@ -370,10 +370,13 @@ which prints the error returned from Python as well as the stacktrace in LFE:</p
                     <span class="p">(</span><span class="o">#(</span><span class="nv">file</span> <span class="s">&quot;src/lfe_shell.erl&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">line</span> <span class="mi">99</span><span class="p">))))</span>
 <span class="nv">ok</span></code></pre></div>
 
-<p>The Python error is comprised of the following:
- * The <code>'python</code> atom,
- * The Python exception class, and
- * The Python traceback from the ErlPort library</p>
+<p>The Python error is comprised of the following:</p>
+
+<ul>
+  <li>The <code>'python</code> atom,</li>
+  <li>The Python exception class, and</li>
+  <li>The Python traceback from the ErlPort library</li>
+</ul>
 
 <p>Here’s a function that just displays those:</p>
 
