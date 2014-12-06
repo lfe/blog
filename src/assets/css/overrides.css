@@ -74,3 +74,8 @@ p.subtagline {
     font-size: 1em;
     padding: 0.5em;
 }
+
+blockquote {
+    font-size: 120%;
+    line-height: 1.3em;
+}
