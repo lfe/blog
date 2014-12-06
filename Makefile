@@ -57,5 +57,5 @@ publish: clean build
 	git subtree push --prefix $(PROD_DIR) origin gh-pages
 
 new:
-	OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
+	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
 	vim $(SRC)/$$(echo $$OUT | cut -d ' ' -f 4-)
