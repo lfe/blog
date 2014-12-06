@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <title>
       
-        LFE Microblog is Open for Business ... -
+        Usability Update: IErlang Notebook (a la IPython) -
       
       LFE News &amp; Updates
     </title>
-    <meta name="description" content="Another web property update">
+    <meta name="description" content="Updated project source for IErlang makes it easier to use">
     <meta name="author" content="LFElluminati | Alien Alliance">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -169,7 +169,7 @@
           
 <div class="page-header">
   <h1>
-    LFE Microblog is Open for Business ... 
+    Usability Update: IErlang Notebook (a la IPython) 
     
   </h1>
 </div>
@@ -177,19 +177,90 @@
 <div class="row">
   <div class="span8">
     
-<p>The LFE micoblog site (powered by Jekyll and Bootsrap) is live and ready to go.</p>
+<p><a href="/assets/images/posts/screencapture-ierlang_demo.png"><img class="left thumb" src="/assets/images/posts/screencapture-ierlang_demo.png" /></a>Back in April, the Erlang community
+was stunned to hear that we had been given an answer to
+<a href="http://ipython.org/">IPython</a>, IHaskell, and IJulia –
+<a href="http://robl.co/ierlang-featured-on-hacker-news/">IErlang</a>. However, as
+<a href="https://twitter.com/lynchrobbie">Robbie</a> noted in the list of outstanding
+issues at the end of the IErlang demo notebook, not a lot of time had been set
+aside to develop a more standard project structure. Furthermore, the setup and
+installation of IErlang to get to the point where you could try it out was a
+rather arduous process. All of that has now changed …</p>
 
-<p>We’ll be posting pertinent content and links here on a regular basis, items
-which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
+<h2 id="running-the-new-demo">Running the New Demo</h2>
+
+<p>The IErlang project has a series of
+<a href="https://github.com/robbielynch/ierlang/pulls">open PRs</a> that address several
+of the organizational issues Robbie had lamented, but you don’t have to wait
+until they get merged; you can
+<a href="https://github.com/oubiwann/ierlang">get it now</a>:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>git clone git@github.com:oubiwann/ierlang.git
+<span class="nv">$ </span><span class="nb">cd </span>ierlang
+<span class="nv">$ </span>make demo</code></pre></div>
+
+<p>Yup. That’s it.</p>
+
+<p>This will do the following for you:</p>
+
+<ul>
+  <li>Set up a Python virtual environment in the project’s working directory (in
+<code>./.venv-py2</code>)</li>
+  <li>Install IPython and its dependencies into that virtual environment</li>
+  <li>Patch IPython to support Erlang</li>
+  <li>Download the Erlang project dependencies</li>
+  <li>Compile the Erlang dependency modules</li>
+  <li>Compile the <code>ierl_*</code> modules</li>
+  <li>Start up the demo notebook in your browser</li>
+</ul>
+
+<h2 id="requirements">Requirements</h2>
+
+<p>As you might have guessed, this requires that you have the following
+installed in your <code>$PATH</code>:</p>
+
+<ul>
+  <li><code>erl</code> and <code>erlscript</code></li>
+  <li><code>rebar</code></li>
+  <li>Python 2.7 (Python 3.4 support is in the works; see
+<a href="https://github.com/robbielynch/ierlang/issues/6">the ticket</a>)</li>
+</ul>
+
+<h2 id="outstanding-issues">Outstanding Issues</h2>
+
+<p>As you can see at the bottom of the IErlang notebook demo, many of the issues
+that Robbie identified earlier this year still remain. In particular, I’ve
+added another one to that list: high CPU usage for both <code>console</code> and
+<code>notebook</code> mode.</p>
+
+<p>A minor issue I didn’t add, but which I may take up (being the code janitor
+that I am) is function-level organization in the modules: most functions are
+too long and entail too much logic. They need to be split out (which will
+also make it easier for folks to contribute).</p>
+
+<p>As referenced above, currently only Python 2.7 is supported. Python 3.4 support
+is in-progress, but requires cleaning up <code>str</code> and <code>bytes</code> handling.</p>
+
+<h2 id="future-work">Future Work</h2>
+
+<p>The next logical step is to generalize this work (through refactoring!) so that
+<a href="http://lfe.io/">LFE</a>,
+<a href="http://elixir-lang.org/">Elixir</a>,
+<a href="http://joxa.org/">Joxa</a>,
+<a href="https://github.com/rvirding/luerl">Luerl</a>,
+<a href="https://github.com/rvirding/erlog">Erlog</a>,
+<a href="https://github.com/etnt/Haskerl">Haskerl</a>,
+and others may also be used with IErlang :-)</p>
+
 
     <hr>
     <div class="pagination btn-group">
       
-        <a class="btn prev" href="/site/2014/05/22/1849-new-lfe-site" title="New LFE Site!">&larr; Previous</a>
+        <a class="btn prev" href="/tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe" title="ErlPort and Python Part II: Making More Calls from LFE">&larr; Previous</a>
       
         <a class="btn" href="/archive.html">Archive</a>
       
-        <a class="btn next" href="/site/2014/05/23/0815-docs-site-overhaul" title="Docs Site Overhaul">Next &rarr;</a>
+        <a class="btn next disabled">Next &rarr;</a>
       
     </div>
     <hr>
@@ -203,13 +274,13 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
     </section>
     <section>
       <h4>Published</h4>
-      <div class="date"><span>22 May 2014</span></div>
+      <div class="date"><span>06 December 2014</span></div>
     </section>
     
       <section>
         <h4>Category</h4>
         <span class="category">
-          site
+          announcements
         </span>
       </section>
          
@@ -223,13 +294,13 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
 
   
      
-    	<li><a href="/tags.html#site-ref">site <span>4</span></a></li>
+    	<li><a href="/tags.html#erlang-ref">erlang <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#tools-ref">tools <span>3</span></a></li>
      
     	<li><a href="/tags.html#web-ref">web <span>5</span></a></li>
      
-    	<li><a href="/tags.html#blog-ref">blog <span>2</span></a></li>
-     
-    	<li><a href="/tags.html#news-ref">news <span>4</span></a></li>
+    	<li><a href="/tags.html#shells-ref">shells <span>1</span></a></li>
     
   
 

@@ -4,13 +4,97 @@
  <title>LFE News &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-05T10:49:10-06:00</updated>
+ <updated>2014-12-06T15:44:51-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Usability Update: IErlang Notebook (a la IPython)</title>
+   <link href="http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython"/>
+   <updated>2014-12-06T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/screencapture-ierlang_demo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/screencapture-ierlang_demo.png&quot; /&gt;&lt;/a&gt;Back in April, the Erlang community
+was stunned to hear that we had been given an answer to
+&lt;a href=&quot;http://ipython.org/&quot;&gt;IPython&lt;/a&gt;, IHaskell, and IJulia –
+&lt;a href=&quot;http://robl.co/ierlang-featured-on-hacker-news/&quot;&gt;IErlang&lt;/a&gt;. However, as
+&lt;a href=&quot;https://twitter.com/lynchrobbie&quot;&gt;Robbie&lt;/a&gt; noted in the list of outstanding
+issues at the end of the IErlang demo notebook, not a lot of time had been set
+aside to develop a more standard project structure. Furthermore, the setup and
+installation of IErlang to get to the point where you could try it out was a
+rather arduous process. All of that has now changed …&lt;/p&gt;
+
+&lt;h2 id=&quot;running-the-new-demo&quot;&gt;Running the New Demo&lt;/h2&gt;
+
+&lt;p&gt;The IErlang project has a series of
+&lt;a href=&quot;https://github.com/robbielynch/ierlang/pulls&quot;&gt;open PRs&lt;/a&gt; that address several
+of the organizational issues Robbie had lamented, but you don’t have to wait
+until they get merged; you can
+&lt;a href=&quot;https://github.com/oubiwann/ierlang&quot;&gt;get it now&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;git clone git@github.com:oubiwann/ierlang.git
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;ierlang
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make demo&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Yup. That’s it.&lt;/p&gt;
+
+&lt;p&gt;This will do the following for you:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Set up a Python virtual environment in the project’s working directory (in
+&lt;code&gt;./.venv-py2&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;Install IPython and its dependencies into that virtual environment&lt;/li&gt;
+  &lt;li&gt;Patch IPython to support Erlang&lt;/li&gt;
+  &lt;li&gt;Download the Erlang project dependencies&lt;/li&gt;
+  &lt;li&gt;Compile the Erlang dependency modules&lt;/li&gt;
+  &lt;li&gt;Compile the &lt;code&gt;ierl_*&lt;/code&gt; modules&lt;/li&gt;
+  &lt;li&gt;Start up the demo notebook in your browser&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;p&gt;As you might have guessed, this requires that you have the following
+installed in your &lt;code&gt;$PATH&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;erl&lt;/code&gt; and &lt;code&gt;erlscript&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;rebar&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Python 2.7 (Python 3.4 support is in the works; see
+&lt;a href=&quot;https://github.com/robbielynch/ierlang/issues/6&quot;&gt;the ticket&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;outstanding-issues&quot;&gt;Outstanding Issues&lt;/h2&gt;
+
+&lt;p&gt;As you can see at the bottom of the IErlang notebook demo, many of the issues
+that Robbie identified earlier this year still remain. In particular, I’ve
+added another one to that list: high CPU usage for both &lt;code&gt;console&lt;/code&gt; and
+&lt;code&gt;notebook&lt;/code&gt; mode.&lt;/p&gt;
+
+&lt;p&gt;A minor issue I didn’t add, but which I may take up (being the code janitor
+that I am) is function-level organization in the modules: most functions are
+too long and entail too much logic. They need to be split out (which will
+also make it easier for folks to contribute).&lt;/p&gt;
+
+&lt;p&gt;As referenced above, currently only Python 2.7 is supported. Python 3.4 support
+is in-progress, but requires cleaning up &lt;code&gt;str&lt;/code&gt; and &lt;code&gt;bytes&lt;/code&gt; handling.&lt;/p&gt;
+
+&lt;h2 id=&quot;future-work&quot;&gt;Future Work&lt;/h2&gt;
+
+&lt;p&gt;The next logical step is to generalize this work (through refactoring!) so that
+&lt;a href=&quot;http://lfe.io/&quot;&gt;LFE&lt;/a&gt;,
+&lt;a href=&quot;http://elixir-lang.org/&quot;&gt;Elixir&lt;/a&gt;,
+&lt;a href=&quot;http://joxa.org/&quot;&gt;Joxa&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/rvirding/luerl&quot;&gt;Luerl&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/rvirding/erlog&quot;&gt;Erlog&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/etnt/Haskerl&quot;&gt;Haskerl&lt;/a&gt;,
+and others may also be used with IErlang :-)&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>ErlPort and Python Part II: Making More Calls from LFE</title>

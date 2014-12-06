@@ -21,12 +21,17 @@ img.right {
     float: right !important;
 }
 
-img.right.thumb, img.right.small, img.right.medium, img.right.large,
-img.left.thumb, img.left.small, img.left.medium, img.left.large {
+img.right.tiny, img.right.thumb, img.right.small, img.right.medium, img.right.large,
+img.left.tiny, img.left.thumb, img.left.small, img.left.medium, img.left.large {
     max-width: auto !important;
     width: auto !important;
     vertical-align: top !important;
     margin-bottom: 1.0em;
+}
+
+img.right.tiny, img.left.tiny {
+    max-height: 100px;
+    height: 100px;
 }
 
 img.right.thumb, img.left.thumb {
@@ -49,12 +54,12 @@ img.right.large, img.left.large {
     height: 500px;
 }
 
-img.right.thumb, img.right.small, img.right.medium, img.right.large {
+img.right.tiny, img.right.thumb, img.right.small, img.right.medium, img.right.large {
     margin-left: 3.0em;
     margin-right: 0.3em;
 }
 
-img.left.thumb, img.left.small, img.left.medium, img.left.large {
+img.left.tiny, img.left.thumb, img.left.small, img.left.medium, img.left.large {
     margin-right: 3.0em;
 }
 
@@ -73,4 +78,13 @@ p.subtagline {
 .meddot {
     font-size: 1em;
     padding: 0.5em;
+}
+
+blockquote {
+    font-size: 120%;
+    line-height: 1.3em;
+}
+
+li {
+    line-height: 1.5em;
 }
