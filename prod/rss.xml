@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-07T19:25:41-06:00</lastBuildDate>
-        <pubDate>2014-12-07T19:25:41-06:00</pubDate>
+        <lastBuildDate>2014-12-07T19:37:58-06:00</lastBuildDate>
+        <pubDate>2014-12-07T19:37:58-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -467,8 +467,8 @@ came with one of the best Erlang/Python pictures EVAR. You know which one I’m
 talking about.&lt;/p&gt;
 
 &lt;p&gt;In this post, we’re going to venture further into this strange and wonderful
-landscape. We’ll do this by adapting
-&lt;a href=&quot;https://twitter.com/hdima&quot;&gt;Dmitry Vasiliev&lt;/a&gt;’s’ essentially
+landscape. We’ll do this by essentially adapting
+&lt;a href=&quot;https://twitter.com/hdima&quot;&gt;Dmitry Vasiliev&lt;/a&gt;’s
 &lt;a href=&quot;http://erlport.org/docs/python.html&quot;&gt;ErlPort Python docs&lt;/a&gt; from Erlang to LFE.
 We won’t get through all the docs in this post, but we’ll definitely get
 further than last time :-)&lt;/p&gt;
