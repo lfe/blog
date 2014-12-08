@@ -16,8 +16,8 @@ came with one of the best Erlang/Python pictures EVAR. You know which one I'm
 talking about.
 
 In this post, we're going to venture further into this strange and wonderful
-landscape. We'll do this by adapting
-[Dmitry Vasiliev](https://twitter.com/hdima)'s' essentially
+landscape. We'll do this by essentially adapting
+[Dmitry Vasiliev](https://twitter.com/hdima)'s
 [ErlPort Python docs](http://erlport.org/docs/python.html) from Erlang to LFE.
 We won't get through all the docs in this post, but we'll definitely get
 further than last time :-)
