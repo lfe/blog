@@ -4,7 +4,7 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-07T19:24:30-06:00</updated>
+ <updated>2014-12-07T19:25:41-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -100,7 +100,7 @@ docker@boot2docker:~$&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You’ll want to leave that window open :-)&lt;/p&gt;
 
-&lt;p&gt;Any why wouldn’t you? Just &lt;em&gt;look&lt;/em&gt; at that whale!&lt;/p&gt;
+&lt;p&gt;And why wouldn’t you? Just &lt;em&gt;look&lt;/em&gt; at that whale!&lt;/p&gt;
 
 &lt;h2 id=&quot;getting-the-lfe-exchange-docker-image&quot;&gt;Getting the LFE Exchange Docker Image&lt;/h2&gt;
 
