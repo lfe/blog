@@ -1,14 +1,376 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
 <channel>
-        <title>LFE News &amp; Updates</title>
-        <description>LFE News &amp; Updates - LFElluminati | Alien Alliance</description>
+        <title>LFE Tutorials, News, &amp; Updates</title>
+        <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-06T15:51:05-06:00</lastBuildDate>
-        <pubDate>2014-12-06T15:51:05-06:00</pubDate>
+        <lastBuildDate>2014-12-07T18:41:03-06:00</lastBuildDate>
+        <pubDate>2014-12-07T18:41:03-06:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>Running LFE in Docker</title>
+                <description>
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/DockerLogo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/DockerLogo.png&quot; /&gt;&lt;/a&gt;With the growing prominence of
+&lt;a href=&quot;&quot;&gt;Docker&lt;/a&gt; in PaaS offerings, from
+&lt;a href=&quot;https://blog.linode.com/2014/01/03/docker-on-linode/&quot;&gt;Linode&lt;/a&gt; and
+&lt;a href=&quot;https://blog.openshift.com/openshift-v3-platform-combines-docker-kubernetes-atomic-and-more/&quot;&gt;OpenShift&lt;/a&gt; to
+&lt;a href=&quot;https://cloud.google.com/appengine/docs/managed-vms/custom-runtimes&quot;&gt;Google&lt;/a&gt; and
+&lt;a href=&quot;http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html&quot;&gt;AWS&lt;/a&gt;,
+it is increasingly more crucial that open source projects support their users
+by offering images which make deploying their apps even easier. We’ve only
+&lt;a href=&quot;https://registry.hub.docker.com/u/lfex/lfe/&quot;&gt;just&lt;/a&gt;
+&lt;a href=&quot;https://github.com/rvirding/lfe/issues/97&quot;&gt;started&lt;/a&gt;
+doing this in the &lt;a href=&quot;http://lfe.io/&quot;&gt;LFE&lt;/a&gt; community, but are already quite
+excited by the possibilies and the early successes we’ve seen.&lt;/p&gt;
+
+&lt;p&gt;We’re currently working on an official LFE image for Docker, but in the mean
+time, we will demonstrate functionality with an image we’ve made available on
+the &lt;a href=&quot;https://registry.hub.docker.com/u/lfex/lfe/&quot;&gt;LFE Exchange in Docker Hub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;background-info&quot;&gt;Background Info&lt;/h2&gt;
+
+&lt;p&gt;For a wonderful intro to Docker, see last year’s OpenShift blog post
+&lt;a href=&quot;https://blog.openshift.com/day-21-docker-the-missing-tutorial/&quot;&gt;Day 21: Docker–The Missing Tutorial&lt;/a&gt;
+by &lt;a href=&quot;https://twitter.com/shekhargulati&quot;&gt;Shekhar Gulati&lt;/a&gt;. Another &lt;em&gt;fantastic&lt;/em&gt;
+resource is the
+&lt;a href=&quot;https://github.com/wsargent/docker-cheat-sheet&quot;&gt;Docker cheatsheet&lt;/a&gt; by
+&lt;a href=&quot;https://github.com/wsargent&quot;&gt;Will Sargent&lt;/a&gt; of &lt;a href=&quot;https://typesafe.com/&quot;&gt;TypeSafe&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It goes without saying, but we want to say it anyway: all of the steps below
+are just as applicable for all languages running on the
+&lt;a href=&quot;http://erlang.org/&quot;&gt;Erlang&lt;/a&gt; VM: &lt;a href=&quot;http://lfe.io/&quot;&gt;LFE&lt;/a&gt;,
+&lt;a href=&quot;http://elixir-lang.org/&quot;&gt;Elixir&lt;/a&gt;,
+&lt;a href=&quot;http://joxa.org/&quot;&gt;Joxa&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/rvirding/luerl&quot;&gt;Luerl&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/rvirding/erlog&quot;&gt;Erlog&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/etnt/Haskerl&quot;&gt;Haskerl&lt;/a&gt;, and others. (And, of course,
+non-Erlang languages … but those guys get enough attention as it is …)&lt;/p&gt;
+
+&lt;p&gt;Last but not least, when I was setting up the official LFEX org on Docker Hub,
+I was pleasantly surprised to see that someone had already pushed up
+&lt;a href=&quot;https://registry.hub.docker.com/u/alco/ubuntu-lfe&quot;&gt;an LFE image&lt;/a&gt;, one based on
+Ubuntu. Nice work, &lt;a href=&quot;https://twitter.com/true_droid&quot;&gt;Alexei Sholik&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h2 id=&quot;setup&quot;&gt;Setup&lt;/h2&gt;
+
+&lt;p&gt;This tutorial assumes the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You are using &lt;a href=&quot;http://boot2docker.io/&quot;&gt;boot2docker&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;You have &lt;a href=&quot;https://www.docker.com/&quot;&gt;Docker&lt;/a&gt; installed on a host machine&lt;/li&gt;
+  &lt;li&gt;Both are up and running&lt;/li&gt;
+  &lt;li&gt;You have exported the Docker environment variables in all the terminal
+windows you’ll be using (2 to 3 is probably all you need)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In order to connect to your containers on your LAN when running boot2docker,
+you will need to do something like the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;boot2docker ssh -L &amp;lt;HOSTMACHINE&amp;gt;:5099:127.0.0.1:5099&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The server on my LAN that’s running &lt;code&gt;boot2docker&lt;/code&gt; and VirtualBox is
+172.16.4.64. So here’s the SSH port forwarding setup I ran on 172.16.4.64
+in order to have access to my containers from a laptop on the LAN:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;$ boot2docker ssh -L 172.16.4.64:5099:127.0.0.1:5099
+                        ##        .
+                  ## ## ##       ==
+               ## ## ## ##      ===
+           /&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;&amp;quot;\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+           \______ o          __/
+             \    \        __/
+              \____\______/
+ _                 _   ____     _            _
+| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
+| &amp;#39;_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ &amp;#39;__|
+| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   &amp;lt;  __/ |
+|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
+Boot2Docker version 1.3.2, build master : 495c19a - Mon Nov 24 20:40:58 UTC 2014
+Docker version 1.3.2, build 39fa2fa
+docker@boot2docker:~$&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You’ll want to leave that window open :-)&lt;/p&gt;
+
+&lt;p&gt;Any why wouldn’t you? Just &lt;em&gt;look&lt;/em&gt; at that whale!&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-the-lfe-exchange-docker-image&quot;&gt;Getting the LFE Exchange Docker Image&lt;/h2&gt;
+
+&lt;p&gt;Assuming you have everything instatlled and your forwarding is ready to go,
+let’s continue by getting the LFE Docker image:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker pull lfex/lfe&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Once it’s finished downloading, you can make sure everything’s working by
+running the default command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run lfex/lfe
+42&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This image is dead-simple: it’s based on &lt;code&gt;debian:jessie&lt;/code&gt; with the
+standard Erlang package from Debian installed on it (as well as the others
+needed to support &lt;code&gt;git&lt;/code&gt; and &lt;code&gt;rebar&lt;/code&gt;). We’re working on support for CentOS,
+Ubuntu, and OpenSUSE as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-lfe-repl&quot;&gt;The LFE REPL&lt;/h2&gt;
+
+&lt;p&gt;Those commands are just executing the default &lt;code&gt;CMD&lt;/code&gt; directive provided with
+the image. We can use this image to run all sorts of commands in the
+container, such as &lt;code&gt;bash&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run -t -i lfex/lfe /bin/bash&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;root@95bc1d88e581:/#&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Hey, I’ve got an idea …&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;root@95bc1d88e581:/# lfe&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nv&quot;&gt;Erlang/OTP&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[erts-6.2]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[source]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[64-bit]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[smp:8:8]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[async-threads:10]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[kernel-poll:false]&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;LFE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Shell&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;V6.2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;abort&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;^G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;acc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;acc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;While we’re in here, let’s check out some basic version info:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:system_info&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;otp_release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;17&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:system_info&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;6.2&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:system_info&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;driver_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;3.1&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s quit out:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;^g&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;command&lt;/span&gt;
+ &lt;span class=&quot;nv&quot;&gt;--&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;q&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;root@c384176355bd:/# &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We’re no longer running that container, but it still exists:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker ps -a
+CONTAINER ID   IMAGE         COMMAND       CREATED    STATUS
+0a9b061634b5   f80fa561b172  &lt;span class=&quot;s2&quot;&gt;&amp;quot;/bin/bash&amp;quot;&lt;/span&gt;   &lt;span class=&quot;m&quot;&gt;47&lt;/span&gt; s ago   Exited &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12&lt;/span&gt; seconds ago&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But you know what? We can do even better than &lt;code&gt;bash&lt;/code&gt; … by jumping directly
+into our favourite REPL :-)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run -t -i lfex/lfe /usr/bin/lfe&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nv&quot;&gt;Erlang/OTP&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[erts-6.2]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[source]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[64-bit]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[smp:8:8]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[async-threads:10]&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;[kernel-poll:false]&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;LFE&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Shell&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;V6.2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;abort&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;^G&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:foldl&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;acc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;acc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;1806&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;^g&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;command&lt;/span&gt;
+ &lt;span class=&quot;nv&quot;&gt;--&amp;gt;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;q&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quitting brought us all the way out, bask to the host machine.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-simple-customisation-of-the-lfe-dockerfile&quot;&gt;A Simple Customisation of the LFE &lt;code&gt;Dockerfile&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;So far:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;We have obtained the LFE image from Docker Hub on our local machine&lt;/li&gt;
+  &lt;li&gt;We’ve run it with the default &lt;code&gt;CMD&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;We’ve run it with some custom commands&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now we should be comfortable enough using this image to create our own
+variation, based on it. We’ll start simple, thought, with a single change
+to &lt;code&gt;CMD&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir /tmp/lfe
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp/lfe
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi Dockerfile&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Copy the following into this new file (which is just a change of the
+original, upstream &lt;code&gt;lfex/lfe&lt;/code&gt; &lt;code&gt;Dockerfile&lt;/code&gt; from &lt;code&gt;6&lt;/code&gt; to &lt;code&gt;42&lt;/code&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; lfex/lfe
+&lt;span class=&quot;k&quot;&gt;CMD&lt;/span&gt; /usr/bin/lfe -eval &lt;span class=&quot;err&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;io:format &lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;~p~n&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;  &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;list &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;* &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;lists:foldl &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;lambda &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;n acc&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;+ n acc&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;lists:seq &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; 42&lt;span class=&quot;o&quot;&gt;)))))&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Save and quit:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&lt;span class=&quot;k&quot;&gt;x&lt;/span&gt;:&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And build your new Docker image:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker build .
+...
+Removing intermediate container 73cea1afcab1
+Successfully built 46957afffb2c&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Looking in the output of that last command, we can see that our new image
+has an ID of &lt;code&gt;46957afffb2c&lt;/code&gt;. Let’s tag it (using your own image, of course):&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker tag 46957afffb2c crazy42&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And run it:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run crazy42
+1806&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Excellent – that’s the right answer :-)&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at our images so far:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker images
+REPOSITORY      TAG          IMAGE ID          CREATED             VIRTUAL SIZE
+crazy42         latest       46957afffb2c      &lt;span class=&quot;m&quot;&gt;45&lt;/span&gt; minutes ago      521.9 MB
+lfe             latest       e7554d932622      About an hour ago   521.9 MB
+lfex/lfe        latest       e7554d932622      About an hour ago   521.9 MB
+debian          jessie       aaabd2b41e22      &lt;span class=&quot;m&quot;&gt;4&lt;/span&gt; weeks ago         154.7 MB&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Ready to create another one?&lt;/p&gt;
+
+&lt;h2 id=&quot;a-simple-lfeyaws-web-app-image&quot;&gt;A Simple LFE/YAWS Web App Image&lt;/h2&gt;
+
+&lt;p&gt;Let’s go nuts!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;mkdir /tmp/sample-app
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /tmp/sample-app
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;vi Dockerfile&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; lfex/lfe
+
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; APP_DIR /opt/sample-app
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; APP_REPO https://github.com/oubiwann/docker-lfe-yaws-sample-app.git
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; DEPS_DIR &lt;span class=&quot;nv&quot;&gt;$APP_DIR&lt;/span&gt;/deps
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; YAWS_DIR &lt;span class=&quot;nv&quot;&gt;$DEPS_DIR&lt;/span&gt;/yaws
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; YAWS_APP_ID sampleapp
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; LFE_DEPS &lt;span class=&quot;nv&quot;&gt;$DEPS_DIR&lt;/span&gt;/lutil:&lt;span class=&quot;nv&quot;&gt;$DEPS_DIR&lt;/span&gt;/exemplar:&lt;span class=&quot;nv&quot;&gt;$DEPS_DIR&lt;/span&gt;/lfest
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; DEPS &lt;span class=&quot;nv&quot;&gt;$YAWS_DIR&lt;/span&gt;:&lt;span class=&quot;nv&quot;&gt;$LFE_DEPS&lt;/span&gt;:&lt;span class=&quot;nv&quot;&gt;$DEPS_DIR&lt;/span&gt;/ibrowse
+&lt;span class=&quot;k&quot;&gt;ENV&lt;/span&gt; ERL_LIBS &lt;span class=&quot;nv&quot;&gt;$ERL_LIBS&lt;/span&gt;:/opt/erlang/lfe:&lt;span class=&quot;nv&quot;&gt;$DEPS&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;RUN&lt;/span&gt; apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; apt-get install -y &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;
+        libpam0g-dev
+
+&lt;span class=&quot;k&quot;&gt;RUN&lt;/span&gt; git clone &lt;span class=&quot;nv&quot;&gt;$APP_REPO&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$APP_DIR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$APP_DIR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;
+        rebar compile
+
+&lt;span class=&quot;k&quot;&gt;EXPOSE&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;5099&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;CMD&lt;/span&gt; sh -c &lt;span class=&quot;s2&quot;&gt;&amp;quot;/opt/sample-app/bin/daemon;while true; do sleep 10; done&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-vim&quot;&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;x&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker build .
+...
+Successfully built 1904cb1d856b&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can tag it:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker tag 1904cb1d856b sample-app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then run it!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker run -d -p 5099:5099 sample-app
+1b21f79c42ec84cec841b25ff17e921b4d4ce8ee247c5293d5c0d73766a4c713&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s make sure that it’s running and that our port is exposed:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker ps
+CONTAINER ID   IMAGE               COMMAND                STATUS         PORTS
+1b21f79c42ec   sample-app:latest   &lt;span class=&quot;err&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;/bin/sh -c &lt;span class=&quot;err&quot;&gt;&amp;#39;&lt;/span&gt;sh -c   Up &lt;span class=&quot;m&quot;&gt;6&lt;/span&gt; seconds   0.0.0.0:5099-&amp;gt;5099/tcp&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then open up &lt;a href=&quot;http://172.16.4.64:5099&quot;&gt;http://172.16.4.64:5099&lt;/a&gt;
+(or whatever host you setup for SSH port forwarding) in a web browser. You
+should be greeted with someething that looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/posts/docker-lfe-sample-app-main-page.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And that’s all there is to it!&lt;/p&gt;
+
+&lt;h2 id=&quot;an-lfe-web-app-aside&quot;&gt;An LFE Web App Aside&lt;/h2&gt;
+
+&lt;p&gt;If you’d like to look at the source code for this sample you, it has been
+made available here:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/oubiwann/docker-lfe-yaws-sample-app&quot;&gt;https://github.com/oubiwann/docker-lfe-yaws-sample-app&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It takes advantage of two interesting LFE libraries:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lfex/lfest&quot;&gt;lfest&lt;/a&gt; - a
+Clojure/&lt;a href=&quot;https://github.com/weavejester/compojure&quot;&gt;Compojure&lt;/a&gt;-like
+macro for defining app routes&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lfex/exemplar&quot;&gt;exemplar&lt;/a&gt; - an LFE library for HTML as
+LFE-native s-expressions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here are some highlights from the sample app:&lt;/p&gt;
+
+&lt;h3 id=&quot;routes&quot;&gt;Routes&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;defroutes&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;#39;GET&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sample-app-content:get-sidebar-content&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;arg-data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;#39;GET&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/:id&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sample-app-content:get-content&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;arg-data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;#39;GET&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/relation/:userid/:accountid&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sample-app-content:get-content&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userid&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;accountid&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;arg-data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;;; When nothing matches, do this&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;#39;NOTFOUND&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;let*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;joined-path&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string:join&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Unmatched route!~n~n&amp;quot;&lt;/span&gt;
+                   &lt;span class=&quot;s&quot;&gt;&amp;quot;Path-info: ~p~n&amp;quot;&lt;/span&gt;
+                   &lt;span class=&quot;s&quot;&gt;&amp;quot;joined path: ~p~n&amp;quot;&lt;/span&gt;
+                   &lt;span class=&quot;s&quot;&gt;&amp;quot;arg-data: ~p~n~n&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;msg-args&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;joined-path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;arg-data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;io:format&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;msg-args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sample-app-content:four-oh-four&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;++&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;strong&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Unmatched Route: &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;joined-path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;exemplar-content&quot;&gt;Exemplar Content&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;defun&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;get-side-menu&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;An example reusable menu.&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Main Page&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/3&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/content/3&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/relation/1/2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/relation/1/2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;href&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;/bob&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;404&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;closing&quot;&gt;Closing&lt;/h2&gt;
+
+&lt;p&gt;There are soooo many more examples and use cases to explore. Hopefully we’ll
+be putting some of those up on this blog for the benefit and interest of our
+kind readers.&lt;/p&gt;
+
+&lt;p&gt;If you have any questions about the material here, be sure to stop by the
+&lt;a href=&quot;https://groups.google.com/forum/#!forum/lisp-flavoured-erlang&quot;&gt;LFE mail list&lt;/a&gt;
+and let us know.&lt;/p&gt;
+
+&lt;p&gt;Also, you have any any success stories, cool new LFE Docker images, or other
+amazing tales to share, we want to hear there :-)&lt;/p&gt;
+
+&lt;p&gt;See you there!&lt;/p&gt;
+
+</description>
+                <link>http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker</link>
+                <guid>http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker</guid>
+                <pubDate>2014-12-07T00:00:00-06:00</pubDate>
+        </item>
 
         <item>
                 <title>Usability Update: IErlang Notebook (a la IPython)</title>

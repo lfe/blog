@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        Running LFE in Docker -
+      
+      LFE Tutorials, News, &amp; Updates
+    </title>
+    <meta name="description" content="LFE Community is working on growing support for Docker">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE Tutorials, News, &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    Running LFE in Docker 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/DockerLogo.png"><img class="left thumb" src="/assets/images/posts/DockerLogo.png" /></a>With the growing prominence of
+<a href="">Docker</a> in PaaS offerings, from
+<a href="https://blog.linode.com/2014/01/03/docker-on-linode/">Linode</a> and
+<a href="https://blog.openshift.com/openshift-v3-platform-combines-docker-kubernetes-atomic-and-more/">OpenShift</a> to
+<a href="https://cloud.google.com/appengine/docs/managed-vms/custom-runtimes">Google</a> and
+<a href="http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_docker.html">AWS</a>,
+it is increasingly more crucial that open source projects support their users
+by offering images which make deploying their apps even easier. We’ve only
+<a href="https://registry.hub.docker.com/u/lfex/lfe/">just</a>
+<a href="https://github.com/rvirding/lfe/issues/97">started</a>
+doing this in the <a href="http://lfe.io/">LFE</a> community, but are already quite
+excited by the possibilies and the early successes we’ve seen.</p>
+
+<p>We’re currently working on an official LFE image for Docker, but in the mean
+time, we will demonstrate functionality with an image we’ve made available on
+the <a href="https://registry.hub.docker.com/u/lfex/lfe/">LFE Exchange in Docker Hub</a>.</p>
+
+<h2 id="background-info">Background Info</h2>
+
+<p>For a wonderful intro to Docker, see last year’s OpenShift blog post
+<a href="https://blog.openshift.com/day-21-docker-the-missing-tutorial/">Day 21: Docker–The Missing Tutorial</a>
+by <a href="https://twitter.com/shekhargulati">Shekhar Gulati</a>. Another <em>fantastic</em>
+resource is the
+<a href="https://github.com/wsargent/docker-cheat-sheet">Docker cheatsheet</a> by
+<a href="https://github.com/wsargent">Will Sargent</a> of <a href="https://typesafe.com/">TypeSafe</a>.</p>
+
+<p>It goes without saying, but we want to say it anyway: all of the steps below
+are just as applicable for all languages running on the
+<a href="http://erlang.org/">Erlang</a> VM: <a href="http://lfe.io/">LFE</a>,
+<a href="http://elixir-lang.org/">Elixir</a>,
+<a href="http://joxa.org/">Joxa</a>,
+<a href="https://github.com/rvirding/luerl">Luerl</a>,
+<a href="https://github.com/rvirding/erlog">Erlog</a>,
+<a href="https://github.com/etnt/Haskerl">Haskerl</a>, and others. (And, of course,
+non-Erlang languages … but those guys get enough attention as it is …)</p>
+
+<p>Last but not least, when I was setting up the official LFEX org on Docker Hub,
+I was pleasantly surprised to see that someone had already pushed up
+<a href="https://registry.hub.docker.com/u/alco/ubuntu-lfe">an LFE image</a>, one based on
+Ubuntu. Nice work, <a href="https://twitter.com/true_droid">Alexei Sholik</a>!</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>This tutorial assumes the following:</p>
+
+<ul>
+  <li>You are using <a href="http://boot2docker.io/">boot2docker</a></li>
+  <li>You have <a href="https://www.docker.com/">Docker</a> installed on a host machine</li>
+  <li>Both are up and running</li>
+  <li>You have exported the Docker environment variables in all the terminal
+windows you’ll be using (2 to 3 is probably all you need)</li>
+</ul>
+
+<p>In order to connect to your containers on your LAN when running boot2docker,
+you will need to do something like the following:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>boot2docker ssh -L &lt;HOSTMACHINE&gt;:5099:127.0.0.1:5099</code></pre></div>
+
+<p>The server on my LAN that’s running <code>boot2docker</code> and VirtualBox is
+172.16.4.64. So here’s the SSH port forwarding setup I ran on 172.16.4.64
+in order to have access to my containers from a laptop on the LAN:</p>
+
+<div class="highlight"><pre><code class="language-text">$ boot2docker ssh -L 172.16.4.64:5099:127.0.0.1:5099
+                        ##        .
+                  ## ## ##       ==
+               ## ## ## ##      ===
+           /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
+      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+           \______ o          __/
+             \    \        __/
+              \____\______/
+ _                 _   ____     _            _
+| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
+| &#39;_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ &#39;__|
+| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   &lt;  __/ |
+|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
+Boot2Docker version 1.3.2, build master : 495c19a - Mon Nov 24 20:40:58 UTC 2014
+Docker version 1.3.2, build 39fa2fa
+docker@boot2docker:~$</code></pre></div>
+
+<p>You’ll want to leave that window open :-)</p>
+
+<p>Any why wouldn’t you? Just <em>look</em> at that whale!</p>
+
+<h2 id="getting-the-lfe-exchange-docker-image">Getting the LFE Exchange Docker Image</h2>
+
+<p>Assuming you have everything instatlled and your forwarding is ready to go,
+let’s continue by getting the LFE Docker image:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker pull lfex/lfe</code></pre></div>
+
+<p>Once it’s finished downloading, you can make sure everything’s working by
+running the default command:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run lfex/lfe
+42</code></pre></div>
+
+<p>This image is dead-simple: it’s based on <code>debian:jessie</code> with the
+standard Erlang package from Debian installed on it (as well as the others
+needed to support <code>git</code> and <code>rebar</code>). We’re working on support for CentOS,
+Ubuntu, and OpenSUSE as well.</p>
+
+<h2 id="the-lfe-repl">The LFE REPL</h2>
+
+<p>Those commands are just executing the default <code>CMD</code> directive provided with
+the image. We can use this image to run all sorts of commands in the
+container, such as <code>bash</code>:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run -t -i lfex/lfe /bin/bash</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash">root@95bc1d88e581:/#</code></pre></div>
+
+<p>Hey, I’ve got an idea …</p>
+
+<div class="highlight"><pre><code class="language-bash">root@95bc1d88e581:/# lfe</code></pre></div>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nv">Erlang/OTP</span> <span class="mi">17</span> <span class="nv">[erts-6.2]</span> <span class="nv">[source]</span> <span class="nv">[64-bit]</span> <span class="nv">[smp:8:8]</span> <span class="nv">[async-threads:10]</span> <span class="nv">[kernel-poll:false]</span>
+
+<span class="nv">LFE</span> <span class="nv">Shell</span> <span class="nv">V6.2</span> <span class="p">(</span><span class="nb">abort</span> <span class="nv">with</span> <span class="nv">^G</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="p">(</span><span class="nv">lists:foldl</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">n</span> <span class="nv">acc</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="nv">acc</span><span class="p">))</span> <span class="mi">0</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">6</span><span class="p">)))</span>
+<span class="mi">42</span></code></pre></div>
+
+<p>While we’re in here, let’s check out some basic version info:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">erlang:system_info</span> <span class="ss">&#39;otp_release</span><span class="p">)</span>
+<span class="s">&quot;17&quot;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">erlang:system_info</span> <span class="ss">&#39;version</span><span class="p">)</span>
+<span class="s">&quot;6.2&quot;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">erlang:system_info</span> <span class="ss">&#39;driver_version</span><span class="p">)</span>
+<span class="s">&quot;3.1&quot;</span></code></pre></div>
+
+<p>Let’s quit out:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="nv">^g</span>
+<span class="nv">User</span> <span class="nv">switch</span> <span class="nv">command</span>
+ <span class="nv">--&gt;</span> <span class="nv">q</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash">root@c384176355bd:/# <span class="nb">exit</span>
+<span class="nb">exit</span></code></pre></div>
+
+<p>We’re no longer running that container, but it still exists:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker ps -a
+CONTAINER ID   IMAGE         COMMAND       CREATED    STATUS
+0a9b061634b5   f80fa561b172  <span class="s2">&quot;/bin/bash&quot;</span>   <span class="m">47</span> s ago   Exited <span class="o">(</span>0<span class="o">)</span> <span class="m">12</span> seconds ago</code></pre></div>
+
+<p>But you know what? We can do even better than <code>bash</code> … by jumping directly
+into our favourite REPL :-)</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run -t -i lfex/lfe /usr/bin/lfe</code></pre></div>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nv">Erlang/OTP</span> <span class="mi">17</span> <span class="nv">[erts-6.2]</span> <span class="nv">[source]</span> <span class="nv">[64-bit]</span> <span class="nv">[smp:8:8]</span> <span class="nv">[async-threads:10]</span> <span class="nv">[kernel-poll:false]</span>
+
+<span class="nv">LFE</span> <span class="nv">Shell</span> <span class="nv">V6.2</span> <span class="p">(</span><span class="nb">abort</span> <span class="nv">with</span> <span class="nv">^G</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="p">(</span><span class="nv">lists:foldl</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">n</span> <span class="nv">acc</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="nv">acc</span><span class="p">))</span> <span class="mi">0</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">42</span><span class="p">)))</span>
+<span class="mi">1806</span>
+<span class="nb">&gt;</span> <span class="nv">^g</span>
+<span class="nv">User</span> <span class="nv">switch</span> <span class="nv">command</span>
+ <span class="nv">--&gt;</span> <span class="nv">q</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span></code></pre></div>
+
+<p>Quitting brought us all the way out, bask to the host machine.</p>
+
+<h2 id="a-simple-customisation-of-the-lfe-dockerfile">A Simple Customisation of the LFE <code>Dockerfile</code></h2>
+
+<p>So far:</p>
+
+<ul>
+  <li>We have obtained the LFE image from Docker Hub on our local machine</li>
+  <li>We’ve run it with the default <code>CMD</code></li>
+  <li>We’ve run it with some custom commands</li>
+</ul>
+
+<p>Now we should be comfortable enough using this image to create our own
+variation, based on it. We’ll start simple, thought, with a single change
+to <code>CMD</code>.</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>mkdir /tmp/lfe
+<span class="nv">$ </span><span class="nb">cd</span> /tmp/lfe
+<span class="nv">$ </span>vi Dockerfile</code></pre></div>
+
+<p>Copy the following into this new file (which is just a change of the
+original, upstream <code>lfex/lfe</code> <code>Dockerfile</code> from <code>6</code> to <code>42</code>):</p>
+
+<div class="highlight"><pre><code class="language-dockerfile"><span class="k">FROM</span> lfex/lfe
+<span class="k">CMD</span> /usr/bin/lfe -eval <span class="err">&quot;</span><span class="o">(</span>io:format <span class="se">\&quot;</span>~p~n<span class="se">\&quot;</span>  <span class="err">\</span>
+    <span class="o">(</span>list <span class="o">(</span>* <span class="m">2</span> <span class="o">(</span>lists:foldl <span class="o">(</span>lambda <span class="o">(</span>n acc<span class="o">)</span> <span class="o">(</span>+ n acc<span class="o">))</span> <span class="m">0</span> <span class="o">(</span>lists:seq <span class="m">1</span> 42<span class="o">)))))</span><span class="err">&quot;</span></code></pre></div>
+
+<p>Save and quit:</p>
+
+<div class="highlight"><pre><code class="language-vim"><span class="k">x</span>:</code></pre></div>
+
+<p>And build your new Docker image:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker build .
+...
+Removing intermediate container 73cea1afcab1
+Successfully built 46957afffb2c</code></pre></div>
+
+<p>Looking in the output of that last command, we can see that our new image
+has an ID of <code>46957afffb2c</code>. Let’s tag it (using your own image, of course):</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker tag 46957afffb2c crazy42</code></pre></div>
+
+<p>And run it:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run crazy42
+1806</code></pre></div>
+
+<p>Excellent – that’s the right answer :-)</p>
+
+<p>Let’s take a look at our images so far:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker images
+REPOSITORY      TAG          IMAGE ID          CREATED             VIRTUAL SIZE
+crazy42         latest       46957afffb2c      <span class="m">45</span> minutes ago      521.9 MB
+lfe             latest       e7554d932622      About an hour ago   521.9 MB
+lfex/lfe        latest       e7554d932622      About an hour ago   521.9 MB
+debian          jessie       aaabd2b41e22      <span class="m">4</span> weeks ago         154.7 MB</code></pre></div>
+
+<p>Ready to create another one?</p>
+
+<h2 id="a-simple-lfeyaws-web-app-image">A Simple LFE/YAWS Web App Image</h2>
+
+<p>Let’s go nuts!</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>mkdir /tmp/sample-app
+<span class="nv">$ </span><span class="nb">cd</span> /tmp/sample-app
+<span class="nv">$ </span>vi Dockerfile</code></pre></div>
+
+<div class="highlight"><pre><code class="language-dockerfile"><span class="k">FROM</span> lfex/lfe
+
+<span class="k">ENV</span> APP_DIR /opt/sample-app
+<span class="k">ENV</span> APP_REPO https://github.com/oubiwann/docker-lfe-yaws-sample-app.git
+<span class="k">ENV</span> DEPS_DIR <span class="nv">$APP_DIR</span>/deps
+<span class="k">ENV</span> YAWS_DIR <span class="nv">$DEPS_DIR</span>/yaws
+<span class="k">ENV</span> YAWS_APP_ID sampleapp
+<span class="k">ENV</span> LFE_DEPS <span class="nv">$DEPS_DIR</span>/lutil:<span class="nv">$DEPS_DIR</span>/exemplar:<span class="nv">$DEPS_DIR</span>/lfest
+<span class="k">ENV</span> DEPS <span class="nv">$YAWS_DIR</span>:<span class="nv">$LFE_DEPS</span>:<span class="nv">$DEPS_DIR</span>/ibrowse
+<span class="k">ENV</span> ERL_LIBS <span class="nv">$ERL_LIBS</span>:/opt/erlang/lfe:<span class="nv">$DEPS</span>
+
+<span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="err">\</span>
+        libpam0g-dev
+
+<span class="k">RUN</span> git clone <span class="nv">$APP_REPO</span> <span class="nv">$APP_DIR</span> <span class="o">&amp;&amp;</span> <span class="err">\</span>
+        <span class="nb">cd</span> <span class="nv">$APP_DIR</span> <span class="o">&amp;&amp;</span> <span class="err">\</span>
+        rebar compile
+
+<span class="k">EXPOSE</span> <span class="m">5099</span>
+
+<span class="k">CMD</span> sh -c <span class="s2">&quot;/opt/sample-app/bin/daemon;while true; do sleep 10; done&quot;</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-vim"><span class="p">:</span><span class="k">x</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker build .
+...
+Successfully built 1904cb1d856b</code></pre></div>
+
+<p>Now we can tag it:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker tag 1904cb1d856b sample-app</code></pre></div>
+
+<p>And then run it!</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run -d -p 5099:5099 sample-app
+1b21f79c42ec84cec841b25ff17e921b4d4ce8ee247c5293d5c0d73766a4c713</code></pre></div>
+
+<p>Let’s make sure that it’s running and that our port is exposed:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker ps
+CONTAINER ID   IMAGE               COMMAND                STATUS         PORTS
+1b21f79c42ec   sample-app:latest   <span class="err">&quot;</span><span class="se">\&quot;</span>/bin/sh -c <span class="err">&#39;</span>sh -c   Up <span class="m">6</span> seconds   0.0.0.0:5099-&gt;5099/tcp</code></pre></div>
+
+<p>And then open up <a href="http://172.16.4.64:5099">http://172.16.4.64:5099</a>
+(or whatever host you setup for SSH port forwarding) in a web browser. You
+should be greeted with someething that looks like this:</p>
+
+<p><img src="/assets/images/posts/docker-lfe-sample-app-main-page.png" /></p>
+
+<p>And that’s all there is to it!</p>
+
+<h2 id="an-lfe-web-app-aside">An LFE Web App Aside</h2>
+
+<p>If you’d like to look at the source code for this sample you, it has been
+made available here:</p>
+
+<ul>
+  <li><a href="https://github.com/oubiwann/docker-lfe-yaws-sample-app">https://github.com/oubiwann/docker-lfe-yaws-sample-app</a></li>
+</ul>
+
+<p>It takes advantage of two interesting LFE libraries:</p>
+
+<ul>
+  <li><a href="https://github.com/lfex/lfest">lfest</a> - a
+Clojure/<a href="https://github.com/weavejester/compojure">Compojure</a>-like
+macro for defining app routes</li>
+  <li><a href="https://github.com/lfex/exemplar">exemplar</a> - an LFE library for HTML as
+LFE-native s-expressions</li>
+</ul>
+
+<p>Here are some highlights from the sample app:</p>
+
+<h3 id="routes">Routes</h3>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">defroutes</span>
+  <span class="p">(</span><span class="ss">&#39;GET</span> <span class="s">&quot;/&quot;</span>
+    <span class="p">(</span><span class="nv">sample-app-content:get-sidebar-content</span> <span class="nv">arg-data</span><span class="p">))</span>
+  <span class="p">(</span><span class="ss">&#39;GET</span> <span class="s">&quot;/content/:id&quot;</span>
+    <span class="p">(</span><span class="nv">sample-app-content:get-content</span> <span class="nv">id</span> <span class="nv">arg-data</span><span class="p">))</span>
+  <span class="p">(</span><span class="ss">&#39;GET</span> <span class="s">&quot;/relation/:userid/:accountid&quot;</span>
+    <span class="p">(</span><span class="nv">sample-app-content:get-content</span> <span class="nv">userid</span> <span class="nv">accountid</span> <span class="nv">arg-data</span><span class="p">))</span>
+  <span class="c1">;; When nothing matches, do this</span>
+  <span class="p">(</span><span class="ss">&#39;NOTFOUND</span>
+   <span class="p">(</span><span class="k">let*</span> <span class="p">((</span><span class="nv">joined-path</span> <span class="p">(</span><span class="nv">++</span> <span class="s">&quot;/&quot;</span> <span class="p">(</span><span class="nv">string:join</span> <span class="nv">path</span> <span class="s">&quot;/&quot;</span><span class="p">)))</span>
+          <span class="p">(</span><span class="nv">msg</span> <span class="p">(</span><span class="nv">++</span> <span class="s">&quot;Unmatched route!~n~n&quot;</span>
+                   <span class="s">&quot;Path-info: ~p~n&quot;</span>
+                   <span class="s">&quot;joined path: ~p~n&quot;</span>
+                   <span class="s">&quot;arg-data: ~p~n~n&quot;</span><span class="p">))</span>
+          <span class="p">(</span><span class="nv">msg-args</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">path</span> <span class="o">,</span><span class="nv">joined-path</span> <span class="o">,</span><span class="nv">arg-data</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">io:format</span> <span class="nv">msg</span> <span class="nv">msg-args</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">sample-app-content:four-oh-four</span>
+      <span class="p">(</span><span class="nv">++</span> <span class="p">(</span><span class="nv">strong</span> <span class="s">&quot;Unmatched Route: &quot;</span><span class="p">)</span> <span class="nv">joined-path</span><span class="p">)))))</span></code></pre></div>
+
+<h3 id="exemplar-content">Exemplar Content</h3>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nb">defun</span> <span class="nv">get-side-menu</span> <span class="p">()</span>
+  <span class="s">&quot;An example reusable menu.&quot;</span>
+  <span class="p">(</span><span class="nb">list</span>
+    <span class="p">(</span><span class="nv">li</span> <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="s">&quot;Main Page&quot;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">li</span> <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/content/1&quot;</span><span class="p">)</span> <span class="s">&quot;/content/1&quot;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">li</span> <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/content/2&quot;</span><span class="p">)</span> <span class="s">&quot;/content/2&quot;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">li</span> <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/content/3&quot;</span><span class="p">)</span> <span class="s">&quot;/content/3&quot;</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">li</span>
+      <span class="p">(</span><span class="nb">list</span>
+        <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/relation/1/2&quot;</span><span class="p">)</span> <span class="s">&quot;/relation/1/2&quot;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">li</span> <span class="p">(</span><span class="nv">a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">href</span> <span class="s">&quot;/bob&quot;</span><span class="p">)</span> <span class="s">&quot;404&quot;</span><span class="p">))))</span></code></pre></div>
+
+<h2 id="closing">Closing</h2>
+
+<p>There are soooo many more examples and use cases to explore. Hopefully we’ll
+be putting some of those up on this blog for the benefit and interest of our
+kind readers.</p>
+
+<p>If you have any questions about the material here, be sure to stop by the
+<a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">LFE mail list</a>
+and let us know.</p>
+
+<p>Also, you have any any success stories, cool new LFE Docker images, or other
+amazing tales to share, we want to hear there :-)</p>
+
+<p>See you there!</p>
+
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython" title="Usability Update: IErlang Notebook (a la IPython)">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Duncan McGreggor</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>07 December 2014</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          tutorials
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#docker-ref">docker <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#paas-ref">paas <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#howtos-ref">howtos <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#web-ref">web <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#apps-ref">apps <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#ops-ref">ops <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#lfest-ref">lfest <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#exemplar-ref">exemplar <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#boot2docker-ref">boot2docker <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

@@ -88,3 +88,7 @@ blockquote {
 li {
     line-height: 1.5em;
 }
+
+h2 code {
+    font-size: 80%;
+}
