@@ -93,7 +93,7 @@ docker@boot2docker:~$
 
 You'll want to leave that window open :-)
 
-Any why wouldn't you? Just *look* at that whale!
+And why wouldn't you? Just *look* at that whale!
 
 
 ## Getting the LFE Exchange Docker Image
