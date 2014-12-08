@@ -352,7 +352,7 @@ And that's all there is to it!
 
 ## An LFE Web App Aside
 
-If you'd like to look at the source code for this sample you, it has been
+If you'd like to look at the source code for this sample app, it has been
 made available here:
 
  * [https://github.com/oubiwann/docker-lfe-yaws-sample-app](https://github.com/oubiwann/docker-lfe-yaws-sample-app)
