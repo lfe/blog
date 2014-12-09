@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-08T19:36:56-06:00</lastBuildDate>
-        <pubDate>2014-12-08T19:36:56-06:00</pubDate>
+        <lastBuildDate>2014-12-08T19:38:44-06:00</lastBuildDate>
+        <pubDate>2014-12-08T19:38:44-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -16,8 +16,10 @@
 &lt;p&gt;lfest 0.0.2 includes the addition of text-only responses in addition to the
 already-supported HTML and JSON responses. This addition was made in order to
 more readily support LFE web app developers writing for services such as Google
-App Engine that expect apps to implement particular resource endpoints which
-return plain-text responses.&lt;/p&gt;
+App Engine that expect apps to implementparticular resource endpoints
+(e.g.,
+&lt;a href=&quot;https://cloud.google.com/appengine/docs/python/managed-vms/#health_checking&quot;&gt;/_ah/health&lt;/a&gt;
+which return plain-text responses.&lt;/p&gt;
 
 &lt;p&gt;More information:&lt;/p&gt;
 
