@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <title>
       
-        lfetool v1.2 Is Out! -
+        lfest 0.0.2 Is Released -
       
       LFE Tutorials, News, &amp; Updates
     </title>
-    <meta name="description" content="Notes on the latest interim release of lfetool">
+    <meta name="description" content="New Version of lfest Available">
     <meta name="author" content="LFElluminati | Alien Alliance">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -169,7 +169,7 @@
           
 <div class="page-header">
   <h1>
-    lfetool v1.2 Is Out! 
+    lfest 0.0.2 Is Released 
     
   </h1>
 </div>
@@ -177,47 +177,27 @@
 <div class="row">
   <div class="span8">
     
-<p>We’ve just pushed out the latest version of lfetool in the v1.x series. This
-was done as a result of several bug reports and conversations made on IRC
-(#erlang-lisp, Freenode).</p>
+<p>lfest 0.0.2 includes the addition of text-only responses in addition to the
+already-supported HTML and JSON responses. This addition was made in order to
+more readily support LFE web app developers writing for services such as Google
+App Engine that expect apps to implement particular resource endpoints which
+return plain-text responses.</p>
 
-<p>You can get the latest here:</p>
-
-<ul>
-  <li><a href="https://github.com/lfe/lfetool/releases/tag/1.2.0">https://github.com/lfe/lfetool/releases/tag/1.2.0</a></li>
-  <li><a href="https://github.com/lfe/lfetool/tree/milestone-v1.2">https://github.com/lfe/lfetool/tree/milestone-v1.2</a></li>
-</ul>
-
-<p>The <a href="http://docs.lfe.io/quick-start/1.html">LFE Quick Start</a> has also been
-updated so that newcomers start off right with the latest stable release of
-lfetool :-)</p>
-
-<p>The issues addressed in the 1.2 release can be found here:</p>
-
-<ul>
-  <li><a href="https://github.com/lfe/lfetool/issues?q=milestone%3A%22Version+1.2%22+is%3Aclosed">Milestone 1.2 Issues</a></li>
-</ul>
-
-<p>Most of the bug reports actually boiled down to issues with conflicting
-versions of dependency libraries in project rebar.config files. There was a
-recent switch to lutil (away from lfe-utils) and ltest (away from lfeunit and
-lunit), and older versions of lfetool couldn’t handle these. Also, some changes
-made to lfeutils and or lfeunit just prior to the switch caused some cyclic
-dependencies in rebar.</p>
-
-<p>Do keep in mind that there’s a lot of work going into the v2 rewrite of lfetool
-(code is being converted from Bash to LFE), and this release isn’t a
-distraction from this effort, but rather an attempt at an improved user
-experience for current users :-)</p>
+<p>More information:
+ * <a href="https://github.com/lfex/lfest">lfest repo</a>
+ * <a href="https://github.com/lfex/lfest/releases/tag/0.0.2">lfest 0.0.2</a>
+ * An LFE-Erlang-Docker
+   <a href="https://github.com/oubiwann/docker-lfe-yaws-sample-app">example web app</a>
+   which uses lfest for its routing and responses</p>
 
     <hr>
     <div class="pagination btn-group">
       
-        <a class="btn prev" href="/conferences/2014/07/23/0849-erlang--oscon-2014" title="Erlang @ OSCON 2014">&larr; Previous</a>
+        <a class="btn prev" href="/tutorials/2014/12/07/1837-running-lfe-in-docker" title="Running LFE in Docker">&larr; Previous</a>
       
         <a class="btn" href="/archive.html">Archive</a>
       
-        <a class="btn next" href="/tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe" title="ErlPort: Using Python from Erlang/LFE">Next &rarr;</a>
+        <a class="btn next disabled">Next &rarr;</a>
       
     </div>
     <hr>
@@ -231,13 +211,13 @@ experience for current users :-)</p>
     </section>
     <section>
       <h4>Published</h4>
-      <div class="date"><span>31 August 2014</span></div>
+      <div class="date"><span>08 December 2014</span></div>
     </section>
     
       <section>
         <h4>Category</h4>
         <span class="category">
-          releases
+          announcements
         </span>
       </section>
          
@@ -253,7 +233,7 @@ experience for current users :-)</p>
      
     	<li><a href="/tags.html#releases-ref">releases <span>2</span></a></li>
      
-    	<li><a href="/tags.html#updates-ref">updates <span>2</span></a></li>
+    	<li><a href="/tags.html#libraries-ref">libraries <span>3</span></a></li>
     
   
 
