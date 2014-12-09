@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-08T19:35:46-06:00</lastBuildDate>
-        <pubDate>2014-12-08T19:35:46-06:00</pubDate>
+        <lastBuildDate>2014-12-08T19:36:56-06:00</lastBuildDate>
+        <pubDate>2014-12-08T19:36:56-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -19,12 +19,15 @@ more readily support LFE web app developers writing for services such as Google
 App Engine that expect apps to implement particular resource endpoints which
 return plain-text responses.&lt;/p&gt;
 
-&lt;p&gt;More information:
- * &lt;a href=&quot;https://github.com/lfex/lfest&quot;&gt;lfest repo&lt;/a&gt;
- * &lt;a href=&quot;https://github.com/lfex/lfest/releases/tag/0.0.2&quot;&gt;lfest 0.0.2&lt;/a&gt;
- * An LFE-Erlang-Docker
-   &lt;a href=&quot;https://github.com/oubiwann/docker-lfe-yaws-sample-app&quot;&gt;example web app&lt;/a&gt;
-   which uses lfest for its routing and responses&lt;/p&gt;
+&lt;p&gt;More information:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lfex/lfest&quot;&gt;lfest repo&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/lfex/lfest/releases/tag/0.0.2&quot;&gt;lfest 0.0.2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;An LFE-Erlang-Docker
+&lt;a href=&quot;https://github.com/oubiwann/docker-lfe-yaws-sample-app&quot;&gt;example web app&lt;/a&gt;
+which uses lfest for its routing and responses&lt;/li&gt;
+&lt;/ul&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released</guid>
