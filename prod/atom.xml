@@ -4,7 +4,7 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-14T16:45:53-06:00</updated>
+ <updated>2014-12-14T16:58:11-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -69,16 +69,18 @@ just use &lt;code&gt;seq/2&lt;/code&gt;, e.g. &lt;code&gt;(seq 0 10)&lt;/code&gt
 
 &lt;h3 id=&quot;range-functions&quot;&gt;&lt;code&gt;range&lt;/code&gt; Functions&lt;/h3&gt;
 
-&lt;p&gt;These functions were inspired by Clojure’s &lt;code&gt;range&lt;/code&gt; function as well as
+&lt;p&gt;These functions were inspired by Clojure’s
+&lt;a href=&quot;https://github.com/clojure/clojure/blob/clojure-1.6.0/src/clj/clojure/core.clj#L2725&quot;&gt;range&lt;/a&gt;
+function as well as
 &lt;a href=&quot;https://docs.python.org/3/glossary.html#term-generator&quot;&gt;Python generators&lt;/a&gt;.
-&lt;code&gt;range&lt;/code&gt; provides us with the ability to generate an endless series of
+Our &lt;code&gt;range&lt;/code&gt; provides us with the ability to generate an endless series of
 integers or floating point numbers without using more memory that what is
 required to create a few functions.&lt;/p&gt;
 
 &lt;p&gt;Unlike Python and Clojure, &lt;code&gt;range&lt;/code&gt; is based upon Erlang’s capacity for its
 own brand of lazy evaluation as demonstrated in
 &lt;a href=&quot;http://erlangraymondtay.blogspot.com/2009/08/example-of-lazy-evaluation-for.html&quot;&gt;this blog post&lt;/a&gt;.
-In particular, &lt;code&gt;(range)&lt;/code&gt; returns a function (an so is more akin to Python’s
+In particular, &lt;code&gt;(range)&lt;/code&gt; returns a function (and so is more akin to Python’s
 generators that Clojure’s &lt;code&gt;range&lt;/code&gt; function). When called, it will return a
 &lt;code&gt;cons&lt;/code&gt; of:&lt;/p&gt;
 
@@ -123,10 +125,10 @@ Otherwise, we’re left with usage like the following:&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Fun&amp;lt;lfe_eval.23.86468545&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;It certainly has its own peculiar charm, but not too high in convenience.
-As such, a function like Clojure’s &lt;code&gt;take&lt;/code&gt; has been added to lutil &lt;code&gt;core&lt;/code&gt;.
-It does just what is says: takes a certain number of elements from our infinite
-series.&lt;/p&gt;
+&lt;p&gt;That certainly has its own &lt;em&gt;peculiar&lt;/em&gt; charm, but does not rate too highly in
+convenience. As such, a function like Clojure’s &lt;code&gt;take&lt;/code&gt; has been added to
+lutil &lt;code&gt;core&lt;/code&gt;. It does just what is says: takes a certain number of elements
+from our infinite series.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;take&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -159,7 +161,7 @@ further (also: patches welcome!).&lt;/p&gt;
 &lt;h3 id=&quot;next-functions&quot;&gt;&lt;code&gt;next&lt;/code&gt; Functions&lt;/h3&gt;
 
 &lt;p&gt;Under the hood, the &lt;code&gt;range&lt;/code&gt; function actually wraps the &lt;code&gt;next&lt;/code&gt; function.
-&lt;code&gt;next&lt;/code&gt; is a more general form that will repeatedly call the provided
+&lt;code&gt;next&lt;/code&gt; is a more general form that will repeatedly call a user-provided
 2-arity function. In the case of &lt;code&gt;range&lt;/code&gt;, that function is addition.&lt;/p&gt;
 
 &lt;p&gt;For example, the following are identical:&lt;/p&gt;
@@ -172,7 +174,7 @@ further (also: patches welcome!).&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;15&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You may use &lt;code&gt;next&lt;/code&gt; directly to define your own infinite sequences. Here
-are a couple of whacky examples:&lt;/p&gt;
+are a few examples:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;take&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;next&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;66&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;201&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;606&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1821&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5466&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16401&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;49206&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -184,11 +186,12 @@ are a couple of whacky examples:&lt;/p&gt;
 &lt;h2 id=&quot;predicates-include-file&quot;&gt;Predicates Include File&lt;/h2&gt;
 
 &lt;p&gt;This set of changes (and examples) is the most tame of the bunch. lutil
-has implemented several predicates of the form &lt;code&gt;name?&lt;/code&gt; for the past while.
-While project have started to rely upon these more heavily, it seemed prudent
-to provide them in include-form (thus alleviating developers having to use the
-full &lt;code&gt;mod:fun&lt;/code&gt; syntax or from complicated and hard-to-maintain special
-imports).&lt;/p&gt;
+has implemented several predicates of the form &lt;code&gt;name?&lt;/code&gt; for the past while.&lt;/p&gt;
+
+&lt;p&gt;As projects have started to rely upon these more heavily, it seemed prudent
+to provide the increasingly-more-used predicates in include-form (thus
+alleviating developers having to use the full &lt;code&gt;mod:fun&lt;/code&gt; syntax or from
+complicated and hard-to-maintain special imports).&lt;/p&gt;
 
 &lt;p&gt;Here’s a quick way of seeing which predicates are supported:&lt;/p&gt;
 
@@ -217,7 +220,9 @@ brought in from &lt;code&gt;include-lib&lt;/code&gt;:&lt;/p&gt;
 &lt;span class=&quot;nv&quot;&gt;ok&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You can use the predicates include from the REPL or in modules with the usual
-&lt;code&gt;include-lib&lt;/code&gt; call, as above. Here are some usage examples:&lt;/p&gt;
+&lt;code&gt;include-lib&lt;/code&gt; call, as above.&lt;/p&gt;
+
+&lt;p&gt;Some example usage:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;zero?&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;
@@ -230,10 +235,11 @@ brought in from &lt;code&gt;include-lib&lt;/code&gt;:&lt;/p&gt;
 
 &lt;h2 id=&quot;compose-functions&quot;&gt;&lt;code&gt;compose&lt;/code&gt; Functions&lt;/h2&gt;
 
-&lt;p&gt;All the previous changes for 0.5.0 were actually yak-shavings in support of
-the &lt;code&gt;compose&lt;/code&gt; functions that were added as companions to the threshing macros
-(see below). These are similar to Clojure’s &lt;code&gt;compose&lt;/code&gt; function, but with
-some syntactic sugar to assist with the fact that LFE is a Lisp-2.&lt;/p&gt;
+&lt;p&gt;All of the 0.5.0 changes detailed above were actually yak-shavings in support of
+the &lt;code&gt;compose&lt;/code&gt; functions. These new functions have been added as companions to
+the threshing macros (see below). These are similar to Clojure’s &lt;code&gt;compose&lt;/code&gt;
+function, but with some syntactic sugar to assist with the fact that LFE is a
+Lisp-2.&lt;/p&gt;
 
 &lt;p&gt;Pull in the functions:&lt;/p&gt;
 
@@ -246,7 +252,7 @@ some syntactic sugar to assist with the fact that LFE is a Lisp-2.&lt;/p&gt;
            &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;mf&quot;&gt;0.49999999999999994&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now let’s use ``compose/&lt;code&gt;1&lt;/code&gt; on a list of functions:&lt;/p&gt;
+&lt;p&gt;Now let’s use &lt;code&gt;compose/1&lt;/code&gt; on a list of functions:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;funcall&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;compose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;math:sin/1&lt;/span&gt;
                       &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;math:asin/1&lt;/span&gt;
@@ -262,9 +268,9 @@ some syntactic sugar to assist with the fact that LFE is a Lisp-2.&lt;/p&gt;
                 &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Unlike schemes and Clojure, we can’t just wrap parens around our function,
-we need to call &lt;code&gt;funcall&lt;/code&gt; on it. But we can cheat, with a little help
-from Erlang arities :-)&lt;/p&gt;
+&lt;p&gt;Unlike schemes and Clojure, when calling &lt;code&gt;compose&lt;/code&gt; directly, we can’t just
+wrap parens around our function – we need to call &lt;code&gt;funcall&lt;/code&gt; on it. But we can
+cheat, with a little help from Erlang arities :-)&lt;/p&gt;
 
 &lt;p&gt;The following are provided as conveniences when using compose by itself (in
 other words, not in a call to &lt;code&gt;lists:map&lt;/code&gt;, &lt;code&gt;lists:filter&lt;/code&gt;, a predicate,

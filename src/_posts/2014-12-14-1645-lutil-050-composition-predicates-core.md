@@ -63,16 +63,18 @@ just use ``seq/2``, e.g. ``(seq 0 10)``.
 
 ### ``range`` Functions
 
-These functions were inspired by Clojure's ``range`` function as well as
+These functions were inspired by Clojure's
+[range](https://github.com/clojure/clojure/blob/clojure-1.6.0/src/clj/clojure/core.clj#L2725)
+function as well as
 [Python generators](https://docs.python.org/3/glossary.html#term-generator).
-``range`` provides us with the ability to generate an endless series of
+Our ``range`` provides us with the ability to generate an endless series of
 integers or floating point numbers without using more memory that what is
 required to create a few functions.
 
 Unlike Python and Clojure, ``range`` is based upon Erlang's capacity for its
 own brand of lazy evaluation as demonstrated in
 [this blog post](http://erlangraymondtay.blogspot.com/2009/08/example-of-lazy-evaluation-for.html).
-In particular, ``(range)`` returns a function (an so is more akin to Python's
+In particular, ``(range)`` returns a function (and so is more akin to Python's
 generators that Clojure's ``range`` function). When called, it will return a
 ``cons`` of:
 
@@ -118,10 +120,10 @@ Otherwise, we're left with usage like the following:
 >
 ```
 
-It certainly has its own peculiar charm, but not too high in convenience.
-As such, a function like Clojure's ``take`` has been added to lutil ``core``.
-It does just what is says: takes a certain number of elements from our infinite
-series.
+That certainly has its own *peculiar* charm, but does not rate too highly in
+convenience. As such, a function like Clojure's ``take`` has been added to
+lutil ``core``. It does just what is says: takes a certain number of elements
+from our infinite series.
 
 ```cl
 > (take 4 (range))
@@ -161,7 +163,7 @@ further (also: patches welcome!).
 ### ``next`` Functions
 
 Under the hood, the ``range`` function actually wraps the ``next`` function.
-``next`` is a more general form that will repeatedly call the provided
+``next`` is a more general form that will repeatedly call a user-provided
 2-arity function. In the case of ``range``, that function is addition.
 
 For example, the following are identical:
@@ -176,7 +178,7 @@ For example, the following are identical:
 ```
 
 You may use ``next`` directly to define your own infinite sequences. Here
-are a couple of whacky examples:
+are a few examples:
 
 ```cl
 > (take 10 (next (lambda (x y) (* 3 (+ x y))) 1 1))
@@ -192,10 +194,11 @@ are a couple of whacky examples:
 
 This set of changes (and examples) is the most tame of the bunch. lutil
 has implemented several predicates of the form ``name?`` for the past while.
-While project have started to rely upon these more heavily, it seemed prudent
-to provide them in include-form (thus alleviating developers having to use the
-full ``mod:fun`` syntax or from complicated and hard-to-maintain special
-imports).
+
+As projects have started to rely upon these more heavily, it seemed prudent
+to provide the increasingly-more-used predicates in include-form (thus
+alleviating developers having to use the full ``mod:fun`` syntax or from
+complicated and hard-to-maintain special imports).
 
 Here's a quick way of seeing which predicates are supported:
 
@@ -228,7 +231,9 @@ ok
 ```
 
 You can use the predicates include from the REPL or in modules with the usual
-``include-lib`` call, as above. Here are some usage examples:
+``include-lib`` call, as above.
+
+Some example usage:
 
 ```cl
 > (zero? 0)
@@ -244,10 +249,11 @@ true
 
 ## ``compose`` Functions
 
-All the previous changes for 0.5.0 were actually yak-shavings in support of
-the ``compose`` functions that were added as companions to the threshing macros
-(see below). These are similar to Clojure's ``compose`` function, but with
-some syntactic sugar to assist with the fact that LFE is a Lisp-2.
+All of the 0.5.0 changes detailed above were actually yak-shavings in support of
+the ``compose`` functions. These new functions have been added as companions to
+the threshing macros (see below). These are similar to Clojure's ``compose``
+function, but with some syntactic sugar to assist with the fact that LFE is a
+Lisp-2.
 
 Pull in the functions:
 
@@ -264,7 +270,7 @@ Let's call ``compose/2`` on two math functions:
 0.49999999999999994
 ```
 
-Now let's use ``compose/`1` on a list of functions:
+Now let's use ``compose/1`` on a list of functions:
 
 ```cl
 > (funcall (compose `(,#'math:sin/1
@@ -284,9 +290,9 @@ loaded
 (1 2 3 4)
 ```
 
-Unlike schemes and Clojure, we can't just wrap parens around our function,
-we need to call ``funcall`` on it. But we can cheat, with a little help
-from Erlang arities :-)
+Unlike schemes and Clojure, when calling ``compose`` directly, we can't just
+wrap parens around our function -- we need to call ``funcall`` on it. But we can
+cheat, with a little help from Erlang arities :-)
 
 The following are provided as conveniences when using compose by itself (in
 other words, not in a call to ``lists:map``, ``lists:filter``, a predicate,

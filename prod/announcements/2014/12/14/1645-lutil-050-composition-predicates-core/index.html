@@ -228,16 +228,18 @@ just use <code>seq/2</code>, e.g. <code>(seq 0 10)</code>.</p>
 
 <h3 id="range-functions"><code>range</code> Functions</h3>
 
-<p>These functions were inspired by Clojure’s <code>range</code> function as well as
+<p>These functions were inspired by Clojure’s
+<a href="https://github.com/clojure/clojure/blob/clojure-1.6.0/src/clj/clojure/core.clj#L2725">range</a>
+function as well as
 <a href="https://docs.python.org/3/glossary.html#term-generator">Python generators</a>.
-<code>range</code> provides us with the ability to generate an endless series of
+Our <code>range</code> provides us with the ability to generate an endless series of
 integers or floating point numbers without using more memory that what is
 required to create a few functions.</p>
 
 <p>Unlike Python and Clojure, <code>range</code> is based upon Erlang’s capacity for its
 own brand of lazy evaluation as demonstrated in
 <a href="http://erlangraymondtay.blogspot.com/2009/08/example-of-lazy-evaluation-for.html">this blog post</a>.
-In particular, <code>(range)</code> returns a function (an so is more akin to Python’s
+In particular, <code>(range)</code> returns a function (and so is more akin to Python’s
 generators that Clojure’s <code>range</code> function). When called, it will return a
 <code>cons</code> of:</p>
 
@@ -282,10 +284,10 @@ Otherwise, we’re left with usage like the following:</p>
 <span class="p">(</span><span class="mi">4</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
 <span class="nb">&gt;</span></code></pre></div>
 
-<p>It certainly has its own peculiar charm, but not too high in convenience.
-As such, a function like Clojure’s <code>take</code> has been added to lutil <code>core</code>.
-It does just what is says: takes a certain number of elements from our infinite
-series.</p>
+<p>That certainly has its own <em>peculiar</em> charm, but does not rate too highly in
+convenience. As such, a function like Clojure’s <code>take</code> has been added to
+lutil <code>core</code>. It does just what is says: takes a certain number of elements
+from our infinite series.</p>
 
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">4</span> <span class="p">(</span><span class="nv">range</span><span class="p">))</span>
 <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span></code></pre></div>
@@ -318,7 +320,7 @@ further (also: patches welcome!).</p>
 <h3 id="next-functions"><code>next</code> Functions</h3>
 
 <p>Under the hood, the <code>range</code> function actually wraps the <code>next</code> function.
-<code>next</code> is a more general form that will repeatedly call the provided
+<code>next</code> is a more general form that will repeatedly call a user-provided
 2-arity function. In the case of <code>range</code>, that function is addition.</p>
 
 <p>For example, the following are identical:</p>
@@ -331,7 +333,7 @@ further (also: patches welcome!).</p>
 <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span><span class="p">)</span></code></pre></div>
 
 <p>You may use <code>next</code> directly to define your own infinite sequences. Here
-are a couple of whacky examples:</p>
+are a few examples:</p>
 
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">10</span> <span class="p">(</span><span class="nv">next</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
 <span class="p">(</span><span class="mi">1</span> <span class="mi">6</span> <span class="mi">21</span> <span class="mi">66</span> <span class="mi">201</span> <span class="mi">606</span> <span class="mi">1821</span> <span class="mi">5466</span> <span class="mi">16401</span> <span class="mi">49206</span><span class="p">)</span>
@@ -343,11 +345,12 @@ are a couple of whacky examples:</p>
 <h2 id="predicates-include-file">Predicates Include File</h2>
 
 <p>This set of changes (and examples) is the most tame of the bunch. lutil
-has implemented several predicates of the form <code>name?</code> for the past while.
-While project have started to rely upon these more heavily, it seemed prudent
-to provide them in include-form (thus alleviating developers having to use the
-full <code>mod:fun</code> syntax or from complicated and hard-to-maintain special
-imports).</p>
+has implemented several predicates of the form <code>name?</code> for the past while.</p>
+
+<p>As projects have started to rely upon these more heavily, it seemed prudent
+to provide the increasingly-more-used predicates in include-form (thus
+alleviating developers having to use the full <code>mod:fun</code> syntax or from
+complicated and hard-to-maintain special imports).</p>
 
 <p>Here’s a quick way of seeing which predicates are supported:</p>
 
@@ -376,7 +379,9 @@ brought in from <code>include-lib</code>:</p>
 <span class="nv">ok</span></code></pre></div>
 
 <p>You can use the predicates include from the REPL or in modules with the usual
-<code>include-lib</code> call, as above. Here are some usage examples:</p>
+<code>include-lib</code> call, as above.</p>
+
+<p>Some example usage:</p>
 
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">zero?</span> <span class="mi">0</span><span class="p">)</span>
 <span class="nv">true</span>
@@ -389,10 +394,11 @@ brought in from <code>include-lib</code>:</p>
 
 <h2 id="compose-functions"><code>compose</code> Functions</h2>
 
-<p>All the previous changes for 0.5.0 were actually yak-shavings in support of
-the <code>compose</code> functions that were added as companions to the threshing macros
-(see below). These are similar to Clojure’s <code>compose</code> function, but with
-some syntactic sugar to assist with the fact that LFE is a Lisp-2.</p>
+<p>All of the 0.5.0 changes detailed above were actually yak-shavings in support of
+the <code>compose</code> functions. These new functions have been added as companions to
+the threshing macros (see below). These are similar to Clojure’s <code>compose</code>
+function, but with some syntactic sugar to assist with the fact that LFE is a
+Lisp-2.</p>
 
 <p>Pull in the functions:</p>
 
@@ -405,7 +411,7 @@ some syntactic sugar to assist with the fact that LFE is a Lisp-2.</p>
            <span class="mf">0.5</span><span class="p">)</span>
 <span class="mf">0.49999999999999994</span></code></pre></div>
 
-<p>Now let’s use ``compose/<code>1</code> on a list of functions:</p>
+<p>Now let’s use <code>compose/1</code> on a list of functions:</p>
 
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">compose</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:sin/1</span>
                       <span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:asin/1</span>
@@ -421,9 +427,9 @@ some syntactic sugar to assist with the fact that LFE is a Lisp-2.</p>
                 <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">3</span> <span class="mi">0</span> <span class="mi">4</span><span class="p">))</span>
 <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span></code></pre></div>
 
-<p>Unlike schemes and Clojure, we can’t just wrap parens around our function,
-we need to call <code>funcall</code> on it. But we can cheat, with a little help
-from Erlang arities :-)</p>
+<p>Unlike schemes and Clojure, when calling <code>compose</code> directly, we can’t just
+wrap parens around our function – we need to call <code>funcall</code> on it. But we can
+cheat, with a little help from Erlang arities :-)</p>
 
 <p>The following are provided as conveniences when using compose by itself (in
 other words, not in a call to <code>lists:map</code>, <code>lists:filter</code>, a predicate,
