@@ -4,13 +4,149 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-08T19:39:26-06:00</updated>
+ <updated>2014-12-09T01:01:51-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Erlang/LFE on Google App Engine</title>
+   <link href="http://blog.lfe.io//tutorials/2014/12/12/0000-erlanglfe-on-google-app-engine"/>
+   <updated>2014-12-12T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//tutorials/2014/12/12/0000-erlanglfe-on-google-app-engine</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/GoogleCloudPlatform.png&quot;&gt;&lt;img class=&quot;right small&quot; src=&quot;/assets/images/posts/GoogleCloudPlatform.png&quot; /&gt;&lt;/a&gt;
+Recently the long-stanging Google App Engine
+&lt;a href=&quot;https://code.google.com/p/googleappengine/issues/detail?id=125&quot;&gt;ticket for Erlang support&lt;/a&gt;
+was closed as “WontFix”. Though iniitally this seemed to be bad news, a link
+was provided in the ticket:
+&lt;a href=&quot;https://cloud.google.com/appengine/docs/managed-vms/custom-runtimes&quot;&gt;Google App Engine: Custom Runtimes&lt;/a&gt;
+… hope springs eternal, and such did not let us down. In this post we show
+how to get Erlang and LFE apps up and running using this GAE feature in
+conjunction with YAWS as well as some LFE web and utility libraries.&lt;/p&gt;
+
+&lt;h2 id=&quot;gae-custom-runtimes&quot;&gt;GAE Custom Runtimes&lt;/h2&gt;
+
+&lt;p&gt;A quick intro to this feature is given in the following two different paragraphs
+from the site:&lt;/p&gt;
+
+&lt;blockquote&gt;Custom runtimes allow you to define new runtime environments (such
+as language interpreters or application servers) on Managed VMs. The Managed VM
+SDK will then deploy, load balance and scale your application.
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;Custom runtimes work by allowing a developer to define the base
+runtime image using Dockerfiles (a recipe to build a Docker container) to define
+a base runtime environment that your application will run in. Typically a
+Dockerfile will configure a basic serving stack for your application as well as
+all its dependencies.
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;previously-the-erlanglfe-docker-tutorial&quot;&gt;Previously: The Erlang/LFE Docker Tutorial&lt;/h2&gt;
+
+&lt;p&gt;This tutorial is based upon the code and &lt;code&gt;Dockerfile&lt;/code&gt; created as part of the
+&lt;a href=&quot;http://blog.lfe.io/tutorials/2014/12/07/1837-running-lfe-in-docker/&quot;&gt;Erlang/LFE Docker tutorial&lt;/a&gt;.
+It has been adapted for use on Google App Engine and pushed to a
+&lt;a href=&quot;https://github.com/oubiwann/gae-lfe-yaws-sample-app&quot;&gt;repository on Github&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;this-tutorial&quot;&gt;This Tutorial&lt;/h2&gt;
+
+&lt;p&gt;This tutorial will cover new ground, starting where the last one left off. In
+particuar, it will focus on deploying Erlang &lt;code&gt;Dockerfile&lt;/code&gt;s on Google’s
+infrastructure. Here’s a high-level overview of topics to be covered:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Setting setup with &lt;/li&gt;
+  &lt;li&gt;Adding app routes for the GAE custom runtime&lt;/li&gt;
+  &lt;li&gt;Updating the sample app with code supporting the new routes&lt;/li&gt;
+  &lt;li&gt;Configuring the GAE app&lt;/li&gt;
+  &lt;li&gt;Setting up logging&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;xxx&quot;&gt;XXX&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl https://sdk.cloud.google.com &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; bash&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Login to (or sign up at)
+&lt;a href=&quot;https://cloud.google.com/console&quot;&gt;https://cloud.google.com/console&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Create a new project, giving a name and ID (e.g., “LFE Sample App” and
+“lfe-sample-app”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gcloud auth login&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gcloud components update app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Download and install the version of boot2docker supported by GAE (1.3.0 as
+of the writing of this post).&lt;/p&gt;
+
+&lt;h2 id=&quot;routes&quot;&gt;Routes&lt;/h2&gt;
+
+&lt;h2 id=&quot;api&quot;&gt;API&lt;/h2&gt;
+
+&lt;h2 id=&quot;yaws-entry-point-and-utility-functions&quot;&gt;YAWS Entry Point and Utility Functions&lt;/h2&gt;
+
+&lt;h2 id=&quot;configuring-the-app&quot;&gt;Configuring the App&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code&gt;FROM debian
+RUN apt-get update &amp;amp;&amp;amp; apt-get install -y \
+    build-essential \
+    libpam0g-dev \
+    erlang \
+    rebar
+COPY . /usr/src/volvoshop
+WORKDIR /usr/src/volvoshop
+CMD [ &quot;make&quot;, &quot;&quot; ]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;app.yaml&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;custom&lt;/span&gt;
+&lt;span class=&quot;l-Scalar-Plain&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;l-Scalar-Plain&quot;&gt;api_version&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h2&gt;
+
+&lt;h2 id=&quot;configuring-app-lifecycle-events&quot;&gt;Configuring App Lifecycle Events&lt;/h2&gt;
+
+&lt;p&gt;We need to configure the following:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;start&lt;/li&gt;
+  &lt;li&gt;stop&lt;/li&gt;
+  &lt;li&gt;health check&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;logging&quot;&gt;Logging&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code&gt;/var/log/app_engine/custom_logs
+/var/log/app_engine/request.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;cloud-platform-services&quot;&gt;Cloud Platform Services&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Google Cloud Storage&lt;/li&gt;
+  &lt;li&gt;Google Cloud Datastore&lt;/li&gt;
+  &lt;li&gt;Google Authentication&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;running-in-dev-mode&quot;&gt;Running in Dev Mode&lt;/h2&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gcloud preview app run&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;gcloud preview app deploy&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;deploying&quot;&gt;Deploying&lt;/h2&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>lfest 0.0.2 Is Released</title>

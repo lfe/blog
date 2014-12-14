@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <title>
       
-        LFE Microblog is Open for Business ... -
+        Erlang/LFE on Google App Engine -
       
       LFE Tutorials, News, &amp; Updates
     </title>
-    <meta name="description" content="Another web property update">
+    <meta name="description" content="Getting Erlang and LFE up and running on GAE">
     <meta name="author" content="LFElluminati | Alien Alliance">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -169,7 +169,7 @@
           
 <div class="page-header">
   <h1>
-    LFE Microblog is Open for Business ... 
+    Erlang/LFE on Google App Engine 
     
   </h1>
 </div>
@@ -177,19 +177,142 @@
 <div class="row">
   <div class="span8">
     
-<p>The LFE micoblog site (powered by Jekyll and Bootsrap) is live and ready to go.</p>
+<p><a href="/assets/images/posts/GoogleCloudPlatform.png"><img class="right small" src="/assets/images/posts/GoogleCloudPlatform.png" /></a>
+Recently the long-stanging Google App Engine
+<a href="https://code.google.com/p/googleappengine/issues/detail?id=125">ticket for Erlang support</a>
+was closed as “WontFix”. Though iniitally this seemed to be bad news, a link
+was provided in the ticket:
+<a href="https://cloud.google.com/appengine/docs/managed-vms/custom-runtimes">Google App Engine: Custom Runtimes</a>
+… hope springs eternal, and such did not let us down. In this post we show
+how to get Erlang and LFE apps up and running using this GAE feature in
+conjunction with YAWS as well as some LFE web and utility libraries.</p>
 
-<p>We’ll be posting pertinent content and links here on a regular basis, items
-which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
+<h2 id="gae-custom-runtimes">GAE Custom Runtimes</h2>
+
+<p>A quick intro to this feature is given in the following two different paragraphs
+from the site:</p>
+
+<blockquote>Custom runtimes allow you to define new runtime environments (such
+as language interpreters or application servers) on Managed VMs. The Managed VM
+SDK will then deploy, load balance and scale your application.
+</blockquote>
+
+<blockquote>Custom runtimes work by allowing a developer to define the base
+runtime image using Dockerfiles (a recipe to build a Docker container) to define
+a base runtime environment that your application will run in. Typically a
+Dockerfile will configure a basic serving stack for your application as well as
+all its dependencies.
+</blockquote>
+
+<h2 id="previously-the-erlanglfe-docker-tutorial">Previously: The Erlang/LFE Docker Tutorial</h2>
+
+<p>This tutorial is based upon the code and <code>Dockerfile</code> created as part of the
+<a href="http://blog.lfe.io/tutorials/2014/12/07/1837-running-lfe-in-docker/">Erlang/LFE Docker tutorial</a>.
+It has been adapted for use on Google App Engine and pushed to a
+<a href="https://github.com/oubiwann/gae-lfe-yaws-sample-app">repository on Github</a>.</p>
+
+<h2 id="this-tutorial">This Tutorial</h2>
+
+<p>This tutorial will cover new ground, starting where the last one left off. In
+particuar, it will focus on deploying Erlang <code>Dockerfile</code>s on Google’s
+infrastructure. Here’s a high-level overview of topics to be covered:</p>
+
+<ul>
+  <li>Setting setup with </li>
+  <li>Adding app routes for the GAE custom runtime</li>
+  <li>Updating the sample app with code supporting the new routes</li>
+  <li>Configuring the GAE app</li>
+  <li>Setting up logging</li>
+</ul>
+
+<h2 id="xxx">XXX</h2>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>curl https://sdk.cloud.google.com <span class="p">|</span> bash</code></pre></div>
+
+<ul>
+  <li>Login to (or sign up at)
+<a href="https://cloud.google.com/console">https://cloud.google.com/console</a></li>
+  <li>Create a new project, giving a name and ID (e.g., “LFE Sample App” and
+“lfe-sample-app”</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>gcloud auth login</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>gcloud components update app</code></pre></div>
+
+<p>Download and install the version of boot2docker supported by GAE (1.3.0 as
+of the writing of this post).</p>
+
+<h2 id="routes">Routes</h2>
+
+<h2 id="api">API</h2>
+
+<h2 id="yaws-entry-point-and-utility-functions">YAWS Entry Point and Utility Functions</h2>
+
+<h2 id="configuring-the-app">Configuring the App</h2>
+
+<p><code>Dockerfile</code>:</p>
+
+<div class="highlight"><pre><code>FROM debian
+RUN apt-get update &amp;&amp; apt-get install -y \
+    build-essential \
+    libpam0g-dev \
+    erlang \
+    rebar
+COPY . /usr/src/volvoshop
+WORKDIR /usr/src/volvoshop
+CMD [ "make", "" ]
+</code></pre></div>
+
+<p><code>app.yaml</code>:</p>
+
+<div class="highlight"><pre><code class="language-yaml"><span class="l-Scalar-Plain">runtime</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">custom</span>
+<span class="l-Scalar-Plain">vm</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+<span class="l-Scalar-Plain">api_version</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span></code></pre></div>
+
+<h2 id="dockerfile">Dockerfile</h2>
+
+<h2 id="configuring-app-lifecycle-events">Configuring App Lifecycle Events</h2>
+
+<p>We need to configure the following:</p>
+
+<ul>
+  <li>start</li>
+  <li>stop</li>
+  <li>health check</li>
+</ul>
+
+<h2 id="logging">Logging</h2>
+
+<div class="highlight"><pre><code>/var/log/app_engine/custom_logs
+/var/log/app_engine/request.log
+</code></pre></div>
+
+<h2 id="cloud-platform-services">Cloud Platform Services</h2>
+
+<ul>
+  <li>Google Cloud Storage</li>
+  <li>Google Cloud Datastore</li>
+  <li>Google Authentication</li>
+</ul>
+
+<h2 id="running-in-dev-mode">Running in Dev Mode</h2>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>gcloud preview app run</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>gcloud preview app deploy</code></pre></div>
+
+<h2 id="deploying">Deploying</h2>
+
 
     <hr>
     <div class="pagination btn-group">
       
-        <a class="btn prev" href="/site/2014/05/22/1849-new-lfe-site" title="New LFE Site!">&larr; Previous</a>
+        <a class="btn prev" href="/announcements/2014/12/08/1929-lfest-002-is-released" title="lfest 0.0.2 Is Released">&larr; Previous</a>
       
         <a class="btn" href="/archive.html">Archive</a>
       
-        <a class="btn next" href="/site/2014/05/23/0815-docs-site-overhaul" title="Docs Site Overhaul">Next &rarr;</a>
+        <a class="btn next disabled">Next &rarr;</a>
       
     </div>
     <hr>
@@ -203,13 +326,13 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
     </section>
     <section>
       <h4>Published</h4>
-      <div class="date"><span>22 May 2014</span></div>
+      <div class="date"><span>12 December 2014</span></div>
     </section>
     
       <section>
         <h4>Category</h4>
         <span class="category">
-          site
+          tutorials
         </span>
       </section>
          
@@ -223,13 +346,23 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.</p>
 
   
      
-    	<li><a href="/tags.html#site-ref">site <span>4</span></a></li>
+    	<li><a href="/tags.html#google-ref">google <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#cloud-ref">cloud <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#gae-ref">gae <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#app engine-ref">app engine <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#rest-ref">rest <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#lfest-ref">lfest <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#yaws-ref">yaws <span>1</span></a></li>
      
     	<li><a href="/tags.html#web-ref">web <span>7</span></a></li>
      
-    	<li><a href="/tags.html#blog-ref">blog <span>2</span></a></li>
-     
-    	<li><a href="/tags.html#news-ref">news <span>4</span></a></li>
+    	<li><a href="/tags.html#services-ref">services <span>1</span></a></li>
     
   
 
