@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        lutil 0.5.0: Composition, Predicates and Core lutil -
+      
+      LFE Tutorials, News, &amp; Updates
+    </title>
+    <meta name="description" content="New features in lutil 0.4.1">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE Tutorials, News, &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+<div class="page-header">
+  <h1>
+    lutil 0.5.0: Composition, Predicates and Core lutil 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/lutil-leonardo-gears-large.png"><img class="right thumb" src="/assets/images/posts/lutil-leonardo-gears.png" /></a>With the
+<a href="https://github.com/lfex/lutil/releases/tag/0.5.0">release of lutil 0.5.0</a>,
+there are new “compose” functions accompanying the
+<a href="https://github.com/lfex/lutil/commits/master/include/compose-macros.lfe?author=dysinger">previously-merged</a>
+thrushing macros as well as a new convenience include file which contains all
+of lutil’s predicate functions defined for easy use in the REPL or in modules.
+Additionally there is a new, experimental include file that is beginning to
+define functions and marcos considered “core” to the LFE experience but which
+aren’t yet (and may never be) included in LFE-proper. Some of these may wrap
+Erlang functions with more options, others may provide new syntax, etc. See
+below for usage examples.</p>
+
+<h2 id="core-include-file">Core Include File</h2>
+
+<p>Be warned! This is for experimentation! Do not depend upon these functions
+remaining here in perpetuity.</p>
+
+<p>This is a new include file while is the home for any functions that feel like
+they should be part of the language. They might wrap Erlang functions or
+provide basic functionality that’s not in Erlang or LFE proper.</p>
+
+<p>For now, it’s just the following:</p>
+
+<ul>
+  <li><code>seq</code></li>
+  <li><code>range</code></li>
+  <li><code>next</code></li>
+  <li><code>take</code></li>
+</ul>
+
+<h3 id="seq-functions"><code>seq</code> Functions</h3>
+
+<p>Let’s start with pulling in the <code>core</code> inlude in the LFE REPL:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/core.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span></code></pre></div>
+
+<p>Erlang doesn’t have a <code>lists:seq/1</code>, so we made one:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">seq</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span><span class="p">)</span></code></pre></div>
+
+<p>Having done that, we also provided wrappers for Erlang’s <code>lists:seq/2</code>
+and <code>lists:seq/3</code>.</p>
+
+<p>As you can see, we opted for 1 as the default starting element. This follows in
+the tradition of many of Erlang’s <code>lists</code> functions. 0-based sequences can
+just use <code>seq/2</code>, e.g. <code>(seq 0 10)</code>.</p>
+
+<h3 id="range-functions"><code>range</code> Functions</h3>
+
+<p>These functions were inspired by Clojure’s <code>range</code> function as well as
+<a href="https://docs.python.org/3/glossary.html#term-generator">Python generators</a>.
+<code>range</code> provides us with the ability to generate an endless series of
+integers or floating point numbers without using more memory that what is
+required to create a few functions.</p>
+
+<p>Unlike Python and Clojure, <code>range</code> is based upon Erlang’s capacity for its
+own brand of lazy evaluation as demonstrated in
+<a href="http://erlangraymondtay.blogspot.com/2009/08/example-of-lazy-evaluation-for.html">this blog post</a>.
+In particular, <code>(range)</code> returns a function (an so is more akin to Python’s
+generators that Clojure’s <code>range</code> function). When called, it will return a
+<code>cons</code> of:</p>
+
+<ul>
+  <li>the next element of the defined series, and</li>
+  <li>another function, which will do the same as the previous function (but whose
+first <code>cons</code> element is the next element in the series)</li>
+</ul>
+
+<p>Some example usage:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">range</span><span class="p">)</span>
+<span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span> <span class="mi">100</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">100</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span></code></pre></div>
+
+<p>The <code>range</code> function is actually a special case of the more general <code>next</code>
+function in lutil <code>core</code>. More on that below.</p>
+
+<p>lutil <code>core</code> defines the following:</p>
+
+<ul>
+  <li><code>range/0</code> (default <code>start</code> of <code>1</code> and <code>step</code> of <code>1</code>)</li>
+  <li><code>range/1</code> - <code>(range start)</code> (default <code>step</code> of <code>1</code>)</li>
+  <li><code>range/2</code> - <code>(range start step)</code></li>
+</ul>
+
+<h3 id="take-functions"><code>take</code> Functions</h3>
+
+<p>For <code>range</code> to be very useful, we need be able to pull values from it.
+Otherwise, we’re left with usage like the following:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span><span class="p">))))</span>
+<span class="p">(</span><span class="mi">2</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span><span class="p">))))))</span>
+<span class="p">(</span><span class="mi">3</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nb">cdr</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">range</span><span class="p">))))))))</span>
+<span class="p">(</span><span class="mi">4</span> <span class="o">.</span> <span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.86468545&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span></code></pre></div>
+
+<p>It certainly has its own peculiar charm, but not too high in convenience.
+As such, a function like Clojure’s <code>take</code> has been added to lutil <code>core</code>.
+It does just what is says: takes a certain number of elements from our infinite
+series.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">4</span> <span class="p">(</span><span class="nv">range</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span></code></pre></div>
+
+<p>Hej! That’s much nicer than the above :-)</p>
+
+<p>Sometimes one’s code will be using both infinite series as well as definite
+lists and it would be nice to not have to change functions if the source
+of the data changes. As such, we’ve modified <code>take</code> to provide a wrapper
+for <code>lists:sublist/2</code>:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">5</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span></code></pre></div>
+<p>Note that the <code>take</code> wrapper swaps the positions of
+the arguments so that it may be used with the <code>-&gt;&gt;</code> macro. If you need to
+take from a list with the <code>-&gt;</code> macro, you will need to use
+<code>lists:sublist/2</code>. (Be sure to see the section below for usage examples
+of <code>-&gt;</code> and <code>-&gt;&gt;</code>!)</p>
+
+<p>We also added the following, as it eneded up being useful:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="ss">&#39;all</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span><span class="p">)</span></code></pre></div>
+
+<p>One last point on <code>take</code>: it is not based upon an element value, but rather
+the length of the accumulator. If you have use cases where you need to only
+take elements up to a certain value, let us know and we can generalize this
+further (also: patches welcome!).</p>
+
+<h3 id="next-functions"><code>next</code> Functions</h3>
+
+<p>Under the hood, the <code>range</code> function actually wraps the <code>next</code> function.
+<code>next</code> is a more general form that will repeatedly call the provided
+2-arity function. In the case of <code>range</code>, that function is addition.</p>
+
+<p>For example, the following are identical:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">21</span> <span class="p">(</span><span class="nv">range</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">21</span> <span class="p">(</span><span class="nv">next</span> <span class="nf">#&#39;</span><span class="nv">+/2</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">21</span> <span class="p">(</span><span class="nv">next</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">))</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">16</span> <span class="mi">17</span> <span class="mi">18</span> <span class="mi">19</span> <span class="mi">20</span> <span class="mi">21</span><span class="p">)</span></code></pre></div>
+
+<p>You may use <code>next</code> directly to define your own infinite sequences. Here
+are a couple of whacky examples:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">10</span> <span class="p">(</span><span class="nv">next</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">3</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="nv">y</span><span class="p">)))</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">6</span> <span class="mi">21</span> <span class="mi">66</span> <span class="mi">201</span> <span class="mi">606</span> <span class="mi">1821</span> <span class="mi">5466</span> <span class="mi">16401</span> <span class="mi">49206</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">17</span> <span class="p">(</span><span class="nv">next</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">_</span><span class="p">)</span> <span class="p">(</span><span class="nb">*</span> <span class="mi">2</span> <span class="nv">x</span><span class="p">))</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">8</span> <span class="mi">16</span> <span class="mi">32</span> <span class="mi">64</span> <span class="mi">128</span> <span class="mi">256</span> <span class="mi">512</span> <span class="mi">1024</span> <span class="mi">2048</span> <span class="mi">4096</span> <span class="mi">8192</span> <span class="mi">16384</span> <span class="mi">32768</span> <span class="mi">65536</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">take</span> <span class="mi">7</span> <span class="p">(</span><span class="nv">next</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">_</span><span class="p">)</span> <span class="p">(</span><span class="nv">math:pow</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">2</span><span class="p">))</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mf">4.0</span> <span class="mf">25.0</span> <span class="mf">676.0</span> <span class="mf">458329.0</span> <span class="mf">210066388900.0</span> <span class="mf">4.4127887745906175e22</span><span class="p">)</span></code></pre></div>
+
+<h2 id="predicates-include-file">Predicates Include File</h2>
+
+<p>This set of changes (and examples) is the most tame of the bunch. lutil
+has implemented several predicates of the form <code>name?</code> for the past while.
+While project have started to rely upon these more heavily, it seemed prudent
+to provide them in include-form (thus alleviating developers having to use the
+full <code>mod:fun</code> syntax or from complicated and hard-to-maintain special
+imports).</p>
+
+<p>Here’s a quick way of seeing which predicates are supported:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">before</span> <span class="p">(</span><span class="nv">sets:from_list</span> <span class="p">(</span><span class="nv">lutil:get-env-funcs</span> <span class="nv">$ENV</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">11</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+<span class="o">...</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/predicates.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">after</span> <span class="p">(</span><span class="nv">sets:from_list</span> <span class="p">(</span><span class="nv">lutil:get-env-funcs</span> <span class="nv">$ENV</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">49</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+<span class="o">...</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">loaded-funcs</span> <span class="p">(</span><span class="nv">lists:sort</span>
+                      <span class="p">(</span><span class="nv">sets:to_list</span>
+                        <span class="p">(</span><span class="nv">sets:subtract</span> <span class="nv">after</span> <span class="nv">before</span><span class="p">)))))</span>
+<span class="o">...</span></code></pre></div>
+
+<p>Now we can see the functions available in our REPL environment that were
+brought in from <code>include-lib</code>:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lfe_io:format</span> <span class="s">&quot;~p~n&quot;</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">loaded-funcs</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">all?</span> <span class="nv">any?</span> <span class="nv">atom?</span> <span class="nv">binary?</span> <span class="nv">bitstring?</span> <span class="nv">bool?</span> <span class="nv">dict?</span> <span class="nv">element?</span> <span class="nv">empty?</span> <span class="nv">even?</span>
+ <span class="nv">every?</span> <span class="nv">false?</span> <span class="nv">float?</span> <span class="nv">func?</span> <span class="nv">function?</span> <span class="nv">identical?</span> <span class="nv">in?</span> <span class="nv">int?</span> <span class="nv">integer?</span>
+ <span class="nv">list?</span> <span class="nv">loaded</span> <span class="nv">neg?</span> <span class="nv">nil?</span> <span class="nv">not-any?</span> <span class="nv">not-in?</span> <span class="nv">number?</span> <span class="nv">odd?</span> <span class="nv">pos?</span> <span class="nv">record?</span>
+ <span class="nv">reference?</span> <span class="nv">set?</span> <span class="nv">string?</span> <span class="nv">true?</span> <span class="nv">tuple?</span> <span class="nv">undef?</span> <span class="nv">undefined?</span> <span class="nv">unicode?</span>
+ <span class="nv">zero?</span><span class="p">)</span>
+<span class="nv">ok</span></code></pre></div>
+
+<p>You can use the predicates include from the REPL or in modules with the usual
+<code>include-lib</code> call, as above. Here are some usage examples:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">zero?</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">zero?</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">all?</span> <span class="nf">#&#39;</span><span class="nv">even?/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">8</span> <span class="mi">9</span><span class="p">))</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">all?</span> <span class="nf">#&#39;</span><span class="nv">even?/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">8</span> <span class="mi">10</span><span class="p">))</span>
+<span class="nv">true</span></code></pre></div>
+
+<h2 id="compose-functions"><code>compose</code> Functions</h2>
+
+<p>All the previous changes for 0.5.0 were actually yak-shavings in support of
+the <code>compose</code> functions that were added as companions to the threshing macros
+(see below). These are similar to Clojure’s <code>compose</code> function, but with
+some syntactic sugar to assist with the fact that LFE is a Lisp-2.</p>
+
+<p>Pull in the functions:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/compose.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span></code></pre></div>
+
+<p>Let’s call <code>compose/2</code> on two math functions:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">compose</span> <span class="nf">#&#39;</span><span class="nv">math:sin/1</span> <span class="nf">#&#39;</span><span class="nv">math:asin/1</span><span class="p">)</span>
+           <span class="mf">0.5</span><span class="p">)</span>
+<span class="mf">0.49999999999999994</span></code></pre></div>
+
+<p>Now let’s use ``compose/<code>1</code> on a list of functions:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">funcall</span> <span class="p">(</span><span class="nv">compose</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:sin/1</span>
+                      <span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:asin/1</span>
+                      <span class="o">,</span><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">))))</span>
+           <span class="mf">0.5</span><span class="p">)</span>
+<span class="mf">1.5</span></code></pre></div>
+
+<p>Here is compose being used in a filter:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/predicates.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:filter</span> <span class="p">(</span><span class="nv">compose</span> <span class="nf">#&#39;</span><span class="nv">not/1</span> <span class="nf">#&#39;</span><span class="nv">zero?/1</span><span class="p">)</span>
+                <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">2</span> <span class="mi">0</span> <span class="mi">3</span> <span class="mi">0</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span></code></pre></div>
+
+<p>Unlike schemes and Clojure, we can’t just wrap parens around our function,
+we need to call <code>funcall</code> on it. But we can cheat, with a little help
+from Erlang arities :-)</p>
+
+<p>The following are provided as conveniences when using compose by itself (in
+other words, not in a call to <code>lists:map</code>, <code>lists:filter</code>, a predicate,
+etc.):</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">compose</span> <span class="nf">#&#39;</span><span class="nv">math:sin/1</span> <span class="nf">#&#39;</span><span class="nv">math:asin/1</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="mf">0.49999999999999994</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">compose</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:sin/1</span>
+             <span class="o">,</span><span class="nf">#&#39;</span><span class="nv">math:asin/1</span>
+             <span class="o">,</span><span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">x</span> <span class="mi">1</span><span class="p">)))</span>
+           <span class="mf">0.5</span><span class="p">)</span>
+<span class="mf">1.5</span></code></pre></div>
+
+<h2 id="thrushing-macros">Thrushing Macros</h2>
+
+<p>And now we’ve reached dessert :-)</p>
+
+<p>The following examples are for functionality that was previously added to
+lutil, authored originally by
+<a href="https://github.com/dysinger/lfesl/blob/master/include/thread.lfe">Tim Dysinger</a>.
+Though not part of this release, these bonus usage examples are provided since
+it’s such a cool set of macros, inspired by their
+Clojure analogs <a href="http://clojuredocs.org/clojure.core/-%3E">-&gt;</a>
+and <a href="http://clojuredocs.org/clojure.core/-%3E%3E">-&gt; &gt;</a>.</p>
+
+<h3 id="the---macro">The <code>-&gt;</code> Macro</h3>
+
+<p>Reading (and sometimes writing) deeply nested functions can be a bit awkward:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:sublist</span>
+    <span class="p">(</span><span class="nv">lists:reverse</span>
+      <span class="p">(</span><span class="nv">lists:sort</span>
+        <span class="p">(</span><span class="nv">lists:merge</span>
+          <span class="p">(</span><span class="nv">string:tokens</span>
+            <span class="p">(</span><span class="nv">string:to_upper</span> <span class="s">&quot;a b c d e&quot;</span><span class="p">)</span>
+            <span class="s">&quot; &quot;</span><span class="p">)</span>
+          <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;X&quot;</span> <span class="s">&quot;F&quot;</span> <span class="s">&quot;L&quot;</span><span class="p">))))</span>
+    <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="s">&quot;L&quot;</span> <span class="s">&quot;F&quot;</span> <span class="s">&quot;E&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>This may seem like a contrived example (and well, yes, it is), but there are
+use cases where this comes up. In particular, the world of web application
+middleware where code is run between request and response one can get large
+stacks of nested functions.</p>
+
+<p>Now grab the thrushing macros:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/compose.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span></code></pre></div>
+
+<p>Here’s how the first thrushing macro can help the previous example:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">-&gt;</span> <span class="s">&quot;a b c d e&quot;</span>
+      <span class="p">(</span><span class="nv">string:to_upper</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">string:tokens</span> <span class="s">&quot; &quot;</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">lists:merge</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&quot;X&quot;</span> <span class="s">&quot;F&quot;</span> <span class="s">&quot;L&quot;</span><span class="p">))</span>
+      <span class="p">(</span><span class="nv">lists:sort</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">lists:reverse</span><span class="p">)</span>
+      <span class="p">(</span><span class="nv">lists:sublist</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="s">&quot;L&quot;</span> <span class="s">&quot;F&quot;</span> <span class="s">&quot;E&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>What’s happening here is that the output from one function is passed as
+(inserted, really) the first argument in the next fucntion.</p>
+
+<p>The next macro does the opposeite …</p>
+
+<h3 id="the---macro-1">The <code>-&gt;&gt;</code> Macro</h3>
+
+<p>Let’s get some includes:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/predicates.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/core.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span></code></pre></div>
+
+<p>Next let’s make a bunch of nested calls:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:foldl</span> <span class="nf">#&#39;</span><span class="nv">+/2</span> <span class="mi">0</span>
+    <span class="p">(</span><span class="nv">take</span> <span class="mi">10</span>
+      <span class="p">(</span><span class="nv">lists:filter</span>
+        <span class="p">(</span><span class="nv">compose</span> <span class="nf">#&#39;</span><span class="nv">even?/1</span> <span class="nf">#&#39;</span><span class="nv">round/1</span><span class="p">)</span>
+        <span class="p">(</span><span class="nv">lists:map</span>
+          <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nv">math:pow</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">))</span>
+          <span class="p">(</span><span class="nv">seq</span> <span class="mi">42</span><span class="p">)))))</span>
+<span class="mf">1540.0</span></code></pre></div>
+
+<p>Grab the thrushing macros:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">include-lib</span> <span class="s">&quot;lutil/include/compose.lfe&quot;</span><span class="p">)</span>
+<span class="nv">loaded</span></code></pre></div>
+
+<p>And now let’s rewrite the nested functions using the <code>-&gt;&gt;</code> macro:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">-&gt;&gt;</span> <span class="p">(</span><span class="nv">seq</span> <span class="mi">42</span><span class="p">)</span>
+       <span class="p">(</span><span class="nv">lists:map</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">math:pow</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)))</span>
+       <span class="p">(</span><span class="nv">lists:filter</span> <span class="p">(</span><span class="nv">compose</span> <span class="nf">#&#39;</span><span class="nv">even?/1</span> <span class="nf">#&#39;</span><span class="nv">round/1</span><span class="p">))</span>
+       <span class="p">(</span><span class="nv">take</span> <span class="mi">10</span><span class="p">)</span>
+       <span class="p">(</span><span class="nv">lists:foldl</span> <span class="nf">#&#39;</span><span class="nv">+/2</span> <span class="mi">0</span><span class="p">))</span>
+<span class="mf">1540.0</span></code></pre></div>
+
+<p>As promised, <code>-&gt;&gt;</code> does the opposite of <code>-&gt;</code> in that the output from one
+function is <em>appeneded</em> to the arguments for the next call. In other words, the
+output of the previous call is the last argument in the next call.</p>
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/announcements/2014/12/08/1929-lfest-002-is-released" title="lfest 0.0.2 Is Released">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Duncan McGreggor</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>14 December 2014</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          announcements
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#releases-ref">releases <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#libraries-ref">libraries <span>4</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2014 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+
