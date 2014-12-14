@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-14T16:41:52-06:00</lastBuildDate>
-        <pubDate>2014-12-14T16:41:52-06:00</pubDate>
+        <lastBuildDate>2014-12-14T16:45:53-06:00</lastBuildDate>
+        <pubDate>2014-12-14T16:45:53-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -365,8 +365,8 @@ stacks of nested functions.&lt;/p&gt;
 function is &lt;em&gt;appeneded&lt;/em&gt; to the arguments for the next call. In other words, the
 output of the previous call is the last argument in the next call.&lt;/p&gt;
 </description>
-                <link>http://blog.lfe.io//announcements/2014/12/14/2141-lutil-050-composition-predicates-core</link>
-                <guid>http://blog.lfe.io//announcements/2014/12/14/2141-lutil-050-composition-predicates-core</guid>
+                <link>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</link>
+                <guid>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</guid>
                 <pubDate>2014-12-14T00:00:00-06:00</pubDate>
         </item>
 

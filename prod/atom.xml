@@ -4,7 +4,7 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-14T16:41:52-06:00</updated>
+ <updated>2014-12-14T16:45:53-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>lutil 0.5.0: Composition, Predicates and Core lutil</title>
-   <link href="http://blog.lfe.io//announcements/2014/12/14/2141-lutil-050-composition-predicates-core"/>
+   <link href="http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core"/>
    <updated>2014-12-14T00:00:00-06:00</updated>
-   <id>http://blog.lfe.io//announcements/2014/12/14/2141-lutil-050-composition-predicates-core</id>
+   <id>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/lutil-leonardo-gears-large.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/lutil-leonardo-gears.png&quot; /&gt;&lt;/a&gt;With the
 &lt;a href=&quot;https://github.com/lfex/lutil/releases/tag/0.5.0&quot;&gt;release of lutil 0.5.0&lt;/a&gt;,
