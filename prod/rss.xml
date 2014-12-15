@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-14T16:59:22-06:00</lastBuildDate>
-        <pubDate>2014-12-14T16:59:22-06:00</pubDate>
+        <lastBuildDate>2014-12-15T00:51:03-06:00</lastBuildDate>
+        <pubDate>2014-12-15T00:51:03-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -126,7 +126,7 @@ lutil &lt;code&gt;core&lt;/code&gt;. It does just what is says: takes a certain 
 from our infinite series.&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;take&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Hej! That’s much nicer than the above :-)&lt;/p&gt;
 
