@@ -127,7 +127,7 @@ from our infinite series.
 
 ```cl
 > (take 4 (range))
-(1 2 3 4 5)
+(1 2 3 4)
 ```
 
 Hej! That's much nicer than the above :-)
