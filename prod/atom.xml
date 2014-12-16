@@ -4,13 +4,133 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-15T00:51:03-06:00</updated>
+ <updated>2014-12-15T19:01:05-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>BYTE, August 1979: The LISP Issue</title>
+   <link href="http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue"/>
+   <updated>2014-12-15T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/byte_1979_08_The_LISP_Issue.jpg&quot;&gt;&lt;img class=&quot;left medium&quot; src=&quot;/assets/images/posts/byte_1979_08_The_LISP_Issue.jpg&quot; /&gt;&lt;/a&gt;The image from this post
+is from
+&lt;a href=&quot;https://twitter.com/DynamicWebPaige/status/544609553422106625&quot;&gt;a tweet&lt;/a&gt;
+by Paige Bailey (&lt;a href=&quot;https://twitter.com/DynamicWebPaige&quot;&gt;@DynamicWebPaige&lt;/a&gt;).
+It’s from the August 1979 issue of Byte which was focused on Lisp.
+The table of contents is
+&lt;a href=&quot;http://pichon.emmanuel.perso.neuf.fr/revues/byte/byte_1979.php&quot;&gt;here&lt;/a&gt; and includes such artciles as:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;THE DESIGN OF AN M6800 LISP INTERPRETER&lt;/li&gt;
+  &lt;li&gt;LISP APPLICATIONS IN BOOLEAN LOGIC&lt;/li&gt;
+  &lt;li&gt;AN OVERVIEW OF LISP&lt;/li&gt;
+  &lt;li&gt;LISP BASED SYSTEMS FOR EDUCATION&lt;/li&gt;
+  &lt;li&gt;A MATHEMATICIAN’S VIEW OF LISP&lt;/li&gt;
+  &lt;li&gt;LISP BASED SYMBOLIC MATH SYSTEMS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The issue also appears to be
+&lt;a href=&quot;https://archive.org/details/byte-magazine-1979-08&quot;&gt;available on archive.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After finding a
+&lt;a href=&quot;http://pichon.emmanuel.perso.neuf.fr/revues/byte/grand/1979/byte_1979_08.jpg&quot;&gt;larger resolution image&lt;/a&gt;,
+I couldn’t resist doing a little Lisp archeaology :-) Here’s a transcript of
+what I can see:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nv&quot;&gt;DEFINE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LAMBDA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;COND&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;NIL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;EQ??&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BLANK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CONS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;DEFINE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INDT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LAMBDA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;APPEND&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;L&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;DEFINE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;FETCH&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LAMBDA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PROG&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;XPOS&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;FRT&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BAK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SETQ&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;XPOS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SETQ&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;FRT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SETQ&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BAK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CAAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;TST&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CONS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;CONS&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I will need the assistance of &lt;a href=&quot;https://twitter.com/rainerjoswig&quot;&gt;Rainer Joswig&lt;/a&gt;
+for some bits, but here are some initial notes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;EQ??&lt;/code&gt; - It looks like the question marks could be either a &lt;code&gt;U&lt;/code&gt; or
+&lt;code&gt;IL&lt;/code&gt;. In the
+&lt;a href=&quot;http://www.softwarepreservation.org/projects/LISP/book/LISP%201.5%20Programmers%20Manual.pdf&quot;&gt;LISP 1.5 Manual&lt;/a&gt;
+only &lt;code&gt;EQ&lt;/code&gt; or &lt;code&gt;EQUAL&lt;/code&gt; are given, not &lt;code&gt;EQU&lt;/code&gt;. This could be another form
+or alias present in a post-1962 dialect. It could also be a typo ;-)&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;L&lt;/code&gt; - I’m not familiar with this call. If this function is what it seems,
+a “string indentation” function, then I can only assume that &lt;code&gt;(L N)&lt;/code&gt;
+creates a list of spaces of length &lt;code&gt;N&lt;/code&gt;. I couldn’t find a trace of
+&lt;code&gt;(L ...)&lt;/code&gt; in the LISP 1.5 Manual.&lt;/li&gt;
+  &lt;li&gt;Much of the &lt;code&gt;FETCH&lt;/code&gt; function has been chopped off, but if I’m not mistaken
+(and oh my, I very well could be!), the first part actually looks like a
+predecessor to the &lt;code&gt;(let ...)&lt;/code&gt; form. Given the function name and the names
+of the defined variables, it’s pretty clear what’s going on here :-)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The stucture of the first two functions will be more clear if we reformat the
+original:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nv&quot;&gt;DEFINE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LAMBDA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;COND&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;NULL&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;NIL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;EQ&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;T&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CONS&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CAR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                   &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;REMBLANK&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;CDR&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))))))&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;DEFINE&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;INDT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LAMBDA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;PRINT&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;APPEND&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;L&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;STRING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s the archeology. Let’s try a reconstruction :-)&lt;/p&gt;
+
+&lt;p&gt;Here’s what these functions would look like in a modern Lisp (entered in the
+REPL):&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;defun&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;remblank&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(((&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cons&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cond&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;remblank&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;&amp;#39;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cons&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;remblank&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;remblank&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;defun&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;indt&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:append&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string:copies&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; &amp;quot;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;nb&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;indt&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s take them for a spin!&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;remblank&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot; J o hn   M cC a  rt hy &amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;JohnMcCarthy&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;indt&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Indent me!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;&amp;quot;    Indent me!&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is interesting as a port for LFE, since LFE preserves the list-ness of
+strings (thanks to Erlang) as McCarthy’s Lisp of 1962 did: list functions may
+be used with strings without problem. As you can see, this is what the original
+&lt;code&gt;REMBLANK&lt;/code&gt; function expects.&lt;/p&gt;
+
+&lt;p&gt;To port this to Common Lisp, one would have to do a little more work (such as
+using &lt;code&gt;subseq&lt;/code&gt; instead of &lt;code&gt;car&lt;/code&gt; and &lt;code&gt;cdr&lt;/code&gt;).&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>lutil 0.5.0: Composition, Predicates and Core lutil</title>
