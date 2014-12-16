@@ -281,6 +281,20 @@ REPL):</p>
 <span class="s">&quot;    Indent me!&quot;</span>
 <span class="nb">&gt;</span></code></pre></div>
 
+<p>That keeps the form fairly similar to what the original is. But we could make
+some additional changes to bring it more in line with Erlang/LFE:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">remblank</span> <span class="p">(</span><span class="nb">string</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">re:replace</span>
+      <span class="nb">string</span> <span class="s">&quot;\\s+&quot;</span> <span class="s">&quot;&quot;</span>
+      <span class="o">&#39;</span><span class="p">(</span><span class="nv">global</span> <span class="o">#(</span><span class="nb">return</span> <span class="nb">list</span><span class="p">))))</span>
+<span class="nv">remblank</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">indt</span> <span class="p">(</span><span class="nv">n</span> <span class="nb">string</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">++</span> <span class="p">(</span><span class="nv">string:copies</span> <span class="s">&quot; &quot;</span> <span class="nv">n</span><span class="p">)</span> <span class="nb">string</span><span class="p">))</span>
+<span class="nv">indt</span></code></pre></div>
+
+<p>That almost feels like cheating …</p>
+
 <p>This is interesting as a port for LFE, since LFE preserves the list-ness of
 strings (thanks to Erlang) as McCarthy’s Lisp of 1962 did: list functions may
 be used with strings without problem. As you can see, this is what the original

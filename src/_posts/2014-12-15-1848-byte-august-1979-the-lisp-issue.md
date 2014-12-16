@@ -116,6 +116,22 @@ Now let's take them for a spin!
 >
 ```
 
+That keeps the form fairly similar to what the original is. But we could make
+some additional changes to bring it more in line with Erlang/LFE:
+
+```cl
+> (defun remblank (string)
+    (re:replace
+      string "\\s+" ""
+      '(global #(return list))))
+remblank
+> (defun indt (n string)
+    (++ (string:copies " " n) string))
+indt
+```
+
+That almost feels like cheating ...
+
 This is interesting as a port for LFE, since LFE preserves the list-ness of
 strings (thanks to Erlang) as McCarthy's Lisp of 1962 did: list functions may
 be used with strings without problem. As you can see, this is what the original
