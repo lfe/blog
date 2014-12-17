@@ -4,13 +4,150 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-15T23:54:52-06:00</updated>
+ <updated>2014-12-17T15:02:04-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Post Sprint Report: LFE Experience</title>
+   <link href="http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience"/>
+   <updated>2014-12-17T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;right small&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;My
+team and I have just finished our first major sprint using LFE and I thought
+this would be a good time to report on our experience. Our stack is built around
+&lt;a href=&quot;http://yaws.hyber.org/&quot;&gt;YAWS&lt;/a&gt; and we are using MySQL as the database. We’re not
+using any templating language, but instead relying on an API-based architecture
+with all front-end interactions in JavaScript + HTML.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;We are a small team of developers who are trying to get a pretty major web
+application launched in 12 weeks. This is a challenge in its own right, but
+as we were evaluating web platforms, we ended up rejecting most others in
+favor of Erlang. The choice was made collectively by all the devs who
+evaluated all of our different options (the others being PHP, node.js,
+Clojure, Scala, Haskell).  We picked Erlang primarily for the scalability,
+reliability and ecosystem support.&lt;/p&gt;
+
+&lt;p&gt;Of the team, I am the only experienced Lisper (Scheme, Racket, CL). I was
+naturally attracted to LFE because of the philosophy of staying close to
+Erlang, but still being a Lisp. I further made the decision that at least
+some people would use LFE for development, perhaps mixed with Erlang. So we
+now have a team that is learning Erlang and LFE at the same time. The devs
+are all very competent, but this learning curve is our biggest risk at this
+point. It is my hope that LFE will help us transcend the learning curve.
+There are some indications that this is happening, but I will know more
+for sure in a few more days.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-good&quot;&gt;The Good&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;I am impressed at the correctness of the implementation. I have not
+seen unpredictable behavior yet and have unearthed no major correctness
+issues in the language implementation. Kudos to the team for that!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I like the closeness to Erlang. Being able to mindlessly call Erlang
+modules is a huge plus. Including .hrl files and having the records
+available in the defrecord form is very convenient. While I am no Erlang
+expert, I find converting cut and pasted Erlang code to LFE quite easy.
+So far, I only had a little bit of trouble with Bit comprehensions on
+that front. But, I suspect that is more because I am new to Erlang.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The compiler seems fast enough, but I’ll know more as the number of
+source files grow.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;the-moderately-good&quot;&gt;The Moderately Good&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Documentation&lt;/strong&gt;: … It exists, but things are hard to find. I realize
+this is a work in progress and hopefully we will be able to help in some
+ways.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;The LFE REPL&lt;/strong&gt;: I was thankful for it for understanding behavior which
+was not in the documentation or if I was too lazy to look it up.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Unit Test Framework&lt;/strong&gt;: Useful for many cases, but it took me a while to
+get it working correctly. I had trouble understanding test outputs,
+and the inability to isolate runs to specific tests was a little painful.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;the-frustrations&quot;&gt;The Frustrations&lt;/h2&gt;
+
+&lt;p&gt;Please bear with me on this. Not all of this relates to LFE entirely, but I
+feel it better to list it here in case LFE can have better solutions. The
+section is bigger because I’m trying to give all the gory details.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-macro-system&quot;&gt;The Macro System&lt;/h3&gt;
+
+&lt;p&gt;About 80% of the code I wrote in the past 10 days is for macros. It was a
+painful experience.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The biggest problem is that the macro system does not report errors properly.
+If an expansion encounters an error, all that the compiler reports is
+something like “could not expand form”. Or, even more frustratingly
+“bad application”. No other information is provided about what the error
+was and where it arose. This was true in the LFE REPL as well. It would
+REALLY &lt;em&gt;REALLY&lt;/em&gt; help if the underlying error is reported.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I got around these issues by writing helper functions which I could debug
+in the repl, but it took me a while to settle on this methodology. It
+makes my macros a trivial shell over a helper function, which makes for
+uglier code.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note, however, the macro system works correctly once the macros are debugged. There are no issues with correctness.&lt;/p&gt;
+
+&lt;h3 id=&quot;stringsbinary-complexity&quot;&gt;Strings/Binary Complexity&lt;/h3&gt;
+
+&lt;p&gt;My ideal situation here would be that LFE provide a mechanism for letting
+developers choose to always use Erlang binaries. We are
+&lt;a href=&quot;https://groups.google.com/d/msg/lisp-flavoured-erlang/pF4retTadzw/bwmz6a6BNZYJ&quot;&gt;currently discussing exactly this&lt;/a&gt;
+on the mail list.&lt;/p&gt;
+
+&lt;h3 id=&quot;erlangs-formatted-io&quot;&gt;Erlang’s Formatted I/O&lt;/h3&gt;
+
+&lt;p&gt;Given my long exposure to Common Lisp’s format, I feel that &lt;code&gt;&quot;~p&quot;&lt;/code&gt; is woefully
+inadequate. One of my resolutions is to contribute a CL compatible format
+function to LFE. I would love to collaborate with anyone who is interested
+in this.&lt;/p&gt;
+
+&lt;h3 id=&quot;one-right-way&quot;&gt;One Right Way&lt;/h3&gt;
+
+&lt;p&gt;One other thing on my wish-list would be that LFE be a little more opinionated
+on syntax choices. Allowing multiple ways to define functions etc., while
+helpful to lazy old goats like me, probably complicates the language more
+than necessary. It may be best left to user-defined macros to provide
+alternatives.&lt;/p&gt;
+
+&lt;h2 id=&quot;closing-thoughts&quot;&gt;Closing Thoughts&lt;/h2&gt;
+
+&lt;p&gt;Anyhow, that is all for now. More as things develop. Congratulations on
+getting LFE this far.&lt;/p&gt;
+
+&lt;p&gt;I am working on a document called “LFE for Erlang programmers”, which I will
+publish to this group as soon as it reaches some level of stability.&lt;/p&gt;
+
+</content>
+ </entry>
  
  <entry>
    <title>BYTE, August 1979: The LISP Issue</title>

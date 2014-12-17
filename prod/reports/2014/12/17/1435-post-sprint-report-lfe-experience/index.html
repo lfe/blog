@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <title>
       
-        Community Generated Content -
+        Post Sprint Report: LFE Experience -
       
       LFE Tutorials, News, &amp; Updates
     </title>
-    <meta name="description" content="Readers, submit your PRs for blog posts!">
+    <meta name="description" content="A frist-encounter with LFE from an Erlang appreciator with a Lisp background.">
     <meta name="author" content="LFElluminati | Alien Alliance">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -169,7 +169,7 @@
           
 <div class="page-header">
   <h1>
-    Community Generated Content 
+    Post Sprint Report: LFE Experience 
     
   </h1>
 </div>
@@ -177,28 +177,143 @@
 <div class="row">
   <div class="span8">
     
-<p>As was just mentioned on the
-<a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/61AtcsWcdPY/R2rdE6wy0wQJ">Lisp Flavoured Erlang mail list</a>,
-this blog is explicitly powered by users from the community sharing their
-stories, ideas, tutorials, manifestos, sonnets, and novellas about LFE and, in
-fact, any Lisp running on the Erlang VM.</p>
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>My
+team and I have just finished our first major sprint using LFE and I thought
+this would be a good time to report on our experience. Our stack is built around
+<a href="http://yaws.hyber.org/">YAWS</a> and we are using MySQL as the database. We’re not
+using any templating language, but instead relying on an API-based architecture
+with all front-end interactions in JavaScript + HTML.</p>
 
-<p>This was an implicit understanding before, but (to borrow from the
-<a href="">Zen of Python</a>, explicit is better than implicit. There’s now a link in the
-header of the blog where you can <a href="https://github.com/lfe/blog/fork">fork</a> the
-repository. This information is also supplied in the repo’s
-<a href="https://github.com/lfe/blog">README</a> file.</p>
+<h2 id="introduction">Introduction</h2>
 
-<p>We look forward to receiving your PRs :-)</p>
+<p>We are a small team of developers who are trying to get a pretty major web
+application launched in 12 weeks. This is a challenge in its own right, but
+as we were evaluating web platforms, we ended up rejecting most others in
+favor of Erlang. The choice was made collectively by all the devs who
+evaluated all of our different options (the others being PHP, node.js,
+Clojure, Scala, Haskell).  We picked Erlang primarily for the scalability,
+reliability and ecosystem support.</p>
+
+<p>Of the team, I am the only experienced Lisper (Scheme, Racket, CL). I was
+naturally attracted to LFE because of the philosophy of staying close to
+Erlang, but still being a Lisp. I further made the decision that at least
+some people would use LFE for development, perhaps mixed with Erlang. So we
+now have a team that is learning Erlang and LFE at the same time. The devs
+are all very competent, but this learning curve is our biggest risk at this
+point. It is my hope that LFE will help us transcend the learning curve.
+There are some indications that this is happening, but I will know more
+for sure in a few more days.</p>
+
+<h2 id="the-good">The Good</h2>
+
+<ol>
+  <li>
+    <p>I am impressed at the correctness of the implementation. I have not
+seen unpredictable behavior yet and have unearthed no major correctness
+issues in the language implementation. Kudos to the team for that!</p>
+  </li>
+  <li>
+    <p>I like the closeness to Erlang. Being able to mindlessly call Erlang
+modules is a huge plus. Including .hrl files and having the records
+available in the defrecord form is very convenient. While I am no Erlang
+expert, I find converting cut and pasted Erlang code to LFE quite easy.
+So far, I only had a little bit of trouble with Bit comprehensions on
+that front. But, I suspect that is more because I am new to Erlang.</p>
+  </li>
+  <li>
+    <p>The compiler seems fast enough, but I’ll know more as the number of
+source files grow.</p>
+  </li>
+</ol>
+
+<h2 id="the-moderately-good">The Moderately Good</h2>
+
+<ol>
+  <li>
+    <p><strong>Documentation</strong>: … It exists, but things are hard to find. I realize
+this is a work in progress and hopefully we will be able to help in some
+ways.</p>
+  </li>
+  <li>
+    <p><strong>The LFE REPL</strong>: I was thankful for it for understanding behavior which
+was not in the documentation or if I was too lazy to look it up.</p>
+  </li>
+  <li>
+    <p><strong>Unit Test Framework</strong>: Useful for many cases, but it took me a while to
+get it working correctly. I had trouble understanding test outputs,
+and the inability to isolate runs to specific tests was a little painful.</p>
+  </li>
+</ol>
+
+<h2 id="the-frustrations">The Frustrations</h2>
+
+<p>Please bear with me on this. Not all of this relates to LFE entirely, but I
+feel it better to list it here in case LFE can have better solutions. The
+section is bigger because I’m trying to give all the gory details.</p>
+
+<h3 id="the-macro-system">The Macro System</h3>
+
+<p>About 80% of the code I wrote in the past 10 days is for macros. It was a
+painful experience.</p>
+
+<ul>
+  <li>
+    <p>The biggest problem is that the macro system does not report errors properly.
+If an expansion encounters an error, all that the compiler reports is
+something like “could not expand form”. Or, even more frustratingly
+“bad application”. No other information is provided about what the error
+was and where it arose. This was true in the LFE REPL as well. It would
+REALLY <em>REALLY</em> help if the underlying error is reported.</p>
+  </li>
+  <li>
+    <p>I got around these issues by writing helper functions which I could debug
+in the repl, but it took me a while to settle on this methodology. It
+makes my macros a trivial shell over a helper function, which makes for
+uglier code.</p>
+  </li>
+</ul>
+
+<p>Note, however, the macro system works correctly once the macros are debugged. There are no issues with correctness.</p>
+
+<h3 id="stringsbinary-complexity">Strings/Binary Complexity</h3>
+
+<p>My ideal situation here would be that LFE provide a mechanism for letting
+developers choose to always use Erlang binaries. We are
+<a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/pF4retTadzw/bwmz6a6BNZYJ">currently discussing exactly this</a>
+on the mail list.</p>
+
+<h3 id="erlangs-formatted-io">Erlang’s Formatted I/O</h3>
+
+<p>Given my long exposure to Common Lisp’s format, I feel that <code>"~p"</code> is woefully
+inadequate. One of my resolutions is to contribute a CL compatible format
+function to LFE. I would love to collaborate with anyone who is interested
+in this.</p>
+
+<h3 id="one-right-way">One Right Way</h3>
+
+<p>One other thing on my wish-list would be that LFE be a little more opinionated
+on syntax choices. Allowing multiple ways to define functions etc., while
+helpful to lazy old goats like me, probably complicates the language more
+than necessary. It may be best left to user-defined macros to provide
+alternatives.</p>
+
+<h2 id="closing-thoughts">Closing Thoughts</h2>
+
+<p>Anyhow, that is all for now. More as things develop. Congratulations on
+getting LFE this far.</p>
+
+<p>I am working on a document called “LFE for Erlang programmers”, which I will
+publish to this group as soon as it reaches some level of stability.</p>
+
 
     <hr>
     <div class="pagination btn-group">
       
-        <a class="btn prev" href="/tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe" title="ErlPort: Using Python from Erlang/LFE">&larr; Previous</a>
+        <a class="btn prev" href="/archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue" title="BYTE, August 1979: The LISP Issue">&larr; Previous</a>
       
         <a class="btn" href="/archive.html">Archive</a>
       
-        <a class="btn next" href="/tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe" title="ErlPort and Python Part II: Making More Calls from LFE">Next &rarr;</a>
+        <a class="btn next disabled">Next &rarr;</a>
       
     </div>
     <hr>
@@ -208,17 +323,17 @@ repository. This information is also supplied in the repo’s
   <div class="span4">
     <section>
       <h4>Author</h4>
-      <div class="author"><span>Duncan McGreggor</span></div>
+      <div class="author"><span>Anurag Mendhekar</span></div>
     </section>
     <section>
       <h4>Published</h4>
-      <div class="date"><span>03 December 2014</span></div>
+      <div class="date"><span>17 December 2014</span></div>
     </section>
     
       <section>
         <h4>Category</h4>
         <span class="category">
-          announcements
+          reports
         </span>
       </section>
          
@@ -232,9 +347,13 @@ repository. This information is also supplied in the repo’s
 
   
      
-    	<li><a href="/tags.html#blog-ref">blog <span>2</span></a></li>
-     
     	<li><a href="/tags.html#community-ref">community <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#engineering teams-ref">engineering teams <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#lfe in the wild-ref">lfe in the wild <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#ux-ref">ux <span>1</span></a></li>
     
   
 
