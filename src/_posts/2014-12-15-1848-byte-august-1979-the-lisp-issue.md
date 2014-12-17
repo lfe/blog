@@ -3,7 +3,7 @@ layout: post
 title: "BYTE, August 1979: The LISP Issue"
 description: "An exploration of the Ancient LISP code on the cover of BYTE, August 1972"
 category: archeology
-tags: [fun,lisp]
+tags: [fun,lisp,common lisp]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
@@ -70,6 +70,10 @@ for some bits, but here are some initial notes:
    (and oh my, I very well could be!), the first part actually looks like a
    predecessor to the ``(let ...)`` form. Given the function name and the names
    of the defined variables, it's pretty clear what's going on here :-)
+
+**Update from Rainer Joswig**: he mentioned that we should be sure to check out
+a web page that discusses
+[running old Lisp programms on Common Lisp](http://www.informatimago.com/develop/lisp/com/informatimago/small-cl-pgms/wang.html).
 
 The stucture of the first two functions will be more clear if we reformat the
 original:
