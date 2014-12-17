@@ -5,8 +5,8 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2014-12-17T15:04:25-06:00</lastBuildDate>
-        <pubDate>2014-12-17T15:04:25-06:00</pubDate>
+        <lastBuildDate>2014-12-17T15:19:07-06:00</lastBuildDate>
+        <pubDate>2014-12-17T15:19:07-06:00</pubDate>
         <ttl>1800</ttl>
 
 
@@ -215,6 +215,10 @@ creates a list of spaces of length &lt;code&gt;N&lt;/code&gt;. I couldn’t find
 predecessor to the &lt;code&gt;(let ...)&lt;/code&gt; form. Given the function name and the names
 of the defined variables, it’s pretty clear what’s going on here :-)&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Update from Rainer Joswig&lt;/strong&gt;: he mentioned that we should be sure to check out
+a web page that discusses
+&lt;a href=&quot;http://www.informatimago.com/develop/lisp/com/informatimago/small-cl-pgms/wang.html&quot;&gt;running old Lisp programms on Common Lisp&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The stucture of the first two functions will be more clear if we reformat the
 original:&lt;/p&gt;
