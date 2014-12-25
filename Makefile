@@ -53,7 +53,7 @@ staging: $(STAGE_DIR)
 	make clean
 
 publish: clean build
-	git commit -a && git push --all
+	git commit -a && git push origin master
 	git subtree push --prefix $(PROD_DIR) origin gh-pages
 
 new:
