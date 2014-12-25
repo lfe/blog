@@ -4,13 +4,26 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2014-12-17T15:19:07-06:00</updated>
+ <updated>2014-12-25T12:29:09-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>Happy Holidays from LFE</title>
+   <link href="http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe"/>
+   <updated>2014-12-25T00:00:00-06:00</updated>
+   <id>http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/LFE-Happy-Holidays.png&quot;&gt;&lt;img class=&quot;left medium&quot; src=&quot;/assets/images/posts/LFE-Happy-Holidays.png&quot; /&gt;&lt;/a&gt;
+To all you Erlangers, Lispers, FP’ers, Hackers, and Open-Sorcerers – we wish
+you the very best of holidays, a wonderful finishing of the year, and the
+happiest of new years!&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Post Sprint Report: LFE Experience</title>

@@ -10,6 +10,7 @@ http://blog.lfe.io//sitemap.txt
 http://blog.lfe.io//tags.html
 http://blog.lfe.io//page2/index.html
 
+http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe
 http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience
 http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue
 http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core
