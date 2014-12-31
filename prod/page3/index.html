@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <title>
       
-        Usability Update: IErlang Notebook (a la IPython) -
+        LFE Tutorials, News,  &amp; Updates -
       
       LFE Tutorials, News, &amp; Updates
     </title>
-    <meta name="description" content="Updated project source for IErlang makes it easier to use">
+    
     <meta name="author" content="LFElluminati | Alien Alliance">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- HTML5 shim, for IE6-8 support of HTML elements -->
@@ -173,148 +173,74 @@
         <div class="content">
           
 
-<div class="page-header">
-  <h1>
-    Usability Update: IErlang Notebook (a la IPython) 
-    
-  </h1>
+<div class="page-header-wrapper">
+        <div class="page-header">
+                <h1>LFE Tutorials, News,  &amp; Updates  <small>A BEAM Language Blog for the Syntaxless Ones</small></h1>
+                <p class="subtagline">
+                   <span>A proud member of
+                         <a href="http://planeterlang.com/">PlanetErlang</a>
+                   </span>
+                   <span class="meddot">&#9679;</span>
+                   <span>Got some LFE news?
+                         <a href="https://github.com/lfe/blog/fork">Fork us</a>
+                         and make a PR!
+                   </span>
+                </p>
+        </div>
 </div>
 
 <div class="row">
-  <div class="span8">
-    
-<p><a href="/assets/images/posts/screencapture-ierlang_demo.png"><img class="left thumb" src="/assets/images/posts/screencapture-ierlang_demo.png" /></a>Back in April, the Erlang community
-was stunned to hear that we had been given an answer to
-<a href="http://ipython.org/">IPython</a>, IHaskell, and IJulia –
-<a href="http://robl.co/ierlang-featured-on-hacker-news/">IErlang</a>. However, as
-<a href="https://twitter.com/lynchrobbie">Robbie</a> noted in the list of outstanding
-issues at the end of the IErlang demo notebook, not a lot of time had been set
-aside to develop a more standard project structure. Furthermore, the setup and
-installation of IErlang to get to the point where you could try it out was a
-rather arduous process. All of that has now changed …</p>
-
-<h2 id="running-the-new-demo">Running the New Demo</h2>
-
-<p>The IErlang project has a series of
-<a href="https://github.com/robbielynch/ierlang/pulls">open PRs</a> that address several
-of the organizational issues Robbie had lamented, but you don’t have to wait
-until they get merged; you can
-<a href="https://github.com/oubiwann/ierlang">get it now</a>:</p>
-
-<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>git clone git@github.com:oubiwann/ierlang.git
-<span class="nv">$ </span><span class="nb">cd </span>ierlang
-<span class="nv">$ </span>make demo</code></pre></div>
-
-<p>Yup. That’s it.</p>
-
-<p>This will do the following for you:</p>
-
-<ul>
-  <li>Set up a Python virtual environment in the project’s working directory (in
-<code>./.venv-py2</code>)</li>
-  <li>Install IPython and its dependencies into that virtual environment</li>
-  <li>Patch IPython to support Erlang</li>
-  <li>Download the Erlang project dependencies</li>
-  <li>Compile the Erlang dependency modules</li>
-  <li>Compile the <code>ierl_*</code> modules</li>
-  <li>Start up the demo notebook in your browser</li>
-</ul>
-
-<h2 id="requirements">Requirements</h2>
-
-<p>As you might have guessed, this requires that you have the following
-installed in your <code>$PATH</code>:</p>
-
-<ul>
-  <li><code>erl</code> and <code>erlscript</code></li>
-  <li><code>rebar</code></li>
-  <li>Python 2.7 (Python 3.4 support is in the works; see
-<a href="https://github.com/robbielynch/ierlang/issues/6">the ticket</a>)</li>
-</ul>
-
-<h2 id="outstanding-issues">Outstanding Issues</h2>
-
-<p>As you can see at the bottom of the IErlang notebook demo, many of the issues
-that Robbie identified earlier this year still remain. In particular, I’ve
-added another one to that list: high CPU usage for both <code>console</code> and
-<code>notebook</code> mode.</p>
-
-<p>A minor issue I didn’t add, but which I may take up (being the code janitor
-that I am) is function-level organization in the modules: most functions are
-too long and entail too much logic. They need to be split out (which will
-also make it easier for folks to contribute).</p>
-
-<p>As referenced above, currently only Python 2.7 is supported. Python 3.4 support
-is in-progress, but requires cleaning up <code>str</code> and <code>bytes</code> handling.</p>
-
-<h2 id="future-work">Future Work</h2>
-
-<p>The next logical step is to generalize this work (through refactoring!) so that
-<a href="http://lfe.io/">LFE</a>,
-<a href="http://elixir-lang.org/">Elixir</a>,
-<a href="http://joxa.org/">Joxa</a>,
-<a href="https://github.com/rvirding/luerl">Luerl</a>,
-<a href="https://github.com/rvirding/erlog">Erlog</a>,
-<a href="https://github.com/etnt/Haskerl">Haskerl</a>,
-and others may also be used with IErlang :-)</p>
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/site/2014/05/22/2301-lfe-microblog-is-open-for-business-">LFE Microblog is Open for Business ...</a></strong>
+        </h2>
+        <h4>Another web property update</h4>
+        <p>
+          
+<p>The LFE micoblog site (powered by Jekyll and Bootsrap) is live and ready to go.</p>
 
 
-    <hr>
-    <div class="pagination btn-group">
-      
-        <a class="btn prev" href="/tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe" title="ErlPort and Python Part II: Making More Calls from LFE">&larr; Previous</a>
-      
-        <a class="btn" href="/archive.html">Archive</a>
-      
-        <a class="btn next" href="/tutorials/2014/12/07/1837-running-lfe-in-docker" title="Running LFE in Docker">Next &rarr;</a>
-      
+          <br />
+          <a href="/site/2014/05/22/2301-lfe-microblog-is-open-for-business-">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> May 22, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#site-ref" rel="tooltip" title="View posts tagged with &quot;site&quot;"><span class="tags badge label">site</span></a>     <a href="/tags.html#web-ref" rel="tooltip" title="View posts tagged with &quot;web&quot;"><span class="tags badge label">web</span></a>     <a href="/tags.html#blog-ref" rel="tooltip" title="View posts tagged with &quot;blog&quot;"><span class="tags badge label">blog</span></a>     <a href="/tags.html#news-ref" rel="tooltip" title="View posts tagged with &quot;news&quot;"><span class="tags badge label">news</span></a>   
+        </p>
+      </div>
     </div>
     <hr>
-    
   </div>
-  
-  <div class="span4">
-    <section>
-      <h4>Author</h4>
-      <div class="author"><span>Duncan McGreggor</span></div>
-    </section>
-    <section>
-      <h4>Published</h4>
-      <div class="date"><span>06 December 2014</span></div>
-    </section>
-    
-      <section>
-        <h4>Category</h4>
-        <span class="category">
-          announcements
-        </span>
-      </section>
-         
-    
-      <section>
-        <h4>Tags</h4>
-        <ul class="tag_box">
+</div>
+
+<div class="row">
+  <div class="span7">
+    <div class="row">
+      <div class="span5">
+        <h2>
+          <strong><a href="/site/2014/05/22/1849-new-lfe-site">New LFE Site!</a></strong>
+        </h2>
+        <h4>LFE has a new main site</h4>
+        <p>
           
-          
+<p>Good news, everyone! Professor Farnsworth nodded off, and we’ve had some fun
+while he slept.</p>
 
 
-  
-     
-    	<li><a href="/tags.html#erlang-ref">erlang <span>2</span></a></li>
-     
-    	<li><a href="/tags.html#tools-ref">tools <span>3</span></a></li>
-     
-    	<li><a href="/tags.html#web-ref">web <span>6</span></a></li>
-     
-    	<li><a href="/tags.html#shells-ref">shells <span>1</span></a></li>
-    
-  
-
-
-
-        </ul>
-      </section>
-             
+          <br />
+          <a href="/site/2014/05/22/1849-new-lfe-site">Read more</a>
+        </p>
+        <p>
+          <i class="icon-user"></i> Duncan McGreggor
+          <i class="icon-calendar"></i> May 22, 2014
+          | <i class="icon-tags"></i> Tags : <a href="/tags.html#site-ref" rel="tooltip" title="View posts tagged with &quot;site&quot;"><span class="tags badge label">site</span></a>     <a href="/tags.html#web-ref" rel="tooltip" title="View posts tagged with &quot;web&quot;"><span class="tags badge label">web</span></a>     <a href="/tags.html#news-ref" rel="tooltip" title="View posts tagged with &quot;news&quot;"><span class="tags badge label">news</span></a>   
+        </p>
+      </div>
+    </div>
+    <hr>
   </div>
 </div>
 
