@@ -3,15 +3,21 @@ layout: post
 title: "Scientific Computing on the Erlang VM"
 description: "Polynomial Curve Fitting with LFE"
 category: tutorials
-tags: [maths,python,numpy,scipy,plotting,ascii, scientific computing,]
+tags: [erlang,python,howtos,libraries,numpy,scipy,erlport,py,
+       ascii,plotting,maths,statistics,science,scientific computing,
+       statistical analysis,linear regression,curve fitting,polynomials]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
 {% include MathJax/setup %}
-<a href="{{ site.base_url }}/assets/images/posts/lsci-erlang-ecosystem.png"><img class="right thumb" src="{{ site.base_url }}/assets/images/posts/lsci-erlang-ecosystem.png" /></a>This tutorial introduces the Erlang/LFE scientific computing library
-[lsci](https://github.com/lfex/lsci)
--- a ports wrapper of NumPy, SciPy (among others) for the Erlang ecosystem.
+<a href="{{ site.base_url }}/assets/images/posts/lsci-erlang-ecosystem.png"><img class="right thumb" src="{{ site.base_url }}/assets/images/posts/lsci-erlang-ecosystem.png" /></a>This tutorial brings in the New Year by introducing the Erlang/LFE
+scientific computing library [lsci](https://github.com/lfex/lsci)
+-- a ports wrapper of NumPy and SciPy (among others) for the Erlang ecosystem.
 The topic of the tutorial is polynomial curve-fitting for a given data set.
+Additionally, this post further demonstrates [py](https://github.com/lfex/py/)
+usage, the
+[previously discussed](http://localhost:4000/announcements/2014/12/27/1641-easy-python-from-lfeerlang)
+Erlang/LFE library for running Python code from the Erlang VM.
 
 
 ## Background
@@ -24,6 +30,9 @@ It, in turn, was completely inspired by the
 [Clojure Incantor tutorial](http://data-sorcery.org/2009/06/04/linear-regression-with-higher-order-terms/)
 on the same subject, by David Edgar Liebke.
 
+This content is also available in the
+[lsci examples directory](https://github.com/lfex/lsci/tree/cbba7e4705bdc8baaa8b8abaf40ae1649ed44b42/examples/polyfit).
+
 
 ## Introduction
 
@@ -31,21 +40,25 @@ The lsci library (pronounced "Elsie") provides access to the fast numerical
 processing libraries that have become so popular in the scientific computing
 community. lsci is written in LFE but can be used just as easily from Erlang.
 
-sci provides the following set of features:
+lsci provides the following set of features:
 
  * Wrapper functions (many generated dynamically via macros) for:
-   * The Python standard library module [math](https://docs.python.org/3/library/math.html)
-   * The Python standard library module [cmath](https://docs.python.org/3/library/cmath.html)
+   * The Python 3 standard library module [math](https://docs.python.org/3/library/math.html)
+   * The Python 3 standard library module [cmath](https://docs.python.org/3/library/cmath.html)
+   * The Python 3 standard library module [statistics](https://docs.python.org/3/library/statistics.html)
    * [NumPy](http://www.numpy.org/)
    * [SciPy](http://www.scipy.org/scipylib/index.html)
-   * Planned support for [Pandas](http://pandas.pydata.org/),
+   * Planned support for
+     [fractions](https://docs.python.org/3/library/fractions.html),
+     [decimal](https://docs.python.org/3/library/decimal.html),
+     [Pandas](http://pandas.pydata.org/),
      [matplotlib](http://matplotlib.org/), and
      [SymPy](http://www.sympy.org/en/index.html)
- * Wrappers for [ErlPort](http://erlport.org/) which make calling Python
+ * The [py](https://github.com/lfex/py/) wrappers for
+   [ErlPort](http://erlport.org/) which make calling Python
    module-level functions, object attributes and methods, constructors,
    function objects, etc., very easy
- * Custom encoders/decoders for various data types (e.g., ``dict``s, custom
-   SciPy data types, etc.)
+ * Custom encoders/decoders for some of the wrapped data types
 
 lsci is brand-new, and thus has far to go before it completely wraps all the
 functionality in NumPy, SciPy, etc. However, enough of it is done that one can
@@ -55,10 +68,11 @@ perform tasks like polynomial curve-fitting and statistical regression.
 ## Setup
 
 To run this tutorial, you will need the following on your system:
- * Python 3.x
+
  * Erlang (tested with 17.3)
  * rebar
  * lfetool
+ * Python 3
  * git
 
 With those in place, let's get you ready:
@@ -67,11 +81,15 @@ With those in place, let's get you ready:
 $ git clone git@github.com:lfex/lsci.git
 $ cd lsci
 $ make
+$ . ./python/.venv/bin/activate
 ```
 
-That will download all the Erlang and Python dependencies and set up a Python
-virtualenv in your working directory. It will also compile all the Erlang code
-for you. At which point, you are ready for the LFE REPL:
+That will download all the Erlang and Python dependencies, compile the Erlang
+libs, and set up a Python virtualenv in your working directory. If you are
+not familiar with Python, the last command is what allows one to actually
+use the Python virtualenv, with all the libraries you just downloaded.
+
+You are now ready for the LFE REPL:
 
 ```cl
 $ make repl-no-deps
@@ -309,17 +327,17 @@ out:
 Let's call this function against several values as a sanity check:
 
 ```cl
-> (lsci-np:->list (lsci-py:func model '(-9)))
+> (lsci-np:->list (py:func model '(-9)))
 0.7766886098502255
-> (lsci-np:->list (lsci-py:func model '(-7)))
+> (lsci-np:->list (py:func model '(-7)))
 0.7990591787051926
-> (lsci-np:->list (lsci-py:func model '(-6)))
+> (lsci-np:->list (py:func model '(-6)))
 0.8860483219018533
-> (lsci-np:->list (lsci-py:func model '(-5)))
+> (lsci-np:->list (py:func model '(-5)))
 0.8926343904781788
-> (lsci-np:->list (lsci-py:func model '(-4)))
+> (lsci-np:->list (py:func model '(-4)))
 0.9094348679923314
-> (lsci-np:->list (lsci-py:func model '(-3)))
+> (lsci-np:->list (py:func model '(-3)))
 0.8893022773313533
 ```
 
@@ -335,7 +353,7 @@ or $$R^2$$ -- a value that indicates how well a statistical model fits with
 measured data. We'll start by feeding our $$x$$ values into our model:
 
 ```cl
-> (set y-predicted (lsci-py:func model `(,xs)))
+> (set y-predicted (py:func model `(,xs)))
 #($erlport.opaque python ...)
 > (lsci-np:->list y-predicted)
 (0.8115567059126079 0.9058214190752096 0.9051532611576931
@@ -385,10 +403,25 @@ Here are the calculations:
 #($erlport.opaque python ...)
 ```
 
+Instead of ``(lsci-np:^ ...)`` you may use ``(lsci-np:** ...)``, if you
+prefer, e.g.:
+
+```cl
+> (set ss-res (lsci-np:sum (lsci-np:** (lsci-np:- ys y-predicted) 2)))
+#($erlport.opaque python ...)
+```
+
 Those use shortened aliases; you may prefer the long form:
 
 ```cl
-
+> (set y-mean (lsci-np:divide (lsci-np:sum ys) (lsci-np:size ys)))
+#($erlport.opaque python ...)
+> (set ss-tot (lsci-np:sum (lsci-np:power (lsci-np:subtract ys y-mean) 2)))
+#($erlport.opaque python ...)
+> (set ss-reg (lsci-np:sum (lsci-np:power (lsci-np:subtract y-predicted y-mean) 2)))
+#($erlport.opaque python ...)
+> (set ss-res (lsci-np:sum (lsci-np:power (lsci-np:subtract ys y-predicted) 2)))
+#($erlport.opaque python ...)
 ```
 
 Let's sanity-check the results:
@@ -407,7 +440,7 @@ Let's sanity-check the results:
 Now we're ready to get the $$R^2$$ value for our model:
 
 ```cl
-> (set r-squared (lsci-np:subtract 1 (lsci-np:divide ss-res ss-tot)))
+> (set r-squared (lsci-np:- 1 (lsci-np:/ ss-res ss-tot)))
 #($erlport.opaque python ...)
 > (lsci-np:->float r-squared)
 0.9967274161723995
@@ -417,7 +450,7 @@ If we compare this to the value from the original NIST data file,
 ``0.996727416185620 ``, we see that our model did pretty well:
 
 ```cl
-> (lsci-np:->float (lsci-np:subtract r-squared 0.996727416185620))
+> (lsci-np:->float (lsci-np:- r-squared 0.996727416185620))
 -1.3220535777236364e-11
 ```
 
@@ -427,7 +460,8 @@ That's a pretty tiny difference!
 ## A Linear Model Class
 
 The linear model code above is a bit cumbersome; it would be much more
-convenient for multiple-use if there was a Python class for it. So that's
+convenient for multiple-use if there was a Python class that did all the
+arithmetic for us, and we could just get attribute values ... So that's
 what we created:
 
 ```python
@@ -498,33 +532,35 @@ easily create a linear model which provides everything needed in one go:
 ```cl
 > (set model (lsci-np:poly-linear-model xs ys 10))
 #($erlport.opaque python ...)
-> (lsci-py:type model)
+> (py:ptype model)
 lsci.numpysupl.PolynomialLinearModel
-> (lsci-py:attr model 'results)
-(#("rank" 11)
- #("r-squared" 0.9967274161723995)
- #("residuals" (7.958513839371895e-4))
- #("ss-reg" 0.24239162093851477)
- #("rcond" 1.8207657603852567e-14)
- #("ss-tot" 0.2431874712195122)
- #("singular-values"
-   (3.128894711145785 1.064548669029962 0.27180324022363517
-    0.05296821542551952 0.008387108325776571 0.0010157565988992792
-    9.583030547029836e-5 7.605115790256685e-6 4.6491044714423815e-7
-    1.9871421381342612e-8 6.009222284310632e-10))
- #("coeffs"
-   (-4.029625205186532e-5 -0.0024678107546401437
-    -0.06701911469215643 -1.0622149736864719 -10.875317910262362
-    -75.12420087227511 -354.47822960532113 -1127.973927925715
-    -2316.371054759451 -2772.1795597594755 -1467.4895971641686))
- #("ss-res" 7.958513853880548e-4)
- #("y-mean" 0.8495756097560976))
+> (py:attr model 'results)
+#("dict"
+  (#("rcond" 1.8207657603852567e-14)
+   #("rank" 11)
+   #("coeffs"
+     (-4.029625205186532e-5 -0.0024678107546401437
+      -0.06701911469215643 -1.0622149736864719 -10.875317910262362
+      -75.12420087227511 -354.47822960532113 -1127.973927925715
+      -2316.371054759451 -2772.1795597594755 -1467.4895971641686))
+   #("residuals" (7.958513839371895e-4))
+   #("ss-reg" 0.24239162093851477)
+   #("singular-values"
+     (3.128894711145785 1.064548669029962 0.27180324022363517
+      0.05296821542551952 0.008387108325776571 0.0010157565988992792
+      9.583030547029836e-5 7.605115790256685e-6
+      4.6491044714423815e-7 1.9871421381342612e-8
+      6.009222284310632e-10))
+   #("r-squared" 0.9967274161723995)
+   #("ss-res" 7.958513853880548e-4)
+   #("y-mean" 0.8495756097560976)
+   #("ss-tot" 0.2431874712195122)))
 ```
 
 We can also extract only what we need:
 
 ```cl
-> (set r-squared (lsci-py:attr model 'r-squared))
+> (set r-squared (py:attr model 'r-squared))
 #($erlport.opaque python ...)
 > (lsci-np:->float r-squared)
 0.9967274161723995
@@ -535,7 +571,7 @@ the outputs fit our measured data. Of of those was the value ``-9`` which
 returned ``0.77668860985022548``. Let's try that again with our new object:
 
 ```cl
-> (lsci-np:->float (lsci-py:method model 'predict '(-9)))
+> (lsci-np:->float (py:method model 'predict '(-9)))
 0.7766886098502255
 ```
 
@@ -553,12 +589,12 @@ to generate the y values:
 ```cl
 > (set xs-fitted
     (lsci-np:linspace
-      (lsci-py:method xs 'min)
-      (lsci-py:method xs 'max)
+      (py:method xs 'min)
+      (py:method xs 'max)
       `(#(num 200))))
 #($erlport.opaque python ...)
 > (set ys-fitted
-    (lsci-py:method model 'predict `(,xs-fitted)))
+    (py:method model 'predict `(,xs-fitted)))
 ```
 
 Now we're ready to put them together:
@@ -574,7 +610,7 @@ plot-both
 
 When we call our plot function:
 
-```
+```cl
 > (plot-both)
 ```
 
@@ -627,7 +663,8 @@ thing floats your boat, be sure to take a look at
 [some of the development tasks](https://github.com/lfex/lsci/issues) and
 come give us a hand!
 
-Even though there's a lot to do, every little function that gets converted
+Even though there's a lot to do, there's a lot of reward :-) Every little
+function that gets converted
 brings enormous satisfaction: the ability to perform these sorts of computing
 tasks without having to leave the Erlang ecosysm is a wonderful change. We
 hope it's one that you not only get used to, but can't live without :-)
