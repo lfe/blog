@@ -567,13 +567,15 @@ We can also extract only what we need:
 ```
 
 When we created our first model, we ran it against several values to see if
-the outputs fit our measured data. Of of those was the value ``-9`` which
+the outputs fit our measured data. One of those was the value ``-9`` which
 returned ``0.77668860985022548``. Let's try that again with our new object:
 
 ```cl
 > (lsci-np:->float (py:method model 'predict '(-9)))
 0.7766886098502255
 ```
+
+Nice.
 
 
 ## Plotting the Model with the Observed Data
@@ -615,7 +617,7 @@ When we call our plot function:
 ```
 
 We get the following, which shows the scatter plot of the original data
-in ``o``s) with the polynomial curve fit overlayed with the ``-`` markers:
+(``o`` markers) with the polynomial curve fit overlaid (``-`` markers):
 
 ```
                                                                            o-----o
@@ -666,5 +668,5 @@ come give us a hand!
 Even though there's a lot to do, there's a lot of reward :-) Every little
 function that gets converted
 brings enormous satisfaction: the ability to perform these sorts of computing
-tasks without having to leave the Erlang ecosysm is a wonderful change. We
+tasks without having to leave the Erlang ecosystem is a wonderful change. We
 hope it's one that you not only get used to, but can't live without :-)

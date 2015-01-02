@@ -4,7 +4,7 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2015-01-01T13:45:32-06:00</updated>
+ <updated>2015-01-01T22:16:46-06:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -537,11 +537,13 @@ easily create a linear model which provides everything needed in one go:&lt;/p&g
 &lt;span class=&quot;mf&quot;&gt;0.9967274161723995&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;When we created our first model, we ran it against several values to see if
-the outputs fit our measured data. Of of those was the value &lt;code&gt;-9&lt;/code&gt; which
+the outputs fit our measured data. One of those was the value &lt;code&gt;-9&lt;/code&gt; which
 returned &lt;code&gt;0.77668860985022548&lt;/code&gt;. Let’s try that again with our new object:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lsci-np:-&amp;gt;float&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;py:method&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;predict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;-9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
 &lt;span class=&quot;mf&quot;&gt;0.7766886098502255&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Nice.&lt;/p&gt;
 
 &lt;h2 id=&quot;plotting-the-model-with-the-observed-data&quot;&gt;Plotting the Model with the Observed Data&lt;/h2&gt;
 
@@ -574,7 +576,7 @@ to generate the y values:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;plot-both&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;We get the following, which shows the scatter plot of the original data
-in &lt;code&gt;o&lt;/code&gt;s) with the polynomial curve fit overlayed with the &lt;code&gt;-&lt;/code&gt; markers:&lt;/p&gt;
+(&lt;code&gt;o&lt;/code&gt; markers) with the polynomial curve fit overlaid (&lt;code&gt;-&lt;/code&gt; markers):&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code&gt;                                                                           o-----o
                                                                       o o  --    -
@@ -623,7 +625,7 @@ come give us a hand!&lt;/p&gt;
 &lt;p&gt;Even though there’s a lot to do, there’s a lot of reward :-) Every little
 function that gets converted
 brings enormous satisfaction: the ability to perform these sorts of computing
-tasks without having to leave the Erlang ecosysm is a wonderful change. We
+tasks without having to leave the Erlang ecosystem is a wonderful change. We
 hope it’s one that you not only get used to, but can’t live without :-)&lt;/p&gt;
 </content>
  </entry>

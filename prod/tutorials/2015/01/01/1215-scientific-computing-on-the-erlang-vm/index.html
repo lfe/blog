@@ -702,11 +702,13 @@ easily create a linear model which provides everything needed in one go:</p>
 <span class="mf">0.9967274161723995</span></code></pre></div>
 
 <p>When we created our first model, we ran it against several values to see if
-the outputs fit our measured data. Of of those was the value <code>-9</code> which
+the outputs fit our measured data. One of those was the value <code>-9</code> which
 returned <code>0.77668860985022548</code>. Let’s try that again with our new object:</p>
 
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lsci-np:-&gt;float</span> <span class="p">(</span><span class="nv">py:method</span> <span class="nv">model</span> <span class="ss">&#39;predict</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">-9</span><span class="p">)))</span>
 <span class="mf">0.7766886098502255</span></code></pre></div>
+
+<p>Nice.</p>
 
 <h2 id="plotting-the-model-with-the-observed-data">Plotting the Model with the Observed Data</h2>
 
@@ -739,7 +741,7 @@ to generate the y values:</p>
 <div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">plot-both</span><span class="p">)</span></code></pre></div>
 
 <p>We get the following, which shows the scatter plot of the original data
-in <code>o</code>s) with the polynomial curve fit overlayed with the <code>-</code> markers:</p>
+(<code>o</code> markers) with the polynomial curve fit overlaid (<code>-</code> markers):</p>
 
 <div class="highlight"><pre><code>                                                                           o-----o
                                                                       o o  --    -
@@ -788,7 +790,7 @@ come give us a hand!</p>
 <p>Even though there’s a lot to do, there’s a lot of reward :-) Every little
 function that gets converted
 brings enormous satisfaction: the ability to perform these sorts of computing
-tasks without having to leave the Erlang ecosysm is a wonderful change. We
+tasks without having to leave the Erlang ecosystem is a wonderful change. We
 hope it’s one that you not only get used to, but can’t live without :-)</p>
 
     <hr>
