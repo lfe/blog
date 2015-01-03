@@ -11,6 +11,7 @@ http://blog.lfe.io//tags.html
 http://blog.lfe.io//page2/index.html
 http://blog.lfe.io//page3/index.html
 
+http://blog.lfe.io//announcements/2015/01/03/1244-coming-soon-lfe-fridays
 http://blog.lfe.io//tutorials/2015/01/01/1215-scientific-computing-on-the-erlang-vm
 http://blog.lfe.io//announcements/2014/12/27/1641-easy-python-from-lfeerlang
 http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe
