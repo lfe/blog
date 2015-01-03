@@ -1,4 +1,4 @@
-This week's LFE Friday was translated with permission from the
+<a href="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
 [Erlang Thursday](http://www.proctor-it.com/category/erlang/erlang-thursday/)
 series by [Steven Proctor](https://twitter.com/stevenproctor).
-This week's translator: *{{ page.author }}*.
+*This week's translator*: {{ page.author }}.
