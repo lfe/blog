@@ -12,6 +12,8 @@ You can view the blog [here](http://blog.lfe.io/). The LFE blog is a member of
 
 ## Requirements
 
+For those who will actually be executing the ``make publish`` target, ``git-subtree`` is required.
+
 Install [git-subtree](https://github.com/andrewmwhite/git-subtree):
 
 ```bash
@@ -23,13 +25,15 @@ $ sudo make install
 
 ## Workflow
 
+### For Contributors
+
 #### Summary
 
 * Fork this repo (you might want to rename yours from "blog" to "lfe-blog")
 * See the usage below to create a post
-* Regenerate the static content
-* Push the updated static content to the ``gh-pages`` branch your fork
-* Issue a PR from your ``gh-pages`` branch to the upstream ``gh-pages`` branch
+* Push to your fork
+* Issue a PR from your branch to lfe/blog ``master``
+
 
 #### Get the code
 
@@ -65,22 +69,35 @@ e.g., for tags, archives, years, etc. Make sure you didn't miss anything by
 checkout the untracked files in the ``git status`` output.
 
 
+#### Issue a Pull Request
+
+Once you're stasified with your post, push your branch up to your fork of
+the blog and issue a PR to be merged with ``master`` of lfe/blog.
+
+
+### For Maintainers
+
+#### Summary
+
+* Merge a contributor's PR
+* Regenerate the static content
+* Push the updated static content to ``gh-pages``
+
+
 #### Publish
+
+Once a contributor's code has been merged (either in the Web UI or via
+command line), you are ready to publish. This needs to be done locally,
+so if I've merged a PR on Github, you'll need to ``$ git pull origin master``.
+
+The following command will regenerate the static content, commit it to
+master (interactively), and then push the static content to ``gh-pages``
+for the LFE blog repo on github (which will be renderable immediately on
+the blog):
 
 ```bash
 $ make publish
 ```
-
-The ``make`` target of that final command rebuilds the site and then pushes the
-content of your newly-refreshed``./prod`` directory up to the ``gh-pages``
-branch of your fork.
-
-At that point, you're ready to go to your fork on Github, switch to the
-``gh-pages`` branch, and issue the pull request to ``gh-pages`` on ``lfe/blog``.
-
-
-Note: when you push this change up to your ``gh-pages`` branch, you may see a
-Github Pages build warning about the ``CNAME`` file. You can ignore that :-)
 
 
 ## Usage
