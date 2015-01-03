@@ -58,4 +58,4 @@ publish: clean build
 
 new:
 	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
-	vim $(SRC)/$$(echo $$OUT | cut -d ' ' -f 4-)
+	$(EDITOR) $(SRC)/$$(echo $$OUT | cut -d ' ' -f 4-)
