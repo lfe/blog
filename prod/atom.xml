@@ -4,7 +4,7 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2015-01-03T13:06:06-06:00</updated>
+ <updated>2015-01-05T03:04:35+01:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
@@ -13,9 +13,60 @@
 
  
  <entry>
+   <title>LFE Friday - lists:any/2</title>
+   <link href="http://blog.lfe.io//tutorials/2015/01/04/1931-lfe-friday---listsany2"/>
+   <updated>2015-01-04T00:00:00+01:00</updated>
+   <id>http://blog.lfe.io//tutorials/2015/01/04/1931-lfe-friday---listsany2</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week’s LFE Friday was translated with permission from the
+&lt;a href=&quot;http://www.proctor-it.com/category/erlang/erlang-thursday/&quot;&gt;Erlang Thursday&lt;/a&gt;
+series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Proctor&lt;/a&gt;.
+&lt;em&gt;This week’s translator&lt;/em&gt;: Robert Virding.&lt;/p&gt;
+
+&lt;p&gt;Today’s LFE Friday function of the week is &lt;a href=&quot;http://www.erlang.org/doc/man/lists.html#any-2&quot;&gt;lists:any/2&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lists:any/2&lt;/code&gt; takes a predicate function as the first argument, and a list to iterate over as its second argument. &lt;code&gt;lists:any/2&lt;/code&gt; returns &lt;code&gt;true&lt;/code&gt; if the predicate function returns &lt;code&gt;true&lt;/code&gt; for any of the elements in the given list, otherwise, &lt;code&gt;lists:any/2&lt;/code&gt; returns &lt;code&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:any&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:is_atom/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:any&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:is_atom/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:any&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:is_atom/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:any&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:any&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;lists:any/2&lt;/code&gt; is eager, and will return with a result of &lt;code&gt;true&lt;/code&gt; as soon as it is found, and will ignore processing the rest of the list.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;timer:tc&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;any&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200000&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt; 
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;171661&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;timer:tc&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;any&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200000&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;19&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;lists&lt;/code&gt; module also contains a function &lt;a href=&quot;http://www.erlang.org/doc/man/lists.html#all-2&quot;&gt;lists:all/2&lt;/a&gt;, similar to &lt;code&gt;lists:any/2&lt;/code&gt;, but checks if the predicate function returns &lt;code&gt;true&lt;/code&gt; for every element in the supplied list.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:all&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:is_number/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:all&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;erlang:is_number/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code&gt;lists:all/2&lt;/code&gt; is also eager, and will return with a result of &lt;code&gt;false&lt;/code&gt; as soon as it is found, and will ignore processing the rest of the list.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;timer:tc&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;all&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200000&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;170436&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;timer:tc&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;all&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;rem&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:seq&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200000&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;18&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;–Proctor, Robert&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Coming Soon: LFE Friday!</title>
    <link href="http://blog.lfe.io//announcements/2015/01/03/1244-coming-soon-lfe-fridays"/>
-   <updated>2015-01-03T00:00:00-06:00</updated>
+   <updated>2015-01-03T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2015/01/03/1244-coming-soon-lfe-fridays</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;
@@ -37,7 +88,7 @@ everyone will enjoy hearing from once a week :-)&lt;/p&gt;
  <entry>
    <title>Scientific Computing on the Erlang VM</title>
    <link href="http://blog.lfe.io//tutorials/2015/01/01/1215-scientific-computing-on-the-erlang-vm"/>
-   <updated>2015-01-01T00:00:00-06:00</updated>
+   <updated>2015-01-01T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/01/01/1215-scientific-computing-on-the-erlang-vm</id>
    <content type="html">
 &lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
@@ -655,7 +706,7 @@ hope it’s one that you not only get used to, but can’t live without :-)&lt;/
  <entry>
    <title>Easy Python from LFE/Erlang</title>
    <link href="http://blog.lfe.io//announcements/2014/12/27/1641-easy-python-from-lfeerlang"/>
-   <updated>2014-12-27T00:00:00-06:00</updated>
+   <updated>2014-12-27T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2014/12/27/1641-easy-python-from-lfeerlang</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/Python-logo.png&quot;&gt;&lt;img class=&quot;right small&quot; src=&quot;/assets/images/posts/Python-logo.png&quot; /&gt;&lt;/a&gt;Recently there has been a great deal of interest in running Python from
@@ -886,7 +937,7 @@ questions, make suggestions, etc.&lt;/p&gt;
  <entry>
    <title>Happy Holidays from LFE</title>
    <link href="http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe"/>
-   <updated>2014-12-25T00:00:00-06:00</updated>
+   <updated>2014-12-25T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LFE-Happy-Holidays.png&quot;&gt;&lt;img class=&quot;left medium&quot; src=&quot;/assets/images/posts/LFE-Happy-Holidays.png&quot; /&gt;&lt;/a&gt;
@@ -899,7 +950,7 @@ happiest of new years!&lt;/p&gt;
  <entry>
    <title>Post Sprint Report: LFE Experience</title>
    <link href="http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience"/>
-   <updated>2014-12-17T00:00:00-06:00</updated>
+   <updated>2014-12-17T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;right small&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;My
@@ -1036,7 +1087,7 @@ publish to this group as soon as it reaches some level of stability.&lt;/p&gt;
  <entry>
    <title>BYTE, August 1979: The LISP Issue</title>
    <link href="http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue"/>
-   <updated>2014-12-15T00:00:00-06:00</updated>
+   <updated>2014-12-15T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/byte_1979_08_The_LISP_Issue.jpg&quot;&gt;&lt;img class=&quot;left medium&quot; src=&quot;/assets/images/posts/byte_1979_08_The_LISP_Issue.jpg&quot; /&gt;&lt;/a&gt;The image from this post
@@ -1174,7 +1225,7 @@ using &lt;code&gt;subseq&lt;/code&gt; instead of &lt;code&gt;car&lt;/code&gt; an
  <entry>
    <title>lutil 0.5.0: Composition, Predicates and Core lutil</title>
    <link href="http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core"/>
-   <updated>2014-12-14T00:00:00-06:00</updated>
+   <updated>2014-12-14T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/lutil-leonardo-gears-large.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/lutil-leonardo-gears.png&quot; /&gt;&lt;/a&gt;With the
@@ -1540,7 +1591,7 @@ output of the previous call is the last argument in the next call.&lt;/p&gt;
  <entry>
    <title>lfest 0.0.2 Is Released</title>
    <link href="http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released"/>
-   <updated>2014-12-08T00:00:00-06:00</updated>
+   <updated>2014-12-08T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released</id>
    <content type="html">
 &lt;p&gt;lfest 0.0.2 includes the addition of text-only responses in addition to the
@@ -1566,7 +1617,7 @@ which uses lfest for its routing and responses&lt;/li&gt;
  <entry>
    <title>Running LFE in Docker</title>
    <link href="http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker"/>
-   <updated>2014-12-07T00:00:00-06:00</updated>
+   <updated>2014-12-07T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/DockerLogo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/DockerLogo.png&quot; /&gt;&lt;/a&gt;With the growing prominence of
@@ -1926,7 +1977,7 @@ amazing tales to share, we want to hear there :-)&lt;/p&gt;
  <entry>
    <title>Usability Update: IErlang Notebook (a la IPython)</title>
    <link href="http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython"/>
-   <updated>2014-12-06T00:00:00-06:00</updated>
+   <updated>2014-12-06T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/screencapture-ierlang_demo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/screencapture-ierlang_demo.png&quot; /&gt;&lt;/a&gt;Back in April, the Erlang community
@@ -2010,7 +2061,7 @@ and others may also be used with IErlang :-)&lt;/p&gt;
  <entry>
    <title>ErlPort and Python Part II: Making More Calls from LFE</title>
    <link href="http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe"/>
-   <updated>2014-12-03T00:00:00-06:00</updated>
+   <updated>2014-12-03T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/Erlang-Python-Greats.png&quot; /&gt;&lt;/a&gt;
@@ -2246,7 +2297,7 @@ which prints the error returned from Python as well as the stacktrace in LFE:&lt
  <entry>
    <title>Community Generated Content</title>
    <link href="http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content"/>
-   <updated>2014-12-03T00:00:00-06:00</updated>
+   <updated>2014-12-03T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</id>
    <content type="html">
 &lt;p&gt;As was just mentioned on the
@@ -2268,7 +2319,7 @@ repository. This information is also supplied in the repo’s
  <entry>
    <title>ErlPort: Using Python from Erlang/LFE</title>
    <link href="http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe"/>
-   <updated>2014-11-21T00:00:00-06:00</updated>
+   <updated>2014-11-21T00:00:00+01:00</updated>
    <id>http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe</id>
    <content type="html">
 &lt;p&gt;This post was originally featured on
@@ -2389,7 +2440,7 @@ usage, approaching some of the functionality offered by such projects as
  <entry>
    <title>lfetool v1.2 Is Out!</title>
    <link href="http://blog.lfe.io//announcements/2014/08/31/2024-lfetool-v12-is-out"/>
-   <updated>2014-08-31T00:00:00-05:00</updated>
+   <updated>2014-08-31T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//announcements/2014/08/31/2024-lfetool-v12-is-out</id>
    <content type="html">
 &lt;p&gt;We’ve just pushed out the latest version of lfetool in the v1.x series. This
@@ -2430,7 +2481,7 @@ experience for current users :-)&lt;/p&gt;
  <entry>
    <title>Erlang @ OSCON 2014</title>
    <link href="http://blog.lfe.io//conferences/2014/07/23/0849-erlang--oscon-2014"/>
-   <updated>2014-07-23T00:00:00-05:00</updated>
+   <updated>2014-07-23T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//conferences/2014/07/23/0849-erlang--oscon-2014</id>
    <content type="html">
 &lt;p&gt;Even though there’s no Erlang-specific booth (or a booth by an Erlang company),
@@ -2476,7 +2527,7 @@ a Massively Scalable Web Server In Erlang&lt;/a&gt;.&lt;/li&gt;
  <entry>
    <title>LFE Language Summit Review</title>
    <link href="http://blog.lfe.io//update/2014/06/10/0929-lfe-language-summit-review"/>
-   <updated>2014-06-10T00:00:00-05:00</updated>
+   <updated>2014-06-10T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//update/2014/06/10/0929-lfe-language-summit-review</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;http://www.erlang-factory.com/&quot;&gt;Erlang Factory&lt;/a&gt; was very kind to
@@ -2519,7 +2570,7 @@ brings for LFE and how this casual approach scales :-)&lt;/p&gt;
  <entry>
    <title>The Secret History of LFE</title>
    <link href="http://blog.lfe.io//history/2014/05/28/1516-the-secret-history-of-lfe"/>
-   <updated>2014-05-28T00:00:00-05:00</updated>
+   <updated>2014-05-28T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//history/2014/05/28/1516-the-secret-history-of-lfe</id>
    <content type="html">
 &lt;p&gt;When asked recently about the history of LFE on the &lt;a href=&quot;https://groups.google.com/d/msg/lisp-flavoured-erlang/XA5HeLbQQDk/Jdbf0KJV7dUJ&quot;&gt;LFE mail list&lt;/a&gt;,
@@ -2558,7 +2609,7 @@ There were a number of reasons why I started with LFE:
  <entry>
    <title>LFE User Group Meeting: Update</title>
    <link href="http://blog.lfe.io//news/2014/05/25/1523-lfe-user-group-meeting-update"/>
-   <updated>2014-05-25T00:00:00-05:00</updated>
+   <updated>2014-05-25T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//news/2014/05/25/1523-lfe-user-group-meeting-update</id>
    <content type="html">
 &lt;p&gt;As you may have heard, we’ll be hosting LFE’s first “Language Summit” at the
@@ -2586,7 +2637,7 @@ has also been updated.&lt;/p&gt;
  <entry>
    <title>History of Erlang</title>
    <link href="http://blog.lfe.io//site/2014/05/25/1026-history-of-erlang"/>
-   <updated>2014-05-25T00:00:00-05:00</updated>
+   <updated>2014-05-25T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//site/2014/05/25/1026-history-of-erlang</id>
    <content type="html">
 &lt;p&gt;For a full understanding of one’s field, a thorough knowledge of that field’s
@@ -2608,7 +2659,7 @@ included!).&lt;/p&gt;
  <entry>
    <title>LFE Sunday Times</title>
    <link href="http://blog.lfe.io//news/2014/05/23/1114-lfe-sunday-times"/>
-   <updated>2014-05-23T00:00:00-05:00</updated>
+   <updated>2014-05-23T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//news/2014/05/23/1114-lfe-sunday-times</id>
    <content type="html">
 &lt;p&gt;After watching the LFE Daily from &lt;a href=&quot;http://paper.li&quot;&gt;paper.li&lt;/a&gt; for a few weeks,
@@ -2627,7 +2678,7 @@ named “LFE Sunday Times”.&lt;/p&gt;
  <entry>
    <title>Docs Site Overhaul</title>
    <link href="http://blog.lfe.io//site/2014/05/23/0815-docs-site-overhaul"/>
-   <updated>2014-05-23T00:00:00-05:00</updated>
+   <updated>2014-05-23T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//site/2014/05/23/0815-docs-site-overhaul</id>
    <content type="html">
 &lt;p&gt;Prior to the new site getting launched, the documentation pages had been
@@ -2666,7 +2717,7 @@ the site and allow folks to more quickly find what they are looking for.&lt;/p&g
  <entry>
    <title>LFE Microblog is Open for Business ...</title>
    <link href="http://blog.lfe.io//site/2014/05/22/2301-lfe-microblog-is-open-for-business-"/>
-   <updated>2014-05-22T00:00:00-05:00</updated>
+   <updated>2014-05-22T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//site/2014/05/22/2301-lfe-microblog-is-open-for-business-</id>
    <content type="html">
 &lt;p&gt;The LFE micoblog site (powered by Jekyll and Bootsrap) is live and ready to go.&lt;/p&gt;
@@ -2679,7 +2730,7 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.&lt;
  <entry>
    <title>New LFE Site!</title>
    <link href="http://blog.lfe.io//site/2014/05/22/1849-new-lfe-site"/>
-   <updated>2014-05-22T00:00:00-05:00</updated>
+   <updated>2014-05-22T00:00:00+02:00</updated>
    <id>http://blog.lfe.io//site/2014/05/22/1849-new-lfe-site</id>
    <content type="html">
 &lt;p&gt;Good news, everyone! Professor Farnsworth nodded off, and we’ve had some fun

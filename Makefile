@@ -1,7 +1,8 @@
 TITLE ?= New Post
 NEW_CMD=rake post title="$(TITLE)"
 
-GEM_PATH=/Users/oubiwann/.chefdk/gem/ruby/2.1.0/bin
+GEM_PATH=/Users/rv/.gem/ruby/2.0.0/bin 
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future
 NEW_PATH=$(PATH):$(GEM_PATH)
 
 STAGING_HOST=staging-blog.lfe.io
@@ -15,17 +16,17 @@ STAGE_DIR=stage
 STAGE_PATH=$(BASE_DIR)/$(STAGE_DIR)
 
 update-gems:
-	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) \
+	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	sudo gem update --system
 
 install-jekyll: update-gems
-	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) \
+	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	sudo gem install bundler
-	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) \
+	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	bundle install
 
 update: install-jekyll
-	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) \
+	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	bundle update
 
 clean:

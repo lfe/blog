@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        LFE Friday - lists:any/2 -
+      
+      LFE Tutorials, News, &amp; Updates
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE Tutorials, News, &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+
+<div class="page-header">
+  <h1>
+    LFE Friday - lists:any/2 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week’s LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week’s translator</em>: Robert Virding.</p>
+
+<p>Today’s LFE Friday function of the week is <a href="http://www.erlang.org/doc/man/lists.html#any-2">lists:any/2</a>.</p>
+
+<p><code>lists:any/2</code> takes a predicate function as the first argument, and a list to iterate over as its second argument. <code>lists:any/2</code> returns <code>true</code> if the predicate function returns <code>true</code> for any of the elements in the given list, otherwise, <code>lists:any/2</code> returns <code>false</code>.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="nf">#&#39;</span><span class="nv">erlang:is_atom/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="nf">#&#39;</span><span class="nv">erlang:is_atom/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="nv">a</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="nf">#&#39;</span><span class="nv">erlang:is_atom/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">3</span> <span class="mi">4</span> <span class="nv">a</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">0</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nv">false</span></code></pre></div>
+
+<p><code>lists:any/2</code> is eager, and will return with a result of <code>true</code> as soon as it is found, and will ignore processing the rest of the list.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;lists</span> <span class="ss">&#39;any</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">200000</span> <span class="mi">2</span><span class="p">)))</span> 
+<span class="o">#(</span><span class="mi">171661</span> <span class="nv">false</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;lists</span> <span class="ss">&#39;any</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">200000</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">19</span> <span class="nv">true</span><span class="p">)</span></code></pre></div>
+
+<p>The <code>lists</code> module also contains a function <a href="http://www.erlang.org/doc/man/lists.html#all-2">lists:all/2</a>, similar to <code>lists:any/2</code>, but checks if the predicate function returns <code>true</code> for every element in the supplied list.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:all</span> <span class="nf">#&#39;</span><span class="nv">erlang:is_number/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="nv">a</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:all</span> <span class="nf">#&#39;</span><span class="nv">erlang:is_number/1</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="nv">true</span></code></pre></div>
+
+<p><code>lists:all/2</code> is also eager, and will return with a result of <code>false</code> as soon as it is found, and will ignore processing the rest of the list.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;lists</span> <span class="ss">&#39;all</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">200000</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">170436</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;lists</span> <span class="ss">&#39;all</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">==</span> <span class="p">(</span><span class="nb">rem</span> <span class="nv">x</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">200000</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">18</span> <span class="nv">false</span><span class="p">)</span></code></pre></div>
+
+<p>–Proctor, Robert</p>
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/announcements/2015/01/03/1244-coming-soon-lfe-fridays" title="Coming Soon: LFE Friday!">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Robert Virding</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>04 January 2015</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          tutorials
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>5</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2015 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+
