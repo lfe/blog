@@ -44,6 +44,11 @@ img.right.small, img.left.small {
     height: 200px;
 }
 
+img.right.smallplus, img.left.smallplus {
+    max-height: 250px;
+    height: 250px;
+}
+
 img.right.medium, img.left.medium {
     max-height: 300px;
     height: 300px;
@@ -54,12 +59,14 @@ img.right.large, img.left.large {
     height: 500px;
 }
 
-img.right.tiny, img.right.thumb, img.right.small, img.right.medium, img.right.large {
+img.right.tiny, img.right.thumb, img.right.small, img.right.smallplus,
+img.right.medium, img.right.large {
     margin-left: 3.0em;
     margin-right: 0.3em;
 }
 
-img.left.tiny, img.left.thumb, img.left.small, img.left.medium, img.left.large {
+img.left.tiny, img.left.thumb, img.left.small, img.left.smallplus,
+img.left.medium, img.left.large {
     margin-right: 3.0em;
 }
 
