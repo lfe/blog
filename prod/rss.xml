@@ -5,10 +5,161 @@
         <description>LFE Tutorials, News, &amp; Updates - LFElluminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <link>http://blog.lfe.io/</link>
-        <lastBuildDate>2015-01-05T03:04:35+01:00</lastBuildDate>
-        <pubDate>2015-01-05T03:04:35+01:00</pubDate>
+        <lastBuildDate>2015-01-09T10:11:14-06:00</lastBuildDate>
+        <pubDate>2015-01-09T10:11:14-06:00</pubDate>
         <ttl>1800</ttl>
 
+
+        <item>
+                <title>lfetool 1.5.0 Preview: Overriding Version Pinning</title>
+                <description>
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/lfetool-logo-large-grey.png&quot;&gt;&lt;img class=&quot;right smallplus&quot; src=&quot;/assets/images/posts/lfetool-logo-large-grey.png&quot; /&gt;&lt;/a&gt;The next version of lfetool will provide users with the flexibility
+to override dependencies with pinned versions in their project’s
+&lt;code&gt;rebar.config&lt;/code&gt; file. This post is aimed at folks on the LFE mail list who
+may be interested in using this right away or helping to do QA. Of course,
+if others find themselves compelled to use and test the pre-release code,
+they are quite welcome (with open arms, even)!&lt;/p&gt;
+
+&lt;p&gt;lfetool 1.5.0 will do this via:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;An &lt;code&gt;lfe.config&lt;/code&gt; file&lt;/li&gt;
+  &lt;li&gt;Bootstrapping LFE&lt;/li&gt;
+  &lt;li&gt;Bootstrapping dependent libraries&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here’s how you can try this new feature out …&lt;/p&gt;
+
+&lt;h2 id=&quot;override-dependencies&quot;&gt;Override Dependencies&lt;/h2&gt;
+
+&lt;p&gt;lfetool 1.5.0 will let you override the &lt;code&gt;rebar.config&lt;/code&gt;-declared dependency
+versions with either &lt;code&gt;HEAD&lt;/code&gt; or a named branch.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-you-need&quot;&gt;What you need&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Install &lt;a href=&quot;https://github.com/rebar/rebar#downloading&quot;&gt;rebar&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Make sure git is installed on your system&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Get the development version (1.x) of lfetool:&lt;/p&gt;
+
+    &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;curl -L -o &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+ ./lfetool https://raw.github.com/lfe/lfetool/dev-v1/lfetool
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;bash ./lfetool install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;An LFE project (if you don’t have one, you can create one with the command
+&lt;code&gt;lfetool new library my-lib&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;default-pinning&quot;&gt;Default Pinning&lt;/h3&gt;
+
+&lt;p&gt;To ensure greater functional longevity of projects, &lt;code&gt;lfetool&lt;/code&gt; generates
+a &lt;code&gt;rebar.config&lt;/code&gt; with specific releases. As such, if you have a recent LFE
+project, your &lt;code&gt;rebar.config&lt;/code&gt; file has a &lt;code&gt;deps&lt;/code&gt; section that probably looks
+something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erlang&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lfe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;git://github.com/rvirding/lfe.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;v0.9.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lutil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;https://github.com/lfex/lutil.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.6.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ltest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;git://github.com/lfex/ltest.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.4.2&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;]}.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Unfortunately, due to
+&lt;a href=&quot;https://github.com/rebar/rebar/issues/170&quot;&gt;an old bug in rebar&lt;/a&gt;,
+it can be quite painful to use a different version of say, LFE, in your project
+if another dependency in your project wants to use a &lt;em&gt;different&lt;/em&gt; version of
+LFE.&lt;/p&gt;
+
+&lt;p&gt;A common request for the lfetool project has been allowing users to use the
+latest version of LFE in either the &lt;code&gt;develop&lt;/code&gt; or &lt;code&gt;master&lt;/code&gt; branches. We
+can use this new feature to do that now.&lt;/p&gt;
+
+&lt;p&gt;Note that in order for the following to work, you need to make sure that the
+&lt;em&gt;app version&lt;/em&gt; for all of your dependencies is not set to an explicit version,
+but rather to &lt;code&gt;&quot;.*&quot;&lt;/code&gt;. For instance, if you have the following in your
+&lt;code&gt;rebar.config&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erlang&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lutil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.4.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;https://github.com/lfex/lutil.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.4.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;you will need to change it to this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-erlang&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lutil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;.*&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;git&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;https://github.com/lfex/lutil.git&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;0.4.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}}},&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;overriding&quot;&gt;Overriding&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;lfetool&lt;/code&gt; provides for overriding the defaults through an LFE config file,
+&lt;code&gt;lfe.config&lt;/code&gt;, and a new command:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;lfetool download deps&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;If your project is using the latest release of LFE, 0.9.0, but you want to use
+the &lt;code&gt;develop&lt;/code&gt; branch instead, create a file named &lt;code&gt;lfe.config&lt;/code&gt; in your
+project directory with the following content:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;project&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;deps&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;rvirding/lfe&amp;quot;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;develop&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then do this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;rm -rf deps/lfe
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;lfetool download deps
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make compile
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;make repl-no-deps&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code&gt;&amp;gt; (lutil:get-versions)
+(#(erlang &quot;17&quot;)
+ #(emulator &quot;6.2&quot;)
+ #(driver-version &quot;3.1&quot;)
+ #(lfe &quot;0.10.0-dev&quot;)
+ #(lutil &quot;0.6.0&quot;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Voi la! The LFE version is that of the develop branch, not the 0.9.0 release :-)&lt;/p&gt;
+
+&lt;p&gt;You can make one more change for convenience: in your project, update
+the &lt;code&gt;resources/make/common.mk&lt;/code&gt;, changing the &lt;code&gt;get-deps&lt;/code&gt; target from this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-make&quot;&gt;&lt;span class=&quot;nf&quot;&gt;get-deps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    @echo &lt;span class=&quot;s2&quot;&gt;&amp;quot;Getting dependencies ...&amp;quot;&lt;/span&gt;
+    @lfetool download deps &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;which rebar.cmd &amp;gt;/dev/null 2&amp;gt;&lt;span class=&quot;p&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; rebar.cmd get-deps &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; rebar get-deps&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;to this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-make&quot;&gt;&lt;span class=&quot;nf&quot;&gt;get-deps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+    @echo &lt;span class=&quot;s2&quot;&gt;&amp;quot;Getting dependencies ...&amp;quot;&lt;/span&gt;
+    @PATH&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;SCRIPT_PATH&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ERL_LIBS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;ERL_LIBS&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;$(&lt;/span&gt;LFETOOL&lt;span class=&quot;k&quot;&gt;)&lt;/span&gt; download deps&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;(Be sure to use tabs!)&lt;/p&gt;
+
+&lt;p&gt;If you run across any issue, please
+&lt;a href=&quot;https://github.com/lfe/lfetool/issues/new&quot;&gt;file a ticket&lt;/a&gt; :-) Thanks!&lt;/p&gt;
+
+&lt;h2 id=&quot;some-more-background&quot;&gt;Some More Background&lt;/h2&gt;
+
+&lt;p&gt;As mentioned before, this feature had been requested several times in the past,
+both in public venues and in private conversations. It was consistently
+back-burnered due to the anticipated amount of work required to make it happen.&lt;/p&gt;
+
+&lt;p&gt;Howver, as more requests were made over time (and with Robert Virding
+casting his vote as well), it became clear that this could not be put off
+any longer. This came up most recently in the
+&lt;a href=&quot;https://github.com/lfe/lfetool/issues/111&quot;&gt;lfetool 0.9.0 update ticket&lt;/a&gt; (see
+&lt;a href=&quot;https://github.com/lfe/lfetool/issues/111#issuecomment-68649788&quot;&gt;this comment&lt;/a&gt;).
+A few points where made, and then the conversation was moved to
+&lt;a href=&quot;https://github.com/lfe/lfetool/issues/135&quot;&gt;this ticket&lt;/a&gt;. In some ways there
+was less work than expected, and in others, more. You know, the usual ;-)&lt;/p&gt;
+
+&lt;p&gt;That last ticket is fairly long, so we’d like to point to you
+&lt;a href=&quot;https://github.com/lfe/lfetool/issues/135#issuecomment-68797570&quot;&gt;this comment&lt;/a&gt;,
+which details the testing plan undertaken on multiple Docker containers. This
+section provides a set-by-step approach for most of what you need to ensure
+things are working on Linux.&lt;/p&gt;
+
+&lt;p&gt;Also, if you do find issues, that is a great place to leave some comments.&lt;/p&gt;
+</description>
+                <link>http://blog.lfe.io//announcements/2015/01/09/1008-lfetool-150-preview-overriding-version-pinning</link>
+                <guid>http://blog.lfe.io//announcements/2015/01/09/1008-lfetool-150-preview-overriding-version-pinning</guid>
+                <pubDate>2015-01-09T00:00:00-06:00</pubDate>
+        </item>
 
         <item>
                 <title>LFE Friday - lists:any/2</title>
@@ -58,7 +209,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/01/04/1931-lfe-friday---listsany2</link>
                 <guid>http://blog.lfe.io//tutorials/2015/01/04/1931-lfe-friday---listsany2</guid>
-                <pubDate>2015-01-04T00:00:00+01:00</pubDate>
+                <pubDate>2015-01-04T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -80,7 +231,7 @@ everyone will enjoy hearing from once a week :-)&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2015/01/03/1244-coming-soon-lfe-fridays</link>
                 <guid>http://blog.lfe.io//announcements/2015/01/03/1244-coming-soon-lfe-fridays</guid>
-                <pubDate>2015-01-03T00:00:00+01:00</pubDate>
+                <pubDate>2015-01-03T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -698,7 +849,7 @@ hope it’s one that you not only get used to, but can’t live without :-)&lt;/
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/01/01/1215-scientific-computing-on-the-erlang-vm</link>
                 <guid>http://blog.lfe.io//tutorials/2015/01/01/1215-scientific-computing-on-the-erlang-vm</guid>
-                <pubDate>2015-01-01T00:00:00+01:00</pubDate>
+                <pubDate>2015-01-01T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -929,7 +1080,7 @@ questions, make suggestions, etc.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/27/1641-easy-python-from-lfeerlang</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/27/1641-easy-python-from-lfeerlang</guid>
-                <pubDate>2014-12-27T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-27T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -942,7 +1093,7 @@ happiest of new years!&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe</link>
                 <guid>http://blog.lfe.io//holidays/2014/12/25/1221-happy-holidays-from-lfe</guid>
-                <pubDate>2014-12-25T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-25T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -1079,7 +1230,7 @@ publish to this group as soon as it reaches some level of stability.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience</link>
                 <guid>http://blog.lfe.io//reports/2014/12/17/1435-post-sprint-report-lfe-experience</guid>
-                <pubDate>2014-12-17T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-17T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -1217,7 +1368,7 @@ using &lt;code&gt;subseq&lt;/code&gt; instead of &lt;code&gt;car&lt;/code&gt; an
 </description>
                 <link>http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue</link>
                 <guid>http://blog.lfe.io//archeology/2014/12/15/1848-byte-august-1979-the-lisp-issue</guid>
-                <pubDate>2014-12-15T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-15T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -1583,7 +1734,7 @@ output of the previous call is the last argument in the next call.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/14/1645-lutil-050-composition-predicates-core</guid>
-                <pubDate>2014-12-14T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-14T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -1609,7 +1760,7 @@ which uses lfest for its routing and responses&lt;/li&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/08/1929-lfest-002-is-released</guid>
-                <pubDate>2014-12-08T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-08T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -1969,7 +2120,7 @@ amazing tales to share, we want to hear there :-)&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker</link>
                 <guid>http://blog.lfe.io//tutorials/2014/12/07/1837-running-lfe-in-docker</guid>
-                <pubDate>2014-12-07T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-07T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -2053,7 +2204,7 @@ and others may also be used with IErlang :-)&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/06/1244-ierlang-notebook-a-la-ipython</guid>
-                <pubDate>2014-12-06T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-06T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -2289,7 +2440,7 @@ which prints the error returned from Python as well as the stacktrace in LFE:&lt
 </description>
                 <link>http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe</link>
                 <guid>http://blog.lfe.io//tutorials/2014/12/03/1828-erlport-and-python-making-more-calls-from-lfe</guid>
-                <pubDate>2014-12-03T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-03T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -2311,7 +2462,7 @@ repository. This information is also supplied in the repo’s
 </description>
                 <link>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</link>
                 <guid>http://blog.lfe.io//announcements/2014/12/03/1810-community-generated-content</guid>
-                <pubDate>2014-12-03T00:00:00+01:00</pubDate>
+                <pubDate>2014-12-03T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -2432,7 +2583,7 @@ usage, approaching some of the functionality offered by such projects as
 </description>
                 <link>http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe</link>
                 <guid>http://blog.lfe.io//tutorials/2014/11/21/1508-erlport-using-python-from-erlang-lfe</guid>
-                <pubDate>2014-11-21T00:00:00+01:00</pubDate>
+                <pubDate>2014-11-21T00:00:00-06:00</pubDate>
         </item>
 
         <item>
@@ -2473,7 +2624,7 @@ experience for current users :-)&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//announcements/2014/08/31/2024-lfetool-v12-is-out</link>
                 <guid>http://blog.lfe.io//announcements/2014/08/31/2024-lfetool-v12-is-out</guid>
-                <pubDate>2014-08-31T00:00:00+02:00</pubDate>
+                <pubDate>2014-08-31T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2519,7 +2670,7 @@ a Massively Scalable Web Server In Erlang&lt;/a&gt;.&lt;/li&gt;
 </description>
                 <link>http://blog.lfe.io//conferences/2014/07/23/0849-erlang--oscon-2014</link>
                 <guid>http://blog.lfe.io//conferences/2014/07/23/0849-erlang--oscon-2014</guid>
-                <pubDate>2014-07-23T00:00:00+02:00</pubDate>
+                <pubDate>2014-07-23T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2562,7 +2713,7 @@ brings for LFE and how this casual approach scales :-)&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//update/2014/06/10/0929-lfe-language-summit-review</link>
                 <guid>http://blog.lfe.io//update/2014/06/10/0929-lfe-language-summit-review</guid>
-                <pubDate>2014-06-10T00:00:00+02:00</pubDate>
+                <pubDate>2014-06-10T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2601,7 +2752,7 @@ There were a number of reasons why I started with LFE:
 </description>
                 <link>http://blog.lfe.io//history/2014/05/28/1516-the-secret-history-of-lfe</link>
                 <guid>http://blog.lfe.io//history/2014/05/28/1516-the-secret-history-of-lfe</guid>
-                <pubDate>2014-05-28T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-28T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2629,7 +2780,7 @@ has also been updated.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//news/2014/05/25/1523-lfe-user-group-meeting-update</link>
                 <guid>http://blog.lfe.io//news/2014/05/25/1523-lfe-user-group-meeting-update</guid>
-                <pubDate>2014-05-25T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-25T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2651,7 +2802,7 @@ included!).&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//site/2014/05/25/1026-history-of-erlang</link>
                 <guid>http://blog.lfe.io//site/2014/05/25/1026-history-of-erlang</guid>
-                <pubDate>2014-05-25T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-25T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2670,7 +2821,7 @@ named “LFE Sunday Times”.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//news/2014/05/23/1114-lfe-sunday-times</link>
                 <guid>http://blog.lfe.io//news/2014/05/23/1114-lfe-sunday-times</guid>
-                <pubDate>2014-05-23T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-23T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2709,7 +2860,7 @@ the site and allow folks to more quickly find what they are looking for.&lt;/p&g
 </description>
                 <link>http://blog.lfe.io//site/2014/05/23/0815-docs-site-overhaul</link>
                 <guid>http://blog.lfe.io//site/2014/05/23/0815-docs-site-overhaul</guid>
-                <pubDate>2014-05-23T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-23T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2722,7 +2873,7 @@ which have some relation – however tenuous – with LFE, Lisps, or Erlang.&lt;
 </description>
                 <link>http://blog.lfe.io//site/2014/05/22/2301-lfe-microblog-is-open-for-business-</link>
                 <guid>http://blog.lfe.io//site/2014/05/22/2301-lfe-microblog-is-open-for-business-</guid>
-                <pubDate>2014-05-22T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-22T00:00:00-05:00</pubDate>
         </item>
 
         <item>
@@ -2745,7 +2896,7 @@ organized, now:&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//site/2014/05/22/1849-new-lfe-site</link>
                 <guid>http://blog.lfe.io//site/2014/05/22/1849-new-lfe-site</guid>
-                <pubDate>2014-05-22T00:00:00+02:00</pubDate>
+                <pubDate>2014-05-22T00:00:00-05:00</pubDate>
         </item>
 
 

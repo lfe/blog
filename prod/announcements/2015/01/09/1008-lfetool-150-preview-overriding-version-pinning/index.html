@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        lfetool 1.5.0 Preview: Overriding Version Pinning -
+      
+      LFE Tutorials, News, &amp; Updates
+    </title>
+    <meta name="description" content="Looking for volunteers to test new lfetool feature">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE Tutorials, News, &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+
+<div class="page-header">
+  <h1>
+    lfetool 1.5.0 Preview: Overriding Version Pinning 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/lfetool-logo-large-grey.png"><img class="right smallplus" src="/assets/images/posts/lfetool-logo-large-grey.png" /></a>The next version of lfetool will provide users with the flexibility
+to override dependencies with pinned versions in their project’s
+<code>rebar.config</code> file. This post is aimed at folks on the LFE mail list who
+may be interested in using this right away or helping to do QA. Of course,
+if others find themselves compelled to use and test the pre-release code,
+they are quite welcome (with open arms, even)!</p>
+
+<p>lfetool 1.5.0 will do this via:</p>
+
+<ul>
+  <li>An <code>lfe.config</code> file</li>
+  <li>Bootstrapping LFE</li>
+  <li>Bootstrapping dependent libraries</li>
+</ul>
+
+<p>Here’s how you can try this new feature out …</p>
+
+<h2 id="override-dependencies">Override Dependencies</h2>
+
+<p>lfetool 1.5.0 will let you override the <code>rebar.config</code>-declared dependency
+versions with either <code>HEAD</code> or a named branch.</p>
+
+<h3 id="what-you-need">What you need</h3>
+
+<ul>
+  <li>Install <a href="https://github.com/rebar/rebar#downloading">rebar</a></li>
+  <li>Make sure git is installed on your system</li>
+  <li>
+    <p>Get the development version (1.x) of lfetool:</p>
+
+    <div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>curl -L -o <span class="se">\</span>
+ ./lfetool https://raw.github.com/lfe/lfetool/dev-v1/lfetool
+<span class="nv">$ </span>bash ./lfetool install</code></pre></div>
+  </li>
+  <li>An LFE project (if you don’t have one, you can create one with the command
+<code>lfetool new library my-lib</code>)</li>
+</ul>
+
+<h3 id="default-pinning">Default Pinning</h3>
+
+<p>To ensure greater functional longevity of projects, <code>lfetool</code> generates
+a <code>rebar.config</code> with specific releases. As such, if you have a recent LFE
+project, your <code>rebar.config</code> file has a <code>deps</code> section that probably looks
+something like this:</p>
+
+<div class="highlight"><pre><code class="language-erlang"><span class="p">{</span><span class="n">deps</span><span class="p">,</span> <span class="p">[</span>
+   <span class="p">{</span><span class="n">lfe</span><span class="p">,</span> <span class="s">&quot;.*&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&quot;git://github.com/rvirding/lfe.git&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&quot;v0.9.0&quot;</span><span class="p">}}},</span>
+   <span class="p">{</span><span class="n">lutil</span><span class="p">,</span> <span class="s">&quot;.*&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&quot;https://github.com/lfex/lutil.git&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&quot;0.6.0&quot;</span><span class="p">}}},</span>
+   <span class="p">{</span><span class="n">ltest</span><span class="p">,</span> <span class="s">&quot;.*&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&quot;git://github.com/lfex/ltest.git&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&quot;0.4.2&quot;</span><span class="p">}}}</span>
+  <span class="p">]}.</span></code></pre></div>
+
+<p>Unfortunately, due to
+<a href="https://github.com/rebar/rebar/issues/170">an old bug in rebar</a>,
+it can be quite painful to use a different version of say, LFE, in your project
+if another dependency in your project wants to use a <em>different</em> version of
+LFE.</p>
+
+<p>A common request for the lfetool project has been allowing users to use the
+latest version of LFE in either the <code>develop</code> or <code>master</code> branches. We
+can use this new feature to do that now.</p>
+
+<p>Note that in order for the following to work, you need to make sure that the
+<em>app version</em> for all of your dependencies is not set to an explicit version,
+but rather to <code>".*"</code>. For instance, if you have the following in your
+<code>rebar.config</code>:</p>
+
+<div class="highlight"><pre><code class="language-erlang"><span class="p">{</span><span class="n">lutil</span><span class="p">,</span> <span class="s">&quot;0.4.0&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&quot;https://github.com/lfex/lutil.git&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&quot;0.4.0&quot;</span><span class="p">}}},</span></code></pre></div>
+
+<p>you will need to change it to this:</p>
+
+<div class="highlight"><pre><code class="language-erlang"><span class="p">{</span><span class="n">lutil</span><span class="p">,</span> <span class="s">&quot;.*&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">git</span><span class="p">,</span> <span class="s">&quot;https://github.com/lfex/lutil.git&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">tag</span><span class="p">,</span> <span class="s">&quot;0.4.0&quot;</span><span class="p">}}},</span></code></pre></div>
+
+<h3 id="overriding">Overriding</h3>
+
+<p><code>lfetool</code> provides for overriding the defaults through an LFE config file,
+<code>lfe.config</code>, and a new command:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>lfetool download deps</code></pre></div>
+
+<p>If your project is using the latest release of LFE, 0.9.0, but you want to use
+the <code>develop</code> branch instead, create a file named <code>lfe.config</code> in your
+project directory with the following content:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="o">#(</span><span class="nv">project</span> <span class="p">(</span><span class="o">#(</span><span class="nv">deps</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;rvirding/lfe&quot;</span> <span class="s">&quot;develop&quot;</span><span class="p">)))))</span></code></pre></div>
+
+<p>Then do this:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>rm -rf deps/lfe
+<span class="nv">$ </span>lfetool download deps
+<span class="nv">$ </span>make compile
+<span class="nv">$ </span>make repl-no-deps</code></pre></div>
+<div class="highlight"><pre><code>&gt; (lutil:get-versions)
+(#(erlang "17")
+ #(emulator "6.2")
+ #(driver-version "3.1")
+ #(lfe "0.10.0-dev")
+ #(lutil "0.6.0"))
+</code></pre></div>
+
+<p>Voi la! The LFE version is that of the develop branch, not the 0.9.0 release :-)</p>
+
+<p>You can make one more change for convenience: in your project, update
+the <code>resources/make/common.mk</code>, changing the <code>get-deps</code> target from this:</p>
+
+<div class="highlight"><pre><code class="language-make"><span class="nf">get-deps</span><span class="o">:</span>
+    @echo <span class="s2">&quot;Getting dependencies ...&quot;</span>
+    @lfetool download deps <span class="o">||</span> <span class="se">\</span>
+    <span class="o">(</span>which rebar.cmd &gt;/dev/null 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="o">&amp;&amp;</span> rebar.cmd get-deps <span class="o">||</span> rebar get-deps<span class="o">)</span></code></pre></div>
+
+<p>to this:</p>
+
+<div class="highlight"><pre><code class="language-make"><span class="nf">get-deps</span><span class="o">:</span>
+    @echo <span class="s2">&quot;Getting dependencies ...&quot;</span>
+    @PATH<span class="o">=</span><span class="k">$(</span>SCRIPT_PATH<span class="k">)</span> <span class="nv">ERL_LIBS</span><span class="o">=</span><span class="k">$(</span>ERL_LIBS<span class="k">)</span> <span class="k">$(</span>LFETOOL<span class="k">)</span> download deps</code></pre></div>
+
+<p>(Be sure to use tabs!)</p>
+
+<p>If you run across any issue, please
+<a href="https://github.com/lfe/lfetool/issues/new">file a ticket</a> :-) Thanks!</p>
+
+<h2 id="some-more-background">Some More Background</h2>
+
+<p>As mentioned before, this feature had been requested several times in the past,
+both in public venues and in private conversations. It was consistently
+back-burnered due to the anticipated amount of work required to make it happen.</p>
+
+<p>Howver, as more requests were made over time (and with Robert Virding
+casting his vote as well), it became clear that this could not be put off
+any longer. This came up most recently in the
+<a href="https://github.com/lfe/lfetool/issues/111">lfetool 0.9.0 update ticket</a> (see
+<a href="https://github.com/lfe/lfetool/issues/111#issuecomment-68649788">this comment</a>).
+A few points where made, and then the conversation was moved to
+<a href="https://github.com/lfe/lfetool/issues/135">this ticket</a>. In some ways there
+was less work than expected, and in others, more. You know, the usual ;-)</p>
+
+<p>That last ticket is fairly long, so we’d like to point to you
+<a href="https://github.com/lfe/lfetool/issues/135#issuecomment-68797570">this comment</a>,
+which details the testing plan undertaken on multiple Docker containers. This
+section provides a set-by-step approach for most of what you need to ensure
+things are working on Linux.</p>
+
+<p>Also, if you do find issues, that is a great place to leave some comments.</p>
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/tutorials/2015/01/04/1931-lfe-friday---listsany2" title="LFE Friday - lists:any/2">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Duncan McGreggor</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>09 January 2015</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          announcements
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#tools-ref">tools <span>4</span></a></li>
+     
+    	<li><a href="/tags.html#utilities-ref">utilities <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#libraries-ref">libraries <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#qa-ref">qa <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#testing-ref">testing <span>1</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2015 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+
