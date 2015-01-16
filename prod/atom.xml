@@ -4,13 +4,51 @@
  <title>LFE Tutorials, News, &amp; Updates</title>
  <link href="http://blog.lfe.io//" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2015-01-10T22:49:02+01:00</updated>
+ <updated>2015-01-16T23:23:12+01:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFElluminati | Alien Alliance</name>
    <email>lisp-flavored-erlang@googlegroups.com</email>
  </author>
 
+ 
+ <entry>
+   <title>LFE Friday - erlang:apply/3</title>
+   <link href="http://blog.lfe.io//tutorials/2015/01/16/2253-lfe-friday---erlangapply3"/>
+   <updated>2015-01-16T00:00:00+01:00</updated>
+   <id>http://blog.lfe.io//tutorials/2015/01/16/2253-lfe-friday---erlangapply3</id>
+   <content type="html">
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week’s LFE Friday was translated with permission from the
+&lt;a href=&quot;http://www.proctor-it.com/category/erlang/erlang-thursday/&quot;&gt;Erlang Thursday&lt;/a&gt;
+series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Proctor&lt;/a&gt;.
+&lt;em&gt;This week’s translator&lt;/em&gt;: Robert Virding.&lt;/p&gt;
+
+&lt;p&gt;Today’s LFE Friday is on &lt;a href=&quot;http://www.erlang.org/doc/man/erlang.html#apply-3&quot;&gt;erlang:apply/3&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;With functional languages we love to pass functions around as the first class citizens that they are. But sometimes we don’t know which function it is that we will need to invoke, causing us to be unsure of the arguments the function takes up front. If we knew, we could just invoke it as &lt;code&gt;(funcall fun arg1 arg2 ... argn)&lt;/code&gt;, but that doesn’t work if we could get different functions of varying arities. Enter &lt;code&gt;erlang:apply/3&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;erlang:apply/3&lt;/code&gt; takes the module name, the function name, and a list of the arguments to be passed to the function. The function passed to &lt;code&gt;erlang:apply/3&lt;/code&gt; must also have been exported, otherwise an error will be raised.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;max&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;lists&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;merge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The Erlang documentation points out that this should be used &lt;em&gt;only&lt;/em&gt; when the number of arguments is not known at compile time. Otherwise we could just do the a normal function invocation, even if passed an anonymous function.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;funcall&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:max/1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The erlang module also includes a version &lt;code&gt;erlang:apply/2&lt;/code&gt; that takes a function as it’s first argument, and a list of the arguments to be passed to the function as it’s second argument.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cl&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;#&amp;#39;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lists:merge/2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;While &lt;code&gt;erlang:apply/2&lt;/code&gt; and &lt;code&gt;erlang:apply/3&lt;/code&gt; will not be part of your common usage, there are cases where it is needed, like last weeks &lt;a href=&quot;http://blog.lfe.io/tutorials/2015/01/10/2201-lfe-friday---timertc3/&quot;&gt;timer:tc&lt;/a&gt;. And though your usage of it will likely be rare, it is still good to know that you have it handy.&lt;/p&gt;
+
+&lt;p&gt;–Proctor, Robert&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>LFE Friday - timer:tc/3</title>
