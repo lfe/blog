@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      
+        LFE Friday - httpc:request/1 and httpc:request/4 -
+      
+      LFE Tutorials, News, &amp; Updates
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFElluminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/hooligan/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/themes/hooligan/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/hooligan/css/pygments.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/hooligan/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <!-- fav and touch icons -->
+    <!-- Update these with your own images
+      <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+      <link rel="apple-touch-icon" sizes="72x72" href="assets/images/apple-touch-icon-72x72.png">
+      <link rel="apple-touch-icon" sizes="114x114" href="assets/images/apple-touch-icon-114x114.png">
+    -->
+  </head>
+
+  <body>
+    <div id="page-wrap">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+
+	    <a class="brand" href="/"><img style="float: left; padding-right: 8px;" src="/assets/images/LispFlavoredErlang-xtinsy.png" /> LFE Tutorials, News, &amp; Updates</a>
+
+            <div class="nav-collapse">
+              <ul class="nav">
+                
+                
+                
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/pages.html">Pages</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+		<li><a href="http://docs.lfe.io/">Docs</a></li>
+		<li><a href="http://lfe.io/">lfe.io</a></li>
+              </ul>
+              <ul class="nav pull-right social visible-desktop">
+                <li class="divider-vertical"></li>
+                
+                <li>
+                  <a href="http://webchat.freenode.net/?channels=erlang-lisp" style="color: #999; font-size: 180%; margin-top: 3px;" target="_blank">
+                    <span class=""> #</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://github.com/lfe" class="zocial github icon" target="_blank">
+                    <span class="hidden-desktop">Github</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://plus.google.com/u/1/communities/103919485468949397234" class="zocial googleplus icon" target="_blank">
+                    <span class="hidden-desktop">Google+</span>
+                  </a>
+                </li>
+                
+                
+                <li>
+                  <a href="https://twitter.com/ErlangLisp" class="zocial twitter icon" target="_blank">
+                    <span class="hidden-desktop">Twitter</span>
+                  </a>
+                </li>
+                
+                
+                
+                
+                <li>
+                  <a href="http://feeds.feedburner.com/lfe/news-and-updates" class="zocial rss icon" target="_blank">
+                    <span class="hidden-desktop">FeedBurner</span>
+                  </a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="content">
+          
+
+<div class="page-header">
+  <h1>
+    LFE Friday - httpc:request/1 and httpc:request/4 
+    
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span8">
+    
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week’s LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week’s translator</em>: Robert Virding.</p>
+
+<p>Today’s LFE Friday is on <a href="http://www.erlang.org/doc/man/httpc.html#request-1">httpc:request/1</a> and <a href="http://www.erlang.org/doc/man/httpc.html#request-4">httpc:request/4</a>. The httpc module is Erlang’s HTTP 1.1 client, and the <code>request</code> function is a powerful way to make web requests using Erlang.</p>
+
+<p>To start using the httpc module, you first have to make sure <code>inets</code> has been started.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">inets:start</span><span class="p">)</span>
+<span class="nv">ok</span></code></pre></div>
+
+<p><code>httpc:request/1</code> takes one argument, and that is the URL, as a Erlang string, you want to make the request against.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="s">&quot;http://www.example.com&quot;</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span>
+  <span class="o">#(#(</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="o">#(</span><span class="s">&quot;cache-control&quot;</span> <span class="s">&quot;max-age=604800&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;date&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 21:52:42 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;accept-ranges&quot;</span> <span class="s">&quot;bytes&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;etag&quot;</span> <span class="s">&quot;\&quot;359670651\&quot;&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;server&quot;</span> <span class="s">&quot;ECS (ewr/1584)&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-length&quot;</span> <span class="s">&quot;1270&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-type&quot;</span> <span class="s">&quot;text/html&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;expires&quot;</span> <span class="s">&quot;Thu, 29 Jan 2015 21:52:42 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;last-modified&quot;</span> <span class="s">&quot;Fri, 09 Aug 2013 23:54:35 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-cache&quot;</span> <span class="s">&quot;HIT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-ec-custom-error&quot;</span> <span class="s">&quot;1&quot;</span><span class="p">))</span>
+    <span class="s">&quot;&lt;!doctype html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;Example Domain&lt;/title&gt;\n\n    &lt;meta charset=\&quot;utf-8\&quot; /&gt;\n    &lt;meta http-equiv=\&quot;Content-type\&quot; content=\&quot;text/html; charset=utf-8\&quot; /&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1\&quot; /&gt;\n    &lt;style type=\&quot;text/css\&quot;&gt;\n    body {\n        background-color: #f0f0f2;\n        margin: 0;\n        padding: 0;\n        font-family: \&quot;Open Sans\&quot;, \&quot;Helvetica Neue\&quot;, Helvetica, Arial, sans-serif;\n        \n    }\n    div {\n        width: 600px;\n        margin: 5em auto;\n        padding: 50px;\n        background-color: #fff;\n        border-radius: 1em;\n    }\n    a:link, a:visited {\n        color: #38488f;\n        text-decoration: none;\n    }\n    @media (max-width: 700px) {\n        body {\n            background-color: #fff;\n        }\n        div {\n            width: auto;\n            margin: 0 auto;\n            border-radius: 0;\n            padding: 1em;\n        }\n    }\n    &lt;/style&gt;    \n&lt;/head&gt;\n\n&lt;body&gt;\n&lt;div&gt;\n    &lt;h1&gt;Example Domain&lt;/h1&gt;\n    &lt;p&gt;This domain is established to be used for illustrative examples in documents. You may use this\n    domain in examples without prior coordination or asking for permission.&lt;/p&gt;\n    &lt;p&gt;&lt;a href=\&quot;http://www.iana.org/domains/example\&quot;&gt;More information...&lt;/a&gt;&lt;/p&gt;\n&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span><span class="p">))</span></code></pre></div>
+
+<p><code>httpc:request/1</code> is the equivalent of the <code>httpc:request/4</code> function called as <code>(httpc:request 'get (tuple url ()) () ())</code>.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="ss">&#39;get</span> <span class="o">#(</span><span class="s">&quot;http://www.example.com&quot;</span> <span class="p">())</span> <span class="p">()</span> <span class="p">())</span>
+<span class="o">#(</span><span class="nv">ok</span>
+  <span class="o">#(#(</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="o">#(</span><span class="s">&quot;cache-control&quot;</span> <span class="s">&quot;max-age=604800&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;date&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 21:55:34 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;accept-ranges&quot;</span> <span class="s">&quot;bytes&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;etag&quot;</span> <span class="s">&quot;\&quot;359670651\&quot;&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;server&quot;</span> <span class="s">&quot;ECS (ewr/1584)&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-length&quot;</span> <span class="s">&quot;1270&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-type&quot;</span> <span class="s">&quot;text/html&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;expires&quot;</span> <span class="s">&quot;Thu, 29 Jan 2015 21:55:34 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;last-modified&quot;</span> <span class="s">&quot;Fri, 09 Aug 2013 23:54:35 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-cache&quot;</span> <span class="s">&quot;HIT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-ec-custom-error&quot;</span> <span class="s">&quot;1&quot;</span><span class="p">))</span>
+    <span class="s">&quot;&lt;!doctype html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;Example Domain&lt;/title&gt;\n\n    &lt;meta charset=\&quot;utf-8\&quot; /&gt;\n    &lt;meta http-equiv=\&quot;Content-type\&quot; content=\&quot;text/html; charset=utf-8\&quot; /&gt;\n    &lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1\&quot; /&gt;\n    &lt;style type=\&quot;text/css\&quot;&gt;\n    body {\n        background-color: #f0f0f2;\n        margin: 0;\n        padding: 0;\n        font-family: \&quot;Open Sans\&quot;, \&quot;Helvetica Neue\&quot;, Helvetica, Arial, sans-serif;\n        \n    }\n    div {\n        width: 600px;\n        margin: 5em auto;\n        padding: 50px;\n        background-color: #fff;\n        border-radius: 1em;\n    }\n    a:link, a:visited {\n        color: #38488f;\n        text-decoration: none;\n    }\n    @media (max-width: 700px) {\n        body {\n            background-color: #fff;\n        }\n        div {\n            width: auto;\n            margin: 0 auto;\n            border-radius: 0;\n            padding: 1em;\n        }\n    }\n    &lt;/style&gt;    \n&lt;/head&gt;\n\n&lt;body&gt;\n&lt;div&gt;\n    &lt;h1&gt;Example Domain&lt;/h1&gt;\n    &lt;p&gt;This domain is established to be used for illustrative examples in documents. You may use this\n    domain in examples without prior coordination or asking for permission.&lt;/p&gt;\n    &lt;p&gt;&lt;a href=\&quot;http://www.iana.org/domains/example\&quot;&gt;More information...&lt;/a&gt;&lt;/p&gt;\n&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;\n&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>You can specify headers as part of your request. For example, say we want to get DuckDuckGo’s page in Swedish in honor of Erlang being created by Ericsson. To do that, we add a tuple of <code>#("Accept-Language" "sv")</code> to the headers list as part of the request.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="ss">&#39;get</span> <span class="o">#(</span><span class="s">&quot;http://duckduckgo.com&quot;</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;Accept-language&quot;</span> <span class="s">&quot;sv&quot;</span><span class="p">)))</span> <span class="p">()</span> <span class="p">())</span>
+<span class="o">#(</span><span class="nv">ok</span>
+  <span class="o">#(#(</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="o">#(</span><span class="s">&quot;cache-control&quot;</span> <span class="s">&quot;max-age=1&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;connection&quot;</span> <span class="s">&quot;keep-alive&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;date&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 21:58:14 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;accept-ranges&quot;</span> <span class="s">&quot;bytes&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;etag&quot;</span> <span class="s">&quot;\&quot;54c126fc-1488\&quot;&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;server&quot;</span> <span class="s">&quot;nginx&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-length&quot;</span> <span class="s">&quot;5256&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-type&quot;</span> <span class="s">&quot;text/html; charset=UTF-8&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;expires&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 21:58:15 GMT&quot;</span><span class="p">))</span>
+    <span class="s">&quot;&lt;!DOCTYPE html&gt;\n&lt;!--[if IEMobile 7 ]&gt; &lt;html lang=\&quot;sv_SE\&quot; class=\&quot;no-js iem7\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if lt IE 7]&gt; &lt;html class=\&quot;ie6 lt-ie10 lt-ie9 lt-ie8 lt-ie7 no-js\&quot; lang=\&quot;sv_SE\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if IE 7]&gt;    &lt;html class=\&quot;ie7 lt-ie10 lt-ie9 lt-ie8 no-js\&quot; lang=\&quot;sv_SE\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if IE 8]&gt;    &lt;html class=\&quot;ie8 lt-ie10 lt-ie9 no-js\&quot; lang=\&quot;sv_SE\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if IE 9]&gt;    &lt;html class=\&quot;ie9 lt-ie10 no-js\&quot; lang=\&quot;sv_SE\&quot;&gt; &lt;![endif]--&gt;\n&lt;!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]&gt;&lt;!--&gt;&lt;html class=\&quot;no-js\&quot; lang=\&quot;sv_SE\&quot;&gt;&lt;!--&lt;![endif]--&gt;\n\n  &lt;head&gt;\n    &lt;meta http-equiv=\&quot;X-UA-Compatible\&quot; content=\&quot;IE=Edge\&quot; /&gt;\n&lt;meta http-equiv=\&quot;content-type\&quot; content=\&quot;text/html; charset=UTF-8;charset=utf-8\&quot;&gt;\n&lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1, user-scalable=1\&quot; /&gt;\n&lt;meta name=\&quot;HandheldFriendly\&quot; content=\&quot;true\&quot;/&gt;\n\n&lt;link rel=\&quot;canonical\&quot; href=\&quot;https://duckduckgo.com/\&quot;&gt;\n\n&lt;link rel=\&quot;stylesheet\&quot; href=\&quot;/s927.css\&quot; type=\&quot;text/css\&quot;&gt;\n&lt;link rel=\&quot;stylesheet\&quot; href=\&quot;/t927.css\&quot; type=\&quot;text/css\&quot;&gt;\n\n&lt;link rel=\&quot;shortcut icon\&quot; href=\&quot;/favicon.ico\&quot; type=\&quot;image/x-icon\&quot; sizes=\&quot;16x16 24x24 32x32 64x64\&quot;/&gt;\n&lt;link rel=\&quot;apple-touch-icon\&quot; href=\&quot;/assets/icons/meta/DDG-iOS-icon_60x60.png\&quot;/&gt;\n&lt;link rel=\&quot;apple-touch-icon\&quot; sizes=\&quot;76x76\&quot; href=\&quot;/assets/icons/meta/DDG-iOS-icon_76x76.png\&quot;/&gt;\n&lt;link rel=\&quot;apple-touch-icon\&quot; sizes=\&quot;120x120\&quot; href=\&quot;/assets/icons/meta/DDG-iOS-icon_120x120.png\&quot;/&gt;\n&lt;link rel=\&quot;apple-touch-icon\&quot; sizes=\&quot;152x152\&quot; href=\&quot;/assets/icons/meta/DDG-iOS-icon_152x152.png\&quot;/&gt;\n&lt;link rel=\&quot;image_src\&quot; href=\&quot;/assets/icons/meta/DDG-icon_256x256.png\&quot;/&gt;\n\n&lt;link title=\&quot;DuckDuckGo\&quot; type=\&quot;application/opensearchdescription+xml\&quot; rel=\&quot;search\&quot; href=\&quot;/opensearch.xml\&quot;&gt;\n\n&lt;meta name=\&quot;twitter:site\&quot; value=\&quot;@duckduckgo\&quot;&gt;\n&lt;meta name=\&quot;twitter:url\&quot; value=\&quot;https://duckduckgo.com/\&quot;&gt;\n\n&lt;meta property=\&quot;og:url\&quot; content=\&quot;https://duckduckgo.com/\&quot; /&gt;\n&lt;meta property=\&quot;og:site_name\&quot; content=\&quot;DuckDuckGo\&quot; /&gt;\n\n\n\t&lt;title&gt;DuckDuckGo&lt;/title&gt;\n&lt;meta property=\&quot;og:title\&quot; content=\&quot;DuckDuckGo\&quot; /&gt;\n&lt;meta name=\&quot;twitter:title\&quot; value=\&quot;DuckDuckGo\&quot;&gt;\n\n\n&lt;meta name=\&quot;description\&quot; content=\&quot;The search engine that doesn&#39;t track you. A superior search experience with smarter answers, less clutter and real privacy.\&quot;&gt;\n\n\n  &lt;/head&gt;\n  &lt;body id=\&quot;pg-index\&quot; class=\&quot;page-index body--home\&quot;&gt;\n\t&lt;script type=\&quot;text/javascript\&quot;&gt;settings_js_version = \&quot;/s1725.js\&quot;;&lt;/script&gt;\n&lt;script type=\&quot;text/javascript\&quot; src=\&quot;/locales/sv_SE/LC_MESSAGES/duckduckgo-duckduckgo+sprintf+gettext+locale-simple.20150116.072656.js\&quot;&gt;&lt;/script&gt;\n&lt;script type=\&quot;text/javascript\&quot; src=\&quot;/d1725.js\&quot;&gt;&lt;/script&gt;\n\n\n&lt;script type=\&quot;text/javascript\&quot;&gt;\n    DDG.page = new DDG.Pages.Home();\n&lt;/script&gt;\n\n\n\t&lt;div class=\&quot;site-wrapper  site-wrapper--home  js-site-wrapper\&quot;&gt;\n\t\n\t\t  \n\t\t\t&lt;div class=\&quot;header-wrap--home  js-header-wrap\&quot;&gt;&lt;/div&gt;\n\n\t\t\t&lt;div id=\&quot;\&quot; class=\&quot;content-wrap--home\&quot;&gt;\n\t\t\t  &lt;div id=\&quot;content_homepage\&quot; class=\&quot;content--home\&quot;&gt;\n\t\t\t\t&lt;div class=\&quot;cw--c\&quot;&gt;\n\t\t\t\t\t\t\t&lt;div class=\&quot;logo-wrap--home\&quot;&gt;\n\t\t\t&lt;a id=\&quot;logo_homepage_link\&quot; class=\&quot;logo_homepage\&quot; title=\&quot;About DuckDuckGo\&quot; href=\&quot;/about\&quot;&gt;About DuckDuckGo&lt;/a&gt;\n\t\t&lt;/div&gt;\n&lt;!--\n\t\t&lt;div class=\&quot;logo-wrap--home\&quot;&gt;\n\t\t\t&lt;a id=\&quot;logo_homepage_link\&quot; class=\&quot;logo_homepage  logo_homepage--resetthenet\&quot; title=\&quot;Reset the Net\&quot; href=\&quot;https://www.resetthenet.org/\&quot; target=\&quot;_new\&quot;&gt;Reset the Net&lt;/a&gt;\n\t\t&lt;/div&gt;\n\t\t//--&gt;\n\n\t\t\t\t\t&lt;div class=\&quot;search-wrap--home\&quot;&gt;\n\t\t\t\t\t\t\t\t&lt;form id=\&quot;search_form_homepage\&quot; class=\&quot;search  search--home  js-search-form\&quot; name=\&quot;x\&quot; method=\&quot;POST\&quot; action=\&quot;/html\&quot;&gt;\t\t\t\n\t\t\t&lt;input id=\&quot;search_form_input_homepage\&quot; class=\&quot;search__input  js-search-input\&quot; type=\&quot;text\&quot; autocomplete=\&quot;off\&quot; name=\&quot;q\&quot; tabindex=\&quot;1\&quot; value=\&quot;\&quot;&gt;\n\t\t\t&lt;input id=\&quot;search_button_homepage\&quot; class=\&quot;search__button  js-search-button\&quot; type=\&quot;submit\&quot; tabindex=\&quot;2\&quot; value=\&quot;S\&quot; /&gt;\n\t\t\t&lt;input id=\&quot;search_form_input_clear\&quot; class=\&quot;search__clear  empty  js-search-clear\&quot; type=\&quot;button\&quot; tabindex=\&quot;3\&quot; value=\&quot;X\&quot; /&gt;\n\t\t\t&lt;div id=\&quot;search_elements_hidden\&quot; class=\&quot;search__hidden  js-search-hidden\&quot;&gt;&lt;/div&gt;\n\t\t&lt;/form&gt;\n\n\t\t\t\t\t&lt;/div&gt;\n\t\t\t\t\n\t\t  \n\t\t\n\n\t\t&lt;!-- sv_SE Alla instÃ¤llningar --&gt;\n\t\t\n&lt;div id=\&quot;tagline_homepage\&quot; class=\&quot;tag-home\&quot;&gt;\n\n\tSÃ¶kmotorn som inte spÃ¥rar dig.\n\t&lt;span class=\&quot;tag-home__links\&quot;&gt;\n\t\t&lt;span class=\&quot;js-homepage-cta\&quot;&gt;&lt;a href=\&quot;/spread\&quot; class=\&quot;tag-home__link\&quot;&gt; HjÃ¤lp till att fÃ¶ra DuckDuckGo vidare! &lt;/a&gt; &lt;span class=\&quot;tag-home__links__sep\&quot;&gt;|&lt;/span&gt; &lt;/span&gt;&lt;a href=\&quot;/tour\&quot; class=\&quot;tag-home__link\&quot;&gt;Titta runt&lt;/a&gt;\n\t&lt;/span&gt;\n&lt;/div&gt;\n\t\t\n\t\t&lt;div id=\&quot;error_homepage\&quot;&gt;&lt;/div&gt;\n\n\n\t\n\t\t\n\t\t\t\t&lt;/div&gt; &lt;!-- cw --&gt;\n\t\t\t &lt;/div&gt; &lt;!-- content_homepage //--&gt;\n\t\t  &lt;/div&gt; &lt;!-- content_wrapper_homepage //--&gt;\n\t\t  &lt;div id=\&quot;footer_homepage\&quot; class=\&quot;foot-home  js-foot-home\&quot;&gt;&lt;/div&gt;\n\n&lt;script type=\&quot;text/javascript\&quot;&gt;\n\t{function seterr(str) {\n\t\tvar error=document.getElementById(&#39;error_homepage&#39;);\n\t\terror.innerHTML=str;\n\t\t$(error).css(&#39;display&#39;,&#39;block&#39;);\n\t}\n\tvar err=new RegExp(&#39;[\\?\\&amp;]e=([^\\&amp;]+)&#39;);var errm=new Array();errm[&#39;2&#39;]=&#39;ingen sÃ¶k&#39;;errm[&#39;3&#39;]=&#39;sÃ¶k fÃ¶r lÃ¥ng&#39;;errm[&#39;4&#39;]=&#39;UTF\\u002d8 kodar ej&#39;;if (err.test(window.location.href)) seterr(&#39;Oops, &#39;+(errm[RegExp.$1]?errm[RegExp.$1]:&#39;det blev ett fel.&#39;)+&#39; &amp;nbsp;Var vÃ¤nlig fÃ¶rsÃ¶k igen&#39;);};if (ip) setTimeout(&#39;nuo(1)&#39;,250);nip(1)\n\t\n\tif (kurl) {\n\t  document.getElementById(\&quot;logo_homepage_link\&quot;).href += (document.getElementById(\&quot;logo_homepage_link\&quot;).href.indexOf(&#39;?&#39;)==-1 ? &#39;?t=i&#39; : &#39;&#39;) + kurl;\n\t}\n&lt;/script&gt;\n\n\t\t\n\t    \n\t\n    &lt;/div&gt; &lt;!-- site-wrapper --&gt;\n  &lt;/body&gt;\n&lt;/html&gt;\n&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>The third argument of <code>httpc:request/4</code> is a list of HTTP option tuples. For example, you need to set timeouts on the response in order to avoid waiting on a response from an irresponsive or slow website because if it doesn’t respond in time, the requesting code needs to back off and try again later to avoid triggering the equivalent of a Denial of Service attack. In this case, I am specifying a timeout of 0, expressed in milliseconds, to ensure a timeout happens for illustrative purposes.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="ss">&#39;get</span> <span class="o">#(</span><span class="s">&quot;http://erlang.org&quot;</span> <span class="p">())</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">timeout</span> <span class="mi">0</span><span class="p">))</span> <span class="p">())</span>
+<span class="o">#(</span><span class="nb">error</span>
+  <span class="o">#(</span><span class="nv">failed_connect</span> <span class="p">(</span><span class="o">#(</span><span class="nv">to_address</span> <span class="o">#(</span><span class="s">&quot;erlang.org&quot;</span> <span class="mi">80</span><span class="p">))</span> <span class="o">#(</span><span class="nv">inet</span> <span class="p">(</span><span class="nv">inet</span><span class="p">)</span> <span class="nv">timeout</span><span class="p">))))</span></code></pre></div>
+
+<p>As it’s final argument, <code>httpc:request/4</code> takes a list of other options, these options are for how the Erlang side of things should work. Maybe you want to make a request asynchronously, and want to receive a message when it is complete. To do that you can specify an option tuple of <code>#(sync false)</code>.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(</span><span class="nv">ok</span> <span class="o">,</span><span class="nv">requestid</span><span class="p">)</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="ss">&#39;get</span> <span class="o">&#39;#(</span><span class="s">&quot;http://example.com&quot;</span> <span class="p">())</span> <span class="p">()</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">sync</span> <span class="nv">false</span><span class="p">))))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="err">#</span><span class="nv">Ref&lt;0.0.0.87&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">receive</span> <span class="p">(</span><span class="o">`#(</span><span class="nv">http</span> <span class="o">#(,</span><span class="nv">requestid</span> <span class="o">,</span><span class="nv">result</span><span class="p">))</span> <span class="nv">result</span><span class="p">)</span> <span class="p">(</span><span class="nv">after</span> <span class="mi">500</span> <span class="nv">-&gt;</span> <span class="nb">error</span><span class="p">))</span>
+<span class="o">#(#(</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="o">#(</span><span class="s">&quot;cache-control&quot;</span> <span class="s">&quot;max-age=604800&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;date&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 22:06:01 GMT&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;accept-ranges&quot;</span> <span class="s">&quot;bytes&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;etag&quot;</span> <span class="s">&quot;\&quot;359670651\&quot;&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;server&quot;</span> <span class="s">&quot;ECS (phl/9D2C)&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;content-length&quot;</span> <span class="s">&quot;1270&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;content-type&quot;</span> <span class="s">&quot;text/html&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;expires&quot;</span> <span class="s">&quot;Thu, 29 Jan 2015 22:06:01 GMT&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;last-modified&quot;</span> <span class="s">&quot;Fri, 09 Aug 2013 23:54:35 GMT&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;x-cache&quot;</span> <span class="s">&quot;HIT&quot;</span><span class="p">)</span>
+   <span class="o">#(</span><span class="s">&quot;x-ec-custom-error&quot;</span> <span class="s">&quot;1&quot;</span><span class="p">))</span>
+  <span class="err">#</span><span class="nv">B</span><span class="p">(</span><span class="s">&quot;&lt;!doctype html&gt;\n&lt;html&gt;\n&lt;hea&quot;</span> <span class="o">...</span><span class="p">))</span></code></pre></div>
+
+<p>Or maybe you want to get the response body back as an Erlang binary instead of a string.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">httpc:request</span> <span class="ss">&#39;get</span> <span class="o">&#39;#(</span><span class="s">&quot;http://example.com&quot;</span> <span class="p">())</span> <span class="p">()</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">body_format</span> <span class="nv">binary</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nv">ok</span>          
+  <span class="o">#(#(</span><span class="s">&quot;HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="o">#(</span><span class="s">&quot;cache-control&quot;</span> <span class="s">&quot;max-age=604800&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;date&quot;</span> <span class="s">&quot;Thu, 22 Jan 2015 22:08:20 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;accept-ranges&quot;</span> <span class="s">&quot;bytes&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;etag&quot;</span> <span class="s">&quot;\&quot;359670651\&quot;&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;server&quot;</span> <span class="s">&quot;ECS (ewr/1584)&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-length&quot;</span> <span class="s">&quot;1270&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;content-type&quot;</span> <span class="s">&quot;text/html&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;expires&quot;</span> <span class="s">&quot;Thu, 29 Jan 2015 22:08:20 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;last-modified&quot;</span> <span class="s">&quot;Fri, 09 Aug 2013 23:54:35 GMT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-cache&quot;</span> <span class="s">&quot;HIT&quot;</span><span class="p">)</span>
+     <span class="o">#(</span><span class="s">&quot;x-ec-custom-error&quot;</span> <span class="s">&quot;1&quot;</span><span class="p">))</span>
+    <span class="err">#</span><span class="nv">B</span><span class="p">(</span><span class="s">&quot;&lt;!doctype html&gt;\n&lt;html&gt;\n&lt;hea&quot;</span> <span class="o">...</span><span class="p">)))</span></code></pre></div>
+
+<p>This post just scratches the surface of what you can do with <code>httpc:request/4</code>, and I highly recommend checking out the Erlang documentation for the <a href="http://www.erlang.org/doc/man/httpc.html">httpc module</a>. For more examples and information, also check out the <a href="http://www.erlang.org/doc/apps/inets/users_guide.html">Erlang inets User Guide</a>, and the chapter <a href="http://www.erlang.org/doc/apps/inets/http_client.html">“HTTP Client”</a>.</p>
+
+<p>–Proctor, Robert</p>
+
+    <hr>
+    <div class="pagination btn-group">
+      
+        <a class="btn prev" href="/tutorials/2015/01/16/2253-lfe-friday---erlangapply3" title="LFE Friday - erlang:apply/3">&larr; Previous</a>
+      
+        <a class="btn" href="/archive.html">Archive</a>
+      
+        <a class="btn next disabled">Next &rarr;</a>
+      
+    </div>
+    <hr>
+    
+  </div>
+  
+  <div class="span4">
+    <section>
+      <h4>Author</h4>
+      <div class="author"><span>Robert Virding</span></div>
+    </section>
+    <section>
+      <h4>Published</h4>
+      <div class="date"><span>22 January 2015</span></div>
+    </section>
+    
+      <section>
+        <h4>Category</h4>
+        <span class="category">
+          tutorials
+        </span>
+      </section>
+         
+    
+      <section>
+        <h4>Tags</h4>
+        <ul class="tag_box">
+          
+          
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>8</span></a></li>
+    
+  
+
+
+
+        </ul>
+      </section>
+             
+  </div>
+</div>
+
+
+        </div>
+      </div> <!-- /container -->
+
+      <div class="footer-push"></div>
+    </div><!--/.page-wrap -->
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2015 LFElluminati | Alien Alliance
+        </p>
+      </div>
+    </footer>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/hooligan/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/hooligan/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+
