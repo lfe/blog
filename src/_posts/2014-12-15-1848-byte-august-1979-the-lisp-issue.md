@@ -99,9 +99,9 @@ REPL):
 
 ```cl
 > (defun remblank
-    ((= (cons "" tail))
+    ((cons "" tail)
       (remblank tail))
-    (((= (cons head tail) string))
+    ((cons head tail)
       (cons head (remblank tail))))
 remblank
 > (defun indt (n string)
