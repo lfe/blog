@@ -99,10 +99,10 @@ REPL):
 
 ```cl
 > (defun remblank
+    ((= (cons "" tail))
+      (remblank tail))
     (((= (cons head tail) string))
-      (cond ((== `(,head) " ") (remblank tail))
-            ('true (cons head (remblank tail)))))
-    ((string) string))
+      (cons head (remblank tail))))
 remblank
 > (defun indt (n string)
     (lists:append (string:copies " " n)
