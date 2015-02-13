@@ -9,7 +9,7 @@ author: Robert Virding
 {% include JB/setup %}
 {% include LFEFriday/setup %}
 
-Today’s Erlang Thursday is [lists:dropwhile/2](http://www.erlang.org/doc/man/lists.html#dropwhile-2).
+Today’s LFE Friday is [lists:dropwhile/2](http://www.erlang.org/doc/man/lists.html#dropwhile-2).
 
 ``lists:dropwhile/2`` takes a predicate function and a list, and returns a list where the first series of items for which the predicate function returned ``true`` have been removed.
 
