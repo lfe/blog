@@ -21,7 +21,7 @@ update-gems:
 
 install-jekyll: update-gems
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
-	sudo gem install bundler
+	gem install bundler
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	bundle install
 
