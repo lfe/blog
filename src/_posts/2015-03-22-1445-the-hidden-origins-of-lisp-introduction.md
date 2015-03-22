@@ -8,25 +8,34 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 <a href="{{ site.base_url }}/assets/images/posts/sicp.jpg"><img class="right medium" src="{{ site.base_url }}/assets/images/posts/sicp.jpg" /></a>
-This post kicks off a blog series highlighting the new preface for the LFE
+As [mentioned earlier](http://blog.lfe.io/update/2015/03/22/1342-sicp-the-lfe-edition-update/),
+this post kicks off a blog series highlighting the new preface for the LFE
 edition of *Structure and Interpretation of Computer Programs*.
 ([book](http://lfe.gitbooks.io/sicp/content/index.html),
 [source](https://github.com/lfe/sicp)) The posts will be comprised of the
-following:
+preface introduction and then a collection of short biographies as pertains to
+the foundation (laid by the given individual) which ended up being crucial to
+the development of Lisp, concluding with a section regarding Lisp's important
+role in the future of computer science and related industries:
 
- * Introduction
+ * [Introduction](/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/)
  * Giuseppe Peano
  * Bertrand Russell
  * Alonzo Church
  * John McCarthy
  * The Place of Lisp in the 21st Century
 
-This preface in SICP also has a quick summary of the origins of Erlang
-and of LFE itself, and discusses changes from the 2nd edition of SICP, then
+The LFE preface in SICP also has a quick summary of the origins of Erlang
+and of LFE itself, discusses changes from the 2nd edition of SICP, then
 closes with instructions on how to obtain the source for the original, for the
 LFE edition, and for the code used in the LFE edition's chapters. Those bits
 are available in the book and won't be presented in this series of the LFE
 blog.
+
+If you find any issues or have questions, concerns, etc., you may provide
+feedback about the preface in the
+[dedicated ticket](https://github.com/lfe/sicp/issues/6) created for tracking
+such things.
 
 Today we start with the preface introduction; look for the remaining sections
 in the coming days.
