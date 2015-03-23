@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Hidden Origins of Lisp: Introduction"
-description: "An update on the LFE edition of SICP and the LFE preface"
+description: ""
 category: excerpts
 tags: [books, documentation, education, history, lisp, mathematics]
 author: Duncan McGreggor
@@ -19,7 +19,7 @@ the development of Lisp, concluding with a section regarding Lisp's important
 role in the future of computer science and related industries:
 
  * [Introduction](/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/)
- * Giuseppe Peano
+ * [Giuseppe Peano](/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/)
  * Bertrand Russell
  * Alonzo Church
  * John McCarthy

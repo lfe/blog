@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SICP: the LFE Edition - Update"
-description: ""
+description: "An update on the LFE edition of SICP and a note about the new preface"
 category: update
 tags: [books, news, docs, education]
 author: Duncan McGreggor
