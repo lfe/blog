@@ -55,8 +55,8 @@ staging: $(STAGE_DIR)
 
 publish: clean build
 	git commit -a && git push origin master
-	git subtree pull --prefix $(PROD_DIR) origin gh-pages
-	git subtree push --prefix $(PROD_DIR) origin gh-pages
+	git push origin \
+	`git subtree split --prefix $(PROD_DIR) master`:gh-pages --force
 
 new:
 	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
