@@ -37,6 +37,9 @@ production_url : http://blog.lfe.io/
 paginate: 10
 paginate_path: "page:num"
 
+LFEBlog :
+  authors: ["Duncan McGreggor", "Robert Virding", "Anurag Mendhekar"]
+
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
 JB :
@@ -81,6 +84,7 @@ JB :
   #
   archive_path: /archive.html
   categories_path : /categories.html
+  authors_path : /authors.html
   tags_path : /tags.html
   atom_path : /atom.xml
   rss_path : /rss.xml

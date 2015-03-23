@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1>
-    {{ page.title }} 
+    {{ page.title }}
     {% if page.tagline %}
       <small>{{ page.tagline }}</small>
     {% endif %}
@@ -27,11 +27,11 @@
     <hr>
     {% include JB/comments %}
   </div>
-  
+
   <div class="span4">
     <section>
       <h4>Author</h4>
-      <div class="author"><span>{{ page.author }}</span></div>
+      <div class="author"><span><a href="{{ BASE_PATH }}{{ site.JB.authors_path }}#{{ page.author }}">{{ page.author }}</a></span></div>
     </section>
     <section>
       <h4>Published</h4>
@@ -44,7 +44,7 @@
           {{ page.category }}
         </span>
       </section>
-    {% endif %}     
+    {% endif %}
     {% unless page.tags == empty %}
       <section>
         <h4>Tags</h4>
@@ -53,6 +53,6 @@
           {% include JB/tags_list %}
         </ul>
       </section>
-    {% endunless %}         
+    {% endunless %}
   </div>
 </div>

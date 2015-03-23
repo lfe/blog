@@ -1,0 +1,37 @@
+{% comment %}<!--
+The authors_list include is a listing helper for authors
+Usage:
+  1) assign the 'authors_list' variable to a valid array of tags.
+  2) include JB/authors_list
+  example:
+    <ul>
+        {% assign authors_list = site.LFEBlog.authors %}
+        {% include JB/authors_list %}
+      </ul>
+
+  Notes:
+    Authors can be either a Hash of Author objects (hashes) or an Array of author-names (strings).
+    The encapsulating 'if' statement checks whether authors_list is a Hash or Array.
+    site.authors is a Hash while page.authors is an array.
+
+  This helper can be seen in use at: authors.html
+-->{% endcomment %}
+
+{% if site.JB.authors_list.provider == "custom" %}
+  {% include custom/authors_list %}
+{% else %}
+  {% if authors_list.first[0] == null %}
+    {% for author in authors_list %}
+        <li><a href="{{ BASE_PATH }}{{ site.JB.authors_path }}#{{ author }}-ref">
+            {{ author | join: "/" }} <span>{{ site.authors[author].size }}</span>
+        </a></li>
+    {% endfor %}
+  {% else %}
+    {% for author in authors_list %}
+        <li><a href="{{ BASE_PATH }}{{ site.JB.authors_path }}#{{ author[0] }}-ref">
+            {{ author[0] | join: "/" }} <span>{{ author[1].size }}</span>
+        </a></li>
+    {% endfor %}
+  {% endif %}
+{% endif %}
+{% assign authors_list = nil %}
