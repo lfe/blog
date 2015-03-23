@@ -12,7 +12,7 @@ Giuseppe Peano: Creator of the first recursive function definition.
 
 This is one of a series of posts tracing the origins of Lisp through four brief
 biographical vignettes of individuals whose contributions to mathematics
-ultimately contributed to the creation of Lisp:
+ultimately supported the creation of Lisp:
 
  * [Introduction](/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/)
  * [Giuseppe Peano](/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/)
