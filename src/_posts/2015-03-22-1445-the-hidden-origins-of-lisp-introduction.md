@@ -21,7 +21,7 @@ role in the future of computer science and related industries:
  * [Introduction](/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/)
  * [Giuseppe Peano](/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/)
  * [Bertrand Russell](/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell/)
- * Alonzo Church
+ * [Alonzo Church](/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church/)
  * John McCarthy
  * The Place of Lisp in the 21st Century
 

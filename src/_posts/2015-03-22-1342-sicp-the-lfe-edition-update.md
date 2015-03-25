@@ -35,7 +35,7 @@ Erlang and LFE briefly. Instead, we have taken the opportunity to provide a
 personal touch to the history of Lisp's development via short biographies of a
 selection of mathematicians who made significant contributions to such
 developments as number and function theory, logic, the philosophy of
-mathematics, the λ-calculus, and the Lisp itself.
+mathematics, the λ&#8209;calculus, and the Lisp itself.
 
 Over the coming days, these will be posted in serial form on the LFE blog to
 share some of this information with a wider audience, and for the motivated and
