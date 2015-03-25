@@ -38,7 +38,7 @@ paginate: 10
 paginate_path: "page:num"
 
 LFEBlog :
-  authors: ["Duncan McGreggor", "Robert Virding", "Anurag Mendhekar"]
+  authors: ["Robert Virding", "Duncan McGreggor", "Anurag Mendhekar"]
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
