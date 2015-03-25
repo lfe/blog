@@ -8,7 +8,7 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 {% include MathJax/setup %}
-<a href="{{ site.base_url }}/assets/images/posts/Alonzo-Church.jpg"><img class="right medium" src="{{ site.base_url }}/assets/images/posts/Alonzo-Church.jpg" /></a> Alonzo Church: Creator of the λ&#8209;calculus
+<a href="{{ site.base_url }}/assets/images/posts/Alonzo-Church.jpg"><img class="right medium" src="{{ site.base_url }}/assets/images/posts/Alonzo-Church.jpg" /></a> Alonzo Church: Creator of the λ&#8209;calculus and articulator of the Church–Turing thesis.
 
 This is one of a series of posts tracing the origins of Lisp through four brief
 biographical vignettes of individuals whose contributions to mathematics
