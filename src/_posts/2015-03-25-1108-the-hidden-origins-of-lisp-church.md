@@ -3,7 +3,7 @@ layout: post
 title: "The Hidden Origins of Lisp: Alonzo Church"
 description: ""
 category: excerpts
-tags: [books, documentation, education, history, lisp, mathematics]
+tags: [books, documentation, education, history, lisp, mathematics, sicp]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
@@ -19,7 +19,7 @@ ultimately supported the creation of Lisp:
  * [Bertrand Russell](/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell/)
  * [Alonzo Church](/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church/)
  * [John McCarthy](/excerpts/2015/03/26/1111-the-hidden-origins-of-lisp-mccarthy/)
- * The Place of Lisp in the 21st Century
+ * [The Place of Lisp in the 21st Century](/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future)
 
 The material presented in these
 posts has been taken from early drafts of the new preface for the LFE edition
