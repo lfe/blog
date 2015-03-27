@@ -116,8 +116,6 @@ And there will be even more fun to be had by all.
 
 [^2]: Peter Norvig's *Paradigms of Artificial Intelligence Programming* and Peter Seibel's [Practical Common Lisp](http://www.gigamonkeys.com/book/) both provide an introduction to using macros, while much of Paul Graham's *On Lisp* and all of Doug Hoyte's *Let Over Lambda* are dedicated to the use and understanding of macros.
 
-OnLisp Let over Lambda
-
 [^3]: See the ACM-hosted [interview with Alan Kay](http://queue.acm.org/detail.cfm?id=1039523).
 
 [^4]: Or, as the case may be, the lower 2/3rds of a single page.
