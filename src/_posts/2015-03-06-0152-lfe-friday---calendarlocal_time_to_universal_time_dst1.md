@@ -2,7 +2,7 @@
 layout: post
 title: "LFE Friday - calendar:local_time_to_universal_time_dst/1"
 description: ""
-category: tutorial
+category: tutorials
 tags: [lfe friday,lfe,erlang]
 author: Robert Virding
 ---
