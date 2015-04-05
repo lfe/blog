@@ -7,7 +7,7 @@ tags: [lfe,dialyzer]
 author: Robert Virding
 ---
 {% include JB/setup %}
-
+<a href="{{ site.base_url }}/assets/images/posts/ldialyzer.png"><img class="left medium" src="{{ site.base_url }}/assets/images/posts/ldialyzer.png" /></a>
 Dialyzer can be a useful tool but its implementation has a few idiosynchrasies which make it difficult to directly use with LFE. It can only use .erl files or .beam files. Unfortunately the .beam files must be compiled from erlang files using the 'debug_info' option. This option includes the full Erlang AST in the .beam file and it is this which is used by dialyzer.[^1]
 
 Unfortunately the LFE compiler does not generate an Erlang AST, it instead generates something called Core erlang which is used internally in the compiler. This is a much nicer language to compile to. Funnily enough dialyzer actually uses Core erlang internally, it just doesn't provide any direct way of inputing it.
