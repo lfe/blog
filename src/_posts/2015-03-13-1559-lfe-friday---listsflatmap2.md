@@ -2,7 +2,7 @@
 layout: post
 title: "LFE Friday - lists:flatmap/2"
 description: ""
-category: tutorial
+category: tutorials
 tags: [lfe friday,lfe,erlang]
 author: Robert Virding
 ---
