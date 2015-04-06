@@ -224,7 +224,7 @@ value of "0" and reading the old value back.
 
 The ability to set or retrieve the value of multiple keys in a single function
 is also useful for reduced latency. For this reason there are the
-``multi-set`` and ``multi-get`` ledis functions (which map to the `MSET`` and
+``multi-set`` and ``multi-get`` ledis functions (which map to the ``MSET`` and
 ``MGET`` Redis commands):
 
 ```lisp
