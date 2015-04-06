@@ -13,8 +13,8 @@ types](http://redis.io/topics/data-types-intro), where instead of the Redis
 CLI, the LFE REPL is used in conjunction with the
 [ledis](https://github.com/lfex/ledis) library.
 
-The ledis library has defined the Redis commands most oten used; if we haven't
-added one that you need, just
+The ledis library has defined functions for the Redis commands most often used;
+if we haven't added one that you need, just
 [open a ticket](https://github.com/lfex/ledis/issues/new) with your request, or
 even submit a pull request with your changes.
 
@@ -135,7 +135,7 @@ library.
 #(ok "somevalue")
 ```
 
-As you can see using the ``set`` and the ``get`` commands are the way we set
+As you can see using the ``set`` and the ``get`` functions are the way we set
 and retrieve a string value. Note that ``set`` will replace any existing value
 already stored into the key, in the case that the key already exists, even if
 the key is associated with a non-string value. So ``set`` performs an
@@ -143,7 +143,7 @@ assignment.  Values can be strings (including binary data) of every kind, for
 instance you can store a jpeg image inside a key. A value can't be bigger than
 512 MB.
 
-The ``set`` command has interesting options, that are provided as additional
+The ``set`` function has interesting options, that are provided as additional
 arguments. For example, you may ask ``set`` to fail if the key already exists:
 
 ```lisp
@@ -183,7 +183,7 @@ In that example, we did the following:
 
 1. Set a value for ``mykey`` -- but only if it already existed -- and set its
    expiration for 10,000 milliseconds.
-1. Checked the value, to show that our command worked.
+1. Checked the value, to show that our function all worked.
 1. Set the timer for a time when the value would be expired.
 1. Checked that the value did in fact expire.
 
@@ -201,29 +201,31 @@ you can perform with them. For instance, one is atomic increment:
 #(ok "152")
 ```
 
-The ``INCR`` command parses the string value as an integer, increments it by
+The ``incr`` function parses the string value as an integer, increments it by
 one, and finally sets the obtained value as the new value. There are other
-similar commands like ``INCRBY``, ``DECR`` and ``DECRBY``. Internally it's
-always the same command, acting in a slightly different way.
+similar functions like ``incrby``, ``decr`` and ``decrby``. Internally it's
+always the same Redis command, acting in a slightly different way.
 
-What does it mean that ``INCR`` is atomic? That even multiple clients issuing
-``INCR`` against the same key will never enter into a race condition. For
+What does it mean that ``incr`` is atomic? That even multiple clients issuing
+``incr`` against the same key will never enter into a race condition. For
 instance, it will never happen that client 1 reads "10", client 2 reads "10" at
 the same time, both increment to 11, and set the new value to 11. The final
 value will always be 12 and the read-increment-set operation is performed while
-all the other clients are not executing a command at the same time.
+all the other clients are not executing a command against the Redis server at
+the same time.
 
-There are a number of commands for operating on strings. For example the
-``GETSET`` command sets a key to a new value, returning the old value as the
-result. You can use this command, for example, if you have a system that
-increments a Redis key using ``INCR`` every time your web site receives a new
+There are a number of functions for operating on strings. For example the
+``getset`` function sets a key to a new value, returning the old value as the
+result. You can use this function, for example, if you have a system that
+increments a Redis key using ``incr`` every time your web site receives a new
 visitor. You may want to collect this information once every hour, without
-losing a single increment.  You can ``GETSET`` the key, assigning it the new
+losing a single increment.  You can ``getset`` the key, assigning it the new
 value of "0" and reading the old value back.
 
-The ability to set or retrieve the value of multiple keys in a single command
-is also useful for reduced latency. For this reason there are the ``MSET`` and
-``MGET`` commands:
+The ability to set or retrieve the value of multiple keys in a single function
+is also useful for reduced latency. For this reason there are the
+``multi-set`` and ``multi-get`` ledis functions (which map to the `MSET`` and
+``MGET`` Redis commands):
 
 ```lisp
 > (ledis:multi-set '(a 10 b 20 c 30))
@@ -233,17 +235,17 @@ is also useful for reduced latency. For this reason there are the ``MSET`` and
 ```
 
 Note that, since LFE already has built-in functions named ``mset`` and ``mget``,
-the Redis functions had to be renamed.
+the Redis command names could not be used.
 
 
 ## Altering and Querying the Key Space
 
-There are commands that are not defined on particular types, but are useful in
+There are functions that are not defined on particular types, but are useful in
 order to interact with the space of keys, and thus, can be used with keys of
 any type.
 
-For example the ``EXISTS`` command returns 1 or 0 to signal if a given key
-exists or not in the database, while the ``DEL`` command deletes a key and
+For example the ``exists`` function returns 1 or 0 to signal if a given key
+exists or not in the database, while the ``del`` function deletes a key and
 associated value, whatever the value is.
 
 ```lisp
@@ -257,7 +259,7 @@ associated value, whatever the value is.
 #(ok "0")
 ```
 
-From the examples you can also see how ``DEL`` itself returns 1 or 0 depending
+From the examples you can also see how ``del`` itself returns 1 or 0 depending
 on whether the key was removed (it existed) or not (there was no such key with
 that name). You may also delete multiple keys in one go:
 
@@ -270,13 +272,13 @@ that name). You may also delete multiple keys in one go:
 #(ok "3")
 ```
 
-In this case, the return value for ``DEL`` is the number of successful deletes:
+In this case, the return value for ``del`` is the number of successful deletes:
 we asked it to delete four keys, but the fourth doesn't exist, so it only
 deleted three.
 
 There are many key space related commands, but the above two are the essential
-ones together with the TYPE command, which returns the kind of value stored at
-the specified key:
+ones together with the ``type`` function, which returns the kind of value
+stored at the specified key:
 
 ```lisp
 > (ledis:set 'mykey 1)
