@@ -9,7 +9,7 @@ author: Robert Virding
 {% include JB/setup %}
 {% include LFEFriday/setup %}
 
-Today’s LFE Friday is covers [calendar:day_of_the_week/3](http://www.erlang.org/doc/man/calendar.html#day_of_the_week-3)
+Today’s LFE Friday covers [calendar:day_of_the_week/3](http://www.erlang.org/doc/man/calendar.html#day_of_the_week-3).
 
 ``calendar:day_of_the_week/3`` allows you to get the day of the week a day occurred on when passed a year, a month and a day.
 

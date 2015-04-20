@@ -2,7 +2,7 @@
 layout: post
 title: "ledis: Using Redis from LFE"
 description: ""
-category: tutorial
+category: tutorials
 tags: [howtos, databases, libraries, redis, nosql]
 author: Duncan McGreggor
 ---
