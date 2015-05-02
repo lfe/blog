@@ -3,13 +3,15 @@ layout: post
 title: "Evaluating dynamic expressions in LFE"
 description: ""
 category: tutorials
-tags: [lfe,backquote]
+tags: [lfe,backquote,techniques,tips]
 author: Robert Virding
 ---
 {% include JB/setup %}
-<a href="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>Sometimes you need to evaluate a dynamic expression in LFE, one that has been created during the execution of the program. For example we have been sent an expression to evaluate.
+<a href="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>Sometimes you need to evaluate a dynamic expression in LFE, one that has been created during the execution of the program. For example, imagine some other process has sent us an LFE expression which we need to evaluate.
 
-This can be done with the function ``eval/1`` evaluates its argument as an expression:
+This can be done with the function ``eval/1``. As one might guess, ``eval/1`` evaluates its argument as an expression.
+
+Here is an example:
 
 ```lisp
 > (eval '(+ 1 2 3))
