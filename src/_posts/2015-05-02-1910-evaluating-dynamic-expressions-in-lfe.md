@@ -7,8 +7,7 @@ tags: [lfe,backquote]
 author: Robert Virding
 ---
 {% include JB/setup %}
-<a href="{{ site.base_url
-}}/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>Sometimes you need to evaluate a dynamic expression in LFE, one that has been created during the execution of the program. For example we have been sent an expression to evaluate.
+<a href="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>Sometimes you need to evaluate a dynamic expression in LFE, one that has been created during the execution of the program. For example we have been sent an expression to evaluate.
 
 This can be done with the function ``eval/1`` evaluates its argument as an expression:
 
