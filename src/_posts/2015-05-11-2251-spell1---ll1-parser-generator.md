@@ -7,7 +7,7 @@ tags: [lfe,erlang,tools]
 author: Robert Virding
 ---
 {% include JB/setup %}
-<a href="{{ site.base_url }}/assets/images/posts/lutil-leonardo-gears.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/lutil-leonardo-gears.png" /></a>I have been working on an LL(1) grammar parser generator for Erlang/LFE. While we have yecc for LALR(1) grammars this isn't suitable for everything. I think there are 2 main problems:
+<a href="{{ site.base_url }}/assets/images/posts/lfe-tooling-leonardo-gears-2.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/lfe-tooling-leonardo-gears-2.png" /></a>I have been working on an LL(1) grammar parser generator for Erlang/LFE. While we have yecc for LALR(1) grammars this isn't suitable for everything. I think there are 2 main problems:
 
 - The generated yecc parsers must be given the exact number of tokens, neither too many nor too few. While this is no problem with Erlang code because of the ``.`` it is difficult with LFE. This could be fixed by writing a new yecc include file.
 
