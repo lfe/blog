@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LFE T shirts: The Great Unboxing"
+title: "LFE T-shirts: The Great Unboxing"
 description: ""
 category: formalwear
 tags: [community,hackersuits,t-shirts,clothing]
