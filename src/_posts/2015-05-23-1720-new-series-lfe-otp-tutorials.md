@@ -7,7 +7,14 @@ tags: [otp,erlang]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
-<a href="/assets/images/posts/LFE-signal.jpg"><img class="right tiny" src="/assets/images/posts/LFE-signal.jpg" /></a>
+<a href="/assets/images/posts/LFE-signal.jpg"><img class="right tiny" src="/assets/images/posts/LFE-signal.jpg" /></a>This post introduces an new series of tutorials on the LFE blog which will step LFE users through OTP in the style of Lisp Flavoured Erlang.
+
+## LFE OTP Tutorial Series
+
+ * [Introducing the LFE OTP Tutorials](/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/)
+ * [What is OTP?](/tutorials/2015/05/24/1808-what-is-otp/)
+
+
 There aren't a lot of OTP tutorials online. One really good one
 ([starts here](http://learnyousomeerlang.com/what-is-otp#its-the-open-telecom-platform))
 is in Fred's most execllent book
