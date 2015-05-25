@@ -11,9 +11,9 @@ author: Duncan McGreggor
 
 ## LFE OTP Tutorial Series
 
- * [Introducing the LFE OTP Tutorials](/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/)
- * [What is OTP?](/tutorials/2015/05/24/1808-what-is-otp/)
-
+* [Introducing the LFE OTP Tutorials](/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/)
+* [What is OTP?](/tutorials/2015/05/24/1808-what-is-otp/)
+* [Prelude to OTP](/tutorials/2015/05/25/0929-prelude-to-otp/)
 
 There aren't a lot of OTP tutorials online. One really good one
 ([starts here](http://learnyousomeerlang.com/what-is-otp#its-the-open-telecom-platform))
@@ -21,13 +21,13 @@ is in Fred's most execllent book
 [Learn You Some Erlang for great good!](http://learnyousomeerlang.com/). Other
 resources include:
 
- * Joe Armstrong's [Programming Erlang](https://pragprog.com/book/jaerlang2/programming-erlang)
-   including the chapters "Introducing OTP" and "Making a System with OTP"
- * Francesco and Simon's [Erlang Programming](http://shop.oreilly.com/product/9780596518189.do),
-   Chapter 12
- * All of Francesco and Steve's [Designing for Scalability with Erlang/OTP](http://shop.oreilly.com/product/0636920024149.do)
- * Martin, Eric, and Richard's [Erlang and OTP in Action](http://www.manning.com/logan/),
-   including Chapter 4 and Chapter 8 (among others)
+* Joe Armstrong's [Programming Erlang](https://pragprog.com/book/jaerlang2/programming-erlang)
+  including the chapters "Introducing OTP" and "Making a System with OTP"
+* Francesco and Simon's [Erlang Programming](http://shop.oreilly.com/product/9780596518189.do),
+  Chapter 12
+* All of Francesco and Steve's [Designing for Scalability with Erlang/OTP](http://shop.oreilly.com/product/0636920024149.do)
+* Martin, Eric, and Richard's [Erlang and OTP in Action](http://www.manning.com/logan/),
+  including Chapter 4 and Chapter 8 (among others)
 
 There are bits and pieces in blog posts, documentation, etc., but nothing that
 really gives a complete picture, is easy to grasp for newcomers, and which
