@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Creating Servers with the gen_server Behaviour"
+title: "LFE OTP: Creating Servers with the gen_server Behaviour"
 description: "Creating a generic OTP server in LFE"
 category: tutorials
 tags: [otp,erlang]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
-<a href="/assets/images/posts/LFE-signal.jpg"><img class="left thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>As mentioned in the previous
+<a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>As mentioned in the previous
 post, one of the most common patterns that was identified in Erlang was the
 need to create a generic, long running process. This pattern has been codified
 in the gen_server behaviour, and it is now time that we got our hands dirty by
@@ -22,6 +22,19 @@ creating a few :-)
 
 You can leave feedback for the LFE OTP tutorials
 [here](https://github.com/lfe/blog/issues/7).
+
+## In This Post
+
+* Requirements, Assumptions, and Code
+* Introductory Notes on ``gen_server``
+* Creating a Callback Module
+* Creating a Server Module
+* Creating An API
+* Updating An API
+* Full Source Code
+* Learning More About gen_server
+* Up Next
+* Footnotes
 
 ## Requirements, Assumptions, and Code
 
@@ -107,18 +120,24 @@ this call (all under the hood and away from view). We did something almost
 identical in our process example in the last post. In this simple example, our
 return value and our state data are one and the same; in a more complicated
 example, one might extract the result from the state data or perform some
-operations on the state data that then gets returned.
+operations on the state data. Whatever you did, you would put the result you
+wanted to be sent back to the caller in the second element of the tuple.
+
+Note the reply of ``(unknown-command)`` in the catch-all function head pattern
+for ``handle_call``. This is used here for demonstration purposes only. In a
+later post, we will cover error handling and how to best deal with unexpected
+messages in an OTP application. [^handle-info]
 
 The ``handle_cast`` function is used for making asynchronous calls, often
-convenient when you want to execute a function and don’t care about a return
-value.  This is exactly what we’re using it for: we just want our state data to
-get incremented; we don’t want to return any data to the caller.
+convenient when you want to execute a function and don’t care about returning
+data to the caller. This is exactly what we’re using it for: we just want our
+state data to get incremented; we don’t want a result. [^delayed-result]
 
 Both functions expect a message (any Erlang term) and the state data for our
 ``gen_server`` loop. Additionally, the ``handle_call`` function takes a
 parameter for the calling function so that it can send results back to it. When
 we look at the the API code in our server module, we’ll see where this code
-gets called.  First, though, let’s finish looking at our callback module.
+gets called.  First, though, let’s finish looking at our callback module:
 
 The other thing our callback module needs to define is an ``init`` function.
 This is used to “prime the pump”, as it were, for the the ``gen_server`` loop.
@@ -143,16 +162,14 @@ so many of the details), our server code is very simple:
                     (genserver-opts)))
 ```
 
-As promised, we have very clearly defined the variables which are being used as
-the ``gen_server:start`` arguments:
+As promised above, instead of archane data structures, we have very clearly
+defined the variables which are being used as the ``gen_server:start``
+arguments:
 
-1. The ``start/4`` function takes a registered name; in general, this is
-  optional -- you could use ``start/3`` instead. In our
-  case we need it so that we can easily make calls to the ``gen_server`` process
-  (and for that we need to register a name so we can look up the process; if we
-  didn’t do this, we’d need to keep track of the process id for our server). The
-  name is usually a tuple with the first element being either ``local`` or
- ``global`` and the second being the actual name for the process.
+1. The ``start/4`` function takes a name with which the server will be
+  registered. [^start-name] The name is a tuple with the first element being
+  either ``local`` or ``global`` and the second being the actual name for the
+  process. [^via-name]
 1. The second argument is the callback module associated with this server
   (that’s what we created in the previous section ... it’s where all our logic
   lives).
@@ -162,16 +179,12 @@ the ``gen_server:start`` arguments:
 1. Finally, if we want to pass any options to the ``gen_server`` process
    itself, we can do that here. At the beginning of the module where this code
    lives, we've defined ``(genserver-opts)`` to be an empty list, since we
-   don’t need to do anything special here. (For a list of available options,
-   see the [gen_server:start docs](http://www.erlang.org/doc/man/gen_server.html#start-4).)
+   don’t need to do anything special here. [^genserver-opts]
 
 As you can see, there are a series of functions being called that we haven’t
-defined above -- these are all defined in the server module for this tutorial
-(the full listing of which is at the end of this post). There is no defined
-convention for this: you can put the data for the argument values anywhere it
-makes sense to you. You don't even have to define any -- you can just pass the
-data as-is in the function arguments. However, there is a lot to be said for
-the readability of the example above :-)
+defined above -- these are all defined in the tutorial server module
+``tut01.lfe`` (the full listing of which is at the end of this post). These
+hold all the data which is getting passed. [^genserver-args]
 
 ## Creating An API
 
@@ -180,10 +193,10 @@ hardly that. They consisted of making ``funcall``s in one case, and in the
 other, sending messages to the server process via the ``(! ...)`` form. That
 changes now :-)
 
-Whenever you have created ``gen_server`` and a callback module for it, the way
-you execute the callback code is by sending messages to your server via
-``(gen_server:call ...)`` and ``(gen_server:cast ...)``. We will use these to
-create a nice developer experience with some simple API functions:
+Whenever you have created an implementation of the ``gen_server`` behaviour and
+a callback module for it, the way you execute the callback code is by sending
+messages to your server via ``(gen_server:call ...)`` and ``(gen_server:cast
+...)``. We will use these to define a nicely usable API for our server:
 
 ```lisp
 (defun add ()
@@ -193,15 +206,17 @@ create a nice developer experience with some simple API functions:
   (gen_server:call (server-name) 'amount))
 ```
 
-You can imagine that for a large application, there would be a great many API
-functions defined here. With these functions defined, the mystery of what calls
-our ``handle_cast`` and ``handle_call`` functions is solved :-)
-OTP helps us keep this bit very simple, too. Essentially we’re saying “Hey,
-gen_server!  You know that server we defined called ``(server-name)``? Well,
-we’d like to send a ``cast`` message to it. Can you do that please?” OTP then
-takes care of the rest of it for us, by looking up the server, finding the
-callback module that was defined for it, and then calling the ``handle_cast``
-function with the appropriate arguments.
+You can imagine that for a large server module, there would be a great many API
+functions defined here. At this point, the mystery of what calls
+our ``handle_cast`` and ``handle_call`` functions in the callback module is
+solved :-)
+
+OTP helps us to also keep our API definitions very simple. Essentially we’re
+saying “Hey, gen_server!  You know that server we defined called
+``(server-name)``? Well, we’d like to send a ``cast`` message to it. Can you do
+that please?” OTP then takes care of the rest of it for us, by looking up the
+server, finding the callback module that was defined for it, and then calling
+the ``handle_cast`` function with the appropriate arguments.
 
 Let’s try it out:
 
@@ -228,24 +243,25 @@ ok
 ```
 
 How’s *that* for clean! That’s what a good developer experience should look
-like :-)
+like :-) None of this crazy you-gotta-make-``funcall``s-and-then-save-state
+business.
 
+Let's review what happened above:
 We started up our server which initialized the loop with the data we
 configured for it in our server module (just the integer ``0`` in our case).
 Next, we made some API calls which were passed on to our callback module by the
 underlying OTP infrastructure. We got results for our API functions which made
-calls, and a simple, reassuring ``ok`` for the API functions which don’t return
-a value and made ``cast``s. When skipping the API functions and making calls
-directly via ``gen_server:call``, we got the error message we defined for
-unknown commands when the passed message doesn’t match the ones that have been
-defined in our callback module.
+``call``s, and for the ``cast``s we got a simple and reassuring ``ok``.  When
+skipping the API functions and making calls directly via ``gen_server:call``,
+we got the expected error message for messages which don't match the ones that
+have been defined in our callback module.
 
 ## Updating An API
 
 What if we needed to make a change to our API? Asked another way, what does one
-need in order to add new functionality? Let’s answer this by looking at a
-special case: adding the ability to stop our server. We'll start with the new
-API function:
+need to do in order to add new functionality to a server API? Let’s answer this
+by looking at a special case: adding the ability to stop our server. We'll
+start with the new API function:
 
 ```lisp
 (defun stop ()
@@ -308,6 +324,13 @@ And we can demonstrate that it’s really stopped by trying to call our
 exception exit: #(noproc #(gen_server call (tut01 amount)))
   in gen_server:call/2 (gen_server.erl, line 182)
 ```
+
+This was a special case; most times you will add API functions, there will be
+no implicit execution of callback functions (which need to be defined in order
+to prevent errors from being generated). Usually all you'll have to do is
+define your API function and then implement the logic that will get executed by
+the callback module.
+
 
 ## Full Source Code
 
@@ -401,8 +424,63 @@ Often overlooked, it's actually really good and will be a constant companion
 for you any time you need to do something with OTP that you haven't tried
 before.
 
+In future posts in this series, we will be covering bits we've left out of this
+tutorial, namely:
+
+* ``handle_info`` - managing unepxected messages and different error states
+* ``code_change`` - supporting hot-loading of code in a running system
+* ``format_status`` - providing custom status data for a running server
+
+
 ## Up Next
 
 Before we tackle any other behaviours, we’re going to explore distributed
 generic servers: running our code on multiple cores and multiple machines.
 
+----
+
+### Footnotes
+
+[^handle-info]: If you're curious now and want to do this the right way before
+                we get around to creating a blog post for error handling and
+                unexpected messages, look info the ``handle_info`` callback
+                function for ``gen_server``. A minimal use of ``handle_info``
+                to deal with unexpected messages would involve adding three
+                pattern-matching function heads: 1) match for a normal exit
+                and return your state data as ``noreply``, 2) match for any
+                other type of exit, log the exit reason, and return your state
+                data as ``noreply``, and 3) have a catch-all pattern that
+                simply returns your state data as ``noreply``.
+
+[^delayed-result]: Another way to do this would be to use ``call`` instead of
+                   ``cast`` and in our ``add`` callback function, return
+                   ``(gen_server:reply from `#(reply ,state-data)) `#(noreply ,(+ 1 state-data))``
+                   This does two things: 1) sends an immediate response back to
+                   the caller (which which is the API function ``add`` in this
+                   case), satisfying its need for a response from the server,
+                   and 2) passes the new state to the next loop of the server.
+                   We chose to use the ``cast`` approach not only for
+                   simplicity of implementation, but to introduce the async
+                   capabilities of a ``gen_server`` implementation.
+
+[^start-name]: In general, this is optional -- you could use ``start/3`` which
+               doesn't take a name. In our case, however, we need it so that we
+               can easily make calls to the ``gen_server`` process (and for
+               that we need to register a name so the process can be looked up;
+               if we didn’t do this, we’d need to keep track of the process id
+               for our server).
+
+[^via-name]: A third alternative is more rarely used in the cases where one
+             need to implement a custom global registry. In that event, you
+             create a 3-tuple where the second element is the name of the
+             module which implements the registry functions.
+
+[^genserver-opts]: For a list of available options, see the [gen_server:start docs](http://www.erlang.org/doc/man/gen_server.html#start-4).
+
+[^genserver-args]: There is no defined convention in LFE for how one defines
+                   module-level configuration variables or where these might
+                   go: you can put the data for the argument values anywhere it
+                   makes sense to you.  You don't even have to define any --
+                   you can just pass the data as-is in the function arguments.
+                   However, there is a lot to be said for the readability of
+                   the example above :-)

@@ -14,6 +14,7 @@ author: Duncan McGreggor
 * [Introducing the LFE OTP Tutorials](/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/)
 * [What is OTP?](/tutorials/2015/05/24/1808-what-is-otp/)
 * [Prelude to OTP](/tutorials/2015/05/25/0929-prelude-to-otp/)
+* [Creating Servers with the gen_server Behaviour](/tutorials/2015/05/26/1112-creating-servers-with-the-gen_server-behaviour/)
 
 There aren't a lot of OTP tutorials online. One really good one
 ([starts here](http://learnyousomeerlang.com/what-is-otp#its-the-open-telecom-platform))
