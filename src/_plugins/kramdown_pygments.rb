@@ -51,7 +51,7 @@ module Kramdown
         end
         "<code#{html_attributes(attr)}>#{code}</code>"
       end
-      
+
       def pygmentize(code, lang)
         if lang
           Pygments.highlight(code,
