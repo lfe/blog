@@ -5,6 +5,8 @@ markdown: KramdownPygments
 kramdown:
   input: GFM
   hard_wrap: false
+  # bizarrely, this is how you disable smart quotes in Kramdown:
+  smart_quotes: ["apos", "apos", "quot", "quot"]
 permalink: /:categories/:year/:month/:day/:title
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "Makefile",
