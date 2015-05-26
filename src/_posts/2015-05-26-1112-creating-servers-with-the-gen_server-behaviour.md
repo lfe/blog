@@ -167,12 +167,12 @@ defined the variables which are being used as the ``gen_server:start``
 arguments:
 
 1. The ``start/4`` function takes a name with which the server will be
-  registered. [^start-name] The name is a tuple with the first element being
-  either ``local`` or ``global`` and the second being the actual name for the
-  process. [^via-name]
-1. The second argument is the callback module associated with this server
-  (that’s what we created in the previous section ... it’s where all our logic
-  lives).
+   registered. [^start-name] The name is a tuple with the first element being
+   either ``local`` or ``global`` and the second being the actual name for the
+   process. [^via-name]
+1. The second argument is the callback module associated with this server.
+   That's what we created in the previous section; it's where all our logic
+   lives.
 1. In our case, the next argument is the initial state for our server loop, but
    more generally, it is the list of arguments (can be an empty list) that will
    be passed to the ``init`` function in a ``gen_server``'s callback module.
@@ -465,13 +465,13 @@ generic servers: running our code on multiple cores and multiple machines.
 
 [^start-name]: In general, this is optional -- you could use ``start/3`` which
                doesn't take a name. In our case, however, we need it so that we
-               can easily make calls to the ``gen_server`` process (and for
+               can easily make calls to the ``gen_server`` process. For
                that we need to register a name so the process can be looked up;
                if we didn’t do this, we’d need to keep track of the process id
-               for our server).
+               for our server.
 
 [^via-name]: A third alternative is more rarely used in the cases where one
-             need to implement a custom global registry. In that event, you
+             needs to implement a custom global registry. In that event, you
              create a 3-tuple where the second element is the name of the
              module which implements the registry functions.
 
