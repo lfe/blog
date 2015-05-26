@@ -79,7 +79,7 @@ That said, we're ready for some code!
 
 If we want to port our previous closure or process example servers to use OTP,
 it might made the most sense to start with the callback module, since this is
-where most of the logic lives:
+where most of the logic lives: [^separate-callback-server]
 
 ```lisp
 (defun handle_cast
@@ -440,6 +440,16 @@ generic servers: running our code on multiple cores and multiple machines.
 ----
 
 ### Footnotes
+
+[^separate-callback-server]: As noted in the introduction of this post, in
+                standard Erlang libraries and applications the callback module
+                and the server module are in the same file. We are introducing
+                OTP in a new way, hopefully in a way that is less confusing.
+                You will find, however, that in order to do this, we sometimes
+                abandon Erlang conventions for the sake of clarity. A final
+                post in this series will provide a list of all the non-standard
+                approaches we have taken for pedagogical purposes and then
+                provide notes on how to do them the "standard way".
 
 [^handle-info]: If you're curious now and want to do this the right way before
                 we get around to creating a blog post for error handling and
