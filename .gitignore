@@ -1,9 +1,21 @@
 *~
+build
 src/_theme_packages/*
 src/Gemfile.lock
 src/_drafts/*.sw[po]
 src/_posts/*.sw[po]
 staged/*
+
+*.sw[po]
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
 
 Thumbs.db
 .DS_Store
