@@ -111,27 +111,20 @@ push, and send the PR!
 
 Other useful ``make`` targets:
 
-*Rebuild the site static files in the ``./prod`` directory*:
+*Rebuild the site static files in the ``./build`` directory*:
 
 ```bash
 $ make build
 ```
 
 *Run a local copy of the site available on http://localhost:4000, served from
-the ``./prod`` directory*:
+the ``./build`` directory*:
 
 ```bash
 $ make run
 ```
 
-*Run a staged copy of the site available on http://localhost:4000, served from
-the ``./stage`` directory*:
-
-```bash
-$ make run-stage
-```
-
-*Clean up your staged files*:
+*Clean up your build files*:
 
 ```bash
 $ make clean
@@ -148,6 +141,12 @@ $ make update
 
 ```bash
 $ make publish
+```
+
+*Publish your changes to staging-blog.lfe.io:
+
+```bash
+$ make staging
 ```
 
 
