@@ -47,7 +47,7 @@ staging: build
 	make clean
 
 publish: build
-	git commit -a
+	-@git commit -a
 	@rm -rf $(BUILD_DIR)/.git
 	@cd $(BUILD_DIR) && \
 	git init && \
