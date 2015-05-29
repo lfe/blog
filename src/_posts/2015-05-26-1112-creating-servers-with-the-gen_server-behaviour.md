@@ -13,6 +13,7 @@ need to create a generic, long running process. This pattern has been codified
 in the gen_server behaviour, and it is now time that we got our hands dirty by
 creating a few :-)
 
+
 ## LFE OTP Tutorial Series
 
 * [Introducing the LFE OTP Tutorials](/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/)
@@ -24,18 +25,21 @@ creating a few :-)
 You can leave feedback for the LFE OTP tutorials
 [here](https://github.com/lfe/blog/issues/7).
 
+
 ## In This Post
 
 * Requirements, Assumptions, and Code
-* Introductory Notes on ``gen_server``
+* How We're Going to Do This
+  * About ``gen_server``
+  * OTP Boilerplate
+  * ``gen_server`` in Two Parts
 * Creating a Callback Module
 * Creating a Server Module
 * Creating An API
 * Updating An API
 * Full Source Code
-* Learning More About gen_server
 * Up Next
-* Footnotes
+
 
 ## Requirements, Assumptions, and Code
 
@@ -44,6 +48,7 @@ it in this series. For a list of what you need to have installed before working
 through the examples as well as getting the source code for these tutorials,
 please see the post [Prelude to OTP](/tutorials/2015-05-25-0929-prelude-to-otp/),
 in particular the sections "Requirements and Assumptions" and "Getting the Code".
+
 
 ## How We're Going to Do This
 
@@ -100,7 +105,7 @@ the tutorial for this post! Hopefully, though, the appraoch we have decided to
 take will not leave you frustrated, but instead the proud holder of new knowledge
 and insight.
 
-In particular, we're are again going to follow a non-traditional route, and for 
+In particular, we're are again going to follow a non-traditional route, and for
 Part I of the ``gen_server`` tutorial we will be splitting our code across two
 modules. Furthermore, we will only do a partial implementation of ``gen_server``
 in this part.
@@ -110,6 +115,7 @@ which a complete implementation of ``gen_server``. In the process, we hope to
 answer any lingering questions about the "how" and "why" of ``gen_server``.
 
 That said, we're ready for some code!
+
 
 ## Creating a Callback Module
 
@@ -134,8 +140,8 @@ This code combines two aspects:
 
 The most obvious bit, and the bulk of the code, is in the logic, so let's port
 that to OTP first. This code will be put in a "callback" module, something
-which our new OTP server will make use of. We'll discuss this more shortly, 
-but for now here's what our logic looks when ported to ``gen_server`` callbacks: 
+which our new OTP server will make use of. We'll discuss this more shortly,
+but for now here's what our logic looks when ported to ``gen_server`` callbacks:
 
 ```lisp
 (defun handle_cast
@@ -181,7 +187,7 @@ Both functions expect a message (any Erlang term) and the state data for our
 ``gen_server`` loop. Additionally, the ``handle_call`` function takes a
 parameter for the calling function so that it can send results back to it. When
 we look at the the API code in our server module, we’ll see where this code
-gets called.  
+gets called.
 
 The other thing our callback module needs to define is an ``init`` function.
 This is used to “prime the pump”, as it were, for the the ``gen_server`` loop.
@@ -190,6 +196,7 @@ various ``handle_*`` functions. Note that for our example, our state data is
 extremely simple: it’s just an integer. But it could be any LFE data structure,
 including records (which is very often what the state data is in Erlang and LFE
 applications).
+
 
 ## Creating a Server Module
 
@@ -206,7 +213,7 @@ so many of the details), our server code is very simple:
                     (genserver-opts)))
 ```
 
-As promised above, instead of arcane data structures, we have very clearly
+As we promised earlier, instead of arcane data structures, we have very clearly
 defined the variables which are being used as the ``gen_server:start``
 arguments. The source code for this tutorial defines those at the top
 of the ``tut01-server`` module: [^genserver-args]
@@ -219,26 +226,28 @@ of the ``tut01-server`` module: [^genserver-args]
 (defun register-name () `#(local ,(server-name)))
 ```
 
-The four items that were passed to the ``gen_server:start`` function
-as the following:
+Let's address each of the four items that were passed to the ``gen_server:start``
+function:
 
-1. A name with which the server will be
+1. We passed a name with which the server will be
    registered. [^start-name] The name is a tuple with the first element being
    either ``local`` or ``global`` and the second being the actual name for the
-   process. [^via-name]
+   process. [^via-name] In our case, we're just using the module name
+   to name the server.
 1. The second argument is the callback module associated with this server.
    That's what we created in the previous section; it's where all our logic
    lives.
 1. In our case, the next argument is the initial state for our server loop, but
-   more generally, it is the list of arguments (can be an empty list) that will
-   be passed to the ``init`` function in a ``gen_server``'s callback module.
+   more generally, this is where you (indirectly) pass arguments to the
+   ``init`` function you have defined in your ``gen_server``'s callback module.
 1. Finally, if we want to pass any options to the ``gen_server`` process
    itself, we can do that here. We've defined ``(genserver-opts)`` to be an
    empty list, since we don’t need to do anything special here. [^genserver-opts]
 
 The full listing of the source code for our server and callback modules is given
 at the end of this post, if you'd like to see what we've talked about so far
-the their full context. 
+the their full context.
+
 
 ## Creating An API
 
@@ -262,14 +271,15 @@ for our server:
 ```
 
 You can imagine that for a large server module, there would be a great many API
-functions defined here. And now you know what calls our ``handle_cast`` and
-``handle_call`` functions  :-) OTP helps us to also keep our API definitions
-very simple. Essentially we’re saying “Hey, gen_server!  You know that server
-we defined called ``(server-name)``? Well, we’d like to send a ``cast`` message
-to it. Can you do
-that please?” OTP then takes care of the rest of it for us, by looking up the
-server, finding the callback module that was defined for it, and then calling
-the ``handle_cast`` function with the appropriate arguments.
+functions defined here.
+
+How this works is you call these functions, then ``gen_server`` looks up
+the callback module which has been defined for the given server. It then passes
+the given message (in our case either ``increment`` or ``amount``). If
+``gen_server:cast`` was used to pass the message, then ``handle_cast`` will be
+called in the callback module; if ``call`` was used, then ``handle_call`` will
+be called.
+
 
 Let’s try it out:
 
@@ -313,12 +323,13 @@ Let's go over what happened above:
   callbacks directly via ``gen_server:call``, we got the error we defined for
   unknown messages.
 
+
 ## Updating An API
 
 What if we needed to make a change to our API? Asked another way, what does one
 need to do in order to add new functionality to a server API? Let’s answer this
-by adding a decrement capability to our simple server. We'll start by adding
-the new API function:
+by adding a decrement capability to our simple server. We'll start by updating
+the API:
 
 ```lisp
 (defun dec ()
@@ -326,7 +337,8 @@ the new API function:
 ```
 
 That’s the the API function we'll be calling. Now let’s add support for the new
-``decrement`` message we'll be sending to the ``handle_cast`` callback function:
+``decrement`` message that it will be sending to ``handle_cast`` in the
+callback module:
 
 ```lisp
 (defun handle_cast
@@ -354,20 +366,17 @@ ok
 ```
 
 It may seem odd that we've got two distinct bits of code that need to be
-updated when when an API is added, but remember: 
+updated when when an API is added, but it's really just one: the logic in
+the callback module. The server API is syntactic sugar for a better developer
+experience; everything will function just fine without it. But you wouldn't
+want to do that to your developers, right?
 
-* We actually have two components in this code: the server and actions
-  which need to be performed on the server's data.
-* Also: LFE processes
-  communicate with eachother by means of messages, and this is one of the
-  key secrets to its success in distributed and highly-concurrent
-  environments.
 
 ## Full Source Code
 
-Though we have this code defined in modules for this post’s tutorial in the
-repository, it can be nice to see it on the page in the same context as the
-blog post.
+The full source code for this tutorial is in the repo you have checked out.
+However, it is nice to see the code in the same context as the
+blog post, so we've pasted it below.
 
 Here is the server module:
 
@@ -436,16 +445,20 @@ And here’s the callback module code:
 ```
 
 Note that our callback module doesn’t implement all the callbacks it would need
-as part of a full-blown OTP application; we’ll do that in a future post. Also,
-we've taken the easy way out for exports (and this is generally frowned upon):
+as part of a full-blown OTP application; we’ll address much of that in the next
+post.
+
+Also, we've taken the easy way out for exports (and this is generally frowned upon):
 we don't explicitly state which functions we consider public and should be
-exported. We're trying to keep Part I very simple; in Part II, we'll update our
-code to reflect the best practices and community conventions.
+exported (leaving private functions un-exported). We're trying to keep Part I very
+simple so that the concepts don't get lost in the details.
+
 
 ## Up Next
 
 The next post will carry on with ``gen_server``, updating it to handle errors
-in a better way and fixing it to adhere to community standards.
+in a better way and fixing it to reflect the best practices and community
+conventions.
 
 ----
 
