@@ -131,7 +131,7 @@ messages in an OTP application. [^handle-info]
 The ``handle_cast`` function is used for making asynchronous calls, often
 convenient when you want to execute a function and don’t care about returning
 data to the caller. This is exactly what we’re using it for: we just want our
-state data to get incremented; we don’t want a result. [^delayed-result]
+state data to get incremented; we don’t want a result.
 
 Both functions expect a message (any Erlang term) and the state data for our
 ``gen_server`` loop. Additionally, the ``handle_call`` function takes a
@@ -461,17 +461,6 @@ generic servers: running our code on multiple cores and multiple machines.
                 other type of exit, log the exit reason, and return your state
                 data as ``noreply``, and 3) have a catch-all pattern that
                 simply returns your state data as ``noreply``.
-
-[^delayed-result]: Another way to do this would be to use ``call`` instead of
-                   ``cast`` and in our ``add`` callback function, return
-                   ``(gen_server:reply from `#(reply ,state-data)) `#(noreply ,(+ 1 state-data))``
-                   This does two things: 1) sends an immediate response back to
-                   the caller (which which is the API function ``add`` in this
-                   case), satisfying its need for a response from the server,
-                   and 2) passes the new state to the next loop of the server.
-                   We chose to use the ``cast`` approach not only for
-                   simplicity of implementation, but to introduce the async
-                   capabilities of a ``gen_server`` implementation.
 
 [^start-name]: In general, this is optional -- you could use ``start/3`` which
                doesn't take a name. In our case, however, we need it so that we
