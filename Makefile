@@ -28,12 +28,10 @@ update: install-jekyll
 	bundle update
 
 clean:
-	rm -rf $(STAGE_PATH)
+	rm -rf $(BUILD_DIR)
 
-$(BUILD_DIR):
+build:
 	@mkdir -p $(BUILD_DIR)
-
-build: $(BUILD_DIR)
 	cd $(SRC) && \
 	bundle exec jekyll build --destination $(BUILD_DIR)
 
@@ -41,12 +39,12 @@ run:
 	cd $(SRC) && \
 	bundle exec jekyll serve --destination $(BUILD_DIR)
 
-staging: build
+staging: clean build
 	git pull --all && \
 	rsync -azP $(BUILD_DIR)/* $(STAGING_HOST):$(STAGING_PATH)
 	make clean
 
-publish: build
+publish: clean build
 	-@git commit -a; git push origin master
 	@rm -rf $(BUILD_DIR)/.git
 	@cd $(BUILD_DIR) && \
