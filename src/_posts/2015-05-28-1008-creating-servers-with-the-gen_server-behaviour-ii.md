@@ -7,7 +7,17 @@ tags: [otp,erlang]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
-<a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>As mentioned in the previous
+<a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>
+In the last post, we went on a whirlwind tour of ``gen_server``'s basic
+functionality: we created a callback module which embodied our logic; we
+created a server module that was responsible for setting up the loop;, and we
+added an API to wrap ``gen_server:cast`` and ``gen_server:call`` functions that
+passed messages to our callback logic. In this post we're going to follow up on
+that work:
+
+* Update our code to use OTP community best practices
+* Add support for stopping the server.
+* Improve the support for handling unexpected messages.
 post, one of the most common patterns that was identified in Erlang was the
 need to create a generic, long running process. This pattern has been codified
 in the gen_server behaviour, and it is now time that we got our hands dirty by
@@ -29,7 +39,6 @@ You can leave feedback for the LFE OTP tutorials
 ## In This Post
 
 * Requirements, Assumptions, and Code
-* How We're Going to Do This
 * Best Practices
   * Unified Code
   * Exports
@@ -47,23 +56,6 @@ Before reading this tutorial, be sure you should have read the ones preceding
 it in this series. For a list of what you need to have installed before working
 through the examples as well as getting the source code for these tutorials,
 please see the post [Prelude to OTP](/tutorials/2015-05-25-0929-prelude-to-otp/).
-
-
-## How We're Going to Do This
-
-In the last post, we went on a whirlwind tour of ``gen_server``'s basic
-functionality:
-
-* We created a callback module which embodied our logic.
-* We created a server module that was responsible for setting up the loop.
-* We added an API to wrap ``gen_server:cast`` and ``gen_server:call``
-  functions that passed messages to our callback logic.
-
-In this post we're going to follow up on that work:
-
-* Update our code to use OTP community best practices
-* Add support for stopping the server.
-* Improve the support for handling unexpected messages.
 
 
 ## Best Practices
