@@ -47,7 +47,7 @@ staging: build
 	make clean
 
 publish: build
-	-@git commit -a && git push origin master
+	-@git commit -a; git push origin master
 	@rm -rf $(BUILD_DIR)/.git
 	@cd $(BUILD_DIR) && \
 	git init && \
