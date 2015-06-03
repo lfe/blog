@@ -49,6 +49,13 @@ through the examples as well as getting the source code for these tutorials,
 please see the post [Prelude to OTP](/tutorials/2015-05-25-0929-prelude-to-otp/),
 in particular the sections "Requirements and Assumptions" and "Getting the Code".
 
+Once you have the source code cloned to a working directory, you can compile
+the source and start up the LFE REPL with the following:
+
+```bash
+$ cd ../tut01
+$ make repl
+```
 
 ## How We're Going to Do This
 
@@ -168,15 +175,15 @@ where a result is expected. This is why we return the ``#(reply ...)`` tuple:
 we’re letting OTP know that whatever made this call should get the second
 element of the tuple sent to it (in this case, the ``state-data``). The
 third element of the tuple is used internally by ``gen_server`` as the
-state data used when restarting the loop after
-this call (all under the hood and away from view). We did something almost
-identical in our process example in the last post: whenever we needed to
-restart the loop, we passed it the updated state data. [^return-and-state-same]
+state data used when restarting the loop after this call (all under the hood
+and away from view). We did something almost identical in our process example
+in the last post: whenever we needed to restart the loop, we passed it the
+updated state data. [^return-and-state-same]
 
 Note the reply of ``(unknown-command)`` in the catch-all function head pattern
 for ``handle_call``. This is used here for demonstration purposes only. In
-Part II of this post we will cover error handling and how to best deal with unexpected
-messages in a ``gen_server``.
+Part II of this post we will cover error handling and how to best deal with
+unexpected messages in a ``gen_server``.
 
 The ``handle_cast`` function is used for making asynchronous calls, often
 convenient when you want to execute a function and don’t care about returning
@@ -244,17 +251,17 @@ function:
    itself, we can do that here. We've defined ``(genserver-opts)`` to be an
    empty list, since we don’t need to do anything special here. [^genserver-opts]
 
-The full listing of the source code for our server and callback modules is given
-at the end of this post, if you'd like to see what we've talked about so far
-the their full context.
+The full listing of the source code for our server and callback modules is
+given at the end of this post, if you'd like to see what we've talked about so
+far the their full context.
 
 
 ## Creating An API
 
-Next we will look at our server API. As you recall from the last post, our “APIs” were
-hardly that. They consisted of making ``funcall``s in one case, and in the
-other, sending messages to the server process via the ``(! ...)`` form. That
-changes now :-)
+Next we will look at our server API. As you recall from the last post, our
+“APIs” were hardly that. They consisted of making ``funcall``s in one case, and
+in the other, sending messages to the server process via the ``(! ...)`` form.
+That changes now :-)
 
 Whenever you have created an implementation of the ``gen_server`` behaviour
 (and its associated callback module), you can execute the callback code
@@ -282,11 +289,6 @@ be called.
 
 
 Let’s try it out:
-
-```bash
-$ cd ../tut01
-$ make repl
-```
 
 ```lisp
 > (tut01-server:start)
@@ -318,7 +320,8 @@ Let's go over what happened above:
 * We made some API calls -- these were passed on to our callback module by
   the underlying OTP infrastructure.
 * We got results for our API functions which made ``call``s.
-* We got a simple and reassuring ``ok`` for our API functions which mae ``cast``s.
+* We got a simple and reassuring ``ok`` for our API functions which mae
+  ``cast``s.
 * When we skipped the API functions and passed an unepxected message to our
   callbacks directly via ``gen_server:call``, we got the error we defined for
   unknown messages.
@@ -448,10 +451,10 @@ Note that our callback module doesn’t implement all the callbacks it would nee
 as part of a full-blown OTP application; we’ll address much of that in the next
 post.
 
-Also, we've taken the easy way out for exports (and this is generally frowned upon):
-we don't explicitly state which functions we consider public and should be
-exported (leaving private functions un-exported). We're trying to keep Part I very
-simple so that the concepts don't get lost in the details.
+Also, we've taken the easy way out for exports (and this is generally frowned
+upon): we don't explicitly state which functions we consider public and should
+be exported (leaving private functions un-exported). We're trying to keep Part
+I very simple so that the concepts don't get lost in the details.
 
 
 ## Up Next
@@ -465,37 +468,36 @@ conventions.
 ### Footnotes
 
 [^yaws-benchmarks]: In 2008, The Erlang webserver YAWS was compared to Apache,
-                demonstrating its capacity to handle over 80,000 concurrent client
-                connections while Apache died at about 4,000. You can view
-                an archived version of the report for the benchmark
-                [here](https://www.sics.se/~joe/apachevsyaws.html).
+    demonstrating its capacity to handle over 80,000 concurrent client
+    connections while Apache died at about 4,000. You can view an archived
+    version of the report for the benchmark
+    [here](https://www.sics.se/~joe/apachevsyaws.html).
 
 [^return-and-state-same]: Note that in this simple example, our
-                return value and our state data are one and the same. In a more complicated
-                example, one might extract the result from the state data or perform some
-                operations on the state data. Whatever you did, you would put the result you
-                wanted to send back to the caller in the second element of the tuple,
-                and the updated (or sometimes unchanged) state data you'd put in
-                the third element of the tuple.
+    return value and our state data are one and the same. In a more complicated
+    example, one might extract the result from the state data or perform some
+    operations on the state data.  Whatever you did, you would put the result
+    you wanted to send back to the caller in the second element of the tuple,
+    and the updated (or sometimes unchanged) state data you'd put in the third
+    element of the tuple.
 
 [^start-name]: In general, this is optional -- you could use ``start/3`` which
-               doesn't take a name. In our case, however, we need it so that we
-               can easily make calls to the ``gen_server`` process. For
-               that we need to register a name so the process can be looked up;
-               if we didn’t do this, we’d need to keep track of the process id
-               for our server.
+    doesn't take a name. In our case, however, we need it so that we can easily
+    make calls to the ``gen_server`` process. For that we need to register a
+    name so the process can be looked up; if we didn’t do this, we’d need to
+    keep track of the process id for our server.
 
 [^via-name]: A third alternative is more rarely used in the cases where one
-             needs to implement a custom global registry. In that event, you
-             create a 3-tuple where the second element is the name of the
-             module which implements the registry functions.
+    needs to implement a custom global registry. In that event, you create a
+    3-tuple where the second element is the name of the module which implements
+    the registry functions.
 
-[^genserver-opts]: For a list of available options, see the [gen_server:start docs](http://www.erlang.org/doc/man/gen_server.html#start-4).
+[^genserver-opts]: For a list of available options, see the
+    [gen_server:start docs](http://www.erlang.org/doc/man/gen_server.html#start-4).
 
 [^genserver-args]: There is no defined convention in LFE for how one sets up
-                   module-level configuration variables or where these might
-                   go: you can put the data for the argument values anywhere it
-                   makes sense to you.  You don't even have to define any --
-                   you can just pass the data as-is in the function arguments.
-                   However, there is a lot to be said for the readability of
-                   the approach we have taken.
+    module-level configuration variables or where these might go: you can put
+    the data for the argument values anywhere it makes sense to you.  You don't
+    even have to define any -- you can just pass the data as-is in the function
+    arguments.  However, there is a lot to be said for the readability of the
+    approach we have taken.
