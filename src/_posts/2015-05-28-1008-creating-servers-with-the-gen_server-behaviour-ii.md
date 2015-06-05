@@ -128,7 +128,7 @@ Than this:
 
 ### All Callbacks
 
-The last best practice we're goign to look at now is the inclusion of all callbacks.
+The last best practice we're going to look at now is the inclusion of all callbacks.
 When you compile an LFE module that declares an OTP behaviour, it doesn't complain
 if you leave out a required function. It successully compiles and will run just fine.
 However, when you do this you are not abiding by the contract with the OTP world.
