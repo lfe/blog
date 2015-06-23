@@ -3,7 +3,7 @@ layout: post
 title: "spell1 - LL(1) parser generator"
 description: ""
 category: tutorials
-tags: [lfe,erlang,tools]
+tags: [spell1,lfe,erlang,tools]
 author: Robert Virding
 ---
 {% include JB/setup %}
