@@ -130,9 +130,8 @@ Now install the required packages for the LFE jail and set up the sources:
 root@lfe-jail:~ # pkg install -y base64 bash
 root@lfe-jail:~ # rehash
 root@lfe-jail:~ # cd /usr/local
-root@lfe-jail:~ # git clone https://github.com/lfe/lfe
+root@lfe-jail:~ # git clone https://github.com/rvirding/lfe
 root@lfe-jail:~ # cd lfe
-root@lfe-jail:~ # git checkout color-shell-banner
 root@lfe-jail:~ # gmake && gmake install
 root@lfe-jail:~ # curl -L -o ./lfetool \
     https://raw.github.com/lfe/lfetool/dev-v1/lfetool
