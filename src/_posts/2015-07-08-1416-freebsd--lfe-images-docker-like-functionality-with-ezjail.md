@@ -120,7 +120,7 @@ machine as well as the Erlang jail upon which it is based. So let's update your
 
 ```
 root@lfe-jail:~ # vi /etc/hosts
-:%s/127.0.0.1/127.0.1.1/g
+:%s/127.0.0.1/127.0.2.1/g
 :x
 ```
 
