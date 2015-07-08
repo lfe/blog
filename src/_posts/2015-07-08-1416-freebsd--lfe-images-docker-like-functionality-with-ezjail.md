@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "FreeBSD & LFE Images: Docker like functionality with ezjail"
+title: "FreeBSD & LFE Images: Docker-like functionality with ezjail"
 description: ""
 category: tutorials
 tags: [freebsd,docker,jails,installs,containers,bsd]
