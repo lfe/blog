@@ -17,7 +17,7 @@ TCP connections on a single machine. As such, it seemed like a good time to
 talk about BSD and LFE :-)
 
 [DragonFly BSD](https://www.dragonflybsd.org/) and LFE are a *great* match.
-DragonFly's core focus is scalability, with features such as light weight
+DragonFly's core focus is scalability, with features such as lightweight
 kernel threads, a lightweight ports/messaging system, and the
 [HAMMER file system](https://en.wikipedia.org/wiki/HAMMER). Installation of
 Erlang, LFE, and related tools is a snap. By default, DragonFly comes with
