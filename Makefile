@@ -13,6 +13,13 @@ REPO = $(shell git config --get remote.origin.url)
 STAGING_HOST = staging-blog.lfe.io
 STAGING_PATH = /var/www/lfe/staging-blog
 
+new:
+	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
+	$(EDITOR) $(SRC)/$$(echo $$OUT | cut -d ' ' -f 4-)
+
+post:
+	@make new
+
 update-gems:
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	sudo gem update --system
@@ -53,6 +60,3 @@ publish: clean build
 	git commit -a -m "Generated content." &> /dev/null && \
 	git push -f $(REPO) master:gh-pages
 
-new:
-	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
-	$(EDITOR) $(SRC)/$$(echo $$OUT | cut -d ' ' -f 4-)

@@ -3,7 +3,7 @@ layout: post
 title: "lutil 0.5.0: Composition, Predicates and Core lutil"
 description: "New features in lutil 0.4.1"
 category: announcements
-tags: [releases, libraries]
+tags: [releases,libraries,language,design]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}

@@ -3,7 +3,7 @@ layout: post
 title: "LFE Language Summit Review"
 description: "A report on how the first LFE language 'summit' went"
 category: update
-tags: [conferences,euc,summits,updates]
+tags: [conferences,euc,summits,updates,language,design]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
