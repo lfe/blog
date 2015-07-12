@@ -19,6 +19,7 @@ an implementation in LFE.
 In particular, we'll be looking at section 3.9 of the Cookbook, "Building
 Functions with Polymorphic Behaviour". Our discussion in this post will be
 limited to:
+
  * map-based dispatch, and
  * multi-methods
 
