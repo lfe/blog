@@ -2,8 +2,8 @@
 layout: post
 title: "spell1 - LL(1) parser generator"
 description: ""
-category: tutorials
-tags: [spell1,lfe,erlang,tools,design]
+category: design
+tags: [spell1,lfe,erlang,tools]
 author: Robert Virding
 ---
 {% include JB/setup %}
