@@ -139,12 +139,10 @@ First, we define a general dispatch function which can handle not only any type
 of shape, but any future function we may want our shapes to support:
 
 ```cl
-(defun dispatch
-  ((fname `#(type ,type) args)
+(defun dispatch (fname type args)
    (call (MODULE) (list_to_atom (++ (atom_to_list fname)
                                     "-"
-                                    (atom_to_list type))) args)))
-
+                                    (atom_to_list type))) args))
 ```
 
 Notice the call to ``(MODULE)`` -- this approach requires saving this code to a
@@ -155,8 +153,8 @@ Next, we'll add an abstract area function:
 
 ```cl
 (defun area
-  ((`(,type . ,rest))
-   (dispatch 'area type rest)))
+  (((= (map 'type type) args))
+   (dispatch 'area type (maps:remove 'type args))))
 ```
 
 With this done, let's implement our area functions for the two shapes we've
@@ -164,11 +162,11 @@ seen so far:
 
 ```cl
 (defun area-triangle
-  ((`(#(base ,b) #(height ,h)))
+  (((map 'base b 'height h))
    (* b h (/ 1 2))))
 
 (defun area-rectangle
-  ((`(#(length ,l) #(width ,w)))
+  (((map 'length l 'width w))
    (* l w)))
 ```
 
