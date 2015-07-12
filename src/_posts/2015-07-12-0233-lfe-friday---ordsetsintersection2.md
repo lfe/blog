@@ -50,7 +50,7 @@ Erlang also provides [ordsets:intersection/1](http://erlang.org/doc/man/ordsets.
 (1 3 9)
 > (ordsets:intersection (list evens set-1 set-3))
 (2)
-> (ordsets:intersection (list odds set-1 set-3)) 
+> (ordsets:intersection (list odds set-1 set-3))
 (1 3)
 ```
 
