@@ -56,9 +56,9 @@ This is easily translated to LFE:
 ```cl
 (defun area
   "Calculate the area of a shape"
-  (((map 'type 'triangle 'base b 'height h))
+  ((`#m(type triangle base ,b height ,h))
     (* b h (/ 1 2)))
-  (((map 'type 'rectangle 'length l 'width w))
+  ((`#m(type rectangle length ,l width ,w))
     (* l w)))
 ```
 
@@ -70,9 +70,9 @@ For a little bit more dispatch:
 ```cl
 (defun area
   "Calculate the area of a shape"
-  (((map 'type 'triangle 'base b 'height h))
+  ((`#m(type triangle base ,b height ,h))
    (area-triangle b h))
-  (((map 'type 'rectangle 'length l 'width w))
+  ((`#m(type rectangle length ,l width ,w))
    (area-rectangle l w)))
 
 (defun area-triangle (b h)
