@@ -153,8 +153,9 @@ Next, we'll add an abstract area function:
 
 ```cl
 (defun area
-  (((= (map 'type type) args))
+  (((= `#m(type ,type) args))
    (dispatch 'area type (maps:remove 'type args))))
+
 ```
 
 With this done, let's implement our area functions for the two shapes we've
@@ -162,17 +163,19 @@ seen so far:
 
 ```cl
 (defun area-triangle
-  (((map 'base b 'height h))
+  ((`#m(base ,b height ,h))
    (* b h (/ 1 2))))
 
 (defun area-rectangle
-  (((map 'length l 'width w))
+  ((`#m(length ,l width ,w))
    (* l w)))
 ```
 
 This code has actually been provided in the ``examples`` directoy of the los
 project. To run in in the REPL, just do the following (assuming you have
-Erlang, ``rebar``, and ``lfetool`` installed, or course ...):
+Erlang, ``rebar``, and ``lfetool`` installed, or course ...). To run the
+following, you will need the latest version of
+[lfetool](https://github.com/lfe/lfetool/tree/dev-v1#dev-):
 
 ```bash
 $ git clone https://github.com/lfex/los.git
@@ -203,11 +206,11 @@ There are also two other functions supplied in that module:
 
 ```cl
 (defun area-square
-  (((map 'side s))
+  ((`#m(side ,s))
    (* s s)))
 
 (defun area-circle
-  (((map 'radius r))
+  ((`#m(radius ,r))
    (* (math:pi) r r)))
 ```
 
@@ -226,15 +229,15 @@ function:
 
 ```cl
 (defun perim
-  (((= (map 'type type) args))
+  (((= `#m(type ,type) args))
    (dispatch 'perim type (maps:remove 'type args))))
 
 (defun perim-rectangle
-  (((map 'length l 'width w))
+  ((`#m(length ,l width ,w))
    (* 2 (+ l w))))
 
 (defun perim-circle
-  (((map 'radius r))
+  ((`#m(radius ,r))
     (* 2 (math:pi) r)))
 ```
 
