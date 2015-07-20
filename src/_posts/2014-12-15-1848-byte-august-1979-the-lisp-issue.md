@@ -50,8 +50,8 @@ DEFINE ((
   (SETQ FRT (CDAR X))
   (SETQ BAK (CAAR X))
 
-TST (? ... (CONS (
-CONS ? ...))))
+TST (... (CONS (
+CONS ...))))
 ```
 
 I will need the assistance of [Rainer Joswig](https://twitter.com/rainerjoswig)
@@ -94,15 +94,17 @@ DEFINE ((
 That's the archeology. Let's try a reconstruction :-)
 
 Here's what these functions would look like in a modern Lisp (entered in the
-REPL):
+LFE REPL):
 
 
 ```cl
 > (defun remblank
-    ((cons "" tail)
-      (remblank tail))
-    ((cons head tail)
-      (cons head (remblank tail))))
+    (('())
+     '())
+    ((`(#\  . ,tail))
+     (remblank tail))
+    ((`(,head . ,tail))
+     (cons head (remblank tail))))
 remblank
 > (defun indt (n string)
     (lists:append (string:copies " " n)
