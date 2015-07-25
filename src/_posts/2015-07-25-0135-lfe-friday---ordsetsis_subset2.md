@@ -74,6 +74,6 @@ false
 false
 ```
 
-While ``sets`` is more efficient for large sets, greater than 20 say elements, the internal form is definitely harder to interpret.
+While ``sets`` is more efficient for large sets, greater than say 20 elements, the internal form is definitely harder to interpret.
 
 -Proctor, Robert
