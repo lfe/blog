@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "LFE Friday   ordsets:is_subset/2"
+title: "LFE Friday - ordsets:is_subset/2"
 description: ""
 category: tutorials
-tags: [lfe fridat,lfe,erlang]
+tags: [lfe friday,lfe,erlang]
 author: Robert Virding
 ---
 {% include JB/setup %}

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LFE Friday   ordsets:subtract/2"
+title: "LFE Friday - ordsets:subtract/2"
 description: ""
 category: tutorials
 tags: [lfe friday,lfe,erlang]
