@@ -109,6 +109,8 @@ ok
 
 We see here that when a node is *alive* (can communicate with other nodes) the LFE repl prompt contains the name of the node.
 
+This ``c`` function exists as an LFE repl built-in command which can be called from the repl with just ``(regs)``.
+
 -Proctor, Robert
 
 [^1]: The word *reductions* comes from the very early versions of Erlang which were implemented in Prolog which doesn't have function calls but reductions. Basically it is equivalent to the number of function calls the process has made and is a good indicator of how work it has done.
