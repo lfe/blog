@@ -27,6 +27,7 @@ img.left.tiny, img.left.thumb, img.left.small, img.left.medium, img.left.large {
     width: auto !important;
     vertical-align: top !important;
     margin-bottom: 1.0em;
+    font-size: inherit;
 }
 
 img.right.tiny, img.left.tiny {
@@ -111,3 +112,8 @@ h3 code {
 footer {
     padding-top: 2em;
 }
+
+.page-header h1, .content h2 a {
+    color: #99bf17;
+}
+

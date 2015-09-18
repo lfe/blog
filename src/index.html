@@ -2,44 +2,68 @@
 layout: default
 title: LFE Tutorials, News,  &amp; Updates
 tagline: A BEAM Language Blog for the Syntaxless Ones
+theme:
+  name: lfe
 ---
 {% include JB/setup %}
-<div class="page-header-wrapper">
-        <div class="page-header">
-                <h1>{{ page.title }} {% if page.tagline %} <small>{{ page.tagline }}</small>{% endif %}</h1>
-                <p class="subtagline">
-                   <span>A proud member of
-                         <a href="http://planeterlang.com/">PlanetErlang</a>
-                   </span>
-                   <span class="meddot">&#9679;</span>
-                   <span>Got some LFE news?
-                         <a href="https://github.com/lfe/blog/fork">Fork us</a>
-                         and make a PR!
-                   </span>
-                </p>
-        </div>
-</div>
-{% for post in paginator.posts %}
-<div class="row">
-  <div class="span7">
-    <div class="row">
-      <div class="span5">
-        <h2>
-          <strong><a href="{{ post.url }}">{{ post.title }}</a></strong>
-        </h2>
-        <h4>{{ post.description }}</h4>
-        <p>
-          {{ post.excerpt }}
-          <br />
-          <a href="{{ post.url }}">Read more</a>
-        </p>
-        <p>
-          <i class="icon-user"></i><span><a href="{{ BASE_PATH }}{{ site.JB.authors_path }}#{{ post.author }}">{{ post.author }}</a></span> | <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
-          | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="tags badge label">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
-        </p>
+    <div class="wrapper feature">
+      <img src="{{ ASSET_PATH }}/images/lfescreen.png" class="lfescreen" alt="LFE Screen">
+      <div class="intro-group">
+        <h1>
+          The LFE Blog:<br>
+          Tutorials, Updates,<br>
+          News, & Miscellany
+        </h1>
+        <p class="intro">A BEAM Language Journal of Coding Coffeehouse Jazz for
+          Syntaxless Beatnicks.<br />It's snappy!</p>
+        <a href="https://github.com/lfe/blog#workflow" class="button">Submit a Post!</a>
       </div>
     </div>
-    <hr>
-  </div>
-</div>
-{% endfor %}
+
+    <div class="full-width-divider">
+      <ul class="wrapper highlights">
+        <li class="highlight-module">
+          <a href="/guides/"><span class="mega-octicon octicon-heart"></span></a>
+          <h2><a href="http://planeterlang.com/">Planet&nbsp;Erlang</a></h2>
+          <p>We're a proud member!</p>
+        </li>
+        <li class="highlight-module">
+          <a href="/libraries/"><span class="mega-octicon octicon-book"></span></a>
+          <h2><a href="http://docs.lfe.io/">docs.lfe.io</a></h2>
+          <p>Your LFE reference materials.</p>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="wrapper">
+      <div class="container">
+        <div class="content">
+    
+          {% for post in paginator.posts %}
+          <div class="row">
+            <div class="span12">
+              <div class="row">
+                <div class="span5">
+                  <h2>
+                    <strong><a href="{{ post.url }}">{{ post.title }}</a></strong>
+                  </h2>
+                  <h4>{{ post.description }}</h4>
+                  <p>
+                    {{ post.excerpt }}
+                    <br />
+                    <a href="{{ post.url }}">Read more</a>
+                  </p>
+                  <p>
+                    <i class="icon-user"></i><span><a href="{{ BASE_PATH }}{{ site.JB.authors_path }}#{{ post.author }}">{{ post.author }}</a></span> | <i class="icon-calendar"></i> {{ post.date | date: "%B %e, %Y" }}
+                    | <i class="icon-tags"></i> Tags :{% for tag in post.tags %} <a href="/tags.html#{{ tag }}-ref" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;"><span class="tags badge label">{{ tag }}</span></a>  {% if forloop.last != true %} {% endif %} {% endfor %}
+                  </p>
+                </div>
+              </div>
+              <hr>
+            </div>
+          </div>
+          {% endfor %}
+          
+        </div>
+      </div> <!-- /container -->
+    </div>
