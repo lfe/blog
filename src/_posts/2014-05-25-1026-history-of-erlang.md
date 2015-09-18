@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "History of Erlang"
+title: "Docs Update: History of Erlang Added"
 description: "Updated the docs site with a new 'History' section."
 category: site
-tags: [history,site,web,docs]
+tags: [history,erlang,docs]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
