@@ -7,7 +7,7 @@ tags: [answers,questions,mail list,algorithms]
 author: Fred Hébert
 ---
 {% include JB/setup %}
-<a href="{{ site.base_url }}/assets/images/posts/quicksort.png"><img class="right small" src="{{ site.base_url }}/assets/images/posts/quicksort.png" /></a>There
+<a href="{{ site.base_url }}/assets/images/posts/quicksort.png"><img class="right tiny" src="{{ site.base_url }}/assets/images/posts/quicksort.png" /></a>There
 was a quicksort question posted to the LFE mail list this morning, and
 since I had a little time and have been wanting to try my hand at LFE more
 lately, I decided to answer. Upon request, this has been converted into a post
