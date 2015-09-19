@@ -1480,4 +1480,24 @@ blockquote {
   margin-top: 0;
 }
 
+h2 {
+  margin-top: 0.75em;
+}
+
+h3 {
+  margin-top: 0.5em;
+}
+
+h4 {
+  margin-top: 0.25em;
+}
+
+h5 {
+  margin-top: 0;
+}
+
+h6 {
+  margin-top: 0;
+}
+
 /* @end */
