@@ -27,6 +27,7 @@ that work:
 * [Prelude to OTP](/tutorials/2015/05/25/0929-prelude-to-otp/)
 * [Creating LFE Servers with OTP, Part I](/tutorials/2015/05/26/1112-creating-servers-with-the-gen_server-behaviour/)
 * [Creating LFE Servers with OTP, Part II](/tutorials/2015/05/28/1008-creating-servers-with-the-gen_server-behaviour-ii/)
+* [Distributed LFE](/tutorials/2015/09/18/1604-distributed-lfe/)
 
 You can leave feedback for the LFE OTP tutorials
 [here](https://github.com/lfe/blog/issues/7).
