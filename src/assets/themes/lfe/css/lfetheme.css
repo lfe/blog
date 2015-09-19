@@ -1467,5 +1467,17 @@ pre code {
     background-color: transparent;
 }
 
+blockquote {
+  font-size: 130%;
+  line-height: 1.3em;
+  padding-bottom: 0.75em;
+  padding-top: 0.25em;
+  padding-left: 4em;
+  max-width: 65%;
+}
+
+.content ul {
+  margin-top: 0;
+}
 
 /* @end */
