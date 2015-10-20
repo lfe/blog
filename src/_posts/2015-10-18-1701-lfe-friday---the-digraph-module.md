@@ -104,4 +104,4 @@ ok
 
 The ``digraph()`` structure itself is just a tagged tuple containing the table ids. As all changes are made to the ``ETS`` tables the structure itself never changes. Data about the tables and their contents can be read with [ets:info/1](http://erlang.org/doc/man/ets.html#info-1) and [ets:i/1](http://erlang.org/doc/man/ets.html#i-1).
 
--Proctor, Robert
+\- Proctor, Robert
