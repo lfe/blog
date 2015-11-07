@@ -11,7 +11,7 @@ author: Robert Virding
 
 Today's LFE Friday is on [digraph:add_edge/4](http://www.erlang.org/doc/man/digraph.html#add_edge-4).
 
-``digraph:add_edge/4`` takes a graph as its first argument, the originating ([eminating](http://www.erlang.org/doc/man/digraph.html#emanate)) vertex as its second argument, the destination ([incident](http://www.erlang.org/doc/man/digraph.html#incident)) vertex as its third argument, and a label.
+``digraph:add_edge/4`` takes a graph as its first argument, the originating ([emanating](http://www.erlang.org/doc/man/digraph.html#emanate)) vertex as its second argument, the destination ([incident](http://www.erlang.org/doc/man/digraph.html#incident)) vertex as its third argument, and a label.
 
 ```lisp
 > (set graph (digraph:new))
@@ -50,7 +50,7 @@ my-edge
 (($e . 1) ($e . 3) my-edge ($e . 0) ($e . 2))
 ```
 
-And if you note in the examples for ``digraph:add_edge/3`` and ``digraph:add_edge/5`` we added a number of edges with the same eminate and incident vertices, and it was happy to create those edges for us.
+And if you note in the examples for ``digraph:add_edge/3`` and ``digraph:add_edge/5`` we added a number of edges with the same emanate and incident vertices, and it was happy to create those edges for us.
 
 We can also create acyclic digraphs by using ``digraph:new/1``, and specifying that we want the ``digraph()`` to be ``acyclic``.
 
