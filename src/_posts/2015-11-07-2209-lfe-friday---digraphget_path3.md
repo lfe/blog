@@ -20,7 +20,7 @@ First we will setup a new graph that we can traverse.
 ```lisp
 > (set graph (digraph:new))
 #(digraph 8207 12304 16401 true)
-> (set v-1 (digraph:add_vertex graph 'v-1))                      
+> (set v-1 (digraph:add_vertex graph 'v-1))
 v-1
 > (set v-2 (digraph:add_vertex graph 'v-2))
 v-2
