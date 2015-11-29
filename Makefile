@@ -70,7 +70,7 @@ publish: clean build
 	@rm -rf $(BUILD_DIR)/.git
 	@cd $(BUILD_DIR) && \
 	git init && \
-	git add * &> /dev/null && \
-	git commit -a -m "Generated content." &> /dev/null && \
+	git add * > /dev/null && \
+	git commit -a -m "Generated content." > /dev/null && \
 	git push -f $(REPO) master:gh-pages
 
