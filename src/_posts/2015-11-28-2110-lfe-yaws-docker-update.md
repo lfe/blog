@@ -99,6 +99,18 @@ $ docker run -i -t oubiwann/lfe-yaws-sample-app:latest lfe
 <img src="{{ site.base_url }}/assets/images/posts/lfe-color-banner.png" />
 
 
+## Why the Update?
+
+Due to the question of a curious community member, I'm now preparing a blog
+post on using YAWS websockets support with an LFE app. I wanted to use the
+sample app featured in the original LFE Docker blog post (linked at the
+beginning of this post), but it needed some updates and further finessing ...
+upon the completion of which, it warranted a new post describing how to use it
+now.
+
+Keep your eyes peeled for the websockets post ...
+
+
 ## An LFE Web App Aside
 
 If you'd like to look at the source code for this sample app, it has been
