@@ -18,11 +18,15 @@ by offering images which make deploying their apps even easier. We've only
 [just](https://registry.hub.docker.com/u/lfex/lfe/)
 [started](https://github.com/rvirding/lfe/issues/97)
 doing this in the [LFE](http://lfe.io/) community, but are already quite
-excited by the possibilies and the early successes we've seen.
+excited by the possibilities and the early successes we've seen.
 
 We're currently working on an official LFE image for Docker, but in the mean
 time, we will demonstrate functionality with an image we've made available on
 the [LFE Exchange in Docker Hub](https://registry.hub.docker.com/u/lfex/lfe/).
+
+**UPDATE**: There is an [updated blog post](http://blog.lfe.io/tutorials/2015/11/28/2110-lfe-yaws-docker-update/)
+for the latest image. Please read that for the quickest possible use of the
+LFE YAWS Dockerized web app.
 
 
 ## Background Info
@@ -98,7 +102,7 @@ And why wouldn't you? Just *look* at that whale!
 
 ## Getting the LFE Exchange Docker Image
 
-Assuming you have everything instatlled and your forwarding is ready to go,
+Assuming you have everything installed and your forwarding is ready to go,
 let's continue by getting the LFE Docker image:
 
 ```bash
@@ -198,7 +202,7 @@ User switch command
 ```
 
 ```bash
-$ 
+$
 ```
 
 Quitting brought us all the way out, bask to the host machine.
@@ -418,4 +422,3 @@ Also, you have any any success stories, cool new LFE Docker images, or other
 amazing tales to share, we want to hear there :-)
 
 See you there!
-

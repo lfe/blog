@@ -1,9 +1,7 @@
 TITLE ?= New Post
 NEW_CMD = rake post title="$(TITLE)"
 
-GEM_PATH = /Users/rv/.gem/ruby/2.0.0/bin
 ARCHFLAGS = -Wno-error=unused-command-line-argument-hard-error-in-future
-NEW_PATH = $(PATH):$(GEM_PATH)
 
 SRC = ./src
 BASE_DIR = $(shell pwd)
@@ -12,6 +10,22 @@ REPO = $(shell git config --get remote.origin.url)
 
 STAGING_HOST = staging-blog.lfe.io
 STAGING_PATH = /var/www/lfe/staging-blog
+
+OS := $(shell uname -s)
+ifeq ($(OS),Linux)
+	HOST = $(HOSTNAME)
+	GEM = sudo gem
+	NEW_PATH = $(PATH)
+endif
+ifeq ($(OS),Darwin)
+	HOST = $(shell scutil --get ComputerName)
+	GEM = gem
+	GEM_PATH = /Users/rv/.gem/ruby/2.0.0/bin
+	NEW_PATH = $(PATH):$(GEM_PATH)
+endif
+
+ubuntu-deps:
+	sudo apt-get install -y nodejs nodejs-dev
 
 new:
 	@OUT=$$(cd $(SRC); PATH=$(NEW_PATH) $(NEW_CMD)) ; \
@@ -22,11 +36,11 @@ post:
 
 update-gems:
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
-	sudo gem update --system
+	$(GEM) update --system
 
 install-jekyll: update-gems
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
-	gem install bundler
+	$(GEM) install bundler
 	cd $(SRC) && PATH=$(PATH):$(GEM_PATH) && ARCHFLAGS=$(ARCHFLAGS) \
 	bundle install
 
@@ -56,7 +70,7 @@ publish: clean build
 	@rm -rf $(BUILD_DIR)/.git
 	@cd $(BUILD_DIR) && \
 	git init && \
-	git add * &> /dev/null && \
-	git commit -a -m "Generated content." &> /dev/null && \
+	git add * > /dev/null && \
+	git commit -a -m "Generated content." > /dev/null && \
 	git push -f $(REPO) master:gh-pages
 
