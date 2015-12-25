@@ -74,3 +74,12 @@ publish: clean build
 	git commit -a -m "Generated content." > /dev/null && \
 	git push -f $(REPO) master:gh-pages
 
+force-publish: clean build
+	-@git commit -a --amend; git push --force origin master
+	@rm -rf $(BUILD_DIR)/.git
+	@cd $(BUILD_DIR) && \
+	git init && \
+	git add * > /dev/null && \
+	git commit -a -m "Generated content." > /dev/null && \
+	git push -f $(REPO) master:gh-pages
+
