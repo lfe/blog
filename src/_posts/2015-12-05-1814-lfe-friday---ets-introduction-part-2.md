@@ -195,7 +195,7 @@ true
 The owner now becomes that new process, and our current process is still the heir.
 
 ```lisp
-> (ets:info table-with-heir)                  
+> (ets:info table-with-heir)
 (#(read_concurrency false)
  #(write_concurrency false)
  #(compressed false)

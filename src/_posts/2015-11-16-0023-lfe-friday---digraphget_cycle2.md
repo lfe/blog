@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LFE Friday   digraph:get_cycle/2"
+title: "LFE Friday - digraph:get_cycle/2"
 description: ""
 category: tutorials
 tags: [lfe friday,lfe,erlang]

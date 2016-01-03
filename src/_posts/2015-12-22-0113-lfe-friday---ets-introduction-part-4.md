@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LFE Friday   ETS Introduction, part 4: ETS Access Protections"
+title: "LFE Friday - ETS Introduction, part 4: ETS Access Protections"
 description: ""
 category: tutorials
 tags: [lfe friday,lfe,erlang]
@@ -68,7 +68,7 @@ true
 ``ets:insert/2`` returned ``true`` so we should now have some data in the table.  Let's pull it out using ``ets:match/2``, and let's match everything while we are at it by using a ``$1`` for the pattern.
 
 ```lisp
-> (ets:match 'protected-named-ets '$1)      
+> (ets:match 'protected-named-ets '$1)
 ((#(foobar baz)))
 ```
 

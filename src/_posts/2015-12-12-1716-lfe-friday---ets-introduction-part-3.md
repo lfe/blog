@@ -81,7 +81,7 @@ An ETS table of type set sees ``1`` and ``1.0`` as different keys.  So now let's
 ```lisp
 > (ets:insert ets-set item-3)
 true
-> (ets:tab2list ets-set)     
+> (ets:tab2list ets-set)
 (#(1 "one") #(1.0 "a"))
 ```
 
@@ -97,11 +97,11 @@ Let's look at what an ``ordered_set`` does.
 Again we'll insert `item-1`` followed by ``item-2`` and use ``ets:tab2list/1`` to check it's state.
 
 ```lisp
-> (ets:insert ets-ordset item-1)                       
+> (ets:insert ets-ordset item-1)
 true
 > (ets:insert ets-ordset item-2)
 true
-> (ets:tab2list ets-ordset)                            
+> (ets:tab2list ets-ordset)
 (#(1.0 "a"))
 ```
 
@@ -112,7 +112,7 @@ We insert ``item-3`` to the ``ordered_set``, and we can see it gets replaced yet
 ```lisp
 > (ets:insert ets-ordset item-3)
 true
-> (ets:tab2list ets-ordset)     
+> (ets:tab2list ets-ordset)
 (#(1 "one"))
 ```
 
@@ -130,7 +130,7 @@ And we yet again add ``item-1`` and ``item-2`` to the table.
 true
 > (ets:insert ets-bag item-2)
 true
-> (ets:tab2list ets-bag)                 
+> (ets:tab2list ets-bag)
 (#(1 a) #(1.0 "a"))
 ```
 
@@ -141,7 +141,7 @@ And again we will see what happens when we insert ``item-3`` into this ETS table
 ```lisp
 > (ets:insert ets-bag item-3)
 true
-> (ets:tab2list ets-bag)     
+> (ets:tab2list ets-bag)
 (#(1 a) #(1 "one") #(1.0 "a"))
 ```
 
@@ -157,20 +157,20 @@ The last type of ETS table we have is a ``duplicate_bag``.
 We insert ``item-1`` followed by ``item-2`` as we did with all of the other types of ETS tables.
 
 ```lisp
-> (ets:insert ets-dupbag item-1)                         
+> (ets:insert ets-dupbag item-1)
 true
 > (ets:insert ets-dupbag item-2)
 true
-> (ets:tab2list ets-dupbag)                              
+> (ets:tab2list ets-dupbag)
 (#(1 a) #(1.0 "a"))
 ```
 
 And like all of the other ETS table types, we insert ``item-3`` into the `duplicate_bag` ETS table type.
 
 ```lisp
-> (ets:insert ets-dupbag item-3)                         
+> (ets:insert ets-dupbag item-3)
 true
-> (ets:tab2list ets-dupbag)     
+> (ets:tab2list ets-dupbag)
 (#(1 a) #(1 "one") #(1.0 "a"))
 ```
 
@@ -187,9 +187,9 @@ To see this in action, we will add ``item-1`` to both the ``ets-bag`` table and 
 First with just the ETS ``bag`` type.
 
 ```lisp
-> (ets:insert ets-bag item-1)                            
+> (ets:insert ets-bag item-1)
 true
-> (ets:tab2list ets-bag)        
+> (ets:tab2list ets-bag)
 (#(1 a) #(1 "one") #(1.0 "a"))
 ```
 
@@ -200,7 +200,7 @@ So what does the ``duplicate_bag`` type of ETS table do?
 ```lisp
 > (ets:insert ets-dupbag item-1)
 true
-> (ets:tab2list ets-dupbag)     
+> (ets:tab2list ets-dupbag)
 (#(1 a) #(1 "one") #(1 a) #(1.0 "a"))
 ```
 
