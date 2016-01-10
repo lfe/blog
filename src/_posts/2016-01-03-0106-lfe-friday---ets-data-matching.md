@@ -23,13 +23,13 @@ The first thing we will do is to create a module that given a string of text, wi
 
 (defun create-word-pairs (text)
   (let ((words (string:tokens text " \t\n")))
-    (create-word-pairs () words)))
+    (create-word-pairs words ())))
 
 (defun create-word-pairs
-  ((word-pairs (list word)) word-pairs)
-  ((word-pairs (list* word following words))
+  (((list* word following words) word-pairs)
    (let ((updated-word-pairs `(#(,word ,following) . ,word-pairs)))
-     (create-word-pairs updated-word-pairs (cons following words)))))
+     (create-word-pairs (cons following words) updated-word-pairs)))
+  ((words word-pairs) word-pairs))
 ```
 
 The above code takes a string of text and splits that text into "words" based off using the space, tab, and newline characters as a word boundary.  With that list of "words", we then create a list of word to following word tuples, which is what we will be inserting into our ETS table.
@@ -39,7 +39,7 @@ Time to fire up the Erlang shell and start experimenting.
 We first save the text we want to use in the file ``tail-of-two-cities.txt``.
 
 ```bash
-$  cat > two-cities.txt
+$  cat > tail-of-two-cities.txt
 It was the best of times, it was the worst of times,
 it was the age of wisdom, it was the age of foolishness,
 it was the epoch of belief, it was the epoch of incredulity,
@@ -67,7 +67,7 @@ We then need to compile our module, and then we will create the variable ``totc`
 ```lisp
 > (c 'markov-words)
 (#(module markov-words))
-> (set totc (binary_to_list (element 2 (file:read_file "tail-of-two-cities.txt")))) 
+> (set totc (binary_to_list (element 2 (file:read_file "tail-of-two-cities.txt"))))
 "It was the best of times, it was the worst of times,\nit was the age of wisdom, it was the age of foolishness,\nit was the epoch of belief, it was the epoch of incredulity,\nit was the season of Light, it was the season of Darkness,\nit was the spring of hope, it was the winter of despair,\nwe had everything before us, we had nothing before us,\nwe were all going direct to Heaven,\nwe were all going direct the other way--in short,\nthe period was so far like the present period,\nthat some of its noisiest authorities insisted on its\nbeing received, for good or for evil, in the superlative\ndegree of comparison only.\n\nThere were a king with a large jaw and a queen with a\nplain face, on the throne of England; there were a king\nwith a large jaw and a queen with a fair face,\non the throne of France. In both countries it was\nclearer than crystal to the lords of the State preserves\nof loaves and fishes, that things in general were\nsettled for ever.\n"
 ```
 
@@ -96,7 +96,7 @@ The reason for the ``duplicate_bag``, is that for demonstration reasons, we want
 And for ease of population from inside the shell, we will use a list comprehension to add each word pair tuple we create from the text into our ETS table by calling `ets:insert/2`.
 
 ```lisp
-> (list-comp ((<- word-pair (markov-words:create-word-pairs totc))) (ets:insert word-pairs word-pair))        
+> (list-comp ((<- word-pair (markov-words:create-word-pairs totc))) (ets:insert word-pairs word-pair))
 (true true true true true true true true true true true true true
  true true true true true true true true true true true true true
  true true true true ...)
@@ -211,7 +211,7 @@ true
 If we do a ``ets:lookup/2`` we get all items with the specified key.
 
 ```lisp
-> (ets:lookup word-pairs "of")                
+> (ets:lookup word-pairs "of")
 (#("of" "loaves")
  #("of" "the")
  #("of" "France.")
@@ -234,7 +234,7 @@ If we do a ``ets:lookup/2`` we get all items with the specified key.
 But if we use ``ets:match_object/2``, and use a two-tuple because we only want the word _pairs_, we don't get the item that is a three-tuple in the results.
 
 ```lisp
-> (ets:match_object word-pairs #("of" _))     
+> (ets:match_object word-pairs #("of" _))
 (#("of" "loaves")
  #("of" "the")
  #("of" "France.")
@@ -275,7 +275,7 @@ We get the match of potential words to choose from for a given word, and we pick
  ("wisdom,")
  ("times,")
  ("times,"))
-> (set (list next-word) (lists:nth (random:uniform (length potential-choices)) potential-choices)) 
+> (set (list next-word) (lists:nth (random:uniform (length potential-choices)) potential-choices))
 ("hope,")
 ```
 
