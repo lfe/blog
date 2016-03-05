@@ -7,7 +7,7 @@ tags: [v1.0]
 author: Robert Virding
 ---
 {% include JB/setup %}
-<a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>Finally LFE v1.0 is about to be released. Pretty soon anyway. So here are some th new things which are coming. These can all be tested on the develop branch.
+<a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>Finally LFE v1.0 is about to be released. Pretty soon anyway. So here are some new things which are coming. These can all be tested on the develop branch.
 <br /><br />
 
 First up is that the handling of multi-module files has now been finalized. So while the latest version of LFE has been able to handling multiple modules in one file it has never really been announced and described. The basics are simple: everything defined *before* the first module is visible in all the modules while that which is defined *inside* a module is only visible in that module.
