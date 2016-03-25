@@ -2,7 +2,7 @@
 layout: post
 title: "Coming in LFE v1.0: multi-module files"
 description: ""
-category: tutorial
+category: tutorials
 tags: [v1.0]
 author: Robert Virding
 ---

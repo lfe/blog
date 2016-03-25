@@ -2,7 +2,7 @@
 layout: post
 title: "LFE Friday - More ETS data matching (and querying)"
 description: ""
-category: tutorial
+category: tutorials
 tags: [lfe friday,lfe,erlang]
 author: Robert Virding
 ---
