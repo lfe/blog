@@ -119,8 +119,8 @@ exception error: function_clause
   in erl_tar:create/3 (erl_tar.erl, line 132)
 ```
 
-Second, according to the [Limitations](http://erlang.org/doc/man/erl_tar.html#id180770) section of the erl_tar documentation page, filenames should be less than 100 characters for maximum compatability across different systems and version of the tar program.
+Second, according to the [Limitations](http://erlang.org/doc/man/erl_tar.html#id180770) section of the erl_tar documentation page, filenames should be less than 100 characters for maximum compatibility across different systems and version of the tar program.
 
-Lastly, it is on us the user to include the file extension when specifing the filename, as ``erl_tar:create/2`` does not manage the extension for us.
+Lastly, it is on us the user to include the file extension when specifying the filename, as ``erl_tar:create/2`` does not manage the extension for us.
 
 -Proctor, Robert

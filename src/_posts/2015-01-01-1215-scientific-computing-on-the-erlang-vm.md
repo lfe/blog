@@ -27,7 +27,7 @@ The content of this post was taken from a
 done by the same author for the Python Lisp [Hy](http://hylang.org/) in an
 [IPython notebook](http://nbviewer.ipython.org/github/oubiwann/linear-regression-tutorial/blob/master/notebooks/tutorial.ipynb).
 It, in turn, was completely inspired by the
-[Clojure Incantor tutorial](http://data-sorcery.org/2009/06/04/linear-regression-with-higher-order-terms/)
+[Clojure Incanter tutorial](http://data-sorcery.org/2009/06/04/linear-regression-with-higher-order-terms/)
 on the same subject, by David Edgar Liebke.
 
 This content is also available in the
@@ -166,7 +166,7 @@ a way that we could *actually tell* what is was, this would run counter to the
 whole purpose of using libraries like NumPy and SciPy from the Erlang VM in the
 first place. It would do several things:
 
-* Add latency for each calcualtion
+* Add latency for each calculation
 * Reduce the precision available in the NumPy data types (by being converted
   first to Python native types and then to Erlang data types)
 * Bring only Erlang-native data types into the REPL, thus requiring us to
@@ -183,7 +183,7 @@ purpose.
 ## Plotting Our Data
 
 Because our CSV file had headers and we told ``genfromtxt`` to use them with the
-``#(names true)`` option, we can easily extrac the $$x$$ and $$y$$ axis data.
+``#(names true)`` option, we can easily extract the $$x$$ and $$y$$ axis data.
 Let's look at their values separately:
 
 ```cl
@@ -315,7 +315,7 @@ Let's peek at the data:
 1.8207657603852567e-14
 ```
 
-There is a conveience class in NumPy ``numpy.poly1d`` that, once instantiated
+There is a convenience class in NumPy ``numpy.poly1d`` that, once instantiated
 with our fit data, we can use to evaluate at any given point. Let's try it
 out:
 
@@ -341,7 +341,7 @@ Let's call this function against several values as a sanity check:
 0.8893022773313533
 ```
 
-By exmining our original data set, we can see that these check out just fine.
+By examining our original data set, we can see that these check out just fine.
 
 
 ## Polynomial Linear Regression

@@ -8,7 +8,7 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 <a href="{{ site.base_url }}/assets/images/posts/Blog-Makeover.png"><img class="left thumb" src="{{ site.base_url }}/assets/images/posts/Blog-Makeover.png" /></a>We've been sitting on this redesign for a while, initially planned for an LFE
-docs site refresh (based on the [Github docs site design](https://developer.github.com/)).
+docs site refresh (based on the [GitHub docs site design](https://developer.github.com/)).
 However, we got tired of waiting around on all the CSS debugging for that
 project. The blog site has fewer requirements, so we rolled it out last night.
 

@@ -150,7 +150,7 @@ As mentioned before, this feature had been requested several times in the past,
 both in public venues and in private conversations. It was consistently
 back-burnered due to the anticipated amount of work required to make it happen.
 
-Howver, as more requests were made over time (and with Robert Virding
+However, as more requests were made over time (and with Robert Virding
 casting his vote as well), it became clear that this could not be put off
 any longer. This came up most recently in the
 [lfetool 0.9.0 update ticket](https://github.com/lfe/lfetool/issues/111) (see

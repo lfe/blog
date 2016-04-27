@@ -38,7 +38,7 @@ So in honor of that question, and as a reminder to review it at the next user gr
 #(287389 100000000)
 ```
 
-After about 1000 items in a linked list, we start growing lineraly in the time it takes to count the items, so if it is not doing an actual traversal of all the items, it has the same scale of doing so as far as the order of operations (Big-O) goes.
+After about 1000 items in a linked list, we start growing linearly in the time it takes to count the items, so if it is not doing an actual traversal of all the items, it has the same scale of doing so as far as the order of operations (Big-O) goes.
 
 I can confirm that lists don't have any smarts about their length and that ``erlang:length/1`` actually does traverse the whole list. Trying to be smart about the length would slow down adding new elements to the front of the list, and there are no requirements or checks that the tail of a list is a list. It can be anything:
 

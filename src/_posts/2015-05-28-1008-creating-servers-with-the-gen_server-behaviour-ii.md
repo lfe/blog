@@ -85,7 +85,7 @@ the ``gen_server`` and for the callback module (namely, ``(MODULE)``), but you'l
 get used to it quickly enough.
 
 The ``tut01/src`` directory which holds the source code for this post (and the previous
-one) has a combined module, ``tut01.lfe`` holding the funtionality we previously
+one) has a combined module, ``tut01.lfe`` holding the functionality we previously
 defined in ``tut01-server.lfe`` and ``tut01-callback.lfe``. We'll give a full
 listing at the end of this post.
 
@@ -93,7 +93,7 @@ listing at the end of this post.
 ### Explicit Exports
 
 The next thing we need to fix from the last tutorial is the lazy use of ``(export all)``.
-It is much better to decalre exactly what you want exported for public use. The explicit
+It is much better to declare exactly what you want exported for public use. The explicit
 exporting of public functions is part of the (self-) documentation for your module.
 
 When opening your module in an editor, this is going to be less helpful:
@@ -131,7 +131,7 @@ Than this:
 
 The last best practice we're going to look at now is the inclusion of all callbacks.
 When you compile an LFE module that declares an OTP behaviour, it doesn't complain
-if you leave out a required function. It successully compiles and will run just fine.
+if you leave out a required function. It successfully compiles and will run just fine.
 However, when you do this you are not abiding by the contract with the OTP world.
 This can have the practical result of causing unexpected bugs and/or breakages in code,
 especially in the code of your users who would be expecting your application to
@@ -188,7 +188,7 @@ That’s the easy bit. Now let’s add support for this new ``stop`` message to 
     `#(reply ,(unknown-command) ,state-data)))
 ```
 
-Noice that we've got a new return tuple: it doesn't start with ``reply`` or ``noreply``.
+Notice that we've got a new return tuple: it doesn't start with ``reply`` or ``noreply``.
 Instead, it sends the ``stop`` message.
 
 If we tried to run our server with just this
@@ -265,7 +265,7 @@ Which causes the termination of our server:
         {proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,237}]}]}
 ```
         
-The callback that ``gen_server`` will use to hanle undefined messages is ``handle_info``.
+The callback that ``gen_server`` will use to handle undefined messages is ``handle_info``.
 Let's create an implementation for this callback which is less fragile that our
 original:
 

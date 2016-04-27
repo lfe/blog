@@ -13,7 +13,7 @@ system. It's nice not to have to buy into full OOP, and use only what's needed.
 The <a href="http://shop.oreilly.com/product/0636920029786.do">Clojure Cookbook</a>,
 by <a href="https://twitter.com/levanderhart">Luke VanderHart</a> and
 <a href="http://twitter.com/rkneufeld">Ryan Neufeld</a> covers some of these
-very nicely, and we'll explore some of those in this post with an eye torwards
+very nicely, and we'll explore some of those in this post with an eye towards
 an implementation in LFE.
 
 In particular, we'll be looking at section 3.9 of the Cookbook, "Building
@@ -104,7 +104,7 @@ function about it.
 
 ## Multi-methods
 
-Clojure overcomes this difficulty with multi-methods: definte an abstraction
+Clojure overcomes this difficulty with multi-methods: define an abstraction
 with ``defmulti`` and then define an implementation with ``defmethod``:
 
 ```clojure
@@ -171,7 +171,7 @@ seen so far:
    (* l w)))
 ```
 
-This code has actually been provided in the ``examples`` directoy of the los
+This code has actually been provided in the ``examples`` directory of the los
 project. To run in in the REPL, just do the following (assuming you have
 Erlang, ``rebar``, and ``lfetool`` installed, or course ...). To run the
 following, you will need the latest version of

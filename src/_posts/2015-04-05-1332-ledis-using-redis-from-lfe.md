@@ -36,12 +36,12 @@ You will need:
 
 * Redis installed on your machine
 * Erlang
-* The latest dev verions of ``lfetool``
+* The latest dev versions of ``lfetool``
 * The [ledis project](https://github.com/lfex/ledis)
 
 LFE and ledis' dependencies will all be downloaded for you automatically when
 you start up the project REPL for the first time (see below). This tutorial
-will not cover the installation of Redis or Erlang. To instll the development
+will not cover the installation of Redis or Erlang. To install the development
 version of ``lfetool``, simply do the following:
 
 ```bash
@@ -293,7 +293,7 @@ stored at the specified key:
 
 ## More Redis
 
-As progres is made on the LFE library, we'll be posting more installments of
+As progress is made on the LFE library, we'll be posting more installments of
 the [Redis tutorial](http://redis.io/topics/data-types-intro) here. Expect to
 see the following in the coming weeks and months:
 

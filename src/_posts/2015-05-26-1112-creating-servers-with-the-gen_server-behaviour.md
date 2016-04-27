@@ -71,7 +71,7 @@ world of OTP, expecting you to do the following:
 
 In return for following these rules, you get an infinitely flexible server with
 some amazing capabilities: fault-tolerance, the capacity to handle an incredible
-number of simultaenous connections, [^yaws-benchmarks] and the ability to scale
+number of simultaneous connections, [^yaws-benchmarks] and the ability to scale
 across many cores or many servers.
 
 ### OTP Boilerplate
@@ -84,7 +84,7 @@ the need for so much awkward data. Once you get used to it, it's really not
 a big deal. And, again, the benefits of using OTP -- and the massive time-savings
 that go hand-in-hand with those -- far out-weigh the minor inconvenience. You
 know this immediately when using OTP, if you have ever had to implement
-production-ready custom servers in other progreamming languages or frameworks.
+production-ready custom servers in other programming languages or frameworks.
 
 Perhaps the bit that it most cumbersome for new OTP developers is the fact that,
 due to the lack of keyword arguments in Erlang (and the tendency for older Erlang
@@ -109,7 +109,7 @@ I often get questions like the following:
 * Why do I put them in a single file?
 
 These questions may not make sense right now, but they will by the time you finish
-the tutorial for this post! Hopefully, though, the appraoch we have decided to
+the tutorial for this post! Hopefully, though, the approach we have decided to
 take will not leave you frustrated, but instead the proud holder of new knowledge
 and insight.
 
@@ -321,9 +321,9 @@ Let's go over what happened above:
 * We made some API calls -- these were passed on to our callback module by
   the underlying OTP infrastructure.
 * We got results for our API functions which made ``call``s.
-* We got a simple and reassuring ``ok`` for our API functions which mae
+* We got a simple and reassuring ``ok`` for our API functions which make
   ``cast``s.
-* When we skipped the API functions and passed an unepxected message to our
+* When we skipped the API functions and passed an unexpected message to our
   callbacks directly via ``gen_server:call``, we got the error we defined for
   unknown messages.
 

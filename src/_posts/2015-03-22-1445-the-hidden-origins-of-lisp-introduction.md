@@ -58,7 +58,7 @@ traces its beginnings to the fundamental concepts of arithmetic and
 mathematical logic: what are numbers and how to we define them rigorously?
 These questions were asked and considered -- sometimes from a fairly vague
 philosophical perspective -- by great minds such as Leibniz (later 1600s;
-drafts published posthumously), Boole (1847), Grassmann (1861), Peirce (1881),
+drafts published posthumously), Boole (1847), Grassmann (1861), Pierce (1881),
 Frege (1884), and Dedekind (1888). It was the Italian mathematician Giuseppe
 Peano, though, who in 1889 finally identified and distilled the essence of
 these explorations in terms that were more precisely formulated than those of

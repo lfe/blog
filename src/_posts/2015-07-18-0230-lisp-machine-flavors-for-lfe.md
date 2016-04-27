@@ -24,7 +24,7 @@ When I mentioned to Duncan that I had done this he asked why not do it for LFE? 
 
 So, LM flavors it is. There are many things from the LM lisp we can't
 do in LFE, for example mutable data and global variables, or are very
-dependant on the internals of the LM so it won't be an exact
+dependent on the internals of the LM so it won't be an exact
 implementation, but I will do what I can.
 
 One very interesting question when it starts working is how deeply we

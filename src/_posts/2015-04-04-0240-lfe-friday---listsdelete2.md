@@ -20,7 +20,7 @@ will remove that item from the list passed in as the second argument.
 > (lists:delete 4 '(1 1 2 3 5 8))    
 (1 1 2 3 5 8)
 > (lists:delete 72 "Hello World!")
-"ello World!"
+"Hello World!"
 > (lists:delete 'd '(a b c d))
 (a b c)
 > (lists:delete 4 ())         

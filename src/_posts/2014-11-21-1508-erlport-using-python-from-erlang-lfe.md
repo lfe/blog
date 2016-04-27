@@ -10,8 +10,8 @@ author: Duncan McGreggor
 {% include JB/setup %}
 This post was originally featured on
 [cogitat.io](http://technicae.cogitat.io/2014/11/erlport-using-python-from-erlanglfe.html)
-and is being reblogged here as an expeiment. This repost is an adventure into
-github pages as a blogging platform for code-heavy posts. For year, I have found
+and is being reblogged here as an experiment. This repost is an adventure into
+GitHub pages as a blogging platform for code-heavy posts. For year, I have found
 Google's blogger.com cumbersome as a medium for sharing code. The burden has
 finally grown too great. It makes sense to use the same platform to share the
 prose description of code as that which shares the code itself (i.e.,

@@ -28,7 +28,7 @@ infinite loop. Here is the code that was shared:
       ((> (car lst) piv)
       (partition piv (cdr lst) small (cons (car lst) large))))))
 
-; Compiles but mabye enters in an infinite loop??
+; Compiles but maybe enters in an infinite loop??
 (defun qs
   (['()] '())
   ([lst]
@@ -46,7 +46,7 @@ an empty list. Take the following case:
 This means you'll keep looping forever trying to partition the ``'(3)`` list (which
 will generate the same result over and over) and will never succeed.
 
-There're two way to fix it. One is to add a one-element list matching clause:
+There're two ways to fix it. One is to add a one-element list matching clause:
 
 ```cl
 (defun qs

@@ -119,7 +119,7 @@ And sometimes when working with a tar file in your program, you don't want to ha
    #("bear.txt" #"Wocka Wocka Wocka!\n")))
 ```
 
-When passing the ``memory`` option, the return value of ``erl_tar:extract/2`` becomes an tuple of the status, and a list of tuples composed of the filename, and the contents of the file as a binary for each file in the tar that was extracted. As the contents of the file were legal unicode characters the results were printed as binary strings.
+When passing the ``memory`` option, the return value of ``erl_tar:extract/2`` becomes an tuple of the status, and a list of tuples composed of the filename, and the contents of the file as a binary for each file in the tar that was extracted. As the contents of the file were legal Unicode characters the results were printed as binary strings.
 
 If an error occurs on extraction to memory, for example we forget to pass the compressed option to a compressed tar file, it returns an ``error`` tuple.
 

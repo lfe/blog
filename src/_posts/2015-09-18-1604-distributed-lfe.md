@@ -8,7 +8,7 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 <a href="/assets/images/posts/LFE-signal.jpg"><img class="right medium" src="/assets/images/posts/LFE-signal.jpg" /></a>The
-posts in this series are focsed on OTP. However, we're going to take a break
+posts in this series are focused on OTP. However, we're going to take a break
 from OTP-proper to talk about some of the basics underlying the patterns that
 OTP provides to programmers of the Erlang VM. In particular, we going to take a
 look at distributed systems and then do some hands-on distributed system
@@ -70,14 +70,14 @@ in the minutiae of distributed LFE, coming out at the end wondering what it
 was all for.
 
 The above two definitions of distributed systems refer to processes. This is a
-little too general for our purpses, since all functions in LFE are processes,
+little too general for our purposes, since all functions in LFE are processes,
 and any function can be set up to send or receive messages. We want to take
 advantage of the features baked into the Erlang VM for communicating with what
 are called *nodes*. As such, the node will be our defining element in a
 distributed system.
 
 An LFE node is more than just a process, it is an instance of the Erlang
-runtime system (erts) which has been given a name (it cannont
+runtime system (erts) which has been given a name (it cannot
 be communicated with if it doesn't have a name).
 
 Okay! Enough with definitions -- let's get coding :->
@@ -185,7 +185,7 @@ Just to mix things up, we made that call on the second node, with the first
 node being the remote one.
 
 In addition to calling functions on a remote node and getting results back, we
-can actually spwn long-running processes remotely too. This is done in the same
+can actually spawn long-running processes remotely too. This is done in the same
 way as spawning a process locally ... except that you need say which node to
 spawn on.
 
@@ -254,7 +254,7 @@ One of the simple and brilliant design principles of Erlang is that whether
 you're making a call to a process in the same node, to a process in a different
 node on the same machine, or a node that is somewhere across a network -- the
 usage is the same. Sure, you may need to add more specificity, but that's just
-data. Neither the syntax nor symantics change with the location change of the
+data. Neither the syntax nor semantics change with the location change of the
 node.
 
 It should then come as no surprise that two nodes on two different machines in
@@ -297,7 +297,7 @@ pong
 #(ok (#("repl1" 54906)))
 ```
 
-We can make one of the ``rpc`` calls that evaulates code on all nodes as a
+We can make one of the ``rpc`` calls that evaluates code on all nodes as a
 check, too:
 
 ```cl

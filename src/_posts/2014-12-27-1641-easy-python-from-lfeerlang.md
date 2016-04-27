@@ -172,7 +172,7 @@ true
 ## Erlang?
 
 Yes, all of this is easily available to Erlang too :-) That's the beauty of
-LFE -- 100% Erlang Core compatiable :-)
+LFE -- 100% Erlang Core compatible :-)
 
 There is a link in the project's README file that points to
 [example Erlang usage](https://github.com/lfex/py#erlang-) -- be sure to
@@ -252,7 +252,7 @@ Support for a supervision tree is just the beginning, though ...
 
 Current development is focused on three new features for the library:
 
-1. Running mulitple Python servers at the same time
+1. Running multiple Python servers at the same time
 1. Creating sophisticated schedulers that determine which Python node to
    execute on next
 1. Distributed Python: the crowning glory of Erlang/LFE

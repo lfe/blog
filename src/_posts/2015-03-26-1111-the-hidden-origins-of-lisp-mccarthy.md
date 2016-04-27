@@ -37,8 +37,8 @@ tracking feedback.
 
 John McCarthy was born in 1927, in the city of Boston. Due to difficulties
 finding work during the Great Depression, the family moved to New York, then
-finally settled in Los Angeles. Having establised an early aptitude and
-proficieny in mathematics, McCarthy skipped two years of math upon his
+finally settled in Los Angeles. Having established an early aptitude and
+proficiency in mathematics, McCarthy skipped two years of math upon his
 enrollment at Caltech. The year he received his undergraduate degree, he
 attended the 1948 Hixon Symposium on Cerebral Mechanisms in Behavior. The
 speakers at the symposium represented an intersection of mathematics,
@@ -55,7 +55,7 @@ Theory of Automata", [^2] where he covered the following topics:
 6. Formal Neural Networks
 7. The Concept of Complication and Self-Reproduction
 
-von Neumann's eruidite tour de force stunned audience members as well as fellow
+von Neumann's erudite tour de force stunned audience members as well as fellow
 presenters. [^3] McCarthy was captivated. Now intrigued with the idea of
 developing machines that could think as people do, he was set upon the
 path which he would follow for the rest of his life.
@@ -85,7 +85,7 @@ It was here, thanks to Allen Newell and Herb Simon, that McCarthy was exposed
 to the idea of list processing for a "logical language" Newell and Simon were
 working on (later named IPL). McCarthy initially had high hopes for this effort
 but upon seeing that its implementation borrowed heavily from assembly, he gave
-up on it. That, in conjuntion with his inability to gain any traction with the
+up on it. That, in conjunction with his inability to gain any traction with the
 maintainers of FORTRAN for the support of recursion or conditionals, finally
 pushed him to create a language that suited his goals of exploring machine
 intelligence.
@@ -107,7 +107,7 @@ on the IBM 704 which had been made available to MIT. [^5]<sup>,</sup>
 (written in Lisp), and not too long after that saw the release of version 1.5
 of the language.
 
-At the 1980 Lisp conference held at Standford, John McCathy humorously
+At the 1980 Lisp conference held at Stanford, John McCarthy humorously
 commented on the previous two decades of Lisp's survival: [^7]
 <blockquote>
 "On LISP's approximate 21st anniversary, no doubt something could be said about
@@ -118,7 +118,7 @@ plan on holding one of these newspaper interviews in which grandpa is asked to
 what he attributes having lived to 100."
 </blockquote>
 
-Lisp's 50th aniversary was celebtrated in 2008, and despite the AI Winter of
+Lisp's 50th anniversary was celebrated in 2008, and despite the AI Winter of
 the 1990s, it shows no signs of disuse or senescence. Quite to the contrary, it
 continues to have a profound impact on multiple generations of computer
 programmers meeting all number and variation of needs.
@@ -138,10 +138,10 @@ programmers meeting all number and variation of needs.
 
 [^3]: At the beginning of the Q&A session for von Neumann's talk at the Hixon Symposium, one Dr. Gerard comments "I have had the privilege of hearing Dr. von Neumann speak on various occasions, and I always find myself in the delightful but difficult role of hanging on to the tail of a kite. While I can follow him, I can't do much creative thinking as we go along."
 
-[^4]: Marvin Minsky and John McCarthy founded the MIT AI Lab together when McCarthy caught the acting head of the department, Jerome Weisner, in the hallway and asked him permission to do it. Weisner responded with "Well, what do you need?”. When McCarthy gave him the list, he asked "How about 6 graduate students?" as the deparment had agreed to support six mathematics students, but had yet to find work for them. See [On John McCarthy’s 80th Birthday, in Honor of his Contributions](http://www-formal.stanford.edu/leora/hayes_morgenstern_birthday_mccarthy.pdf), page 3.
+[^4]: Marvin Minsky and John McCarthy founded the MIT AI Lab together when McCarthy caught the acting head of the department, Jerome Weisner, in the hallway and asked him permission to do it. Weisner responded with "Well, what do you need?”. When McCarthy gave him the list, he asked "How about 6 graduate students?" as the department had agreed to support six mathematics students, but had yet to find work for them. See [On John McCarthy’s 80th Birthday, in Honor of his Contributions](http://www-formal.stanford.edu/leora/hayes_morgenstern_birthday_mccarthy.pdf), page 3.
 
 [^5]: See the section "The implementation of LISP" in McCarthy's 1978 paper *History of Lisp*.
 
-[^6]: See *Lisp Bulletin #3*, Decmember 1979 in the article "Lisp History" by Herbert Stoyan, page 45. Stoyan's article aimed to fill in the missing details of McCarthy's earlier paper -- of the same name -- which McCarthy had presented at the SIGPLAN conference in June of 1979.
+[^6]: See *Lisp Bulletin #3*, December 1979 in the article "Lisp History" by Herbert Stoyan, page 45. Stoyan's article aimed to fill in the missing details of McCarthy's earlier paper -- of the same name -- which McCarthy had presented at the SIGPLAN conference in June of 1979.
 
 [^7]: See [Lisp: Notes on Its Past and Future](http://www-formal.stanford.edu/jmc/lisp20th/lisp20th.html) in the "Introduction."

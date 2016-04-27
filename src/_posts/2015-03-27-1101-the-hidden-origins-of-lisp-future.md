@@ -65,7 +65,7 @@ the essence of the language in one's head or on a single sheet of paper.[^4]
 The education point is important: if we cannot teach the basics of a science or
 a branch of mathematics -- regardless of how profound it may be -- it has
 ceased to become a science and should at that point be considered a
-superstition or cargo cult, with its practictioners engaged in a great deal of
+superstition or cargo cult, with its practitioners engaged in a great deal of
 activity (or even lucrative commerce) but having no understanding of the
 principles which form the basis of their work. However, to be a compelling
 focus of study, the value of Lisp in the 21st century most hold more than
@@ -78,7 +78,7 @@ And here the answer arrives, not as some astounding epiphany, but again in
 humble simplicity: Lisp's fun and its beauty rest not only in its syntactic
 elegance but in its power of expression. This is specifically important for the
 adventurer: if you want to create something new, explore some new
-programmatical territory, you need tools at your fingertips which will allow
+programmatic territory, you need tools at your fingertips which will allow
 you to do so flexibly and quickly, with as little overhead as possible.
 Otherwise the moment of inspiration can be to quickly lost, the creative
 process swallowed in a mire too heavy with infrastructure and process.
@@ -97,7 +97,7 @@ our societies are able to produce languages, software, and systems which
 individuals or small groups may attain understanding and mastery over, software
 freedom will prevail.  Systems that are so complex as to require an industry to
 manage them are no longer within the domain of motivated and curious
-individuals, but rather thta of organizations with sufficient capital to
+individuals, but rather that of organizations with sufficient capital to
 maintain the necessary infrastructure.
 
 Thus, as we point our technological society towards its future with each action

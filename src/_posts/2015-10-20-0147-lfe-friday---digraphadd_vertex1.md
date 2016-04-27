@@ -31,7 +31,7 @@ We then add some vertices to the graph by using ``digraph:add_vertex/1``.
 
 As we don't specify any information about the vertex we want to add, LFE will create a new vertex for us of the format ``($v . i)``, with an empty list as the label where ``i`` is a non-negative integer.
 
-We can also use ``digraph:add_vertex/2`` to add a vertex if we wish to provide the vertex identifer, or provide vertex identifier and label in the case of ``digraph:add_vertex/3``.  As with ``digraph:add_vertex/1``, ``digraph:add_vertex/2`` uses the empty list as the label as well.
+We can also use ``digraph:add_vertex/2`` to add a vertex if we wish to provide the vertex identifier, or provide vertex identifier and label in the case of ``digraph:add_vertex/3``.  As with ``digraph:add_vertex/1``, ``digraph:add_vertex/2`` uses the empty list as the label as well.
 
 ```lisp
 > (digraph:add_vertex graph 'vertex1)

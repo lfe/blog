@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Update: Running an LFE YAWS app in Docker"
-description: "Docker LFE/YAS sample app has been updated"
+description: "Docker LFE/YAWS sample app has been updated"
 category: tutorials
 tags: [docker,paas,howtos,web,apps,ops,lfest,exemplar,boot2docker]
 author: Duncan McGreggor

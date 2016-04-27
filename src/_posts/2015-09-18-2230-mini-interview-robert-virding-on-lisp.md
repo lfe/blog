@@ -19,14 +19,14 @@ historical details.
 So I did what was natural: asked a bunch of completely unrelated questions!
 Well, to be honest, they were related tangentially and they helped put together
 a more complete picture of LFE's early history. It ended up being a bit of a
-mini-interview, and I enjoyed Robert's responses so much, I aksed him if it was
+mini-interview, and I enjoyed Robert's responses so much, I asked him if it was
 okay to share with the wider LFE community -- he agreed and the plan was
 back-burnered for when I had a chance to create a post with the questions and
 answers.
 
 Robert and I had a few more related conversations around the same time -- I've
 taken a bit of artistic liberty in weaving the additional email conversations
-into a single narative.
+into a single narrative.
 
 I hope you enjoy this as much as I did :-)
 
@@ -74,7 +74,7 @@ straight-VMS. It was much more UNIX/BSD dependent than I originally thought,
 which resulted in me having to implement more of BSD on top of VMS than I had
 planned. Maybe I can share those details with you later, they are not really
 interesting here, for this Lisp discussion.  As far as I know no-one except me
-ever used it, but it did wonders for my C and understanding of how OSs work!
+ever used it, but it did wonders for my C and understanding of how OSes work!
 
 I did more work with Lisp when I was a member of the
 [Computer Science Lab](http://web.archive.org/web/20000817053822/http://www.ericsson.se/cslab/admin/jubileumsskrift.html)

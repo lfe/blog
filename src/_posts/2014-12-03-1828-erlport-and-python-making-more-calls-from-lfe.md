@@ -70,15 +70,15 @@ Next, let's do some basic math:
 > (python:call pid-1 'operator 'truediv '(294 7))
 42.0
 ```
-The use of operators is extremely convenity, since with ErlPort we are bound
+The use of operators is extremely convenient, since with ErlPort we are bound
 to same the module-function-args approach used in Erlang and LFE. There are
-many othe operators we can call, but this should give you a taste.
+many other operators we can call, but this should give you a taste.
 
 The full list of operators provided as builtin functions is available
 [here](https://docs.python.org/3.4/library/operator.html).
 
 
-## Using Builtins
+## Using Built-ins
 
 Just for fun, we'll switch to our other Python server for these examples:
 
@@ -120,7 +120,7 @@ Just for fun, we'll switch to our other Python server for these examples:
  "__sizeof__" ...)
 ```
 
-In Python, if you want to use a module's functions, classes, and other obejcts,
+In Python, if you want to use a module's functions, classes, and other objects,
 you need to import them. Some, however, are available as part of the language
 and don't require any importing. These are called the "builtins".
 

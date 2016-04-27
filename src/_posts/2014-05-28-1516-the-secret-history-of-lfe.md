@@ -8,13 +8,13 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 When asked recently about the history of LFE on the <a href="https://groups.google.com/d/msg/lisp-flavoured-erlang/XA5HeLbQQDk/Jdbf0KJV7dUJ">LFE mail list</a>,
-Robert replied with some nice information that we couldn't resist highlighing/duplicating here:
+Robert replied with some nice information that we couldn't resist highlighting/duplicating here:
 
 	The earliest work is actually from 2007 but this was toying with
 	parsing and implementing a lisp and was more a preamble to LFE. The
 	real work with LFE didn't start until 2008. The earliest LFE files I
-	can find are from March 2008. Originally I wasn't using github, or any
-	other vcs for that matter, and just kept the separate versions as
+	can find are from March 2008. Originally I wasn't using GitHub, or any
+	other VCS for that matter, and just kept the separate versions as
 	copies of the directory tree.
 
 	There were a number of reasons why I started with LFE:

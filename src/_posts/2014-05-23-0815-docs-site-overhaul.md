@@ -12,7 +12,7 @@ serving multiple-duty:
 
 * LFE documentation, tutorials, guides, etc.
 * Community resources.
-* General landing page for LFE on the web (in addition to the Github code repo).
+* General landing page for LFE on the web (in addition to the GitHub code repo).
 
 This has now been reduced to just double-duty :-) (docs and community
 resources). At some point, additional refinement may be necessary, but until

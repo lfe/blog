@@ -21,7 +21,7 @@ so far:
    the next post)
  * To date, there have been 17,100 views of LFE SICP
  * There have been 3,300 full reads of the book
- * There have been 500 downloads of the ebook versions [^1]
+ * There have been 500 downloads of the eBook versions [^1]
 
 As an LFE programmer, the most amazing thing to see is how extraordinarily
 well-suited LFE is to the task of teaching the material in SICP -- more often
@@ -46,8 +46,8 @@ More is on its way ...
 
 ----
 
-[^1]: We don't actually recommend the Gitbook ebook downloads for SICP yet,
-      as they do not have good support for LaTeX in the ebook versions; the
+[^1]: We don't actually recommend the GitBook eBook downloads for SICP yet,
+      as they do not have good support for LaTeX in the eBook versions; the
       web version, though, presents all of the LaTeX in its eye-popping,
       mathematical glory.
 

@@ -347,7 +347,7 @@ CONTAINER ID   IMAGE               COMMAND                STATUS         PORTS
 
 And then open up <a href="http://172.16.4.64:5099">http://172.16.4.64:5099</a>
 (or whatever host you setup for SSH port forwarding) in a web browser. You
-should be greeted with someething that looks like this:
+should be greeted with something that looks like this:
 
 <img src="{{ site.base_url }}/assets/images/posts/docker-lfe-sample-app-main-page.png" />
 

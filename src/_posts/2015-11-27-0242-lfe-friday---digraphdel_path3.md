@@ -59,7 +59,7 @@ So how did ``digraph`` come up with this result?
 
 This puzzled me at first, as it wasn't one of the two scenarios I was expecting to see, which were either: remove all edges but the edge from ``v-4`` to ``v-1``, or remove only the edge from ``v-1`` to ``v-2``.
 
-I then opened the Erlang source code on Github for the [digraph module](https://github.com/erlang/otp/blob/1523be48ab4071b158412f4b06fe9c8d6ba3e73c/lib/stdlib/src/digraph.erl) to clarify my thinking, and looking at the code it then made sense what was happening.
+I then opened the Erlang source code on GitHub for the [digraph module](https://github.com/erlang/otp/blob/1523be48ab4071b158412f4b06fe9c8d6ba3e73c/lib/stdlib/src/digraph.erl) to clarify my thinking, and looking at the code it then made sense what was happening.
 
 First ``digraph:del_path/3`` calls ``digraph:get_path/3``, and removes all edges in that path, and then recurses until no path is found.
 

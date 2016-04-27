@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Post Sprint Report: LFE Experience"
-description: "A frist-encounter with LFE from an Erlang appreciator with a Lisp background."
+description: "A first-encounter with LFE from an Erlang appreciator with a Lisp background."
 category: reports
 tags: [community,engineering teams, lfe in the wild, ux]
 author: Anurag Mendhekar

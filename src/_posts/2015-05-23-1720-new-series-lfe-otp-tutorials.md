@@ -20,7 +20,7 @@ author: Duncan McGreggor
 
 There aren't a lot of OTP tutorials online. One really good one
 ([starts here](http://learnyousomeerlang.com/what-is-otp#its-the-open-telecom-platform))
-is in Fred's most execllent book
+is in Fred's most excellent book
 [Learn You Some Erlang for great good!](http://learnyousomeerlang.com/). Other
 resources include:
 

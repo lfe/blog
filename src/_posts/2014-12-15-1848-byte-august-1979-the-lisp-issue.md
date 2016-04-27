@@ -2,7 +2,7 @@
 layout: post
 title: "BYTE, August 1979: The LISP Issue"
 description: "An exploration of the Ancient LISP code on the cover of BYTE, August 1972"
-category: archeology
+category: archaeology
 tags: [fun,lisp,common lisp]
 author: Duncan McGreggor
 ---
@@ -13,7 +13,7 @@ is from
 by Paige Bailey ([@DynamicWebPaige](https://twitter.com/DynamicWebPaige)).
 It's from the August 1979 issue of Byte which was focused on Lisp.
 The table of contents is
-[here](http://pichon.emmanuel.perso.neuf.fr/revues/byte/byte_1979.php) and includes such artciles as:
+[here](http://pichon.emmanuel.perso.neuf.fr/revues/byte/byte_1979.php) and includes such articles as:
 
  * THE DESIGN OF AN M6800 LISP INTERPRETER
  * LISP APPLICATIONS IN BOOLEAN LOGIC
@@ -27,7 +27,7 @@ The issue also appears to be
 
 After finding a
 [larger resolution image](http://pichon.emmanuel.perso.neuf.fr/revues/byte/grand/1979/byte_1979_08.jpg),
-I couldn't resist doing a little Lisp archeaology :-) Here's a transcript of
+I couldn't resist doing a little Lisp archaeology :-) Here's a transcript of
 what I can see:
 
 ```cl
@@ -73,9 +73,9 @@ for some bits, but here are some initial notes:
 
 **Update from Rainer Joswig**: he mentioned that we should be sure to check out
 a web page that discusses
-[running old Lisp programms on Common Lisp](http://www.informatimago.com/develop/lisp/com/informatimago/small-cl-pgms/wang.html).
+[running old Lisp programs on Common Lisp](http://www.informatimago.com/develop/lisp/com/informatimago/small-cl-pgms/wang.html).
 
-The stucture of the first two functions will be more clear if we reformat the
+The structure of the first two functions will be more clear if we reformat the
 original:
 
 ```cl
@@ -91,7 +91,7 @@ DEFINE ((
     (PRINT (APPEND (L N) STRING))))))
 ```
 
-That's the archeology. Let's try a reconstruction :-)
+That's the archaeology. Let's try a reconstruction :-)
 
 Here's what these functions would look like in a modern Lisp (entered in the
 LFE REPL):

@@ -13,7 +13,7 @@ author: Robert Virding
 
 - You tend to need some *extra* end token, usually written as ``$``, after the ones needed for parsing to drive the actual parsing. This would make giving too many tokens problematic.
 
-You don't have these problems with an LL(1) parser. The current LFE has been handwritten following the same rules as would a parser generator. So now I have taken the final step to finnish a generator I started long-ago.
+You don't have these problems with an LL(1) parser. The current LFE has been handwritten following the same rules as would a parser generator. So now I have taken the final step to finish a generator I started long-ago.
 
 It works but needs a bit of cleaning up to be generally useful. It can now handle the full LFE syntax, which isn't complex, and is almost a useful tool. While it is written in Erlang it will be easy to fix it so that it uses either Erlang or LFE for both the grammar file and the output file.
 

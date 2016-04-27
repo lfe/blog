@@ -8,10 +8,10 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 <a href="/assets/images/posts/freebsd-logo.jpg"><img class="left thumb" src="/assets/images/posts/freebsd-logo.jpg" /></a>Following
-on the heels ot the
+on the heels of the
 [previous BSD post](/tutorials/2015/07/08/1349-dragonflybsd--lfe/), we now turn
 to virtualization in *BSDs, in particular, jails, ``ezjail``, and FreeBSD, a
-combination that is not too disimilar from a Docker experience (minus, of
+combination that is not too dissimilar from a Docker experience (minus, of
 course, Docker Hub. Oh, if only there was a *BSD jail hub ...).
 
 Below we'll briefly outline the steps necessary to install ``ezjail``, use it
@@ -46,7 +46,7 @@ And then starting up some services and installing a base jail:
 ## Creating a Base Erlang Jail
 
 When your base jail has finished with its installation, you will be ready to
-create the Erlang jail. The first thing you'll need to do is configurie
+create the Erlang jail. The first thing you'll need to do is configure
 networking:
 
 ```

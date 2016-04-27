@@ -15,7 +15,7 @@ ETS stands for Erlang Term Storage, and is a in-memory store for Erlang/LFE term
 
 ETS can be thought of as a key/value store style storage, and it uses the concept of tables as the way of grouping together data.
 
-One of the first things that is useful to know is that ETS tables are created by a process which, unless transfered to another process, is the owner of the table.
+One of the first things that is useful to know is that ETS tables are created by a process which, unless transferred to another process, is the owner of the table.
 
 When the owner dies, the table gets deleted, and is no longer accessible.
 

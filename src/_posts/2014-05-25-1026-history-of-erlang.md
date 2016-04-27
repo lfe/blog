@@ -8,7 +8,7 @@ author: Duncan McGreggor
 ---
 {% include JB/setup %}
 For a full understanding of one's field, a thorough knowledge of that field's
-origins of that field and its tools is necessary. To encourge a deeper
+origins of that field and its tools is necessary. To encourage a deeper
 understanding of Lisp, Erlang, and LFE we have added a new section on the docs
 site main page:
 

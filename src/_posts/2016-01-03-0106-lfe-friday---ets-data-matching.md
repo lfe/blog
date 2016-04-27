@@ -11,7 +11,7 @@ author: Robert Virding
 
 Today's New Year LFE Friday moves on from the introduction to ETS, and starts using it to store some data and do some retrieval of data in ETS.
 
-First we need some data to have in ETS, so we will fall back to one of Protor's goto problems, Markov Chains.
+First we need some data to have in ETS, so we will fall back to one of Proctor's goto problems, Markov Chains.
 
 For those unfamiliar with what a Markov Chain is, it is a state machine that transitions to the next state based off a probability instead of a specific input.  The common example that people are familiar with in "everyday use" is predictive typing on smart phones, where the next word or letter is offered up as a prediction, and the predicted words are chosen by the historical likelihood that the words predicted follows the current word.
 

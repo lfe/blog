@@ -49,7 +49,7 @@ v-4
 
 Next, we add a new vertex ``v-5``, and a new edge originating from ``v-4`` and ending on ``v-5``
 
-We then call ``digraph:get_cycle/2`` on ``v-5``, and we get back a ``false`` as no cyle exists in the graph with vertex ``v-5`` in it.
+We then call ``digraph:get_cycle/2`` on ``v-5``, and we get back a ``false`` as no cycle exists in the graph with vertex ``v-5`` in it.
 
 ```lisp
 > (set v-5 (digraph:add_vertex graph 'v-5))

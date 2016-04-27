@@ -76,7 +76,7 @@ You can specify headers as part of your request. For example, say we want to get
     "<!DOCTYPE html>\n<!--[if IEMobile 7 ]> <html lang=\"sv_SE\" class=\"no-js iem7\"> <![endif]-->\n<!--[if lt IE 7]> <html class=\"ie6 lt-ie10 lt-ie9 lt-ie8 lt-ie7 no-js\" lang=\"sv_SE\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"ie7 lt-ie10 lt-ie9 lt-ie8 no-js\" lang=\"sv_SE\"> <![endif]-->\n<!-- ..."))
 ```
 
-The third argument of ``httpc:request/4`` is a list of HTTP option tuples. For example, you need to set timeouts on the response in order to avoid waiting on a response from an irresponsive or slow website because if it doesn't respond in time, the requesting code needs to back off and try again later to avoid triggering the equivalent of a Denial of Service attack. In this case, I am specifying a timeout of 0, expressed in milliseconds, to ensure a timeout happens for illustrative purposes.
+The third argument of ``httpc:request/4`` is a list of HTTP option tuples. For example, you need to set timeouts on the response in order to avoid waiting on a response from an unresponsive or slow website because if it doesn't respond in time, the requesting code needs to back off and try again later to avoid triggering the equivalent of a Denial of Service attack. In this case, I am specifying a timeout of 0, expressed in milliseconds, to ensure a timeout happens for illustrative purposes.
 
 ```cl
 > (httpc:request 'get #("http://erlang.org" ()) '(#(timeout 0)) ())

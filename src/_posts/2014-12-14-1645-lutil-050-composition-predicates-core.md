@@ -14,7 +14,7 @@ there are new "compose" functions accompanying the
 thrushing macros as well as a new convenience include file which contains all
 of lutil's predicate functions defined for easy use in the REPL or in modules.
 Additionally there is a new, experimental include file that is beginning to
-define functions and marcos considered "core" to the LFE experience but which
+define functions and macros considered "core" to the LFE experience but which
 aren't yet (and may never be) included in LFE-proper. Some of these may wrap
 Erlang functions with more options, others may provide new syntax, etc. See
 below for usage examples.
@@ -39,7 +39,7 @@ For now, it's just the following:
 
 ### ``seq`` Functions
 
-Let's start with pulling in the ``core`` inlude in the LFE REPL:
+Let's start with pulling in the ``core`` include in the LFE REPL:
 
 ```cl
 > (include-lib "lutil/include/core.lfe")
@@ -147,7 +147,7 @@ take from a list with the ``->`` macro, you will need to use
 ``lists:sublist/2``. (Be sure to see the section below for usage examples
 of ``->`` and ``->>``!)
 
-We also added the following, as it eneded up being useful:
+We also added the following, as it ended up being useful:
 
 ```cl
 > (take 'all '(1 2 3 4 5 6 7 8 9 10 11 12))
@@ -363,9 +363,9 @@ Here's how the first thrushing macro can help the previous example:
 ```
 
 What's happening here is that the output from one function is passed as
-(inserted, really) the first argument in the next fucntion.
+(inserted, really) the first argument in the next function.
 
-The next macro does the opposeite ...
+The next macro does the opposite ...
 
 
 ### The ``->>`` Macro
@@ -412,5 +412,5 @@ And now let's rewrite the nested functions using the ``->>`` macro:
 ```
 
 As promised, ``->>`` does the opposite of ``->`` in that the output from one
-function is *appeneded* to the arguments for the next call. In other words, the
+function is *appended* to the arguments for the next call. In other words, the
 output of the previous call is the last argument in the next call.
