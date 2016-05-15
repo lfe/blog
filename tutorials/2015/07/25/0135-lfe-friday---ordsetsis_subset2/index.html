@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ordsets:is_subset/2
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ordsets:is_subset/2
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday again comes from Gotland and covers <a href="http://erlang.org/doc/man/ordsets.html#is_subset-2">ordsets:is_subset/2</a>.</p>
+
+<p><code>ordsets:is_subset/2</code> takes two Ordered Sets, and checks if the ordered set passed in as the first argument is a subset of ordered set passed in as the argument.  For a given set, Set A, to be a subset of another set, Set B, every item in Set A must also be a member of Set B.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-a</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-b</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">10</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">8</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-c</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">15</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">4</span> <span class="mi">7</span> <span class="mi">10</span> <span class="mi">13</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">empty-set</span> <span class="p">(</span><span class="nv">ordsets:new</span><span class="p">))</span>
+<span class="p">()</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">set-b</span> <span class="nv">set-a</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">set-a</span> <span class="nv">set-b</span><span class="p">)</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">set-c</span> <span class="nv">set-a</span><span class="p">)</span>
+<span class="nv">false</span></code></pre></div>
+
+<p>And for those who aren't as familiar with set theory, a few quick facts about sets. First, the empty set is a subset of all sets; second, a set is considered a sub-set of itself; and lastly, a given Set B is a superset of Set A, if Set A is subset of Set B.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">empty-set</span> <span class="nv">set-a</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">empty-set</span> <span class="nv">set-b</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">empty-set</span> <span class="nv">set-c</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">empty-set</span> <span class="nv">empty-set</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_subset</span> <span class="nv">set-a</span> <span class="nv">set-a</span><span class="p">)</span>        
+<span class="nv">true</span></code></pre></div>
+
+<p>Observant readers may have have noticed that there are actually two different set modules in the Erlang/LFE libraries, <a href="http://erlang.org/doc/man/ordsets.html">ordsets</a> and <a href="http://erlang.org/doc/man/sets.html">sets</a>. These two modules have exactly the same interface but different internal implementations, <code>ordsets</code> uses an ordered list while <code>sets</code> uses a hash-table.</p>
+
+<p>Using <code>sets</code> the first example group becomes:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-a</span> <span class="p">(</span><span class="nv">sets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10</span><span class="p">)))</span>   
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">10</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+  <span class="o">#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">())</span>
+  <span class="o">#(#(</span><span class="p">()</span> <span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="s">&quot;\t&quot;</span> <span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="s">&quot;\b&quot;</span> <span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="s">&quot;\n&quot;</span> <span class="p">())))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-b</span> <span class="p">(</span><span class="nv">sets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">10</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">5</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+  <span class="o">#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">())</span>
+  <span class="o">#(#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">()</span> <span class="s">&quot;\b&quot;</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">()</span> <span class="s">&quot;\n&quot;</span> <span class="p">())))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-c</span> <span class="p">(</span><span class="nv">sets:from_list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">15</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">5</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+  <span class="o">#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">())</span>
+  <span class="o">#(#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="s">&quot;\n&quot;</span> <span class="s">&quot;\r&quot;</span><span class="p">)))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">empty-set</span> <span class="p">(</span><span class="nv">sets:new</span><span class="p">))</span>                           
+<span class="o">#(</span><span class="nb">set</span> <span class="mi">0</span> <span class="mi">16</span> <span class="mi">16</span> <span class="mi">8</span> <span class="mi">80</span> <span class="mi">48</span>
+  <span class="o">#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">())</span>
+  <span class="o">#(#(</span><span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">()</span> <span class="p">())))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">sets:is_subset</span> <span class="nv">set-b</span> <span class="nv">set-a</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">sets:is_subset</span> <span class="nv">set-a</span> <span class="nv">set-b</span><span class="p">)</span>
+<span class="nv">false</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">sets:is_subset</span> <span class="nv">set-c</span> <span class="nv">set-a</span><span class="p">)</span>
+<span class="nv">false</span></code></pre></div>
+
+<p>While <code>sets</code> is more efficient for large sets, greater than say 20 elements, the internal form is definitely harder to interpret.</p>
+
+<p>-Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/07/18/1824-a-quicksort-lfe-assist" title="A Quicksort LFE Assist">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/08/02/0212-lfe-friday---cxm1" title="LFE Friday - c:xm/1">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>25 July 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ETS Introduction, part 3: ETS Table Types
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ETS Introduction, part 3: ETS Table Types
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday continues the introduction to ETS and takes a look at the different types of storage strategies that ETS supports.</p>
+
+<p>The different types that ETS supports are: <code>set</code>, <code>ordered_set</code>, <code>bag</code>, and <code>duplicate bag</code>.</p>
+
+<p>Each of these different types can be passed in when creating a new ETS table, but let's see what type of ETS table we get when we don't specify any of the types.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ets-empty</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ets-empty</span> <span class="p">()))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">ets-empty</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">305</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.28.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">ets-empty</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>If we look above, we can see the <code>type</code> tagged tuple has the type of <code>set</code>. We also see that the <code>keypos</code> tagged tuple has the value <code>1</code> which tells us that it is the first element of the tuples which are the key.</p>
+
+<p>To see how the different types can work we will create three tuples to add to the ETS tables of the different type to see what they store.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-1</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-2</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-3</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>We will have a two tuples with the first element, the key, of <code>1</code>, and one tuple whose first element is <code>1.0</code> to see how the different types of ETS tables behave when given the "same" key.</p>
+
+<p>Why have key of both <code>1</code> and <code>1.0</code>?  Because depending on the comparison of equality used, they may or may not be seen as the same, and therefore the same key.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">==</span> <span class="mi">1</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">=:=</span> <span class="mi">1</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="nv">false</span></code></pre></div>
+
+<p>First we will take a look at an ETS table of type <code>set</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ets-set</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ets-set</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">set</span><span class="p">)))</span>
+<span class="mi">12304</span></code></pre></div>
+
+<p>We insert <code>item-1</code> followed by an insert of <code>item-2</code>, and use <code>ets:tab2list/1</code> to see what is stored in the ETS table.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-set</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-set</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-set</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>An ETS table of type set sees <code>1</code> and <code>1.0</code> as different keys.  So now let's add <code>item-3</code> and see what happens when we do an insert with an already existing key.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-set</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-set</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>The previous tuple with the key of <code>1</code> was replaced by the tuple for <code>item-3</code> which is the last thing we inserted.</p>
+
+<p>Let's look at what an <code>ordered_set</code> does.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ets-ordset</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ets-ordset</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">ordered_set</span><span class="p">)))</span>
+<span class="mi">16401</span></code></pre></div>
+
+<p>Again we'll insert <code>item-1</code><code> followed by </code><code>item-2</code><code> and use </code><code>ets:tab2list/1</code>` to check it's state.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-ordset</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-ordset</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-ordset</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>In this case, the key of <code>1.0</code> was seen the same as the previous <code>1</code> that was in there, so it overwrites the first item inserted.</p>
+
+<p>We insert <code>item-3</code> to the <code>ordered_set</code>, and we can see it gets replaced yet again.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-ordset</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-ordset</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>Now lets check an ETS table that is a <code>bag</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ets-bag</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ets-bag</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">bag</span><span class="p">)))</span>
+<span class="mi">20498</span></code></pre></div>
+
+<p>And we yet again add <code>item-1</code> and <code>item-2</code> to the table.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-bag</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-bag</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-bag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>Looking at <code>ets:tab2list/1</code>, we can see that for a bag they are treated as two different items.</p>
+
+<p>And again we will see what happens when we insert <code>item-3</code> into this ETS table.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-bag</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-bag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>In the case of a <code>bag</code> type of ETS table, we have <code>item-2</code> along with entries <code>item-1</code> <em>and</em> <code>item-3</code> even though <code>item-1</code> and <code>item-3</code> both have the same key.</p>
+
+<p>The last type of ETS table we have is a <code>duplicate_bag</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ets-dupbag</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ets-dupbag</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">duplicate_bag</span><span class="p">)))</span>
+<span class="mi">24595</span></code></pre></div>
+
+<p>We insert <code>item-1</code> followed by <code>item-2</code> as we did with all of the other types of ETS tables.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-dupbag</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-dupbag</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-dupbag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>And like all of the other ETS table types, we insert <code>item-3</code> into the <code>duplicate_bag</code> ETS table type.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-dupbag</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-dupbag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>And we see we have all three items in the ETS table for a <code>duplicate_bag</code> type.</p>
+
+<p>If we look at the behavior of <code>bag</code> and <code>duplicate_bag</code> though, we see that the behavior of both seems to be the same.</p>
+
+<p>So what is the difference between the two???</p>
+
+<p>If you dig into the documentation, and look at the description of the types under <a href="http://erlang.org/doc/man/ets.html#new-2">ets:new/2</a>, it says that a <code>bag</code> will allow duplicate keys, but allow the item to only be added once, a <code>duplicate_bag</code> will allow multiple entries even if they have the same values as well.</p>
+
+<p>To see this in action, we will add <code>item-1</code> to both the <code>ets-bag</code> table and the <code>ets-dupbag</code> table and see what happens.</p>
+
+<p>First with just the ETS <code>bag</code> type.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-bag</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-bag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>The return value is the same as it was before, so adding an item that is already in a ETS table of type <code>bag</code> will not add it again.</p>
+
+<p>So what does the <code>duplicate_bag</code> type of ETS table do?</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ets-dupbag</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">ets-dupbag</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>And we can see the tuple <code>#(1 a)</code> shows up twice, because we called <code>ets:insert/2</code> with that value twice.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2" title="LFE Friday - ETS Introduction, part 2">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4" title="LFE Friday - ETS Introduction, part 4: ETS Access Protections">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>12 December 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

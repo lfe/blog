@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE and dialyzer
+      
+    </title>
+    <meta name="description" content="How we will be able to run dialyzer on LFE code">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE and dialyzer
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/ldialyzer.png"><img class="left medium" src="/assets/images/posts/ldialyzer.png" /></a>
+Dialyzer can be a useful tool but its implementation has a few idiosyncrasies which make it difficult to directly use with LFE. It can only use .erl files or .beam files. Unfortunately the .beam files must be compiled from erlang files using the 'debug_info' option. This option includes the full Erlang AST in the .beam file and it is this which is used by dialyzer.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>Unfortunately the LFE compiler does not generate an Erlang AST, it instead generates something called Core erlang which is used internally in the compiler. This is a much nicer language to compile to. Funnily enough dialyzer actually uses Core erlang internally, it just doesn't provide any direct way of inputting it.</p>
+
+<p>I have been working on fixing this using some module loading trickery so that special versions of dialyzer files are used which can handle LFE and Core erlang. This does work but it needs a bit more work before it is released to an "unsuspecting public".</p>
+
+<p>There will be a special dialyzer startup program, ldialyzer, which does the right thing.</p>
+
+<p>Robert</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>For this reason releasing a product with only .beam files but which have been compiled with the debug_info option is the same as including the source files. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/04/04/0240-lfe-friday---listsdelete2" title="LFE Friday - lists:delete/2">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/04/05/1332-ledis-using-redis-from-lfe" title="ledis: Using Redis from LFE">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>04 April 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              announcements
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#dialyzer-ref">dialyzer <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

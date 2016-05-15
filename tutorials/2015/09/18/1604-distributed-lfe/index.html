@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Distributed LFE
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Distributed LFE
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LFE-signal.jpg"><img class="right medium" src="/assets/images/posts/LFE-signal.jpg" /></a>The
+posts in this series are focused on OTP. However, we're going to take a break
+from OTP-proper to talk about some of the basics underlying the patterns that
+OTP provides to programmers of the Erlang VM. In particular, we going to take a
+look at distributed systems and then do some hands-on distributed system
+experimentation with LFE.</p>
+
+<h2 id="lfe-otp-tutorial-series">LFE OTP Tutorial Series</h2>
+
+<ul>
+  <li><a href="/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/">Introducing the LFE OTP Tutorials</a></li>
+  <li><a href="/tutorials/2015/05/24/1808-what-is-otp/">What is OTP?</a></li>
+  <li><a href="/tutorials/2015/05/25/0929-prelude-to-otp/">Prelude to OTP</a></li>
+  <li><a href="/tutorials/2015/05/26/1112-creating-servers-with-the-gen_server-behaviour/">Creating LFE Servers with OTP, Part I</a></li>
+  <li><a href="/tutorials/2015/05/28/1008-creating-servers-with-the-gen_server-behaviour-ii/">Creating LFE Servers with OTP, Part II</a></li>
+  <li><a href="/tutorials/2015/09/18/1604-distributed-lfe/">Distributed LFE</a></li>
+</ul>
+
+<p>You can leave feedback for the LFE OTP tutorials
+<a href="https://github.com/lfe/blog/issues/7">here</a>.</p>
+
+<h2 id="in-this-post">In This Post</h2>
+
+<ul>
+  <li>Definitions</li>
+  <li>Two Nodes, Same Machine</li>
+  <li>Two Nodes, Same LAN</li>
+  <li>Two Nodes, Same Internet</li>
+  <li>Up Next</li>
+</ul>
+
+<h2 id="definitions">Definitions</h2>
+
+<p>Let's start off with some definitions. The text <em>Principles of Distributed
+Database Systems</em> provides us with the following: <sup id="fnref:ozsu"><a href="#fn:ozsu" class="footnote">1</a></sup></p>
+
+<blockquote>
+"The working definition we use for a distributed computing system states that
+it is a number of autonomous processing elements (not necessarily homogeneous)
+that are interconnected by a computer network and that cooperate in performing
+their assigned tasks."
+</blockquote>
+
+<p>Another Springer text, <em>Distributed Algorithms for Message-Passing Systems</em>
+give this as their definition, <sup id="fnref:raynal"><a href="#fn:raynal" class="footnote">2</a></sup> one closely followed by Wikipedia:</p>
+
+<blockquote>
+"A distributed system is made up of a collection of computing units, each one
+abstracted through the notion of a process. The processes are assumed to
+cooperate on a common goal, which means that they exchange information in one
+way or another."
+</blockquote>
+
+<p>The <a href="https://en.wikipedia.org/wiki/Distributed_computing#Applications">Wikipedia article on distributed computing</a>
+gives a nice list of applications and examples of distributed systems,
+including the following major areas:</p>
+
+<ul>
+  <li>Internetworks (telecommunications and computing)</li>
+  <li>Network applications</li>
+  <li>Real-time control systems</li>
+  <li>Scientific computing and parallel processing</li>
+</ul>
+
+<p>We mention this to provide a connection to reality, so that you don't get lost
+in the minutiae of distributed LFE, coming out at the end wondering what it
+was all for.</p>
+
+<p>The above two definitions of distributed systems refer to processes. This is a
+little too general for our purposes, since all functions in LFE are processes,
+and any function can be set up to send or receive messages. We want to take
+advantage of the features baked into the Erlang VM for communicating with what
+are called <em>nodes</em>. As such, the node will be our defining element in a
+distributed system.</p>
+
+<p>An LFE node is more than just a process, it is an instance of the Erlang
+runtime system (erts) which has been given a name (it cannot
+be communicated with if it doesn't have a name).</p>
+
+<p>Okay! Enough with definitions – let's get coding :-&gt;</p>
+
+<h2 id="confirm-setup">Confirm Setup</h2>
+
+<p>If you've been following along with these tutorials, then you already have the
+code checked out and have been running LFE examples for each. If not, be sure
+to following the instructions at the beginning of the post
+<a href="/tutorials/2015/05/25/0929-prelude-to-otp/">Prelude to OTP</a>. In particular,
+note the instructions in the sections <em>Requirements and Assumptions</em> and
+<em>Getting the Code</em>.</p>
+
+<p>Once you're set up and are in the cloned directory, switch to
+this tutorial's directory and start up the REPL:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span><span class="nb">cd </span>tut02
+<span class="nv">$ </span>make repl</code></pre></div>
+<div class="highlight"><pre><code class="language-cl"><span class="nv">LFE</span> <span class="nv">Shell</span> <span class="nv">V7.0</span> <span class="p">(</span><span class="nb">abort</span> <span class="nv">with</span> <span class="nv">^G</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span></code></pre></div>
+
+<h2 id="two-nodes-one-machine">Two Nodes, One Machine</h2>
+
+<p>Both Erlang shell and LFE REPL instances are example of Erlang Runtime Systems,
+so we can use the REPL as a node. In order to do so, it needs to be given a
+name when it starts up. If you take a look at the <code>make</code> target for starting
+the REPL, you'll see that's exactly what we just did. Our <code>Makefile</code> assigned
+the LFE node the default name <code>repl1</code>.</p>
+
+<p>We're going to start another node (REPL) in a separate terminal window, but
+we'll override the default with another name, since <code>repl1</code> is already in
+use:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>make repl <span class="nv">NODE</span><span class="o">=</span>repl2</code></pre></div>
+
+<p>Just like with our first node, this starts up an LFE REPL named <code>repl2</code>; you
+can see the node name in the prompt:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nv">LFE</span> <span class="nv">Shell</span> <span class="nv">V7.0</span> <span class="p">(</span><span class="nb">abort</span> <span class="nv">with</span> <span class="nv">^G</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span></code></pre></div>
+
+<p>Our <code>Makefile</code> (and its includes) set up various paths, etc., but when all is
+said and done, the target above is just calling <code>lfe</code> with the parameter
+<code>-sname repl2</code> (the "s" stands for short). Once our two nodes on the our
+machine have been given their names and started, they'll be able to talk to
+each other.</p>
+
+<p>Let's use the network administration module's <code>ping/1</code> function to make sure
+we the two nodes are on speaking terms:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:ping</span> <span class="ss">&#39;repl2@cahwsx01</span><span class="p">)</span>
+<span class="nv">pong</span></code></pre></div>
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl2@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:ping</span> <span class="ss">&#39;repl1@cahwsx01</span><span class="p">)</span>
+<span class="nv">pong</span></code></pre></div>
+
+<p>We can also use the <code>names/0</code> function to make sure that both nodes are up:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:names</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;repl1&quot;</span> <span class="mi">54162</span><span class="p">)</span> <span class="o">#(</span><span class="s">&quot;repl2&quot;</span> <span class="mi">54168</span><span class="p">)))</span></code></pre></div>
+
+<p>One of the easiest ways to execute code on remote nodes is using the <code>rpc</code>
+module in the Erlang stdlib. Here's how you make a call on one particular node:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">rpc:call</span> <span class="ss">&#39;repl2@cahwsx01</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="mf">3.141592653589793</span></code></pre></div>
+
+<p>And here's how you make a call on all nodes:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">rpc:multicall</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="o">#(</span><span class="p">(</span><span class="mf">3.141592653589793</span> <span class="mf">3.141592653589793</span><span class="p">)</span> <span class="p">())</span></code></pre></div>
+
+<p>You can also make a single call on an arbitrary node:
+<code>cl
+(repl1@cahwsx01)&gt; (rpc:parallel_eval '(#(math pi ())))
+(3.141592653589793)
+</code></p>
+
+<p><code>parallel_eval/1</code> actually takes a list of calls, returning a list of
+results. Here's a better example of that:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl2@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">rpc:parallel_eval</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">math</span> <span class="nv">pi</span> <span class="p">())</span> <span class="o">#(</span><span class="nv">math</span> <span class="nb">exp</span> <span class="p">(</span><span class="mi">1</span><span class="p">))))</span>
+<span class="p">(</span><span class="mf">3.141592653589793</span> <span class="mf">2.718281828459045</span><span class="p">)</span></code></pre></div>
+
+<p>Just to mix things up, we made that call on the second node, with the first
+node being the remote one.</p>
+
+<p>In addition to calling functions on a remote node and getting results back, we
+can actually spawn long-running processes remotely too. This is done in the same
+way as spawning a process locally … except that you need say which node to
+spawn on.</p>
+
+<p>Let's define some functions – we can define all three of these locally – they
+will be sent to the remote node to be executed:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">ackermann</span>
+                    <span class="p">((</span><span class="mi">0</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="p">((</span><span class="nv">m</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nv">ackermann</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">m</span> <span class="mi">1</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
+                    <span class="p">((</span><span class="nv">m</span> <span class="nv">n</span><span class="p">)</span> <span class="p">(</span><span class="nv">ackermann</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">m</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nv">ackermann</span> <span class="nv">m</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">n</span> <span class="mi">1</span><span class="p">)))))</span>
+<span class="nv">ackermann</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">ack-server</span> <span class="p">()</span>
+                    <span class="p">(</span><span class="nv">register</span> <span class="ss">&#39;acksvr</span> <span class="p">(</span><span class="nv">self</span><span class="p">))</span>
+                    <span class="p">(</span><span class="nv">ack-loop</span><span class="p">))</span>
+<span class="nv">ack-serverack-loop</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">defun</span> <span class="nv">ack-loop</span> <span class="p">()</span>
+                    <span class="p">(</span><span class="nv">receive</span>
+                      <span class="p">(</span><span class="o">`#(,</span><span class="nv">pid</span> <span class="nv">terminate</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nv">!</span> <span class="nv">pid</span> <span class="o">#(</span><span class="nv">ok</span> <span class="nv">server-stopped</span><span class="p">)))</span>
+                      <span class="p">(</span><span class="o">`#(,</span><span class="nv">pid</span> <span class="o">,</span><span class="nv">m</span> <span class="o">,</span><span class="nv">n</span><span class="p">)</span>
+                        <span class="p">(</span><span class="nv">!</span> <span class="nv">pid</span> <span class="p">(</span><span class="nv">ackermann</span> <span class="nv">m</span> <span class="nv">n</span><span class="p">))</span>
+                        <span class="p">(</span><span class="nv">ack-loop</span><span class="p">))))</span>
+<span class="nv">ack-loop</span></code></pre></div>
+
+<p>Now we can start up our long-running process and then make calls to it. Note
+that since the sender is the REPL process itself, we'll need to call the REPL
+<code>flush</code> function to see the messages it received.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">rem-pid</span> <span class="p">(</span><span class="nv">spawn_link</span> <span class="ss">&#39;repl2@cahwsx01</span> <span class="nf">#&#39;</span><span class="nv">ack-server/0</span><span class="p">))</span>
+<span class="nv">&lt;5881.91.0&gt;</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl2@cahwsx01</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">3</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.145.0&gt;</span> <span class="mi">0</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl2@cahwsx01</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">3</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.145.0&gt;</span> <span class="mi">3</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl2@cahwsx01</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">3</span> <span class="mi">3</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.145.0&gt;</span> <span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl2@cahwsx01</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="nv">terminate</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.145.0&gt;</span> <span class="nv">terminate</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@cahwsx01</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">c:flush</span><span class="p">)</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">4</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">5</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">61</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="nv">{ok,</span><span class="ss">&#39;server-stopped&#39;}</span>
+<span class="nv">ok</span></code></pre></div>
+
+<p>In the <code>!</code> (send) calls we made above, the process we sent to is a remote
+one, so we needed to tell it not only the process (id or name), but also the
+node upon which it is running.</p>
+
+<p>Also, we used <code>spawn_link</code> as opposed to just <code>spawn</code>. That way, if our
+long-running <code>acksvr</code> process died, we'd get a message in the REPL to that
+effect. This frees us from having to anticipate timeouts, network outage
+conditions, etc., and just handle the failure if and when it occurs.</p>
+
+<p>Alrighty, we've got some basic operations of distributed nodes on a single
+machine under our belts. Let's see how things change when we move outside one
+machine …</p>
+
+<h2 id="two-nodes-one-lan">Two Nodes, One LAN</h2>
+
+<p>One of the simple and brilliant design principles of Erlang is that whether
+you're making a call to a process in the same node, to a process in a different
+node on the same machine, or a node that is somewhere across a network – the
+usage is the same. Sure, you may need to add more specificity, but that's just
+data. Neither the syntax nor semantics change with the location change of the
+node.</p>
+
+<p>It should then come as no surprise that two nodes on two different machines in
+a local area network are going to communicate using the same ideas we've looked
+at already. One difference, though, is how you start the nodes. We're going to
+need to start our nodes with the <code>-name</code> flag instead of the <code>-sname</code> flag:
+when operating across the network, the node name needs to include the hostname
+or IP address.</p>
+
+<p>Another is that we'll need to make sure we're using the same Erlang cookie.
+We'll do that with the <code>-setcookie</code> flag in our <code>make</code> target.</p>
+
+<p>We have a make-target for this, so you don't have to type in all the library
+paths. Let's start up one local node and then on a separate machine start
+another one:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>make net-repl <span class="nv">NODE</span><span class="o">=</span>repl1@10.0.4.64
+<span class="o">(</span>repl1@cahwsx01.local<span class="o">)</span>&gt;</code></pre></div>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>make net-repl <span class="nv">NODE</span><span class="o">=</span>repl1@10.0.4.181
+<span class="o">(</span>repl1@cahltx01.local<span class="o">)</span>&gt;</code></pre></div>
+
+<p>Let's make sure the nodes can see each other:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@10.0.4.64</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:ping</span> <span class="ss">&#39;repl1@10.0.4.181</span><span class="p">)</span>
+<span class="nv">pong</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.64</span><span class="p">)</span><span class="nb">&gt;</span>  <span class="p">(</span><span class="nv">net_adm:names</span> <span class="s">&quot;10.0.4.181&quot;</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;repl1&quot;</span> <span class="mi">50123</span><span class="p">)))</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:ping</span> <span class="ss">&#39;repl1@10.0.4.64</span><span class="p">)</span>
+<span class="nv">pong</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">net_adm:names</span> <span class="s">&quot;10.0.4.64&quot;</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="s">&quot;repl1&quot;</span> <span class="mi">54906</span><span class="p">)))</span></code></pre></div>
+
+<p>We can make one of the <code>rpc</code> calls that evaluates code on all nodes as a
+check, too:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@10.0.4.64</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">rpc:multicall</span> <span class="ss">&#39;math</span> <span class="ss">&#39;pi</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="o">#(</span><span class="p">(</span><span class="mf">3.141592653589793</span> <span class="mf">3.141592653589793</span><span class="p">)</span> <span class="p">())</span></code></pre></div>
+
+<p>Looks good!</p>
+
+<p>Now in one of your terminal windows, paste the Ackermann function (and server)
+code we created before. The code can be pasted as-is, since none of the logic
+is changing. The usage, however, will change, since we need to be more specific
+about the host the node is running on.</p>
+
+<p>We chose to define the functions on <code>10.0.4.181</code> and then to execute remotely
+on <code>10.0.4.64</code>:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">rem-pid</span> <span class="p">(</span><span class="nv">spawn_link</span> <span class="ss">&#39;repl1@10.0.4.64</span> <span class="nf">#&#39;</span><span class="nv">ack-server/0</span><span class="p">))</span>
+<span class="nv">&lt;6430.54.0&gt;</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl1@10.0.4.64</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">0</span> <span class="mi">3</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.35.0&gt;</span> <span class="mi">0</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl1@10.0.4.64</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">3</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.35.0&gt;</span> <span class="mi">3</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl1@10.0.4.64</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="mi">3</span> <span class="mi">3</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.35.0&gt;</span> <span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">!</span> <span class="o">#(</span><span class="nv">acksvr</span> <span class="nv">repl1@10.0.4.64</span><span class="p">)</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">self</span><span class="p">)</span> <span class="nv">terminate</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">&lt;0.35.0&gt;</span> <span class="nv">terminate</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">repl1@10.0.4.181</span><span class="p">)</span><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">c:flush</span><span class="p">)</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">4</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">5</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="mi">61</span>
+<span class="nv">Shell</span> <span class="nv">got</span> <span class="nv">{ok,</span><span class="ss">&#39;server-stopped&#39;}</span>
+<span class="nv">ok</span></code></pre></div>
+
+<p>That's pretty durned sweet,</p>
+
+<p>Note that we could save this in a module and execute as an RPC, or use OTP
+behaviours and put it in a supervision tree, etc. All of LFE/Erlang/OTP
+applies. Nothing has to be fundamentally changed just because we're operating
+on remote nodes. The simplicity and elegance of this is quite wonderful.</p>
+
+<h2 id="two-nodes-one-internet">Two Nodes, One Internet</h2>
+
+<p>Guess what? Same deal! You just need to make sure that your selected hosts
+resolve and that they share the same Erlang cookie data. Please be careful,
+though: only connect to remote Erlang nodes across non-secure networks if the
+node-to-node communications are secure (e.g., SSH tunnels, VPN connections,
+etc.).</p>
+
+<h2 id="up-next">Up Next</h2>
+
+<p>In the next installment of this series we'll dive back into OTP, examining
+one of the lesser-known behaviours it offers: a finite state machine server.</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:ozsu">
+      <p>See M. Tamer  Özsu's <em>Principles of Distributed Database Systems</em> from Springer, page 2. <a href="#fnref:ozsu" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:raynal">
+      <p>See Michel Raynal's <em>Distributed Algorithms for Message-Passing Systems</em> from Springer, page 3. <a href="#fnref:raynal" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/site/2015/09/18/1203-lfe-blog-has-a-new-face" title="The LFE Blog Has a New Face">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/interview/2015/09/18/2230-mini-interview-robert-virding-on-lisp" title="An Interview with Robert Virding on Lisp">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>18 September 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+     
+    	<li><a href="/tags.html#otp-ref">otp <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#distributed systems-ref">distributed systems <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#remote nodes-ref">remote nodes <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#rpc-ref">rpc <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

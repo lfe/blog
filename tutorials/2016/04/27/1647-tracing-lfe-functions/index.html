@@ -1,0 +1,244 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Tracing LFE Functions
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Tracing LFE Functions
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p>What follows is an LFE translation of Roberto Aloi's
+<a href="https://aloiroberto.wordpress.com/2009/02/23/tracing-erlang-functions/"><em>Tracing Erlang Functions</em></a>, originally posted to <a href="http://blorg.ericb.me/2016/04/tracing-lfe-functions">my blog</a>.</p>
+
+<p>Tracing LFE functions for debugging purposes is quite simple.</p>
+
+<p>Let's say you have the following module and want to trace one of its functions.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nv">defmodule</span> <span class="nv">maths</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="p">(</span><span class="nv">sum</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nv">diff</span> <span class="mi">2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">sum</span> <span class="p">(</span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">+</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">diff</span> <span class="p">(</span><span class="nv">a</span> <span class="nv">b</span><span class="p">)</span> <span class="p">(</span><span class="nb">-</span> <span class="nv">a</span> <span class="nv">b</span><span class="p">))</span></code></pre></div>
+
+<p>Before we get started, make sure you compile the <code>maths</code> module:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">c</span> <span class="s">&quot;/path/to/maths.lfe&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">module</span> <span class="nv">maths</span><span class="p">))</span></code></pre></div>
+
+<p>Just start the tracer:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:tracer</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">&lt;0.37.0&gt;</span><span class="p">)</span></code></pre></div>
+
+<p>Tell the tracer you are interested in all calls for all processes:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:p</span> <span class="ss">&#39;all</span> <span class="ss">&#39;c</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="nv">matched</span> <span class="nv">nonode@nohost</span> <span class="mi">26</span><span class="p">)))</span></code></pre></div>
+
+<p>Finally, tell it you want to trace the function, <code>sum</code>, from the <code>maths</code> module:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:tpl</span> <span class="ss">&#39;maths</span> <span class="ss">&#39;sum</span> <span class="nv">[]</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="nv">matched</span> <span class="nv">nonode@nohost</span> <span class="mi">1</span><span class="p">)))</span></code></pre></div>
+
+<p>Now, try to call the function, as usual. The tracer is active!</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">maths:sum</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="mi">5</span>
+<span class="p">(</span><span class="nv">&lt;0.29.0&gt;</span><span class="p">)</span> <span class="nv">call</span> <span class="nv">maths:sum</span><span class="p">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="p">)</span></code></pre></div>
+
+<p>To trace all functions from the <code>maths</code> module:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:tpl</span> <span class="ss">&#39;maths</span> <span class="nv">[]</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="nv">matched</span> <span class="nv">nonode@nohost</span> <span class="mi">6</span><span class="p">)))</span></code></pre></div>
+
+<p>To trace the return value for a given function:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:tpl</span> <span class="ss">&#39;maths</span> <span class="ss">&#39;sum</span> <span class="p">(</span><span class="nv">match-spec</span> <span class="p">(</span><span class="nv">[_]</span> <span class="p">(</span><span class="nv">return_trace</span><span class="p">))))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="o">#(</span><span class="nv">matched</span> <span class="nv">nonode@nohost</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="nv">saved</span> <span class="mi">1</span><span class="p">)))</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">maths:sum</span> <span class="mi">19</span> <span class="mi">23</span><span class="p">)</span>
+<span class="mi">42</span>
+<span class="p">(</span><span class="nv">&lt;0.47.0&gt;</span><span class="p">)</span> <span class="nv">call</span> <span class="nv">maths:sum</span><span class="p">(</span><span class="mi">19</span><span class="o">,</span><span class="mi">23</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">&lt;0.47.0&gt;</span><span class="p">)</span> <span class="nv">returned</span> <span class="nv">from</span> <span class="nv">maths:sum/2</span> <span class="nv">-&gt;</span> <span class="mi">42</span></code></pre></div>
+
+<p>To stop the trace:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">dbg:stop</span><span class="p">)</span>
+<span class="nv">ok</span></code></pre></div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/03/25/0858-lfe-and-rebar3" title="LFE and rebar3">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next disabled">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Eric Bailey">Eric Bailey</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>27 April 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#howto-ref">howto <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#libraries-ref">libraries <span>11</span></a></li>
+     
+    	<li><a href="/tags.html#tools-ref">tools <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#utilities-ref">utilities <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#tracing-ref">tracing <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#debugging-ref">debugging <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

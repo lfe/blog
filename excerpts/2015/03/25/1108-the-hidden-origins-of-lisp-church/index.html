@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - The Hidden Origins of Lisp: Alonzo Church
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          The Hidden Origins of Lisp: Alonzo Church
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<p><a href="/assets/images/posts/Alonzo-Church.jpg"><img class="right medium" src="/assets/images/posts/Alonzo-Church.jpg" /></a> Alonzo Church: Creator of the λ‑calculus and articulator of the Church–Turing thesis.</p>
+
+<p>This is one of a series of posts tracing the origins of Lisp through four brief
+biographical vignettes of individuals whose contributions to mathematics
+ultimately supported the creation of Lisp:</p>
+
+<ul>
+  <li><a href="/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/">Introduction</a></li>
+  <li><a href="/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/">Giuseppe Peano</a></li>
+  <li><a href="/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell/">Bertrand Russell</a></li>
+  <li><a href="/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church/">Alonzo Church</a></li>
+  <li><a href="/excerpts/2015/03/26/1111-the-hidden-origins-of-lisp-mccarthy/">John McCarthy</a></li>
+  <li><a href="/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future">The Place of Lisp in the 21st Century</a></li>
+</ul>
+
+<p>The material presented in these
+posts has been taken from early drafts of the new preface for the LFE edition
+of <em>Structure and Interpretation of Computer Programs</em>
+(<a href="http://lfe.gitbooks.io/sicp/content/index.html">book</a>,
+<a href="https://github.com/lfe/sicp">source</a>) and shared here for the purpose of
+community feedback and review – as well as to expose Lisp's pre-history to a
+wider audience!</p>
+
+<p>If you find any issues or have questions, concerns, etc., about this preface
+material, you may share these via the
+<a href="https://github.com/lfe/sicp/issues/6">ticket</a> which has been dedicated to
+tracking feedback.</p>
+
+<h2 id="the-hidden-origins-of-lisp-alonzo-church">The Hidden Origins of Lisp: Alonzo Church</h2>
+
+<p>Alonzo Church was born in Washington, D.C. in 1903.<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> His great-grandfather (originally from Vermont) was not only a professor of mathematics and astronomy at the University of Georgia, but later became its president.<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> Church graduated from a Connecticut prep-school in 1920 and then enrolled in Princeton to study mathematics. He published his first paper as an undergraduate and then continued at Princeton, earning his Ph.D. in just three years.</p>
+
+<p>While a graduate student, Church was hit by a trolley car and spent time in a hospital where he met Julia Kuczinski<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> – they were married a year later and remained inseparable until her death, 51 years later. Church had a reputation for being a bit quirky: he never drove a car or typed; he was extremely neat and fastidious; he walked everywhere and often hummed to himself while he did so; he loved reading science fiction magazines;<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> a nightowl, he often did his best work late at night. Though he had solitary work habits, his list of Ph.D. students is impressive, including the likes of Turing, Kleene, and Rosser.</p>
+
+<p>Perhaps one of Church's more defining characteristics was his drive: he deliberately focused on prominent problems in mathematics and attacked them with great force of will. A few of the problems he had focused on in the early 1930s were:</p>
+
+<ol>
+  <li>Known paradoxes entailed by Bertrand Russell's theory of types <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup></li>
+  <li>David Hilbert's <em>Entschiedungsproblem</em>, and</li>
+  <li>The implications of Gödel's completeness theorem.</li>
+</ol>
+
+<p>These were some of the most compelling challenges in mathematics at that time. All of them ended up meeting at the cross-roads of the λ‑calculus.</p>
+
+<p>Church had started working on the λ‑calculus when attempting to address the Russell Paradox <sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup>. However, it was not that goal toward which the λ‑calculus was ultimately applied. Instead, it became useful – essential, even – in his efforts to define what he called "calculability" and what is now more commonly referred to as <em>computability</em>.<sup id="fnref:7"><a href="#fn:7" class="footnote">7</a></sup> In this the λ‑calculus was an unparalleled success, allowing Church to solve the <em>Entschiedungsproblem</em> using the concept of recursive functions.</p>
+
+<p>Syntactically, Church's λ‑-notation made a significant improvement upon that found in the <em>Principia Mathematica</em> <sup id="fnref:8"><a href="#fn:8" class="footnote">8</a></sup>. Given the <em>Principia</em> phrase <script type="math/tex">\phi x̂</script> and the λ‑calculus equivalent, <script type="math/tex">\lambda x \phi x</script>, one benefits from the use of the latter by virtue of the fact that it unambiguously states that the variable <script type="math/tex">x</script> is bound by the term-forming operator <script type="math/tex">\lambda</script>. This innovation was necessary for Church's work and was a powerful tool put to use by John McCarthy when he built the first programming language which used the λ‑calculus: Lisp.</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>The majority of the material for this section has been adapted from the <a href="http://www.math.ucla.edu/~hbe/church.pdf">Introduction</a> to the Collected Works of Alonzo Church, MIT Press (not yet published). <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>This was when the University of Georgia was still called Franklin College. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>She was there in training to become a nurse. <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>He would also write letters to the editors when the science fiction writers got their science wrong. <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>These complications were known and discussed by Russell himself at the time of <em>Principia</em>'s publication. <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>See <a href="http://en.wikipedia.org/wiki/Russell%27s_paradox">Russell's paradox</a>. <a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>"Computability" was the term which Turing used. <a href="#fnref:7" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:8">
+      <p>See the discussion of "Propositional Functions" in the section "The Notation in Principia Mathematica":  http://plato.stanford.edu/entries/pm-notation/#4. Note that the section of the <em>Principia Mathematica</em> which they reference in that linked discussion on the Stanford site is at the beginning of "Section B: Theory of Apparent Variables" in the <em>Principia</em>. <a href="#fnref:8" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell" title="The Hidden Origins of Lisp: Bertrand Russell">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/excerpts/2015/03/26/1111-the-hidden-origins-of-lisp-mccarthy" title="The Hidden Origins of Lisp: John McCarthy">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>25 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              excerpts
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#books-ref">books <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#documentation-ref">documentation <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#education-ref">education <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#history-ref">history <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#lisp-ref">lisp <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#mathematics-ref">mathematics <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#sicp-ref">sicp <span>7</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - More ETS data matching (and querying)
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - More ETS data matching (and querying)
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>In today's LFE Friday we continue from last week in looking at getting data from ETS.</p>
+
+<p>To refresh, we have a module <code>markov-words</code>, and for this week we have added a new function <code>markov-words:create-word-triples/1</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nv">defmodule</span> <span class="nv">markov-words</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="p">(</span><span class="nv">create-word-pairs</span> <span class="mi">1</span><span class="p">)</span>
+	  <span class="p">(</span><span class="nv">create-word-triples</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">create-word-pairs</span> <span class="p">(</span><span class="nv">text</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">words</span> <span class="p">(</span><span class="nv">string:tokens</span> <span class="nv">text</span> <span class="s">&quot; \t\n&quot;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">create-word-pairs</span> <span class="nv">words</span> <span class="p">())))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">create-word-pairs</span>
+  <span class="p">(</span><span class="nv">[</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">word</span> <span class="o">,</span><span class="nv">following</span> <span class="o">.</span> <span class="o">,</span><span class="nv">words</span><span class="p">)</span> <span class="nv">word-pairs]</span>
+   <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">updated-word-pairs</span> <span class="o">`</span><span class="p">(</span><span class="o">#(,</span><span class="nv">word</span> <span class="o">,</span><span class="nv">following</span><span class="p">)</span> <span class="o">.</span> <span class="o">,</span><span class="nv">word-pairs</span><span class="p">)))</span>
+     <span class="p">(</span><span class="nv">create-word-pairs</span> <span class="p">(</span><span class="nb">cons</span> <span class="nv">following</span> <span class="nv">words</span><span class="p">)</span> <span class="nv">updated-word-pairs</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nv">[words</span> <span class="nv">word-pairs]</span> <span class="nv">word-pairs</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">create-word-triples</span> <span class="p">(</span><span class="nv">text</span><span class="p">)</span>
+  <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">words</span> <span class="p">(</span><span class="nv">string:tokens</span> <span class="nv">text</span> <span class="s">&quot; \t\n&quot;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">create-word-triples</span> <span class="nv">words</span> <span class="p">())))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">create-word-triples</span>
+  <span class="p">(</span><span class="nv">[</span><span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">word</span> <span class="o">,</span><span class="nv">second-word</span> <span class="o">,</span><span class="nv">following</span> <span class="o">.</span> <span class="o">,</span><span class="nv">words</span><span class="p">)</span> <span class="nv">word-triples]</span>
+   <span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">updated-word-triples</span>
+	  <span class="o">`</span><span class="p">(</span><span class="o">#(,</span><span class="nv">word</span> <span class="o">,</span><span class="nv">second-word</span> <span class="o">,</span><span class="nv">following</span><span class="p">)</span> <span class="o">.</span> <span class="o">,</span><span class="nv">word-triples</span><span class="p">)))</span>
+     <span class="p">(</span><span class="nv">create-word-triples</span> <span class="o">`</span><span class="p">(</span><span class="o">,</span><span class="nv">second-word</span> <span class="o">,</span><span class="nv">following</span> <span class="o">.</span> <span class="o">,</span><span class="nv">words</span><span class="p">)</span> <span class="nv">updated-word-triples</span><span class="p">)))</span>
+  <span class="p">(</span><span class="nv">[words</span> <span class="nv">word-triples]</span> <span class="nv">word-triples</span><span class="p">))</span></code></pre></div>
+
+<p>The excuse for having this new function is that it would allow us to get more refined Markov chains by picking the probability of the next word by having the state be the compound key of the last two words seen.</p>
+
+<p>As before we save our text in the file <code>tail-of-two-cities.txt</code>.</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span> cat &gt; tail-of-two-cities.txt
+It was the best of <span class="nb">times</span>, it was the worst of <span class="nb">times</span>,
+it was the age of wisdom, it was the age of foolishness,
+it was the epoch of belief, it was the epoch of incredulity,
+it was the season of Light, it was the season of Darkness,
+it was the spring of hope, it was the winter of despair,
+we had everything before us, we had nothing before us,
+we were all going direct to Heaven,
+we were all going direct the other way--in short,
+the period was so far like the present period,
+that some of its noisiest authorities insisted on its
+being received, <span class="k">for</span> good or <span class="k">for</span> evil, in the superlative
+degree of comparison only.
+
+There were a king with a large jaw and a queen with a
+plain face, on the throne of England<span class="p">;</span> there were a king
+with a large jaw and a queen with a fair face,
+on the throne of France. In both countries it was
+clearer than crystal to the lords of the State preserves
+of loaves and fishes, that things in general were
+settled <span class="k">for</span> ever.</code></pre></div>
+
+<p>We then need to compile our module, and then we will create the variable <code>totc</code> to hold the text from the file which we want to use to prime our Markov Chain.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">c</span> <span class="ss">&#39;markov-words</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">module</span> <span class="nv">markov-words</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">totc</span> <span class="p">(</span><span class="nv">binary_to_list</span> <span class="p">(</span><span class="nv">element</span> <span class="mi">2</span> <span class="p">(</span><span class="nv">file:read_file</span> <span class="s">&quot;tail-of-two-cities.txt&quot;</span><span class="p">))))</span>
+<span class="s">&quot;It was the best of times, it was the worst of times,\nit was the age of wisdom, it was the age of foolishness,\nit was the epoch of belief, it was the epoch of incredulity,\nit was the season of Light, it was the season of Darkness,\nit was the spring of hope, it was the winter of despair,\nwe had everything before us, we had nothing before us,\nwe were all going direct to Heaven,\nwe were all going direct the other way--in short,\nthe period was so far like the present period,\nthat some of its noisiest authorities insisted on its\nbeing received, for good or for evil, in the superlative\ndegree of comparison only.\n\nThere were a king with a large jaw and a queen with a\nplain face, on the throne of England; there were a king\nwith a large jaw and a queen with a fair face,\non the throne of France. In both countries it was\nclearer than crystal to the lords of the State preserves\nof loaves and fishes, that things in general were\nsettled for ever.\n&quot;</span></code></pre></div>
+
+<p>We create our fresh ETS table for this week, create a new process to own it, and give it away (in case we type something wrong and cause the current session of the shell to crash).</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">markov-words</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">public</span> <span class="nv">duplicate_bag</span><span class="p">)))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">fun</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">receive</span> <span class="p">(</span><span class="nv">after</span> <span class="ss">&#39;infinity</span> <span class="ss">&#39;ok</span><span class="p">))))</span>
+<span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.88887576&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">some-process</span> <span class="p">(</span><span class="nv">spawn</span> <span class="nv">fun</span><span class="p">))</span>
+<span class="nv">&lt;0.42.0&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:give_away</span> <span class="nv">markov-words</span> <span class="nv">some-process</span> <span class="p">())</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>This week, in addition to adding our word pair tuples to ETS, we will also add in our new word triple tuples to ETS in the same table.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">word-pair</span> <span class="p">(</span><span class="nv">markov-words:create-word-pairs</span> <span class="nv">totc</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">markov-words</span> <span class="nv">word-pair</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="o">...</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">word-triple</span> <span class="p">(</span><span class="nv">markov-words:create-word-triples</span> <span class="nv">totc</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">markov-words</span> <span class="nv">word-triple</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>Since we have both word pairs and word triples in the same ETS table, we can see that with <code>ets:match_object/2</code>, we can specify a <code>match_pattern()</code> for only the two tuples</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:match_object</span> <span class="nv">markov-words</span> <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="nv">$1</span><span class="p">))</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;loaves&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;France.&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;England;&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;comparison&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;its&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;despair,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;hope,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Darkness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Light,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;incredulity,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;belief,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;foolishness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;wisdom,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>or a <code>match_pattern()</code> that will only match the three tuples.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:match_object</span> <span class="nv">markov-words</span> <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="nv">$1</span> <span class="nv">$2</span><span class="p">))</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;loaves&quot;</span> <span class="s">&quot;and&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;State&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;France.&quot;</span> <span class="s">&quot;In&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;England;&quot;</span> <span class="s">&quot;there&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;comparison&quot;</span> <span class="s">&quot;only.&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;its&quot;</span> <span class="s">&quot;noisiest&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;despair,&quot;</span> <span class="s">&quot;we&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;hope,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Darkness,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Light,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;incredulity,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;belief,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;foolishness,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;wisdom,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>Where as if we use the <code>ets:lookup/2</code> with the key, we get all items with the key, regardless of the tuple size.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:lookup</span> <span class="nv">markov-words</span> <span class="s">&quot;of&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;loaves&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;France.&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;England;&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;comparison&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;its&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;despair,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;hope,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Darkness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Light,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;incredulity,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;belief,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;foolishness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;wisdom,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;loaves&quot;</span> <span class="s">&quot;and&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;State&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;France.&quot;</span> <span class="s">&quot;In&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;England;&quot;</span> <span class="s">&quot;there&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;comparison&quot;</span> <span class="s">&quot;only.&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;its&quot;</span> <span class="s">&quot;noisiest&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;despair,&quot;</span> <span class="s">&quot;we&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;hope,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Darkness,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;Light,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;incredulity,&quot;</span> <span class="s">&quot;it&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;belief,&quot;</span> <span class="o">...</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="o">...</span><span class="p">)</span>
+ <span class="o">#(...</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>And unlike <code>ets:lookup/2</code>, with <code>ets:match_object/2</code> we can match on any tuple element, and not just the key.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:match_object</span> <span class="nv">markov-words</span> <span class="o">#(</span><span class="nv">$1</span> <span class="s">&quot;the&quot;</span> <span class="nv">$2</span><span class="p">))</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;on&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;throne&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;on&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;throne&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;direct&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;other&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;short,&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;period&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;like&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;present&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;State&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;to&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;lords&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;in&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;superlative&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;worst&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;best&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>And like <code>ets:match_object/2</code>, <code>ets:match/2</code> can match based off the tuple itself as well.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:match</span> <span class="nv">markov-words</span> <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="nv">$1</span><span class="p">))</span>
+<span class="p">((</span><span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;worst&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;best&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>But sometimes we might want finer grain control over how the results are given back to us, such as a single list of items instead of a nested list of strings.  Or maybe we even have some criteria that we want to hold true as part of our selections on the data.</p>
+
+<p>Enter <a href="http://www.erlang.org/doc/man/ets.html#select-2">ets:select/2</a>.</p>
+
+<p><code>ets:select/2</code> takes the table as its first argument, and a <code>match_spec()</code> as its second argument.</p>
+
+<p>The <code>match_spec()</code> is a list of three-tuples, where the first element is the match pattern, second element is a list of guard clause tuples, and the last element is the result is a term representation of the result for each match.</p>
+
+<p>If we want to call <code>ets:select/2</code> and have it align with <code>ets:match/2</code> our call looks like the following.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="nv">$1</span><span class="p">)</span> <span class="p">()</span> <span class="p">((</span><span class="nv">$1</span><span class="p">)))))</span>
+<span class="p">((</span><span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;worst&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;best&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>The second argument is a list of <code>match_spec()</code>s, of which there is only one which consists of:</p>
+
+<p>1 - a <code>match_pattern()</code> of <code>#("was" "the" $1)</code>, which is the same thing we gave to <code>ets:match/2</code></p>
+
+<p>2 - <code>()</code>, and empty list of guard condition tuples, and</p>
+
+<p>3 - <code>(($1))</code> for the result term, which is the list of terms we want the result formatted as, in this case we want each result to be in its own list.</p>
+
+<p>If we just wanted to get the word themselves as a list, we can update the result term part of the <code>match_spec()</code> to be <code>($1)</code> instead.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="nv">$1</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$1</span><span class="p">))))</span>  
+<span class="p">(</span><span class="s">&quot;winter&quot;</span>
+ <span class="s">&quot;spring&quot;</span>
+ <span class="s">&quot;season&quot;</span>
+ <span class="s">&quot;season&quot;</span>
+ <span class="s">&quot;epoch&quot;</span>
+ <span class="s">&quot;epoch&quot;</span>
+ <span class="s">&quot;age&quot;</span>
+ <span class="s">&quot;age&quot;</span>
+ <span class="s">&quot;worst&quot;</span>
+ <span class="s">&quot;best&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>If we wanted something that looked more like a <code>ets:match_object/2</code> result set we can use the result term of <code>$_</code>, which signifies the whole object.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="nv">$1</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$_</span><span class="p">))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;worst&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;best&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>And if we wanted to only match on one of the items, and capture the other items in the tuple, we can use the result of <code>$$</code> which returns all of the match variable in a list, ordered by variable number as opposed to position in the <code>match_pattern()</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$$</span><span class="p">))))</span>
+<span class="p">((</span><span class="s">&quot;clearer&quot;</span> <span class="s">&quot;than&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;so&quot;</span> <span class="s">&quot;far&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;epoch&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;age&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;worst&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;the&quot;</span> <span class="s">&quot;best&quot;</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="nv">$2</span> <span class="nv">$1</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$$</span><span class="p">))))</span>
+<span class="p">((</span><span class="s">&quot;than&quot;</span> <span class="s">&quot;clearer&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;far&quot;</span> <span class="s">&quot;so&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;winter&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;spring&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;season&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;epoch&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;age&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;worst&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">)</span>
+ <span class="p">(</span><span class="s">&quot;best&quot;</span> <span class="s">&quot;the&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>With <code>ets:select/2</code> we also get the ability to specify multiple <code>match_spec()</code>s.  This allows us to find all word triple word triples that have either <code>"of"</code> or <code>"the"</code> as the middle word.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="s">&quot;the&quot;</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$_</span><span class="p">))</span> <span class="o">#(#(</span><span class="nv">$1</span> <span class="s">&quot;of&quot;</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="nv">$_</span><span class="p">))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;some&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;its&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;on&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;throne&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;on&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;throne&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;direct&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;other&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;preserves&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;loaves&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;throne&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;France.&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;throne&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;England;&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;worst&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;short,&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;period&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;winter&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;despair,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;degree&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;comparison&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;epoch&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;incredulity,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;epoch&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;belief,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;spring&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;hope,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;like&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;present&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;of&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;State&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;age&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;foolishness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;age&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;wisdom,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;best&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;times,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;season&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;Darkness,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;season&quot;</span> <span class="s">&quot;of&quot;</span> <span class="s">&quot;Light,&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;to&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;lords&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;in&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;superlative&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;winter&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;spring&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="s">&quot;season&quot;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="s">&quot;the&quot;</span> <span class="o">...</span><span class="p">)</span>
+ <span class="o">#(</span><span class="s">&quot;was&quot;</span> <span class="o">...</span><span class="p">)</span>
+ <span class="o">#(...</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>And with guard clauses, we can find third item in the three-tuples that start with <code>"was"</code>, that comes later in the dictionary than the word in the second position of the tuple.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">markov-words</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="s">&quot;was&quot;</span> <span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$1</span> <span class="nv">$2</span><span class="p">))</span> <span class="p">(</span><span class="nv">$2</span><span class="p">))))</span>
+<span class="p">(</span><span class="s">&quot;than&quot;</span> <span class="s">&quot;winter&quot;</span> <span class="s">&quot;worst&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>So with this week's post we have seen other ways of using <code>ets:match/2</code> and <code>ets:match_object/2</code>, and what they can get over using just a <code>ets:lookup/2</code> for a key, as well as being able to take advantage of even more powerful querying by using <code>ets:select/2</code>.</p>
+
+<p>Next week, we will look at more ways to use <code>ets:select/2</code>, and how we can use some other <code>ets</code> module functions to help create queries that can be easier to deconstruct at a quicker glance.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/01/03/0106-lfe-friday---ets-data-matching" title="LFE Friday - ETS data matching">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions" title="LFE Friday - ETS, match_specs and functions">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>10 January 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

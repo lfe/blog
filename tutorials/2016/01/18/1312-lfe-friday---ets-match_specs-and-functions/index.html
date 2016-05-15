@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ETS, match_specs and functions
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ETS, match_specs and functions
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>In <a href="http://blog.lfe.io/tutorial/2016/01/10/2016-lfe-friday---more-ets-data-matching/">last week's LFE Friday</a> we concluded with showing how we can take advantage of using <code>ets:select</code> to take advantage of making our queries more expressive.</p>
+
+<p>First we will need a new ETS table, so we start with a new public "Products" table, and do our standard of creating a new process and giving ownership of the table away.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">fun</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">receive</span> <span class="p">(</span><span class="nv">after</span> <span class="ss">&#39;infinity</span> <span class="ss">&#39;ok</span><span class="p">))))</span>
+<span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.88887576&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">some-process</span> <span class="p">(</span><span class="nv">spawn</span> <span class="nv">fun</span><span class="p">))</span>
+<span class="nv">&lt;0.36.0&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">products</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;products</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">public</span><span class="p">)))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:give_away</span> <span class="nv">products</span> <span class="nv">some-process</span> <span class="p">())</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>Next we will load our "Products" into the table.</p>
+
+<p>In our case, we are just creating a "product" with the "name" as a binary and a "price in CWC" (Common World Currency) as an integer.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">products</span> <span class="o">`#(,</span><span class="p">(</span><span class="nv">integer_to_binary</span> <span class="nv">x</span><span class="p">)</span> <span class="o">,</span><span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>As we saw last week, we can manually build up a list of tuples into the <code>match_spec()</code> to run our query, say for items less than 10 CWCs.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">products</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">10</span><span class="p">))</span> <span class="p">(</span><span class="nv">$1</span><span class="p">))))</span>
+<span class="p">(</span><span class="l-Other">#&quot;8&quot;</span> <span class="l-Other">#&quot;6&quot;</span> <span class="l-Other">#&quot;5&quot;</span> <span class="l-Other">#&quot;3&quot;</span> <span class="l-Other">#&quot;7&quot;</span> <span class="l-Other">#&quot;1&quot;</span> <span class="l-Other">#&quot;4&quot;</span> <span class="l-Other">#&quot;9&quot;</span> <span class="l-Other">#&quot;2&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>We can also find those item names that are more than 10 CWCs and less than 25 CWCS.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">products</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&gt;</span> <span class="nv">$2</span> <span class="mi">10</span><span class="p">)</span> <span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">25</span><span class="p">))</span> <span class="p">(</span><span class="nv">$1</span><span class="p">))))</span>
+<span class="p">(</span><span class="l-Other">#&quot;11&quot;</span>
+ <span class="l-Other">#&quot;15&quot;</span>
+ <span class="l-Other">#&quot;23&quot;</span>
+ <span class="l-Other">#&quot;20&quot;</span>
+ <span class="l-Other">#&quot;21&quot;</span>
+ <span class="l-Other">#&quot;14&quot;</span>
+ <span class="l-Other">#&quot;12&quot;</span>
+ <span class="l-Other">#&quot;13&quot;</span>
+ <span class="l-Other">#&quot;16&quot;</span>
+ <span class="l-Other">#&quot;19&quot;</span>
+ <span class="l-Other">#&quot;17&quot;</span>
+ <span class="l-Other">#&quot;18&quot;</span>
+ <span class="l-Other">#&quot;22&quot;</span>
+ <span class="l-Other">#&quot;24&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>But this isn't necessarily clear, as we are using numerical values for the items in the tuple, and lists of tuples with lists of tuples inside them.</p>
+
+<p>Enter the <code>match-spec</code> macro to the rescue. <code>match-spec</code> will take a <code>match-lambda</code> and turn that into a <code>match_spec()</code>.</p>
+
+<p>This allows us to write a function that takes a tuple of <code>product</code> and <code>cost</code>, and will return the <code>product</code> if the <code>cost</code> is less than 10.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">match-spec</span> <span class="p">(</span><span class="nv">[</span><span class="p">(</span><span class="nv">tuple</span> <span class="nv">product</span> <span class="nv">cost</span><span class="p">)</span><span class="nv">]</span> <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="nv">cost</span> <span class="mi">10</span><span class="p">))</span> <span class="nv">product</span><span class="p">))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">10</span><span class="p">))</span> <span class="p">(</span><span class="nv">$1</span><span class="p">)))</span></code></pre></div>
+
+<p>We can also have compound checks in our guard clauses on the functions we pass to <code>match-spec</code>, such as and clauses,</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">between-25-and-35-CWC</span> <span class="p">(</span><span class="nv">match-spec</span> <span class="p">(</span><span class="nv">[</span><span class="o">`#(,</span><span class="nv">product</span> <span class="o">,</span><span class="nv">cost</span><span class="p">)</span><span class="nv">]</span> <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">cost</span> <span class="mi">25</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="nv">cost</span> <span class="mi">35</span><span class="p">))</span> <span class="nv">product</span><span class="p">)))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&gt;</span> <span class="nv">$2</span> <span class="mi">25</span><span class="p">)</span> <span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">35</span><span class="p">))</span> <span class="p">(</span><span class="nv">$1</span><span class="p">)))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">products</span> <span class="nv">between-25-and-35-CWC</span><span class="p">)</span>
+<span class="p">(</span><span class="l-Other">#&quot;30&quot;</span> <span class="l-Other">#&quot;33&quot;</span> <span class="l-Other">#&quot;32&quot;</span> <span class="l-Other">#&quot;29&quot;</span> <span class="l-Other">#&quot;28&quot;</span> <span class="l-Other">#&quot;26&quot;</span> <span class="l-Other">#&quot;34&quot;</span> <span class="l-Other">#&quot;27&quot;</span> <span class="l-Other">#&quot;31&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>as well as or style clauses. We used the <code>`</code> macro here to write the pattern.</p>
+
+<p>While this is useful it does have its limitations, as this parse transform on the function, so you can't use everything that you would be able to with a normal function.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">match-spec</span> <span class="p">(</span><span class="nv">[</span><span class="o">`#(,</span><span class="nv">product</span> <span class="o">,</span><span class="nv">cost</span><span class="p">)</span><span class="nv">]</span> <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">cost</span> <span class="mi">30</span><span class="p">))</span> <span class="p">(</span><span class="nv">lists:reverse</span> <span class="p">(</span><span class="nv">binary:bin_to_list</span> <span class="nv">product</span><span class="p">))))</span>
+<span class="nv">1:</span> <span class="nb">error</span> <span class="nv">expanding</span> <span class="p">(</span><span class="nv">match-spec</span>
+                  <span class="p">((</span><span class="o">`#(,</span><span class="nv">product</span> <span class="o">,</span><span class="nv">cost</span><span class="p">))</span>
+                   <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">&gt;</span> <span class="nv">cost</span> <span class="mi">30</span><span class="p">))</span>
+                   <span class="p">(</span><span class="nv">lists:reverse</span> <span class="p">(</span><span class="nv">binary:bin_to_list</span> <span class="nv">product</span><span class="p">))))</span>
+<span class="nb">error</span></code></pre></div>
+
+<p>But then again, the results part of the <code>match_spec()</code>, doesn't support advanced functionality anyways.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">products</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="mi">90</span> <span class="nv">$2</span><span class="p">))</span> <span class="p">(</span><span class="o">#(</span><span class="nv">binary</span> <span class="nv">$1</span><span class="p">)))))</span>            
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">badarg</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">ets</span> <span class="nv">select</span> <span class="mi">8207</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="mi">90</span> <span class="nv">$2</span><span class="p">))</span> <span class="p">(</span><span class="o">#(</span><span class="nv">binary</span> <span class="nv">$1</span><span class="p">)))))</span></code></pre></div>
+
+<p>But even with its limitations, <code>match-spec</code> still does a good job to help make our ETS queries more expressive.  Not only can we reference a function with expressive variable names over just <code>$N</code>, as well as give guard clauses instead of just guard tuples, but we can also use those variable names in our results as well, and do the basic formatting as part of the function.</p>
+
+<p>And make sure to check back in next week as we continue with looking at the different versions of <code>ets:select</code>.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/01/10/2016-lfe-friday---more-ets-data-matching" title="LFE Friday - More ETS data matching (and querying)">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit" title="LFE Friday - Using ETS select with a limit">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>18 January 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

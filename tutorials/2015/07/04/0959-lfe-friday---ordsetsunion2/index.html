@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ordsets:union/2
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ordsets:union/2
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday comes from PolyConf in a sunny Poznan and is on <a href="http://erlang.org/doc/man/ordsets.html#union-2">ordsets:union/2</a>.</p>
+
+<p><code>ordsets:union/2</code> takes two ordered sets and returns an merged ordered set of the arguments.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-a</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-b</span> <span class="p">(</span><span class="nv">ordsets:new</span><span class="p">))</span>
+<span class="p">()</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-c</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">3</span> <span class="mi">1</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">5</span> <span class="mi">9</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-d</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">e</span> <span class="nv">d</span> <span class="nv">c</span> <span class="nv">b</span> <span class="nv">a</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-ab</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="nv">set-a</span> <span class="nv">set-b</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-ac</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="nv">set-a</span> <span class="nv">set-c</span><span class="p">))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span><span class="p">)</span></code></pre></div>
+
+<p>And because a string in LFE is just a list of characters, we can also create ordered sets from strings, and then get a union of the unique characters that are in two strings.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="s">&quot;Kermit&quot;</span><span class="p">)</span>
+<span class="s">&quot;Keimrt&quot;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">75</span> <span class="mi">101</span> <span class="mi">114</span> <span class="mi">109</span> <span class="mi">105</span> <span class="mi">116</span><span class="p">))</span>
+<span class="s">&quot;Keimrt&quot;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">)</span>
+<span class="s">&quot;Mips&quot;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="s">&quot;Kermit&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nv">ordsets:from_list</span> <span class="s">&quot;Mississippi&quot;</span><span class="p">))</span>
+<span class="s">&quot;KMeimprst&quot;</span></code></pre></div>
+
+<p>The <code>ordsets</code> modules also contains <a href="http://erlang.org/doc/man/ordsets.html#union-1">ordsets:union/1</a>, which takes a list of ordered sets and returns the union of all the ordered sets in the list.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-ac</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">set-a</span> <span class="nv">set-c</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-abc</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">set-b</span> <span class="nv">set-c</span> <span class="nv">set-a</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-abcd</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">set-b</span> <span class="nv">set-c</span> <span class="nv">set-a</span> <span class="nv">set-d</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">union-cd</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">set-c</span> <span class="nv">set-d</span><span class="p">)))</span>              
+<span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">9</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="nv">d</span> <span class="nv">e</span><span class="p">)</span></code></pre></div>
+
+<p>WARNING: While the representation for an ordered set is just a list, if you pass a list to <code>ordsets:union/2</code> you will not get what you expect, as it expects the items in each "ordered set" to actually be <em>ordered</em> and a <em>set</em>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:union</span> <span class="o">&#39;</span><span class="p">((</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="mi">1</span><span class="p">)</span></code></pre></div>
+
+<p>-Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/06/26/0044-lfe-friday---queueout1" title="LFE Friday - queue:out/1">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/07/08/1349-dragonflybsd--lfe" title="DragonFly BSD & LFE">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>04 July 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

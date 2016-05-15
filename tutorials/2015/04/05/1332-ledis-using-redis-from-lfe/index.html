@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - ledis: Using Redis from LFE
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          ledis: Using Redis from LFE
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/ButterCrunchLettuce-2-medium.png"><img class="right small" src="/assets/images/posts/ButterCrunchLettuce-2-medium.png" /></a>
+This tutorial is a conversion of the <a href="http://redis.io/topics/data-types-intro">Redis tutorial on data
+types</a>, where instead of the Redis
+CLI, the LFE REPL is used in conjunction with the
+<a href="https://github.com/lfex/ledis">ledis</a> library.</p>
+
+<p>The ledis library has defined functions for the Redis commands most often used;
+if we haven't added one that you need, just
+<a href="https://github.com/lfex/ledis/issues/new">open a ticket</a> with your request, or
+even submit a pull request with your changes.</p>
+
+<p>The original tutorial on Redis data types is a bit long for a blog post, so
+we'll be splitting it up across multiple installments; this post covers the
+following topics:</p>
+
+<ul>
+  <li>Installing ledis and running the LFE REPL</li>
+  <li>Redis Keys</li>
+  <li>Redis Strings</li>
+  <li>Altering and Querying the Key Space</li>
+</ul>
+
+<p>Be sure to checkout the original tutorial for the full introduction; we're
+going to skip that in this tutorial and jump right into the data types.</p>
+
+<h2 id="preparation">Preparation</h2>
+
+<p>You will need:</p>
+
+<ul>
+  <li>Redis installed on your machine</li>
+  <li>Erlang</li>
+  <li>The latest dev versions of <code>lfetool</code></li>
+  <li>The <a href="https://github.com/lfex/ledis">ledis project</a></li>
+</ul>
+
+<p>LFE and ledis' dependencies will all be downloaded for you automatically when
+you start up the project REPL for the first time (see below). This tutorial
+will not cover the installation of Redis or Erlang. To install the development
+version of <code>lfetool</code>, simply do the following:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>curl -L -o ./lfetool https://raw.github.com/lfe/lfetool/dev-v1/lfetool
+<span class="nv">$ </span>bash ./lfetool install</code></pre></div>
+
+<p>This will create an executable <code>lfetool</code> in your <code>/usr/local/bin</code>
+directory.</p>
+
+<p>Next you'll need to get ledis itself:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>git clone https://github.com/lfex/ledis.git
+<span class="nv">$ </span><span class="nb">cd </span>ledis</code></pre></div>
+
+<p>We're going to edit the <code>lfe.config</code> file
+so that all results are automatically converted from binary to strings (just
+for the purpose of this tutorial). Open up the file, and change this line:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="o">#(</span><span class="nv">return-type</span> <span class="nv">binary</span><span class="p">)))</span></code></pre></div>
+
+<p>to this:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="o">#(</span><span class="nv">return-type</span> <span class="nb">string</span><span class="p">)))</span></code></pre></div>
+
+<p>Now go ahead and start the LFE REPL. The first time you run this, all the
+dependencies will be downloaded and compiled. Note that the project's <code>make</code>
+targets automatically start the ledis application, so there's no need to type
+<code>(ledis:start)</code>:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>make repl</code></pre></div>
+<div class="highlight"><pre><code class="language-lisp"><span class="nv">Erlang/OTP</span> <span class="mi">17</span> <span class="nv">[erts-6.3]</span> <span class="nv">[source]</span> <span class="nv">[64-bit]</span> <span class="nv">[smp:4:4]</span> <span class="o">...</span>
+
+<span class="nv">LFE</span> <span class="nv">Shell</span> <span class="nv">V6.3</span> <span class="p">(</span><span class="nb">abort</span> <span class="nv">with</span> <span class="nv">^G</span><span class="p">)</span>
+<span class="nb">&gt;</span></code></pre></div>
+
+<p>At this point, we're ready to start the tutorial!</p>
+
+<h2 id="redis-keys">Redis Keys</h2>
+
+<p>Redis keys are binary safe, this means that you can use any binary sequence as
+a key, from a string like "foo" to the content of a JPEG file. The empty string
+is also a valid key.</p>
+
+<p>A few other rules about keys:</p>
+
+<ul>
+  <li>Very long keys are not a good idea, for instance a key of 1024 bytes is a bad
+idea not only memory-wise, but also because the lookup of the key in the
+dataset may require several costly key-comparisons. Even when the task at
+hand is to match the existence of a large value, to resort to hashing it (for
+example with SHA1) is a better idea, especially from the point of view of
+memory and bandwidth.</li>
+  <li>Very short keys are often not a good idea. There is little point in writing
+"u1000flw" as a key if you can instead write "user:1000:followers". The
+latter is more readable and the added space is minor compared to the space
+used by the key object itself and the value object. While short keys will
+obviously consume a bit less memory, your job is to find the right balance.</li>
+  <li>Try to stick with a schema. For instance "object-type:id" is a good idea, as
+in "user:1000". Dots or dashes are often used for multi-word fields, as in
+"comment:1234:reply.to" or "comment:1234:reply-to".</li>
+  <li>The maximum allowed key size is 512 MB.</li>
+</ul>
+
+<h2 id="redis-strings">Redis Strings</h2>
+
+<p>The Redis String type is the simplest type of value you can associate with a
+Redis key. It is the only data type in Memcached, so it is also very natural
+for newcomers to use it in Redis.</p>
+
+<p>Since Redis keys are strings, when we use the string type as a value too, we
+are mapping a string to another string. The string data type is useful for a
+number of use cases, like caching HTML fragments or pages.</p>
+
+<p>Let's play a bit with the string type, using the LFE REPL and the ledis
+library.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="s">&quot;somevalue&quot;</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:get</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;somevalue&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>As you can see using the <code>set</code> and the <code>get</code> functions are the way we set
+and retrieve a string value. Note that <code>set</code> will replace any existing value
+already stored into the key, in the case that the key already exists, even if
+the key is associated with a non-string value. So <code>set</code> performs an
+assignment.  Values can be strings (including binary data) of every kind, for
+instance you can store a jpeg image inside a key. A value can't be bigger than
+512 MB.</p>
+
+<p>The <code>set</code> function has interesting options, that are provided as additional
+arguments. For example, you may ask <code>set</code> to fail if the key already exists:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="s">&quot;anothervalue&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">nx</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">undefined</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:get</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;somevalue&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>Note that when <code>undefined</code> is returned, this is a translation of Redis'
+<code>nil</code> response (for a command that had no results or made no changes). Also,
+it still has the old value (as expected).</p>
+
+<p>You can also do the opposite: ask that it only succeed if the key already
+exists:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="s">&quot;anothervalue&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">xx</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:get</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;anothervalue&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>Set has additional options, allowing one to expire a value from Redis:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="s">&quot;athirdvalue&quot;</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">xx</span><span class="p">)</span> <span class="o">#(</span><span class="nv">px</span> <span class="mi">10000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:get</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;athirdvalue&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:sleep</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:get</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">undefined</span><span class="p">)</span></code></pre></div>
+<p>In that example, we did the following:</p>
+
+<ol>
+  <li>Set a value for <code>mykey</code> – but only if it already existed – and set its
+expiration for 10,000 milliseconds.</li>
+  <li>Checked the value, to show that our function all worked.</li>
+  <li>Set the timer for a time when the value would be expired.</li>
+  <li>Checked that the value did in fact expire.</li>
+</ol>
+
+<p>Even if strings are the basic values of Redis, there are interesting operations
+you can perform with them. For instance, one is atomic increment:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;counter</span> <span class="mi">100</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:incr</span> <span class="ss">&#39;counter</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;101&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:incr</span> <span class="ss">&#39;counter</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;102&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:incrby</span> <span class="ss">&#39;counter</span> <span class="mi">50</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;152&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>The <code>incr</code> function parses the string value as an integer, increments it by
+one, and finally sets the obtained value as the new value. There are other
+similar functions like <code>incrby</code>, <code>decr</code> and <code>decrby</code>. Internally it's
+always the same Redis command, acting in a slightly different way.</p>
+
+<p>What does it mean that <code>incr</code> is atomic? That even multiple clients issuing
+<code>incr</code> against the same key will never enter into a race condition. For
+instance, it will never happen that client 1 reads "10", client 2 reads "10" at
+the same time, both increment to 11, and set the new value to 11. The final
+value will always be 12 and the read-increment-set operation is performed while
+all the other clients are not executing a command against the Redis server at
+the same time.</p>
+
+<p>There are a number of functions for operating on strings. For example the
+<code>getset</code> function sets a key to a new value, returning the old value as the
+result. You can use this function, for example, if you have a system that
+increments a Redis key using <code>incr</code> every time your web site receives a new
+visitor. You may want to collect this information once every hour, without
+losing a single increment.  You can <code>getset</code> the key, assigning it the new
+value of "0" and reading the old value back.</p>
+
+<p>The ability to set or retrieve the value of multiple keys in a single function
+is also useful for reduced latency. For this reason there are the
+<code>multi-set</code> and <code>multi-get</code> ledis functions (which map to the <code>MSET</code> and
+<code>MGET</code> Redis commands):</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:multi-set</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="mi">10</span> <span class="nv">b</span> <span class="mi">20</span> <span class="nv">c</span> <span class="mi">30</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:multi-get</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="s">&quot;10&quot;</span> <span class="s">&quot;20&quot;</span> <span class="s">&quot;30&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>Note that, since LFE already has built-in functions named <code>mset</code> and <code>mget</code>,
+the Redis command names could not be used.</p>
+
+<h2 id="altering-and-querying-the-key-space">Altering and Querying the Key Space</h2>
+
+<p>There are functions that are not defined on particular types, but are useful in
+order to interact with the space of keys, and thus, can be used with keys of
+any type.</p>
+
+<p>For example the <code>exists</code> function returns 1 or 0 to signal if a given key
+exists or not in the database, while the <code>del</code> function deletes a key and
+associated value, whatever the value is.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="s">&quot;Hello&quot;</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:exists</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:del</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:exists</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;0&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>From the examples you can also see how <code>del</code> itself returns 1 or 0 depending
+on whether the key was removed (it existed) or not (there was no such key with
+that name). You may also delete multiple keys in one go:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:multi-set</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">key1</span> <span class="s">&quot;val1&quot;</span> <span class="nv">key2</span> <span class="s">&quot;val2&quot;</span> <span class="nv">key3</span> <span class="s">&quot;val3&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:multi-get</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">key1</span> <span class="nv">key2</span> <span class="nv">key3</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="p">(</span><span class="s">&quot;val1&quot;</span> <span class="s">&quot;val2&quot;</span> <span class="s">&quot;val3&quot;</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:del</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">key1</span> <span class="nv">key2</span> <span class="nv">key3</span> <span class="nv">key4</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;3&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>In this case, the return value for <code>del</code> is the number of successful deletes:
+we asked it to delete four keys, but the fourth doesn't exist, so it only
+deleted three.</p>
+
+<p>There are many key space related commands, but the above two are the essential
+ones together with the <code>type</code> function, which returns the kind of value
+stored at the specified key:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:set</span> <span class="ss">&#39;mykey</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:type</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;string&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:del</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ledis:type</span> <span class="ss">&#39;mykey</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="s">&quot;none&quot;</span><span class="p">)</span></code></pre></div>
+
+<h2 id="more-redis">More Redis</h2>
+
+<p>As progress is made on the LFE library, we'll be posting more installments of
+the <a href="http://redis.io/topics/data-types-intro">Redis tutorial</a> here. Expect to
+see the following in the coming weeks and months:</p>
+
+<ul>
+  <li>Redis Lists</li>
+  <li>Redis Hahes</li>
+  <li>Redis Sorted Sets (including ranges and lexicographical scores)</li>
+  <li>Bitmaps</li>
+  <li>Probabilistic Data Structure</li>
+</ul>
+
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/announcements/2015/04/04/1538-lfe-and-dialyzer" title="LFE and dialyzer">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/04/12/1941-lfe-friday---calendarday_of_the_week3" title="LFE Friday - calendar:day_of_the_week/3">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>05 April 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#howtos-ref">howtos <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#databases-ref">databases <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#libraries-ref">libraries <span>11</span></a></li>
+     
+    	<li><a href="/tags.html#redis-ref">redis <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#nosql-ref">nosql <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

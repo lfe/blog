@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday Bonus - Performance of erlang:length/1 on a list
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday Bonus - Performance of erlang:length/1 on a list
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>A bonus LFE Friday for everyone.</p>
+
+<p>Giving the Dallas/Fort Worth Erlang User group presentation last week, there were a couple of people new to Erlang make it to our meeting, and the question was raised:</p>
+
+<blockquote>Do lists have any smarts around knowing their length, or does it have to run through all the items to calculate the length?</blockquote>
+
+<p>I was 99% sure that Erlang has to run through the list every time, since it uses linked lists style data structures for it's list, but wasn't sure if there might be something smart in the implementation that I wasn't aware of to speed up that functionality.</p>
+
+<p>In putting together the regularly scheduled <a href="http://blog.lfe.io/tags.html#lfe%20friday-ref">LFE Friday</a> post for today, I realized I should have busted out <code>timer:tc</code> to demonstrate the behavior of <code>erlang:length/1</code> by showing how long it takes to get the length of different lists.</p>
+
+<p>So in honor of that question, and as a reminder to review it at the next user group meeting, I am documenting the behavior here. And remember, that the first item in the result tuple is the time in microseconds the operation took.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">1</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">1000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">4</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">47</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">309</span> <span class="mi">100000</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">1000000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">2750</span> <span class="mi">1000000</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10000000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">28235</span> <span class="mi">10000000</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;erlang</span> <span class="ss">&#39;length</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000000</span><span class="p">)))</span>
+<span class="o">#(</span><span class="mi">287389</span> <span class="mi">100000000</span><span class="p">)</span></code></pre></div>
+
+<p>After about 1000 items in a linked list, we start growing linearly in the time it takes to count the items, so if it is not doing an actual traversal of all the items, it has the same scale of doing so as far as the order of operations (Big-O) goes.</p>
+
+<p>I can confirm that lists don't have any smarts about their length and that <code>erlang:length/1</code> actually does traverse the whole list. Trying to be smart about the length would slow down adding new elements to the front of the list, and there are no requirements or checks that the tail of a list is a list. It can be anything:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="ss">&#39;a</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">b</span> <span class="nv">c</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">cons</span> <span class="ss">&#39;a</span> <span class="ss">&#39;b</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">a</span> <span class="o">.</span> <span class="nv">b</span><span class="p">)</span></code></pre></div>
+
+<p>-Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/07/12/0233-lfe-friday---ordsetsintersection2" title="LFE Friday - ordsets:intersection/2">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/07/17/0213-lfe-friday---ordsetssubtract2" title="LFE Friday - ordsets:subtract/2">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>12 July 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

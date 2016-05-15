@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - erlang:list_to_atom/1
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - erlang:list_to_atom/1
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today’s LFE Friday covers <a href="http://www.erlang.org/doc/man/erlang.html#list_to_atom-1">erlang:list_to_atom/1</a>.</p>
+
+<p><code>erlang:list_to_atom/1</code> takes a string, and returns an Erlang atom.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>
+<span class="nv">foo</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;Foo&quot;</span><span class="p">)</span>
+<span class="nv">Foo</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;foo-bar&quot;</span><span class="p">)</span>
+<span class="nv">foo-bar</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;foo bar&quot;</span><span class="p">)</span>
+<span class="nv">|foo bar|</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="p">(</span><span class="nv">++</span> <span class="s">&quot;foo&quot;</span> <span class="s">&quot;-&quot;</span> <span class="s">&quot;bar&quot;</span><span class="p">))</span>
+<span class="nv">foo-bar</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;Erlang&quot;</span><span class="p">)</span>
+<span class="nv">Erlang</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;the LFE way&quot;</span><span class="p">)</span>   
+<span class="nv">|the LFE way|</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;Erlang and Elixir&quot;</span><span class="p">)</span>
+<span class="nv">|Erlang and Elixir|</span></code></pre></div>
+
+<p>This can be useful if you are having to create keys or identifiers based off strings read in from outside the system, such as parsing a CSV style header.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:map</span> <span class="nf">#&#39;</span><span class="nv">erlang:list_to_atom/1</span>
+             <span class="p">(</span><span class="nv">string:tokens</span> <span class="s">&quot;firstName,lastName,age,gender,preferredName,dateOfBirth&quot;</span> <span class="s">&quot;,&quot;</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">firstName</span> <span class="nv">lastName</span> <span class="nv">age</span> <span class="nv">gender</span> <span class="nv">preferredName</span> <span class="nv">dateOfBirth</span><span class="p">)</span></code></pre></div>
+
+<p>You do need to be careful when using <code>erlang:list_to_atom/1</code> on strings acquired from the outside world of your program, as it only handles strings with character values under 256. But any character value<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> under 256 is fair game to be turned into an atom.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;Joe, Mike and Robert&quot;</span><span class="p">)</span>
+<span class="nv">|Joe, Mike and Robert|</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;it&#39;s&quot;</span><span class="p">)</span>
+<span class="nv">it</span><span class="ss">&#39;s</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="s">&quot;hey\n&quot;</span><span class="p">)</span>
+<span class="nv">|hey\n|</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="p">(</span><span class="nv">++</span> <span class="s">&quot;with-supported-char-&quot;</span> <span class="nv">[255]</span><span class="p">))</span>
+<span class="nv">with-supported-char-</span><span class="err">ÿ</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list_to_atom</span> <span class="p">(</span><span class="nv">++</span> <span class="s">&quot;with-supported-char-&quot;</span> <span class="nv">[256]</span><span class="p">))</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">badarg</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">erlang</span> <span class="nv">list_to_atom</span> <span class="p">(</span><span class="mi">119</span> <span class="mi">105</span> <span class="mi">116</span> <span class="mi">104</span> <span class="mi">45</span> <span class="mi">115</span> <span class="mi">117</span> <span class="mi">112</span> <span class="mi">112</span> <span class="mi">111</span> <span class="o">...</span><span class="p">))</span></code></pre></div>
+
+<p>-Proctor, Robert</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Remember that character values are non-negative integer values as well, 0-255 inclusive. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future" title="The Hidden Origins of Lisp: The Place of Lisp in the 21st Century">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/04/04/0240-lfe-friday---listsdelete2" title="LFE Friday - lists:delete/2">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>30 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

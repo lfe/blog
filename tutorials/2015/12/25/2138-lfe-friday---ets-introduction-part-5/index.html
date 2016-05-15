@@ -1,0 +1,417 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ETS Introduction, part 5: keypos, read_concurrency and write_concurrency
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ETS Introduction, part 5: keypos, read_concurrency and write_concurrency
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's Christmas LFE Friday continues the introduction to ETS and <a href="http://blog.lfe.io/tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4/">picks up with the promise from last week</a>, and looks at the <code>keypos</code> ETS table setting, and the <em>Tweaks</em> that can be set.</p>
+
+<p>First, we will take a look at the <code>keypos</code> setting.</p>
+
+<p>The <code>keypos</code> is the 1-based index in the tuple to be stored that will be used as the key for the entry.  If you remember from the <a href="http://blog.lfe.io/tutorials/2015/12/12/1716-lfe-friday---ets-introduction-part-3/">part 3 of the introduction to ETS about the different table types</a>, they use this index for their key comparison to determine if this is a unique item or not.</p>
+
+<p>If we create a new table without specifying the <code>keypos</code> option, it defaults to <code>1</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;some-name</span> <span class="p">()))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">305</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.28.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">some-name</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>To show the <code>keypos</code> in action, we will create a couple of items to insert into our ETS table so we can see the <code>keypos</code> in action.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-1</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-2</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-3</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-4</span> <span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">item-5</span> <span class="o">#(</span><span class="s">&quot;a&quot;</span> <span class="nv">a</span><span class="p">))</span>
+<span class="o">#(</span><span class="s">&quot;a&quot;</span> <span class="nv">a</span><span class="p">)</span></code></pre></div>
+
+<p>In the items above, we have some duplicate entries across both the first item and the second item in the two-tuples.</p>
+
+<p>We will go ahead and insert each one of these items in turn, keeping in mind that this table is a set, so any new insert with the same key, will override the previous value for the same key.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">table</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">table</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">table</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">table</span> <span class="nv">item-4</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">table</span> <span class="nv">item-5</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="s">&quot;a&quot;</span> <span class="nv">a</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">))</span></code></pre></div>
+
+<p>When we added <code>item-3</code> above, it replaced <code>item-1</code> in the table, since they both have a <code>1</code> for the first element in their two-tuple.</p>
+
+<p>We will now create a new table with a <code>keypos</code> of <code>2</code>, and see how the exact same steps of inserting is changed with a different <code>keypos</code> value.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">key-pos-2</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;key-pos-2</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">keypos</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="mi">12304</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-2</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">key-pos-2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-2</span> <span class="nv">item-2</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">key-pos-2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-2</span> <span class="nv">item-3</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">key-pos-2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mf">1.0</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-2</span> <span class="nv">item-4</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">key-pos-2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-2</span> <span class="nv">item-5</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:tab2list</span> <span class="nv">key-pos-2</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="s">&quot;one&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="nv">a</span> <span class="s">&quot;a&quot;</span><span class="p">)</span> <span class="o">#(</span><span class="s">&quot;a&quot;</span> <span class="nv">a</span><span class="p">))</span></code></pre></div>
+
+<p>In this case, it wasn't until we added <code>item-4</code> that we had an override, as both <code>item-2</code> and <code>item-4</code> both have an <code>"a"</code> as their second item.  Then we we add <code>item-5</code> it overwrites the <code>item-1</code>, as they both have the atom <code>a</code> as their second element.</p>
+
+<p>And if we set a <code>keypos</code> of some value, say three, and we try to insert a tuple that has fewer items, we will get an exception of type <code>badarg</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">key-pos-3</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;key-pos-3</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(</span><span class="nv">keypos</span> <span class="mi">3</span><span class="p">))))</span>
+<span class="mi">16401</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">key-pos-3</span> <span class="nv">item-1</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">badarg</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">ets</span> <span class="nv">insert</span> <span class="mi">16401</span> <span class="o">#(</span><span class="mi">1</span> <span class="nv">a</span><span class="p">))</span></code></pre></div>
+
+<p>Now it is time to look at the <code>compressed</code> option when creating a table.</p>
+
+<p>When creating a new table, the default setting is for it to be uncompressed, as we can see in the table info since it shows <code>#(compressed false)</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">uncompressed-table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;uc</span> <span class="p">()))</span>
+<span class="mi">20495</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">uncompressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">305</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">uc</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>We create a new table, with the <code>compressed</code> option, and when we look at <code>ets:info/1</code> for the table, we see that it shows <code>#(compressed true)</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">compressed-table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;c</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">compressed</span><span class="p">)))</span>
+<span class="mi">28689</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">compressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">true</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">305</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">c</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p><code>compressed</code>, according to the documentation at least, says that it stores the data in a "more compact format to consume less memory".  It also warns that this can this can make operations that need to check the entire tuple slower, and that the key is not stored compressed, at least in the <em>current</em> implementation.</p>
+
+<p>So let's see what kind of memory difference <code>compressed</code> makes.</p>
+
+<p>To start with, we will insert 100_000 items into our ETS tables and see what the resulting memory size becomes.  We will insert a new tuple of <code>#(x x)</code>, for all numbers from 1 to 100_000.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:foreach</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">compressed-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000</span><span class="p">))</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:foreach</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">uncompressed-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000</span><span class="p">))</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">compressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">true</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">814643</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">c</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">100000</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">uncompressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">714643</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">uc</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">100000</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>Interesting.</p>
+
+<p>For the compressed table the memory is reported to be <code>814643</code>, but the uncompressed shows the memory to be less than that with <code>714643</code>.</p>
+
+<p>Maybe it doesn't like to compact integer values very much, so let's do the same thing, but use a string for the second item in the tuple.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:foreach</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">compressed-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">integer_to_list</span> <span class="nv">x</span><span class="p">))))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000</span><span class="p">))</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">lists:foreach</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">uncompressed-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">integer_to_list</span> <span class="nv">x</span><span class="p">))))</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">100000</span><span class="p">))</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">compressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">true</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">914644</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">c</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">100000</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">uncompressed-table</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">1692433</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.64.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">uc</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">100000</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>Now using strings in our tuples instead of just using integers, we can see that the compressed ETS table memory is <code>914644</code>, where as the uncompressed ETS table's memory is <code>1692433</code>.</p>
+
+<p>So in addition to thinking about the way you are going to be matching on the data when trying to determine if the table should be compressed, it looks like you also need to think about the type of data you are going to be putting into the ETS table.</p>
+
+<p>The last two options to be discussed are <code>read_concurrency</code> and <code>write_concurrency</code>.</p>
+
+<p><code>read_concurrency</code> is by default set to <code>false</code>, and, according to the documentation is best for when "read operations are much more frequent than write operations, or when concurrent reads and writes comes in large read and write bursts".</p>
+
+<p>So if you have a table that has a bunch of reads with the writes infrequently interspersed between the reads, this would be when you would want to enable <code>read_concurrency</code>, as the documentation states that switching between reads and writes is more expensive.</p>
+
+<p>The <code>write_concurrency</code> option is set to <code>false</code> by default, causing any additional concurrent writes to block while an write operation is proceeding.  When set to <code>true</code> different tuples of the same table can be written to by concurrent processes, and does not affect any table of the type <code>ordered_set</code>.</p>
+
+<p>This <em>should</em> be it as far as the introduction goes.  Next week we will start looking at the different operations we can perform using ETS and ETS tables.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4" title="LFE Friday - ETS Introduction, part 4: ETS Access Protections">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/01/03/0106-lfe-friday---ets-data-matching" title="LFE Friday - ETS data matching">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>25 December 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

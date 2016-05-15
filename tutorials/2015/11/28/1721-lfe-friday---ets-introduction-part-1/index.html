@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ETS Introduction, part 1
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ETS Introduction, part 1
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday starts the beginning of an intro to the <a href="http://www.erlang.org/doc/man/ets.html">ets</a> module, and ETS in general.</p>
+
+<p>ETS stands for Erlang Term Storage, and is a in-memory store for Erlang/LFE terms, a.k.a pieces of an Erlang/LFE data type, that provides constant access time to the data stored.</p>
+
+<p>ETS can be thought of as a key/value store style storage, and it uses the concept of tables as the way of grouping together data.</p>
+
+<p>One of the first things that is useful to know is that ETS tables are created by a process which, unless transferred to another process, is the owner of the table.</p>
+
+<p>When the owner dies, the table gets deleted, and is no longer accessible.</p>
+
+<p>Let's see what this would look like.</p>
+
+<p>First, after starting a new LFE shell, we will check the PID (process identifier) of the shell we are in.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">self</span><span class="p">)</span>
+<span class="nv">&lt;0.28.0&gt;</span></code></pre></div>
+
+<p>We then will create a new ETS table.  We will be going into future details about the various ways new tables can be created in future posts, so for now, we will just create a new table by only specifying a name and empty list of options.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">table-id</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;table</span> <span class="p">()))</span>
+<span class="mi">8207</span></code></pre></div>
+
+<p>Capturing table id, we will take a look at the info that ETS knows about that table with <code>ets:info/1</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">table-id</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">read_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">write_concurrency</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">compressed</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">memory</span> <span class="mi">305</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">owner</span> <span class="nv">&lt;0.28.0&gt;</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">heir</span> <span class="nv">none</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">name</span> <span class="nv">table</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">size</span> <span class="mi">0</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">node</span> <span class="nv">nonode@nohost</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">named_table</span> <span class="nv">false</span><span class="p">)</span>
+ <span class="o">#(</span><span class="k">type</span> <span class="nb">set</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">keypos</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="nv">protection</span> <span class="nv">protected</span><span class="p">))</span></code></pre></div>
+
+<p>We see in the table info that the shell process, <code>&lt;0.28.0&gt;</code>, is the "owner" of the table. Time to cause the owning process to crash.  In this case we'll do a bad pattern match to cause a bad match exception.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="o">#(</span><span class="nv">badmatch</span> <span class="mi">2</span><span class="p">)</span></code></pre></div>
+
+<p>And let's check the PID of the process to double check that the shell has indeed started a new process for us to run in.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">self</span><span class="p">)</span>
+<span class="nv">&lt;0.38.0&gt;</span></code></pre></div>
+
+<p>And yes, the PID <code>(self)</code> returned is different than the PID we got when we called <code>(self)</code> the first time.</p>
+
+<p>Time to look at the info for the table we created earlier again and see what we get.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:info</span> <span class="nv">table-id</span><span class="p">)</span>
+<span class="nv">undefined</span></code></pre></div>
+
+<p><code>undefined</code>.  So we no longer have any table found by ETS for that table id.</p>
+
+<p>We take a secondary look using <code>ets:all/0</code> to see if we can see if it might be floating around somewhere still but the call to <code>ets:info/1</code> is just not returning for the table id.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:all</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">file_io_servers</span> <span class="nv">inet_hosts_file_byaddr</span> <span class="nv">inet_hosts_file_byname</span>
+ <span class="nv">inet_hosts_byaddr</span> <span class="nv">inet_hosts_byname</span> <span class="nv">inet_cache</span> <span class="nv">inet_db</span>
+ <span class="nv">global_pid_ids</span> <span class="nv">global_pid_names</span> <span class="nv">global_names_ext</span> <span class="nv">global_names</span>
+ <span class="nv">global_locks</span> <span class="mi">4098</span> <span class="mi">1</span> <span class="nv">ac_tab</span><span class="p">)</span></code></pre></div>
+
+<p>Doesn't look like it, so let's create another table with the same table name as before.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">table-id-2</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;table</span> <span class="p">()))</span>
+<span class="mi">12303</span></code></pre></div>
+
+<p>That succeeds and doesn't complain about trying to create a table with the same name as an existing table.</p>
+
+<p>We will call <code>ets:all/0</code> again, and we can see there is an item in the list with the id that was returned from <code>ets:new/2</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:all</span><span class="p">)</span>                           
+<span class="p">(</span><span class="mi">12303</span> <span class="nv">file_io_servers</span> <span class="nv">inet_hosts_file_byaddr</span> <span class="nv">inet_hosts_file_byname</span>
+ <span class="nv">inet_hosts_byaddr</span> <span class="nv">inet_hosts_byname</span> <span class="nv">inet_cache</span> <span class="nv">inet_db</span>
+ <span class="nv">global_pid_ids</span> <span class="nv">global_pid_names</span> <span class="nv">global_names_ext</span> <span class="nv">global_names</span>
+ <span class="nv">global_locks</span> <span class="mi">4098</span> <span class="mi">1</span> <span class="nv">ac_tab</span><span class="p">)</span></code></pre></div>
+
+<p>Time to crash the process again.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="mi">1</span> <span class="mi">2</span><span class="p">)</span>                           
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="o">#(</span><span class="nv">badmatch</span> <span class="mi">2</span><span class="p">)</span></code></pre></div>
+
+<p>We note that we do have a new PID again.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">self</span><span class="p">)</span>                              
+<span class="nv">&lt;0.45.0&gt;</span></code></pre></div>
+
+<p>And if we call <code>ets:all/0</code> one more time, we can see that the table identifier that was previously in the list has gone away.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:all</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">file_io_servers</span> <span class="nv">inet_hosts_file_byaddr</span> <span class="nv">inet_hosts_file_byname</span>
+ <span class="nv">inet_hosts_byaddr</span> <span class="nv">inet_hosts_byname</span> <span class="nv">inet_cache</span> <span class="nv">inet_db</span>
+ <span class="nv">global_pid_ids</span> <span class="nv">global_pid_names</span> <span class="nv">global_names_ext</span> <span class="nv">global_names</span>
+ <span class="nv">global_locks</span> <span class="mi">4098</span> <span class="mi">1</span> <span class="nv">ac_tab</span><span class="p">)</span></code></pre></div>
+
+<p>So with this initial look at ETS, we have demonstrated an owning process crash does remove the table, and we have also gotten an preview of a couple of the functions in the <code>ets</code> module, specifically <code>ets:new/2</code>, <code>ets:info/1</code>, and <code>ets:all/0</code>.</p>
+
+<p>We will continue looking at the overview of ETS for a few posts, while doing some cursory coverage of some of the functions in the <code>ets</code> module, and after that, we will then start to get into the specifics of the different functions in the <code>ets</code> module.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/11/27/0242-lfe-friday---digraphdel_path3" title="LFE Friday - digraph:del_path/3">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/11/28/2110-lfe-yaws-docker-update" title="Update: Running an LFE YAWS app in Docker">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>28 November 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

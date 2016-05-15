@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - Using ETS select with a limit
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - Using ETS select with a limit
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>In <a href="http://blog.lfe.io/tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions/">last week's LFE Friday</a> we continued to explore <code>ets:select/2</code> and seeing its use when combined with using <code>ets:fun2ms</code> to generate the <code>match_spec()</code>s.</p>
+
+<p>This week we will take a look at the other versions of select that the <code>ets</code> module provides.</p>
+
+<p>Yet again we will do our new playground ETS table setup, so if we crash our shell session we don't loose the table.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">fun</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">receive</span> <span class="p">(</span><span class="nv">after</span> <span class="ss">&#39;infinity</span> <span class="ss">&#39;ok</span><span class="p">))))</span>
+<span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.88887576&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">some-process</span> <span class="p">(</span><span class="nv">spawn</span> <span class="nv">fun</span><span class="p">))</span>
+<span class="nv">&lt;0.36.0&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">test-table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;test-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">public</span><span class="p">)))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:give_away</span> <span class="nv">test-table</span> <span class="nv">some-process</span> <span class="p">())</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>Next we will load our test ETS table with a bunch of test "products".  For ease of example, we will just use a number for the product id, and a random price ending in <code>.99</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">product-id</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">10000</span><span class="p">)))</span>
+    <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">test-table</span> <span class="o">`#(,</span><span class="nv">product-id</span> <span class="o">,</span><span class="p">(</span><span class="nb">+</span> <span class="p">(</span><span class="nv">random:uniform</span> <span class="mi">100</span><span class="p">)</span> <span class="mf">0.99</span><span class="p">))))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span>
+ <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>We will create a <code>match_spec()</code> to find items in their twenties (and we will go ahead and round 19.99 up to 20 just because).</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">products-in-the-twenties</span> <span class="p">(</span><span class="nv">match-spec</span>
+                                  <span class="p">(</span><span class="nv">[</span><span class="o">`#(,</span><span class="nv">product</span> <span class="o">,</span><span class="nv">price</span><span class="p">)</span><span class="nv">]</span>
+                                   <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">&gt;=</span> <span class="nv">price</span> <span class="mf">19.99</span><span class="p">)</span> <span class="p">(</span><span class="nb">&lt;</span> <span class="nv">price</span> <span class="mi">30</span><span class="p">))</span>
+                                   <span class="o">`#(,</span><span class="nv">product</span> <span class="o">,</span><span class="nv">price</span><span class="p">))))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&gt;=</span> <span class="nv">$2</span> <span class="mf">19.99</span><span class="p">)</span> <span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">30</span><span class="p">))</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)))))</span></code></pre></div>
+
+<p>And if we use <code>ets:select/2</code> against our table with this match spec, we get all of the results back in one query as we saw previously.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">test-table</span> <span class="nv">products-in-the-twenties</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">5671</span> <span class="mf">24.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1322</span> <span class="mf">23.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9221</span> <span class="mf">24.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7109</span> <span class="mf">23.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1792</span> <span class="mf">20.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1659</span> <span class="mf">29.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">6565</span> <span class="mf">19.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5151</span> <span class="mf">24.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7655</span> <span class="mf">22.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">962</span> <span class="mf">27.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9091</span> <span class="mf">24.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7636</span> <span class="mf">19.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1935</span> <span class="mf">27.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">4673</span> <span class="mf">21.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">3783</span> <span class="mf">22.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1252</span> <span class="mf">22.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">2837</span> <span class="mf">25.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5300</span> <span class="mf">25.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">2514</span> <span class="mf">23.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">8947</span> <span class="mf">24.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7025</span> <span class="mf">26.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">289</span> <span class="mf">25.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5954</span> <span class="mf">23.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5302</span> <span class="mf">19.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">6670</span> <span class="mf">22.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7398</span> <span class="mf">22.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">4022</span> <span class="mf">27.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">8047</span> <span class="mf">20.99</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">6569</span> <span class="o">...</span><span class="p">)</span>
+ <span class="o">#(...</span><span class="p">)</span> <span class="o">...</span><span class="p">)</span></code></pre></div>
+
+<p>But the <code>ets</code> module also gives us a way to limit the results if we would like, using <a href="http://www.erlang.org/doc/man/ets.html#select-3">select/3</a> and giving a limit of the number of results to return at a time.</p>
+
+<p>So let's use <code>ets:select/3</code> and give a limit of <code>10</code> and see what happens.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">test-table</span> <span class="nv">products-in-the-twenties</span> <span class="mi">10</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">5629</span> <span class="mf">20.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">278</span> <span class="mf">20.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5016</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2642</span> <span class="mf">19.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">7347</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">6429</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5415</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9022</span> <span class="mf">19.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2422</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2806</span> <span class="mf">21.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">960</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">(</span><span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span> <span class="mi">1</span><span class="p">))</span></code></pre></div>
+
+<p>We get a tuple back instead of a list of results.  The first item in the tuple is a list of our first ten results we specified, the second is some bizarre looking tuple, which if we look at the documentation for <code>ets:select/3</code> represents something referred to as a continuation. </p>
+
+<p>So we run our query again, and bind the results this time.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(,</span><span class="nv">results</span> <span class="o">,</span><span class="nv">continuation</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">test-table</span> <span class="nv">products-in-the-twenties</span> <span class="mi">10</span><span class="p">))</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">5629</span> <span class="mf">20.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">278</span> <span class="mf">20.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5016</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2642</span> <span class="mf">19.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">7347</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">6429</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5415</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9022</span> <span class="mf">19.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2422</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2806</span> <span class="mf">21.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">960</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">(</span><span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span> <span class="mi">1</span><span class="p">))</span></code></pre></div>
+
+<p>So we have this continuation, but what is it and what does it mean for us to have it.</p>
+
+<p>In short, it can be thought of as an immutable bookmark.  It represents not only what page we are in for our query results, but also the book we are reading (our query).</p>
+
+<p>This allows us to quickly pick up where we previously left off in our results set by passing the continuation to <a href="http://www.erlang.org/doc/man/ets.html#select-1">ets:select/1</a>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">7769</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5990</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">885</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2105</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">686</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8798</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9313</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">969</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2965</span> <span class="mf">22.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">577</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>And because it is our special immutable bookmark, every time we use that bookmark it takes us to the same starting point in the same book, and we only read the same number of maximum pages as originally set as our limit.</p>
+
+<p>So no matter how many times we call <code>ets:select/1</code> with our same continuation, we will get the same results each time.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">7769</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5990</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">885</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2105</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">686</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8798</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9313</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">969</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2965</span> <span class="mf">22.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">577</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">7769</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5990</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">885</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2105</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">686</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8798</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9313</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">969</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2965</span> <span class="mf">22.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">577</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">7769</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5990</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">885</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2105</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">686</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8798</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9313</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">969</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2965</span> <span class="mf">22.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">577</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>And if we look at the resulting tuple, we see that we get a different tuple for our next continuation.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(,</span><span class="nv">2nd-results</span> <span class="o">,</span><span class="nv">2nd-continuation</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">continuation</span><span class="p">))</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">7769</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">5990</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">885</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2105</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">686</span> <span class="mf">25.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8798</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9313</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">969</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2965</span> <span class="mf">22.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">9295</span> <span class="mf">19.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">577</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>And we can pick up that new continuation, and use that in our next call to <code>ets:select/1</code> to get the next set of results, with another continuation.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">2nd-continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">3413</span> <span class="mf">27.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2302</span> <span class="mf">28.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">1368</span> <span class="mf">19.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">3311</span> <span class="mf">26.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">415</span> <span class="mf">24.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">8068</span> <span class="mf">23.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">6664</span> <span class="mf">29.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">4920</span> <span class="mf">24.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">1979</span> <span class="mf">20.99</span><span class="p">)</span>
+   <span class="o">#(</span><span class="mi">2091</span> <span class="mf">21.99</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">897</span> <span class="mi">10</span> <span class="err">#</span><span class="nv">B</span><span class="p">()</span> <span class="p">(</span><span class="o">#(</span><span class="mi">5835</span> <span class="mf">21.99</span><span class="p">)</span> <span class="o">#(</span><span class="mi">6629</span> <span class="mf">24.99</span><span class="p">)</span> <span class="o">#(</span><span class="mi">9267</span> <span class="mf">19.99</span><span class="p">))</span> <span class="mi">3</span><span class="p">))</span></code></pre></div>
+
+<p>And if we have a query for which we have exhausted our results set, we get an <code>$end_of_table</code> atom.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">test-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">(</span><span class="o">#(</span><span class="nb">&lt;</span> <span class="nv">$2</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nv">$$</span><span class="p">)))</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nv">$end_of_table</span></code></pre></div>
+
+<p>The ability to specify a limit and have a continuation is also available via on match with <code>ets:match/3</code> and <code>ets:match/1</code>, and match_object via <code>ets:match_object/3</code> and <code>ets:match_object/1</code>.</p>
+
+<p>Next week, we will continue looking at the various <code>select</code> functions in <code>ets</code> as we look into their behavior with and ordered set, will look at <code>select</code> vs <code>select_reverse</code>, and play with and see how continuations work if we get some new entries inserted in the results when using a continuation.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions" title="LFE Friday - ETS, match_specs and functions">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts" title="LFE Friday - ETS selects, continuations and inserts">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>23 January 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

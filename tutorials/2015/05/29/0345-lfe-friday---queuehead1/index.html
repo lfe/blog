@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - queue:head/1
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - queue:head/1
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today’s LFE Friday continues to dig into the Okasaki API of Erlang's <code>queue</code> module, and take a look at <a href="http://erlang.org/doc/man/queue.html#head-1">queue:head/1</a>.</p>
+
+<p><code>queue:head/1</code> takes a queue as it's first argument, and returns the first item in the queue.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">queue</span> <span class="p">(</span><span class="nv">queue:from_list</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)))</span>
+<span class="o">#(</span><span class="p">(</span><span class="mi">5</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:head</span> <span class="nv">queue</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="nb">&gt;</span> <span class="nv">queue</span>
+<span class="o">#(</span><span class="p">(</span><span class="mi">5</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span></code></pre></div>
+
+<p>As we can see in the example above, the <code>queue:head/1</code> function does not modify the original queue at all, but just returns the first item.</p>
+
+<p>Because <code>queue:head/1</code> only returns the value found at the head of the queue, and not a tagged tuple, it raises an error if we try to get the head item from an empty queue.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">empty-queue</span> <span class="p">(</span><span class="nv">queue:new</span><span class="p">))</span>
+<span class="o">#(</span><span class="p">()</span> <span class="p">())</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:head</span> <span class="nv">empty-queue</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">empty</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">queue</span> <span class="nv">head</span> <span class="o">#(</span><span class="p">()</span> <span class="p">()))</span></code></pre></div>
+
+<p>To be safe, and not get the error raised on an empty queue, the <code>queue</code> module also defines a function <a href="http://erlang.org/doc/man/queue.html#is_empty-1">queue:is_empty/1</a> that you can use to check if a queue is empty.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:is_empty</span> <span class="nv">empty-queue</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:is_empty</span> <span class="nv">queue</span><span class="p">)</span>      
+<span class="nv">false</span></code></pre></div>
+
+<p>Like <code>queue:cons/2</code>, and other functions of the Okasaki API, there is also a function <a href="http://erlang.org/doc/man/queue.html#daeh-1">queue:daeh/1</a> (head backwards), to get the last item from the queue, as well as an alias for <code>queue:daeh/1</code> of <a href="http://erlang.org/doc/man/queue.html#last-1">queue:last/1</a>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:daeh</span> <span class="nv">queue</span><span class="p">)</span>
+<span class="mi">5</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:last</span> <span class="nv">queue</span><span class="p">)</span>
+<span class="mi">5</span></code></pre></div>
+
+<p>Both <code>queue:daeh/1</code> and <code>queue:last/1</code> also raise an error of <code>empty</code> if you call them with an empty queue as the argument.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:daeh</span> <span class="nv">empty-queue</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">empty</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">queue</span> <span class="nv">get_r</span> <span class="o">#(</span><span class="p">()</span> <span class="p">()))</span>
+
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:last</span> <span class="nv">empty-queue</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">empty</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">queue</span> <span class="nv">get_r</span> <span class="o">#(</span><span class="p">()</span> <span class="p">()))</span></code></pre></div>
+
+<p>And if we look at the error that is raised on <code>queue:daeh/1</code> and <code>queue:last/1</code>, we see that the error is coming from <a href="http://erlang.org/doc/man/queue.html#get_r-1">queue:get_r/1</a> from the Extended API.  If we look at the behavior of <code>queue:get_r/1</code> it looks like <code>queue:last/1</code> and <code>queue:daeh/1</code> are indeed just aliases for <code>queue:get_r/1</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:get_r</span> <span class="nv">queue</span><span class="p">)</span>     
+<span class="mi">5</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:get_r</span> <span class="nv">empty-queue</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">empty</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">queue</span> <span class="nv">get_r</span> <span class="o">#(</span><span class="p">()</span> <span class="p">()))</span>
+
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">queue:get_r</span> <span class="nv">queue</span><span class="p">)</span>      
+<span class="mi">5</span>
+<span class="nb">&gt;</span> <span class="nv">queue</span>
+<span class="o">#(</span><span class="p">(</span><span class="mi">5</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span></code></pre></div>
+
+<p>-Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/05/28/1008-creating-servers-with-the-gen_server-behaviour-ii" title="Creating LFE Servers with OTP, Part II">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/06/05/0024-lfe-friday---queuetail1" title="LFE Friday - queue:tail/1">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>29 May 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

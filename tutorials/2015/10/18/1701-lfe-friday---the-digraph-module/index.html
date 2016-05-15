@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - The digraph module
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - The digraph module
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday kicks of taking a look at the <a href="http://erlang.org/doc/man/digraph.html">digraph</a> module.</p>
+
+<p>As I was looking into it, this module didn't line up with my expectations of Erlang behavior, so I want to focus on that difference before taking a look at the functions in the module.</p>
+
+<p>If we start by browsing through the function signatures in the <code>digraph</code> module, we can see that the only function that returns a <code>digraph()</code> are <code>digraph:new/0</code> and <code>digraph:new/1</code>.</p>
+
+<p>Thinking this was odd for a Erlang API, I went to the LFE shell, and added a vertex to the <code>digraph()</code>, and then inspected the result of that operation.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">g</span> <span class="p">(</span><span class="nv">digraph:new</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">digraph</span> <span class="mi">8207</span> <span class="mi">12304</span> <span class="mi">16401</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">g2</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">g</span> <span class="ss">&#39;foo</span> <span class="ss">&#39;bar</span><span class="p">))</span>
+<span class="nv">foo</span></code></pre></div>
+
+<p>The return value of calling <code>digraph:add_vertex/3</code> was <code>foo</code>, which was the second argument, and doesn't match up with what the representation of a graph looks like.</p>
+
+<p>Okay, time to look at the <code>digraph()</code> in <code>g</code> again then to see if that changed.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="nv">g</span>
+<span class="o">#(</span><span class="nv">digraph</span> <span class="mi">8207</span> <span class="mi">12304</span> <span class="mi">16401</span> <span class="nv">true</span><span class="p">)</span></code></pre></div>
+
+<p>That tuple result of the <code>digraph()</code> looks the same, so let's see if that vertex we added is in the graph, since we did get the return value of <code>foo</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">g</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">foo</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertex</span> <span class="nv">g</span> <span class="ss">&#39;foo</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">foo</span> <span class="nv">bar</span><span class="p">)</span></code></pre></div>
+
+<p>Hrmm… Okay, looks like that vertex is in there.</p>
+
+<p>Let's add another vertex to the <code>digraph()</code> bound to <code>g</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">v</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">g</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">g</span><span class="p">)</span>          
+<span class="p">(</span><span class="nv">foo</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>That one is added as well.</p>
+
+<h2 id="hc-svnt-dracones-here-be-dragons">HC SVNT DRACONES (Here Be Dragons)</h2>
+
+<p>So the behavior I want to call out in this post before we start looking at the functions in this module is that these functions exhibit observably mutable behavior on a <code>digraph()</code>.</p>
+
+<p>I say it is observably mutable, because while if it is not being changed under the covers of the implementation, the structure can be changed while the binding of the variable to the reference stays the same.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">g</span><span class="p">)</span>          
+<span class="p">(</span><span class="nv">foo</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">copy</span> <span class="nv">g</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">digraph</span> <span class="mi">8207</span> <span class="mi">12304</span> <span class="mi">16401</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">v2</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">g</span> <span class="ss">&#39;wat</span><span class="p">))</span>
+<span class="nv">wat</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">copy</span><span class="p">)</span>             
+<span class="p">(</span><span class="nv">foo</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">wat</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">g</span><span class="p">)</span>   
+<span class="p">(</span><span class="nv">foo</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">wat</span><span class="p">)</span></code></pre></div>
+
+<p>This even mutates other variable references as well, so this breaks any convention that I have seen in the Erlang ecosystem about keeping all data immutable.</p>
+
+<p>We will continue looking at the <code>digraph</code> module in future <a href="http://blog.lfe.io/">LFE Friday</a> posts, but I wanted to spend some time calling out the mutability inherent in the <code>digraph()</code>s, so that when you need to use a one, you can be aware that this is not something you want to use in your concurrent parts of your application without great caution.</p>
+
+<h2 id="the-dragons-slain">The Dragons slain</h2>
+
+<p>The reason behind the dragons is how a <code>digraph()</code> is implemented. A <code>digraph</code> is built of 3 <a href="http://erlang.org/doc/man/ets.html">ETS</a> tables, with, in this case, the table ids <code>8207</code>, <code>12304</code> and <code>16401</code>. You can see this by calling <a href="http://erlang.org/doc/man/ets.html#i-0">ets:i/0</a> which lists information about all the current tables. You can see that the 3 tables are owned by the LFE shell process:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">self</span><span class="p">)</span>
+<span class="nv">&lt;0.28.0&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:i</span><span class="p">)</span>
+ <span class="nv">id</span>              <span class="nv">name</span>              <span class="k">type</span>  <span class="nv">size</span>   <span class="nv">mem</span>      <span class="nv">owner</span>
+ <span class="nv">----------------------------------------------------------------------------</span>
+ <span class="mi">1</span>               <span class="nv">code</span>              <span class="nb">set</span>   <span class="mi">282</span>    <span class="mi">10393</span>    <span class="nv">code_server</span>
+ <span class="mi">4098</span>            <span class="nv">code_names</span>        <span class="nb">set</span>   <span class="mi">64</span>     <span class="mi">7713</span>     <span class="nv">code_server</span>
+ <span class="mi">8207</span>            <span class="nv">vertices</span>          <span class="nb">set</span>   <span class="mi">3</span>      <span class="mi">328</span>      <span class="nv">&lt;0.28.0&gt;</span>
+ <span class="mi">12304</span>           <span class="nv">edges</span>             <span class="nb">set</span>   <span class="mi">0</span>      <span class="mi">305</span>      <span class="nv">&lt;0.28.0&gt;</span>
+ <span class="mi">16401</span>           <span class="nv">neighbours</span>        <span class="nv">bag</span>   <span class="mi">2</span>      <span class="mi">319</span>      <span class="nv">&lt;0.28.0&gt;</span>
+ <span class="nv">ac_tab</span>          <span class="nv">ac_tab</span>            <span class="nb">set</span>   <span class="mi">6</span>      <span class="mi">839</span>      <span class="nv">application_controller</span>
+ <span class="nv">file_io_servers</span> <span class="nv">file_io_servers</span>   <span class="nb">set</span>   <span class="mi">0</span>      <span class="mi">305</span>      <span class="nv">file_server_2</span>
+ <span class="nv">global_locks</span>    <span class="nv">global_locks</span>      <span class="nb">set</span>   <span class="mi">0</span>      <span class="mi">305</span>      <span class="nv">global_name_server</span>
+ <span class="nv">global_names</span>    <span class="nv">global_names</span>      <span class="nb">set</span>   <span class="mi">0</span>      <span class="mi">305</span>      <span class="nv">global_name_server</span>
+<span class="o">...</span>
+ 
+<span class="nv">ok</span></code></pre></div>
+
+<p>The <code>digraph()</code> structure itself is just a tagged tuple containing the table ids. As all changes are made to the <code>ETS</code> tables the structure itself never changes. Data about the tables and their contents can be read with <a href="http://erlang.org/doc/man/ets.html#info-1">ets:info/1</a> and <a href="http://erlang.org/doc/man/ets.html#i-1">ets:i/1</a>.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/10/18/1451-lfe-friday---erl_tartable1" title="LFE Friday - erl_tar:table/1">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/10/20/0147-lfe-friday---digraphadd_vertex1" title="LFE Friday - digraph:add_vertex/1">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>18 October 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

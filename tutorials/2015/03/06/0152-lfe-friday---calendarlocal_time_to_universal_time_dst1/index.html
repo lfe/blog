@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - calendar:local_time_to_universal_time_dst/1
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - calendar:local_time_to_universal_time_dst/1
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>In honor of the time change this weekend, today's LFE Friday is on <a href="http://www.erlang.org/doc/man/calendar.html#local_time_to_universal_time_dst-1">calendar:local_time_to_universal_time_dst/1</a></p>
+
+<p>We here in the EU will have to wait 3 more weeks for our time change, but we will do this anyway. :-)</p>
+
+<p>To better understand what <code>calendar:local_time_to_universal_time_dst/1</code> is doing, it will be contrasted to <a href="http://www.erlang.org/doc/man/calendar.html#local_time_to_universal_time-1">calendar:local_time_to_universal_time/1</a>.</p>
+
+<p>This coming Sunday is we move the clock forward an hour at 2 AM, so let us see what the time is in UTC right at 1:59 AM.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span>
+<span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">))</span></code></pre></div>
+
+<p>Now let's see what <code>calendar:local_time_to_universal_time/1</code> returns for 2 AM, which we never actually hit, since the time changes straight to 3 AM.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">2</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>  
+<span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">8</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>But as we dig into the library we see that there is also <code>calendar:local_time_to_universal_time_dst/1</code> which returns a list of time tuples, and we start to see why this is important.</p>
+
+<p>This time, let's call <code>calendar:local_time_to_universal_time_dst/1</code> with the 2 AM hour and see what is returned.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">2</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="p">()</span></code></pre></div>
+
+<p>An empty list!</p>
+
+<p>This makes sense if you take a moment to think about it, as 2 AM doesn't ever happen so there is no UTC time that it would map to.</p>
+
+<p>And if we look at what happens when we make the jump to 3 AM, we get 8 AM UTC, which is just a second later in UTC, then the time in UTC at 1:59:59 AM.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">3</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">3</span> <span class="mi">8</span><span class="p">)</span> <span class="o">#(</span><span class="mi">8</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span></code></pre></div>
+
+<p>That covers the case for this coming weekend, so let is check out what is going to happen later this year on November 1st when the clocks move back an hour.</p>
+
+<p>To start with a baseline, let's see what time it is in UTC at 12:59:59 AM, as we know we only encounter that time once.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">0</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span>    
+<span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">5</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">0</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">5</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span></code></pre></div>
+
+<p>And even though the time change happens a 2 AM, we still only encounter that once, as we move straight to 1 AM the first time.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">2</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>
+<span class="p">(</span><span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">8</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span></code></pre></div>
+
+<p>So at 12:59:59 AM, we are at 5:59:59 AM UTC, and at 2 AM we are at 8 AM UTC. Now comes the tricky part, 1 AM.</p>
+
+<p>1 AM is an odd case, as we will live through 1 AM twice that night. So let's see what Erlang does with that.</p>
+
+<p>First, we see what time it is in UTC when we call calendar:local_time_to_universal_time with 1 AM.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>    
+<span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">6</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>We get 6 AM UTC. We move from 5:59:59 AM UTC to 6 AM UTC; and that makes sense, until we start to wonder about the second time we encounter 1 AM.</p>
+
+<p>Now, let's see what time it is in UTC when we call <code>calendar:local_time_to_universal_time_dst/1</code> with 1 AM.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span>    
+<span class="p">(</span><span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">6</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)))</span></code></pre></div>
+
+<p>We get a list with two times in UTC, one for 6 AM UTC when we encounter 1 AM the first time, and one for 7 AM UTC for when we encounter 1 AM the second time around. This happens for every time in the 1 AM hour as well.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:local_time_to_universal_time_dst</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">1</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span>    
+<span class="p">(</span><span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">6</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">))</span> <span class="o">#(#(</span><span class="mi">2015</span> <span class="mi">11</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">59</span> <span class="mi">59</span><span class="p">)))</span></code></pre></div>
+
+<p>By returning a list of either no items, one item, or two items, Erlang gives you the most accurate information for you to use, and allow for you to make the informed decision for how you are expecting to handle the times, instead of making some of the decisions for you even if they don't align with your system's view of the world.</p>
+
+<p>–Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/03/01/1823-lfe-friday---dictmerge3" title="LFE Friday - dict:merge/3">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/03/13/1559-lfe-friday---listsflatmap2" title="LFE Friday - lists:flatmap/2">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>06 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

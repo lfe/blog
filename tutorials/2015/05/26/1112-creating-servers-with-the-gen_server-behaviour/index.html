@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Creating LFE Servers with OTP, Part I
+      
+    </title>
+    <meta name="description" content="Creating a generic OTP server in LFE">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Creating LFE Servers with OTP, Part I
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>As mentioned in the previous
+post, one of the most common patterns that was identified in Erlang was the
+need to create a generic, long running process. This pattern has been codified
+in the gen_server behaviour, and it is now time that we got our hands dirty by
+creating a few :-)</p>
+
+<h2 id="lfe-otp-tutorial-series">LFE OTP Tutorial Series</h2>
+
+<ul>
+  <li><a href="/tutorials/2015/05/23/1720-new-series-lfe-otp-tutorials/">Introducing the LFE OTP Tutorials</a></li>
+  <li><a href="/tutorials/2015/05/24/1808-what-is-otp/">What is OTP?</a></li>
+  <li><a href="/tutorials/2015/05/25/0929-prelude-to-otp/">Prelude to OTP</a></li>
+  <li><a href="/tutorials/2015/05/26/1112-creating-servers-with-the-gen_server-behaviour/">Creating LFE Servers with OTP, Part I</a></li>
+  <li><a href="/tutorials/2015/05/28/1008-creating-servers-with-the-gen_server-behaviour-ii/">Creating LFE Servers with OTP, Part II</a></li>
+  <li><a href="/tutorials/2015/09/18/1604-distributed-lfe/">Distributed LFE</a></li>
+</ul>
+
+<p>You can leave feedback for the LFE OTP tutorials
+<a href="https://github.com/lfe/blog/issues/7">here</a>.</p>
+
+<h2 id="in-this-post">In This Post</h2>
+
+<ul>
+  <li>Requirements, Assumptions, and Code</li>
+  <li>How We're Going to Do This
+    <ul>
+      <li>About <code>gen_server</code></li>
+      <li>OTP Boilerplate</li>
+      <li><code>gen_server</code> in Two Parts</li>
+    </ul>
+  </li>
+  <li>Creating a Callback Module</li>
+  <li>Creating a Server Module</li>
+  <li>Creating An API</li>
+  <li>Updating An API</li>
+  <li>Full Source Code</li>
+  <li>Up Next</li>
+</ul>
+
+<h2 id="requirements-assumptions-and-code">Requirements, Assumptions, and Code</h2>
+
+<p>Before reading this tutorial, be sure you have read the ones preceding
+it in this series. For a list of what you need to have installed before working
+through the examples as well as getting the source code for these tutorials,
+please see the post <a href="/tutorials/2015-05-25-0929-prelude-to-otp/">Prelude to OTP</a>,
+in particular the sections "Requirements and Assumptions" and "Getting the Code".</p>
+
+<p>Once you have the source code cloned to a working directory, you can compile
+the source and start up the LFE REPL with the following:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span><span class="nb">cd</span> ../tut01
+<span class="nv">$ </span>make repl</code></pre></div>
+
+<h2 id="how-were-going-to-do-this">How We're Going to Do This</h2>
+
+<h3 id="about-genserver">About <code>gen_server</code></h3>
+
+<p>The <code>gen_server</code> behaviour defines a contract between the programmer and the
+world of OTP, expecting you to do the following:</p>
+
+<ul>
+  <li>Define a module which implements <code>gen_server</code> functions</li>
+  <li>Define a callback module which implements the required message-passing (and
+callback-related) functions</li>
+</ul>
+
+<p>In return for following these rules, you get an infinitely flexible server with
+some amazing capabilities: fault-tolerance, the capacity to handle an incredible
+number of simultaneous connections, <sup id="fnref:yaws-benchmarks"><a href="#fn:yaws-benchmarks" class="footnote">1</a></sup> and the ability to scale
+across many cores or many servers.</p>
+
+<h3 id="otp-boilerplate">OTP Boilerplate</h3>
+
+<p>If you have ever looked at Erlang code for <code>gen_server</code>s or other OTP
+behaviour implementations, you will have
+noticed that setting up a <code>gen_server</code> involves some boilerplate Erlang data
+structures. Newcomers often shake their heads (or even complain loudly!) about
+the need for so much awkward data. Once you get used to it, it's really not
+a big deal. And, again, the benefits of using OTP – and the massive time-savings
+that go hand-in-hand with those – far out-weigh the minor inconvenience. You
+know this immediately when using OTP, if you have ever had to implement
+production-ready custom servers in other programming languages or frameworks.</p>
+
+<p>Perhaps the bit that it most cumbersome for new OTP developers is the fact that,
+due to the lack of keyword arguments in Erlang (and the tendency for older Erlang
+code not to use
+<a href="http://learnyousomeerlang.com/a-short-visit-to-common-data-structures#key-value-stores">property lists</a>
+as a way around this), reading the implementations for the various OTP
+behaviours can be a bewildering and frustrating experience.</p>
+
+<p>We are not going to following the Erlang idiom in the LFE tutorials below:
+we're going to define variables for all the parameters so that you may more
+easily decipher what's happening when you read the code.</p>
+
+<h3 id="genserver-in-two-parts"><code>gen_server</code> in Two Parts</h3>
+
+<p>When teaching OTP to new programmers and even seasoned programmers new to Erlang,
+I often get questions like the following:</p>
+
+<ul>
+  <li>Why do I have to type the module name so many times?</li>
+  <li>What is the different between callback and server modules?</li>
+  <li>Which one am I writing now?</li>
+  <li>Why is the documentation for them in two different places?</li>
+  <li>Why do I put them in a single file?</li>
+</ul>
+
+<p>These questions may not make sense right now, but they will by the time you finish
+the tutorial for this post! Hopefully, though, the approach we have decided to
+take will not leave you frustrated, but instead the proud holder of new knowledge
+and insight.</p>
+
+<p>In particular, we're are again going to follow a non-traditional route, and for
+Part I of the <code>gen_server</code> tutorial we will be splitting our code across two
+modules. Furthermore, we will only do a partial implementation of <code>gen_server</code>
+in this part.</p>
+
+<p>In Part II, we will migrate our two-module code to a single, integrated module
+which a complete implementation of <code>gen_server</code>. In the process, we hope to
+answer any lingering questions about the "how" and "why" of <code>gen_server</code>.</p>
+
+<p>That said, we're ready for some code!</p>
+
+<h2 id="creating-a-callback-module">Creating a Callback Module</h2>
+
+<p>Let's take a quick look back at our process server from the previous post:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">process-state</span> <span class="p">(</span><span class="nv">caller</span> <span class="nv">state-data</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">receive</span>
+    <span class="p">(</span><span class="ss">&#39;inc</span>
+      <span class="p">(</span><span class="nv">process-state</span> <span class="nv">caller</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">state-data</span><span class="p">)))</span>
+    <span class="p">(</span><span class="ss">&#39;amount?</span>
+        <span class="p">(</span><span class="nv">!</span> <span class="nv">caller</span> <span class="nv">state-data</span><span class="p">)</span>
+        <span class="p">(</span><span class="nv">process-state</span> <span class="nv">caller</span> <span class="nv">state-data</span><span class="p">))))</span></code></pre></div>
+
+<p>This code combines two aspects:</p>
+
+<ul>
+  <li>the server: the functionality provided by calling <code>(receive ...)</code> and waiting
+for matching messages, and</li>
+  <li>the logic: the code that gets executed when a message matches either <code>add</code>
+or <code>amount?</code></li>
+</ul>
+
+<p>The most obvious bit, and the bulk of the code, is in the logic, so let's port
+that to OTP first. This code will be put in a "callback" module, something
+which our new OTP server will make use of. We'll discuss this more shortly,
+but for now here's what our logic looks when ported to <code>gen_server</code> callbacks:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">handle_cast</span>
+  <span class="p">((</span><span class="ss">&#39;increment</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">noreply</span> <span class="o">,</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">state-data</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">handle_call</span>
+  <span class="p">((</span><span class="ss">&#39;amount</span> <span class="nv">_caller</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">reply</span> <span class="o">,</span><span class="nv">state-data</span> <span class="o">,</span><span class="nv">state-data</span><span class="p">))</span>
+  <span class="p">((</span><span class="nv">message</span> <span class="nv">_caller</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">reply</span> <span class="o">,</span><span class="p">(</span><span class="nv">unknown-command</span><span class="p">)</span> <span class="o">,</span><span class="nv">state-data</span><span class="p">)))</span></code></pre></div>
+
+<p>If we compare this to the process server from the previous post, we can see
+that things have started to change rather significantly. First of all, our
+callback module has two functions instead of just one: <code>handle_cast</code> and
+<code>handle_call</code>. These functions are not used by developers or users of
+the OTP software we write; they are defined in a callback module for use by
+our <code>gen_server</code>. Let this sit for now – we'll come back to it shortly.
+Let's keep looking at this code:</p>
+
+<p>The <code>handle_call</code> function is used for making synchronous calls, usually
+where a result is expected. This is why we return the <code>#(reply ...)</code> tuple:
+we’re letting OTP know that whatever made this call should get the second
+element of the tuple sent to it (in this case, the <code>state-data</code>). The
+third element of the tuple is used internally by <code>gen_server</code> as the
+state data used when restarting the loop after this call (all under the hood
+and away from view). We did something almost identical in our process example
+in the last post: whenever we needed to restart the loop, we passed it the
+updated state data. <sup id="fnref:return-and-state-same"><a href="#fn:return-and-state-same" class="footnote">2</a></sup></p>
+
+<p>Note the reply of <code>(unknown-command)</code> in the catch-all function head pattern
+for <code>handle_call</code>. This is used here for demonstration purposes only. In
+Part II of this post we will cover error handling and how to best deal with
+unexpected messages in a <code>gen_server</code>.</p>
+
+<p>The <code>handle_cast</code> function is used for making asynchronous calls, often
+convenient when you want to execute a function and don’t care about returning
+data to the caller. This is exactly what we’re using it for: we just want our
+state data to get incremented; we don’t want a result.</p>
+
+<p>Both functions expect a message (any Erlang term) and the state data for our
+<code>gen_server</code> loop. Additionally, the <code>handle_call</code> function takes a
+parameter for the calling function so that it can send results back to it. When
+we look at the the API code in our server module, we’ll see where this code
+gets called.</p>
+
+<p>The other thing our callback module needs to define is an <code>init</code> function.
+This is used to “prime the pump”, as it were, for the the <code>gen_server</code> loop.
+In other words, this is what initializes the state that gets passed to the
+various <code>handle_*</code> functions. Note that for our example, our state data is
+extremely simple: it’s just an integer. But it could be any LFE data structure,
+including records (which is very often what the state data is in Erlang and LFE
+applications).</p>
+
+<h2 id="creating-a-server-module">Creating a Server Module</h2>
+
+<p>Okay, so we know how our logic gets converted from the non-OTP server loops to
+the callback code … but what calls the callback? If we’re creating a server
+in this post then where is the server code? Thanks to OTP (which takes care of
+so many of the details), our server code is very simple:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">start</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:start</span> <span class="p">(</span><span class="nv">register-name</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">callback-module</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">initial-state</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">genserver-opts</span><span class="p">)))</span></code></pre></div>
+
+<p>As we promised earlier, instead of arcane data structures, we have very clearly
+defined the variables which are being used as the <code>gen_server:start</code>
+arguments. The source code for this tutorial defines those at the top
+of the <code>tut01-server</code> module: <sup id="fnref:genserver-args"><a href="#fn:genserver-args" class="footnote">3</a></sup></p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">server-name</span> <span class="p">()</span> <span class="p">(</span><span class="nv">MODULE</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">callback-module</span> <span class="p">()</span> <span class="ss">&#39;tut01-callback</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">initial-state</span> <span class="p">()</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">genserver-opts</span> <span class="p">()</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">register-name</span> <span class="p">()</span> <span class="o">`#(</span><span class="nv">local</span> <span class="o">,</span><span class="p">(</span><span class="nv">server-name</span><span class="p">)))</span></code></pre></div>
+
+<p>Let's address each of the four items that were passed to the <code>gen_server:start</code>
+function:</p>
+
+<ol>
+  <li>We passed a name with which the server will be
+registered. <sup id="fnref:start-name"><a href="#fn:start-name" class="footnote">4</a></sup> The name is a tuple with the first element being
+either <code>local</code> or <code>global</code> and the second being the actual name for the
+process. <sup id="fnref:via-name"><a href="#fn:via-name" class="footnote">5</a></sup> In our case, we're just using the module name
+to name the server.</li>
+  <li>The second argument is the callback module associated with this server.
+That's what we created in the previous section; it's where all our logic
+lives.</li>
+  <li>In our case, the next argument is the initial state for our server loop, but
+more generally, this is where you (indirectly) pass arguments to the
+<code>init</code> function you have defined in your <code>gen_server</code>'s callback module.</li>
+  <li>Finally, if we want to pass any options to the <code>gen_server</code> process
+itself, we can do that here. We've defined <code>(genserver-opts)</code> to be an
+empty list, since we don’t need to do anything special here. <sup id="fnref:genserver-opts"><a href="#fn:genserver-opts" class="footnote">6</a></sup></li>
+</ol>
+
+<p>The full listing of the source code for our server and callback modules is
+given at the end of this post, if you'd like to see what we've talked about so
+far the their full context.</p>
+
+<h2 id="creating-an-api">Creating An API</h2>
+
+<p>Next we will look at our server API. As you recall from the last post, our
+“APIs” were hardly that. They consisted of making <code>funcall</code>s in one case, and
+in the other, sending messages to the server process via the <code>(! ...)</code> form.
+That changes now :-)</p>
+
+<p>Whenever you have created an implementation of the <code>gen_server</code> behaviour
+(and its associated callback module), you can execute the callback code
+by sending messages to your server via <code>(gen_server:call ...)</code> and
+<code>(gen_server:cast ...)</code>. We will use these to define a nicely usable API
+for our server:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">inc</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:cast</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;increment</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">amount?</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:call</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;amount</span><span class="p">))</span></code></pre></div>
+
+<p>You can imagine that for a large server module, there would be a great many API
+functions defined here.</p>
+
+<p>How this works is you call these functions, then <code>gen_server</code> looks up
+the callback module which has been defined for the given server. It then passes
+the given message (in our case either <code>increment</code> or <code>amount</code>). If
+<code>gen_server:cast</code> was used to pass the message, then <code>handle_cast</code> will be
+called in the callback module; if <code>call</code> was used, then <code>handle_call</code> will
+be called.</p>
+
+<p>Let’s try it out:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:start</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">&lt;0.35.0&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:inc</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:inc</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:amount?</span><span class="p">)</span>
+<span class="mi">2</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:inc</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:amount?</span><span class="p">)</span>
+<span class="mi">3</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">gen_server:call</span> <span class="p">(</span><span class="nv">tut01:server-name</span><span class="p">)</span> <span class="ss">&#39;bingo</span><span class="p">)</span>
+<span class="o">#(</span><span class="nb">error</span> <span class="s">&quot;Unknown command.&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>How’s <em>that</em> for clean! That’s what a good developer experience should look
+like :-) None of this crazy you-gotta-make-<code>funcall</code>s-and-then-save-state
+business.</p>
+
+<p>Let's go over what happened above:</p>
+
+<ul>
+  <li>We started up our server.
+    <ul>
+      <li>This initialized the loop with the function from the callback module.</li>
+      <li>But remember: the <code>init</code> function gets its argument from what we passed
+to <code>gen_server:start</code>, <code>0</code> in our case.</li>
+    </ul>
+  </li>
+  <li>We made some API calls – these were passed on to our callback module by
+the underlying OTP infrastructure.</li>
+  <li>We got results for our API functions which made <code>call</code>s.</li>
+  <li>We got a simple and reassuring <code>ok</code> for our API functions which make
+<code>cast</code>s.</li>
+  <li>When we skipped the API functions and passed an unexpected message to our
+callbacks directly via <code>gen_server:call</code>, we got the error we defined for
+unknown messages.</li>
+</ul>
+
+<h2 id="updating-an-api">Updating An API</h2>
+
+<p>What if we needed to make a change to our API? Asked another way, what does one
+need to do in order to add new functionality to a server API? Let’s answer this
+by adding a decrement capability to our simple server. We'll start by updating
+the API:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">dec</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:cast</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;decrement</span><span class="p">))</span></code></pre></div>
+
+<p>That’s the the API function we'll be calling. Now let’s add support for the new
+<code>decrement</code> message that it will be sending to <code>handle_cast</code> in the
+callback module:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">handle_cast</span>
+  <span class="p">((</span><span class="ss">&#39;increment</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">noreply</span> <span class="o">,</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">state-data</span><span class="p">)))</span>
+  <span class="p">((</span><span class="ss">&#39;decrement</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">noreply</span> <span class="o">,</span><span class="p">(</span><span class="nb">-</span> <span class="nv">state-data</span> <span class="mi">1</span><span class="p">))))</span></code></pre></div>
+
+<p>Let's make sure these work as expected:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:start</span><span class="p">)</span>
+<span class="o">#(</span><span class="nv">ok</span> <span class="nv">&lt;0.35.0&gt;</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:inc</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:amount?</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:dec</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:dec</span><span class="p">)</span>
+<span class="nv">ok</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">tut01-server:amount?</span><span class="p">)</span>
+<span class="mi">-1</span></code></pre></div>
+
+<p>It may seem odd that we've got two distinct bits of code that need to be
+updated when when an API is added, but it's really just one: the logic in
+the callback module. The server API is syntactic sugar for a better developer
+experience; everything will function just fine without it. But you wouldn't
+want to do that to your developers, right?</p>
+
+<h2 id="full-source-code">Full Source Code</h2>
+
+<p>The full source code for this tutorial is in the repo you have checked out.
+However, it is nice to see the code in the same context as the
+blog post, so we've pasted it below.</p>
+
+<p>Here is the server module:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nv">defmodule</span> <span class="nv">tut01-server</span>
+  <span class="p">(</span><span class="nv">behaviour</span> <span class="nv">gen_server</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="nv">all</span><span class="p">))</span>
+
+<span class="c1">;;; config functions</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">server-name</span> <span class="p">()</span> <span class="p">(</span><span class="nv">MODULE</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">callback-module</span> <span class="p">()</span> <span class="ss">&#39;tut01-callback</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">initial-state</span> <span class="p">()</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">genserver-opts</span> <span class="p">()</span> <span class="o">&#39;</span><span class="p">())</span>
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">register-name</span> <span class="p">()</span> <span class="o">`#(</span><span class="nv">local</span> <span class="o">,</span><span class="p">(</span><span class="nv">server-name</span><span class="p">)))</span>
+
+<span class="c1">;;; gen_server implementation</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">start</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:start</span> <span class="p">(</span><span class="nv">register-name</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">callback-module</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">initial-state</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nv">genserver-opts</span><span class="p">)))</span>
+
+<span class="c1">;;; our server API</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">inc</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:cast</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;increment</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">dec</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:cast</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;decrement</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">amount?</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">gen_server:call</span> <span class="p">(</span><span class="nv">server-name</span><span class="p">)</span> <span class="ss">&#39;amount</span><span class="p">))</span></code></pre></div>
+
+<p>And here’s the callback module code:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="p">(</span><span class="nv">defmodule</span> <span class="nv">tut01-callback</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="nv">all</span><span class="p">))</span>
+
+<span class="c1">;;; config functions</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">unknown-command</span> <span class="p">()</span> <span class="o">#(</span><span class="nb">error</span> <span class="s">&quot;Unknown command.&quot;</span><span class="p">))</span>
+
+<span class="c1">;;; callback implementation</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">init</span> <span class="p">(</span><span class="nv">initial-state</span><span class="p">)</span>
+  <span class="o">`#(</span><span class="nv">ok</span> <span class="o">,</span><span class="nv">initial-state</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">handle_cast</span>
+  <span class="p">((</span><span class="ss">&#39;increment</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">noreply</span> <span class="o">,</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="nv">state-data</span><span class="p">)))</span>
+  <span class="p">((</span><span class="ss">&#39;decrement</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">noreply</span> <span class="o">,</span><span class="p">(</span><span class="nb">-</span> <span class="nv">state-data</span> <span class="mi">1</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">handle_call</span>
+  <span class="p">((</span><span class="ss">&#39;amount</span> <span class="nv">_caller</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">reply</span> <span class="o">,</span><span class="nv">state-data</span> <span class="o">,</span><span class="nv">state-data</span><span class="p">))</span>
+  <span class="p">((</span><span class="nv">message</span> <span class="nv">_caller</span> <span class="nv">state-data</span><span class="p">)</span>
+    <span class="o">`#(</span><span class="nv">reply</span> <span class="o">,</span><span class="p">(</span><span class="nv">unknown-command</span><span class="p">)</span> <span class="o">,</span><span class="nv">state-data</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">terminate</span> <span class="p">(</span><span class="nv">_reason</span> <span class="nv">_state-data</span><span class="p">)</span>
+  <span class="ss">&#39;ok</span><span class="p">)</span></code></pre></div>
+
+<p>Note that our callback module doesn’t implement all the callbacks it would need
+as part of a full-blown OTP application; we’ll address much of that in the next
+post.</p>
+
+<p>Also, we've taken the easy way out for exports (and this is generally frowned
+upon): we don't explicitly state which functions we consider public and should
+be exported (leaving private functions un-exported). We're trying to keep Part
+I very simple so that the concepts don't get lost in the details.</p>
+
+<h2 id="up-next">Up Next</h2>
+
+<p>The next post will carry on with <code>gen_server</code>, updating it to handle errors
+in a better way and fixing it to reflect the best practices and community
+conventions.</p>
+
+<hr />
+
+<h3 id="footnotes">Footnotes</h3>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:yaws-benchmarks">
+      <p>In 2008, The Erlang webserver YAWS was compared to Apache,
+demonstrating its capacity to handle over 80,000 concurrent client
+connections while Apache died at about 4,000. You can view an archived
+version of the report for the benchmark
+<a href="https://www.sics.se/~joe/apachevsyaws.html">here</a>. <a href="#fnref:yaws-benchmarks" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:return-and-state-same">
+      <p>Note that in this simple example, our
+return value and our state data are one and the same. In a more complicated
+example, one might extract the result from the state data or perform some
+operations on the state data.  Whatever you did, you would put the result
+you wanted to send back to the caller in the second element of the tuple,
+and the updated (or sometimes unchanged) state data you'd put in the third
+element of the tuple. <a href="#fnref:return-and-state-same" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:genserver-args">
+      <p>There is no defined convention in LFE for how one sets up
+module-level configuration variables or where these might go: you can put
+the data for the argument values anywhere it makes sense to you.  You don't
+even have to define any – you can just pass the data as-is in the function
+arguments.  However, there is a lot to be said for the readability of the
+approach we have taken. <a href="#fnref:genserver-args" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:start-name">
+      <p>In general, this is optional – you could use <code>start/3</code> which
+doesn't take a name. In our case, however, we need it so that we can easily
+make calls to the <code>gen_server</code> process. For that we need to register a
+name so the process can be looked up; if we didn’t do this, we’d need to
+keep track of the process id for our server. <a href="#fnref:start-name" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:via-name">
+      <p>A third alternative is more rarely used in the cases where one
+needs to implement a custom global registry. In that event, you create a
+3-tuple where the second element is the name of the module which implements
+the registry functions. <a href="#fnref:via-name" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:genserver-opts">
+      <p>For a list of available options, see the
+<a href="http://www.erlang.org/doc/man/gen_server.html#start-4">gen_server:start docs</a>. <a href="#fnref:genserver-opts" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/05/25/0929-prelude-to-otp" title="Prelude to OTP">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/05/28/1008-creating-servers-with-the-gen_server-behaviour-ii" title="Creating LFE Servers with OTP, Part II">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>26 May 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#otp-ref">otp <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

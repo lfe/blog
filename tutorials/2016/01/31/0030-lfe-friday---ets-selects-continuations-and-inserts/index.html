@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ETS selects, continuations and inserts
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ETS selects, continuations and inserts
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>At the end of <a href="http://blog.lfe.io/tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit/">last week's LFE Friday</a>, we said we would continue looking at the behavior of the <code>select</code> functions in the <code>ets</code> module.</p>
+
+<p>So before we do any experimentation, we setup our test ETS tables, and this time we will also create a table of type <code>ordered_set</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">fun</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">()</span> <span class="p">(</span><span class="nv">receive</span> <span class="p">(</span><span class="nv">after</span> <span class="ss">&#39;infinity</span> <span class="ss">&#39;ok</span><span class="p">))))</span>
+<span class="err">#</span><span class="nv">Fun&lt;lfe_eval.23.76437303&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">some-process</span> <span class="p">(</span><span class="nv">spawn</span> <span class="nv">fun</span><span class="p">))</span>
+<span class="nv">&lt;0.36.0&gt;</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">set-table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">public</span> <span class="nb">set</span><span class="p">)))</span>
+<span class="mi">8207</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">ordered-set-table</span> <span class="p">(</span><span class="nv">ets:new</span> <span class="ss">&#39;ordered-set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">public</span> <span class="nv">ordered_set</span><span class="p">)))</span>
+<span class="mi">12304</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:give_away</span> <span class="nv">set-table</span> <span class="nv">some-process</span> <span class="p">())</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:give_away</span> <span class="nv">ordered-set-table</span> <span class="nv">some-process</span> <span class="p">())</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>Next we will load our test ETS table with some dummy data, leaving some gaps in the sequence, allowing us to fill those gaps in later.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">30</span> <span class="mi">2</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">set-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">30</span> <span class="mi">2</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ordered-set-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span><span class="p">)</span></code></pre></div>
+
+<p>We then do a select to get all of the records from the table so we can see how the results are ordered for the different table types.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">))))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">15</span> <span class="mi">15</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">25</span> <span class="mi">25</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">21</span> <span class="mi">21</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">23</span> <span class="mi">23</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">29</span> <span class="mi">29</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">27</span> <span class="mi">27</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">ordered-set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">))))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">15</span> <span class="mi">15</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">21</span> <span class="mi">21</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">23</span> <span class="mi">23</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">25</span> <span class="mi">25</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">27</span> <span class="mi">27</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">29</span> <span class="mi">29</span><span class="p">))</span></code></pre></div>
+
+<p>The <code>ets</code> module also has a function <a href="http://erlang.org/doc/man/ets.html#select_reverse-2">ets:select_reverse</a>, so let's take a quick stop and see what that does for our ETS tables.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select_reverse</span> <span class="nv">set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">))))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">15</span> <span class="mi">15</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">25</span> <span class="mi">25</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">21</span> <span class="mi">21</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">23</span> <span class="mi">23</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">29</span> <span class="mi">29</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">27</span> <span class="mi">27</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select_reverse</span> <span class="nv">ordered-set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">))))))</span>
+<span class="p">(</span><span class="o">#(</span><span class="mi">29</span> <span class="mi">29</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">27</span> <span class="mi">27</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">25</span> <span class="mi">25</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">23</span> <span class="mi">23</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">21</span> <span class="mi">21</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">15</span> <span class="mi">15</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span>
+ <span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">))</span></code></pre></div>
+
+<p>If we look at the results of <code>ets:select/2</code> and <code>ets:select_reverse/2</code>, we see that for <code>set-table</code> we get the same result, and for <code>ordered-set-table</code> we get the results in a reverse order, which is what the documentation for <code>ets:select_reverse/2</code> states.  Which makes sense if you think about it, </p>
+
+<p>With that brief diversion out of the way, lets run our same <code>match_spec()</code>s from above, but limit the results to <code>5</code> records so we get a continuation back.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(,</span><span class="nv">set-result</span> <span class="o">,</span><span class="nv">set-continuation</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)))))</span> <span class="mi">5</span><span class="p">))</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">)</span> <span class="o">#(</span><span class="mi">29</span> <span class="mi">29</span><span class="p">)</span> <span class="o">#(</span><span class="mi">27</span> <span class="mi">27</span><span class="p">)</span> <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span> <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">214</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="o">`#(,</span><span class="nv">ord-set-result</span> <span class="o">,</span><span class="nv">ord-set-continuation</span><span class="p">)</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">ordered-set-table</span> <span class="o">&#39;</span><span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)</span> <span class="p">()</span> <span class="p">(</span><span class="o">#(#(</span><span class="nv">$1</span> <span class="nv">$2</span><span class="p">)))))</span> <span class="mi">5</span><span class="p">))</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span> <span class="o">#(</span><span class="mi">5</span> <span class="mi">5</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span> <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">12304</span> <span class="mi">9</span> <span class="p">()</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>And with those continuations, we will see what the next results we would fetch would be.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">set-continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span> <span class="o">#(</span><span class="mi">23</span> <span class="mi">23</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span> <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span> <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">))</span>
+ <span class="o">#(</span><span class="mi">8207</span> <span class="mi">111</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">ord-set-continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span> <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span> <span class="o">#(</span><span class="mi">15</span> <span class="mi">15</span><span class="p">)</span> <span class="o">#(</span><span class="mi">17</span> <span class="mi">17</span><span class="p">)</span> <span class="o">#(</span><span class="mi">19</span> <span class="mi">19</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">12304</span> <span class="mi">19</span> <span class="p">()</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>Remember those "gaps" we left in our sequence of numbers we used to create tuples?</p>
+
+<p>Time to "fill in" those gaps of the sequence to see what happens if we fetch with our existing continuation as data gets populated concurrently.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">30</span> <span class="mi">2</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">set-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">list-comp</span> <span class="p">((</span><span class="nv">&lt;-</span> <span class="nv">x</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2</span> <span class="mi">30</span> <span class="mi">2</span><span class="p">)))</span> <span class="p">(</span><span class="nv">ets:insert</span> <span class="nv">ordered-set-table</span> <span class="p">(</span><span class="nv">tuple</span> <span class="nv">x</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span> <span class="nv">true</span><span class="p">)</span></code></pre></div>
+
+<p>Now we re-run our <code>ets:select/1</code> functions with the same continuations as before.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">set-continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">12</span> <span class="mi">12</span><span class="p">)</span> <span class="o">#(</span><span class="mi">7</span> <span class="mi">7</span><span class="p">)</span> <span class="o">#(</span><span class="mi">3</span> <span class="mi">3</span><span class="p">)</span> <span class="o">#(</span><span class="mi">10</span> <span class="mi">10</span><span class="p">)</span> <span class="o">#(</span><span class="mi">9</span> <span class="mi">9</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">8207</span> <span class="mi">224</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ets:select</span> <span class="nv">ord-set-continuation</span><span class="p">)</span>
+<span class="o">#(</span><span class="p">(</span><span class="o">#(</span><span class="mi">10</span> <span class="mi">10</span><span class="p">)</span> <span class="o">#(</span><span class="mi">11</span> <span class="mi">11</span><span class="p">)</span> <span class="o">#(</span><span class="mi">12</span> <span class="mi">12</span><span class="p">)</span> <span class="o">#(</span><span class="mi">13</span> <span class="mi">13</span><span class="p">)</span> <span class="o">#(</span><span class="mi">14</span> <span class="mi">14</span><span class="p">))</span>
+  <span class="o">#(</span><span class="mi">12304</span> <span class="mi">14</span> <span class="p">()</span> <span class="mi">5</span> <span class="l-Other">#&quot;&quot;</span> <span class="p">()</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">))</span></code></pre></div>
+
+<p>If we compare that to before we can see the we now have even number items in the list.  For our <code>set-table</code> if we look above at the <code>set-continuation</code> value itself, we have the continuation point as <code>214</code>, since that is the only thing that has changed between that continuation and the resulting continuations from calling <code>(ets:select set-continuation)</code>.  So with just a number it is hard to infer just how we might expect the continuation to change.</p>
+
+<p>The <code>ord-set-continuation</code> on the other hand, has a <code>9</code> as its second element in the tuple, after the ETS table id of <code>12304</code>.  This also happens to be the key of the last tuple in the result set, which matches up with the <code>19</code> and <code>14</code> in the other continuations.  So in the case of the ordered set, we can infer that as part of the continuation for an ETS table of type <code>ordered_set</code>, the continuation tells us the specific key of the last record that was returned, and we continue from that record regardless of any concurrent inserts that may have taken place.</p>
+
+<p>Next time we will take a look at <a href="http://erlang.org/doc/man/ets.html#is_compiled_ms-1">ets:is_compiled_ms/1</a> and how match specs might play in with continuations based off reading the documentation about <code>ets:is_compiled_ms/1</code>.</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit" title="LFE Friday - Using ETS select with a limit">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/03/03/0104-lfe-v10-multi-module-files" title="Coming in LFE v1.0: multi-module files">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>31 January 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

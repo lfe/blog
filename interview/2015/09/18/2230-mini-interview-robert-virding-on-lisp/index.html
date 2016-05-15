@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - An Interview with Robert Virding on Lisp
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          An Interview with Robert Virding on Lisp
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/Robert-Train.png"><img class="left medium" src="/assets/images/posts/Robert-Train.png" /></a>If
+you've been watching the
+<a href="http://groups.google.com/group/lisp-flavoured-erlang">LFE mail list closely</a>,
+then you will have noticed that we're working on LFE's first book. That's
+super-exciting, but for a future post or two all of their own. Several months
+ago I was getting chapter 1 ready for the reviewers, and I needed some
+clarification on a few points from Robert Virding regarding some of LFE's
+historical details.</p>
+
+<p>So I did what was natural: asked a bunch of completely unrelated questions!
+Well, to be honest, they were related tangentially and they helped put together
+a more complete picture of LFE's early history. It ended up being a bit of a
+mini-interview, and I enjoyed Robert's responses so much, I asked him if it was
+okay to share with the wider LFE community – he agreed and the plan was
+back-burnered for when I had a chance to create a post with the questions and
+answers.</p>
+
+<p>Robert and I had a few more related conversations around the same time – I've
+taken a bit of artistic liberty in weaving the additional email conversations
+into a single narrative.</p>
+
+<p>I hope you enjoy this as much as I did :-)</p>
+
+<hr />
+
+<p>Duncan: <strong>When did you first encounter Lisp? Where were you working
+and/or going to school?</strong></p>
+
+<p><strong>Robert</strong>:
+I first encountered Lisp somewhere around 1980-81. I was in the Physics
+department at Stockholm University and had started taking my PhD in theoretical
+physics there.</p>
+
+<p>Duncan: <strong>What was your initial reaction to Lisp?</strong></p>
+
+<p><strong>Robert</strong>:
+They were using it at the department for algebraic calculations in theoretical
+physics which is why I came into contact with it. I was (not yet) a part of
+that work so, while it was cool, I didn't really see the beauty of it right
+away.  At that time I was doing programming of more "normal" types of
+applications, tools for student labs and micro-processor programming in labs,
+using more traditional languages like Pascal and various assemblers.</p>
+
+<p>Duncan: <strong>What where the primary hurdles you had to overcome when initially
+learning Lisp?</strong></p>
+
+<p><strong>Robert</strong>:
+My major difficulty was in grasping that the parentheses defined a data
+structure and were not just for grouping as in other languages. Why wasn't
+<code>(foo (1) (2) (3))</code> the same as <code>(foo 1 2 3)</code>. Once I got that, it was
+easy. The prefix notation was no problem as I had done some work with Forth
+(and had implemented one), so I was used to not having infix operators.</p>
+
+<p>Duncan: <strong>What projects did you work on where Lisp was a major aspect of the
+work?</strong></p>
+
+<p><strong>Robert</strong>:
+I didn't really use Lisp deeply at the Physics department. They had a VAX 780
+running VMS and had
+<a href="https://en.wikipedia.org/wiki/Eunice_%28software%29">Eunice</a>, so I tested
+<a href="https://en.wikipedia.org/wiki/Franz_Lisp">Franz Lisp</a>.  When I left and joined
+Ericsson they were also using Vax/VMS so I borrowed Eunice to continue with
+Lisp. I thought it would be interesting to see if I could port Franz Lisp to
+straight-VMS. It was much more UNIX/BSD dependent than I originally thought,
+which resulted in me having to implement more of BSD on top of VMS than I had
+planned. Maybe I can share those details with you later, they are not really
+interesting here, for this Lisp discussion.  As far as I know no-one except me
+ever used it, but it did wonders for my C and understanding of how OSes work!</p>
+
+<p>I did more work with Lisp when I was a member of the
+<a href="http://web.archive.org/web/20000817053822/http://www.ericsson.se/cslab/admin/jubileumsskrift.html">Computer Science Lab</a>
+in Ericsson where we were looking at various ways of implementing telecom
+applications. Lisp was one the languages we were investigating, and as part of
+that work I studied implementing Lisps. I also implemented the Lisp Machine
+Flavors system as a study of implementing a relatively complex system in and on
+Lisp … and for the fun of it as well.</p>
+
+<p>We later moved on to look at logic languages and these became the base on which
+Erlang was built, even though Erlang itself became functional.</p>
+
+<p>Duncan: <strong>Can you tell me more about the Flavors project?</strong></p>
+
+<p><strong>Robert</strong>:
+Well, it's probably not well-known that the name LFE – Lisp Flavoured Erlang
+– was partly inspired by the work I did on porting Flavors to VMS, with the
+spelling changed to the English "Flavours" as a joke.</p>
+
+<p>Duncan: <strong>Were you using an LMI Lambda? If it wasn't a
+Symbolics machine, then it probably wasn't ZetaLisp … so were you using the
+Maclisp-derived Lisp for the Lambda?</strong></p>
+
+<p><strong>Robert</strong>:
+No, it was other way around. I was using PSL
+(<a href="https://en.wikipedia.org/wiki/Portable_Standard_Lisp">Portable Standard Lisp</a>)
+from Utah which was quite a good Lisp implementation running on UNIX, amongst
+other systems. I had heard about Flavors and thought it would be interesting,
+and fun, to see if I could implement it on PSL. I managed to get hold of the
+Lisp Machine Flavors documentation and got going.</p>
+
+<p>Flavors was an extremely feature-filled system; someone had really gone to town
+with it. It had multiple inheritance, mix-in flavors, before and after
+handlers, and wrapper macros. It also had a set of rules describing which were
+to be called and when. It was wonderful. Fortunately, Flavors had a few
+features which made it easier. For example, there was an explicit <code>send</code>
+function so I didn't need to hack PSL itself.</p>
+
+<p>All in all, it worked. But I never really had a proper use-case. Unfortunately,
+I think the code has disappeared – at least, I haven't been able to find it.
+It would almost be doable on LFE except for updating object state; you would
+have to modify it to return the new object instead. Or use processes, but then
+they may be a little heavy.</p>
+
+<p>Duncan: <strong>After gaining experience in school and work with Lisp, what features
+did you feel made Lisp an excellent tool or even just fun to work with?</strong></p>
+
+<p><strong>Robert</strong>:
+I liked working with functional languages and I found Lisp to be very versatile
+when building systems. The combination of functions and macros – and the
+homoiconicity which makes working with macros easy – makes Lisp a very
+powerful tool. This makes Lisp and the concurrency from Erlang a very good
+combination.  One wonders how it would have gone if we had used Lisp as a base
+for Erlang.</p>
+
+<p>Duncan: <strong>In 2007, when you started working on what would become LFE, when was
+the last time you had implemented a language? Was it in 1986 when you had
+implemented the variants of the parallel logic programming languages?</strong></p>
+
+<p><strong>Robert</strong>:
+In addition to the work on the parallel programming languages, I did a number
+of implementations of Erlang to study different techniques as well as to study
+the possibilities of using different memory management and garbage collection
+mechanisms like reference-counting and a real-time copying collector. These
+presented no significant benefit over the separate-process-heap model used in
+the "standard" Erlang implementations, so the work was discontinued.</p>
+
+<p>I did some work with the BEAM implementation, amongst other things, the
+compiler, and also parts of the basic system.</p>
+
+<p>Duncan:
+<strong>Coming back to the parallel programming, I saw a reference to the 1986 paper
+you co-authored, entitled
+<em>The Phoning Philosopher's Problem or Logic Programming for Telecommunications Applications</em>,
+where <a href="https://en.wikipedia.org/wiki/Parlog">Parlog</a> was used to create what
+looked like an Erlang prototype. Was this the first version of Erlang?</strong></p>
+
+<p><strong>Robert</strong>:
+No, the Erlang language did not exist in 1986; using the name "Erlang"
+pre-dates the current Erlang language. The 1986 paper was describing a
+language/system based on concurrent logic which we called "Erlang". It
+was mainly done by a guy called Nabiel Elshiewy and myself. Actually this path
+was abandoned and has nothing to do modern Erlang. Which I think is a great
+shame, as I liked the concurrent logic languages. I still do.</p>
+
+<p>Work on what became Erlang didn't really start until '87/'88. Before that
+almost all the members of the lab had written telecom applications in a variety
+of languages and systems – basically everything that ran on BSD or UNIX – to
+experiment with ways of solving the problem.</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/09/18/1604-distributed-lfe" title="Distributed LFE">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/09/20/1743-lisp-machine-flavors-for-lfe-2" title="Lisp Machine Flavors for LFE (2)">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>18 September 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              interview
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#history-ref">history <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#lisp-ref">lisp <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+     
+    	<li><a href="/tags.html#lambda machine-ref">lambda machine <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#symbolics-ref">symbolics <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#vms-ref">vms <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#flavors-ref">flavors <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#oop-ref">oop <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#parlog-ref">parlog <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

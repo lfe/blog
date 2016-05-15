@@ -1,0 +1,119 @@
+/* Overrides */
+
+div.highlight pre {
+    background-color: rgba(0,0,0,0.1) !important;
+    color: #0a0;
+}
+
+code span.nv, code span.nb {
+    color: #0f0;
+}
+
+code span.p {
+    color: #0aa;
+}
+
+img.left {
+    float: left !important;
+}
+
+img.right {
+    float: right !important;
+}
+
+img.right.tiny, img.right.thumb, img.right.small, img.right.medium, img.right.large,
+img.left.tiny, img.left.thumb, img.left.small, img.left.medium, img.left.large {
+    max-width: auto !important;
+    width: auto !important;
+    vertical-align: top !important;
+    margin-bottom: 1.0em;
+    font-size: inherit;
+}
+
+img.right.tiny, img.left.tiny {
+    max-height: 100px;
+    height: 100px;
+}
+
+img.right.thumb, img.left.thumb {
+    max-height: 175px;
+    height: 175px;
+}
+
+img.right.small, img.left.small {
+    max-height: 200px;
+    height: 200px;
+}
+
+img.right.smallplus, img.left.smallplus {
+    max-height: 250px;
+    height: 250px;
+}
+
+img.right.medium, img.left.medium {
+    max-height: 300px;
+    height: 300px;
+}
+
+img.right.large, img.left.large {
+    max-height: 500px;
+    height: 500px;
+}
+
+img.right.tiny, img.right.thumb, img.right.small, img.right.smallplus,
+img.right.medium, img.right.large {
+    margin-left: 3.0em;
+    margin-right: 0.3em;
+}
+
+img.left.tiny, img.left.thumb, img.left.small, img.left.smallplus,
+img.left.medium, img.left.large {
+    margin-right: 3.0em;
+}
+
+p {
+    word-spacing: 0.15em;
+}
+
+pree code {
+    word-spacing: 0.05em;
+}
+
+p.subtagline {
+    padding-top: 1em;
+}
+
+.meddot {
+    font-size: 1em;
+    padding: 0.5em;
+}
+
+blockquote {
+    font-size: 120%;
+    line-height: 1.3em;
+}
+
+li {
+    line-height: 1.5em;
+}
+
+h1 code {
+    font-size: 80%;
+}
+
+h2 code {
+    font-size: 80%;
+}
+
+h3 code {
+    font-size: 85%;
+}
+
+footer {
+    padding-top: 2em;
+}
+
+.page-header h1, .content h2 a {
+    color: #99bf17;
+}
+

@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Update: Running an LFE YAWS app in Docker
+      
+    </title>
+    <meta name="description" content="Docker LFE/YAWS sample app has been updated">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Update: Running an LFE YAWS app in Docker
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/DockerLogo.png"><img class="left thumb" src="/assets/images/posts/DockerLogo.png" /></a>Last December we posted a
+<a href="/tutorials/2014/12/07/1837-running-lfe-in-docker/">blog entry</a>
+about Docker
+<a href="https://www.docker.com/">Docker</a> and LFE. Since that time there have been
+several version changes in Erlang, LFE, and the LFE libraries used. In addition,
+the process to get the demo Dockerized YAWS web app running has been streamlined.
+This post covers those changes.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>If you are running on Mac OS X, you'll need to install and start
+<a href="http://boot2docker.io/">boot2docker</a>. If you're running on Linux,
+you'll need to start the <code>docker</code> services (for instance, on Ubuntu,
+<code>sudo /etc/init.d/docker start</code>)</p>
+
+<h3 id="port-forwarding">Port-Forwarding</h3>
+
+<p>Docker on Linux handles port-redirects between the host and guest just fine;
+for Docker on Mac OS X, you'll need to setup port-forwarding via SSH:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>boot2docker ssh -L &lt;HOSTMACHINE&gt;:5099:127.0.0.1:5099</code></pre></div>
+
+<p>Then just leave that terminal window open and continue with the rest of this
+post in another terminal.</p>
+
+<h2 id="lfe-exchange-docker-images">LFE Exchange Docker Images</h2>
+
+<p>There are several LFE Docker images to choose from, all available via the
+LFEX Docker Hub org:
+ * https://hub.docker.com/u/lfex/</p>
+
+<p>They are of two different types:
+ * One image generated from the <code>Dockerfile</code> maintained in the
+   <a href="https://github.com/rvirding/lfe/">official LFE repository</a> using the <code>develop</code>
+   branch
+ * All the others which are maintained in the
+  <a href="https://github.com/lfex/dockerfiles">lfex dockerfiles repository</a> are kept in
+  sync with the official <code>develop</code> branch but also offer the added
+  feature of a <a href="https://github.com/rvirding/lfe/pull/116">color logo banner</a>
+  when you start up the LFE REPL.</p>
+
+<h2 id="yaws-lfe-docker-image">YAWS LFE Docker Image</h2>
+
+<p>As part of the update of the old post, I've created a Docker with YAWS and
+the demo web app pre-installed and ready to go. It's available here:
+ * https://hub.docker.com/r/oubiwann/lfe-yaws-sample-app/
+ * https://github.com/oubiwann/docker-lfe-yaws-sample-app/</p>
+
+<p>For the last blog post we used the
+<a href="https://hub.docker.com/r/lfex/opensuse/">OpenSUSE image</a>, but for this one
+we've based off of the <a href="https://hub.docker.com/r/lfex/debian/">Debian image</a>,
+since it's the smallest one.</p>
+
+<p>If you'd rather build the YAWS LFE sample app Docker image yourself than
+download it from Docker Hub, simply run <code>make docker-build</code> from the cloned
+source directory for the <code>docker-lfe-yaws-sample-app</code> project.</p>
+
+<h2 id="running-the-container">Running the Container</h2>
+
+<p>Whether you build the image yourself or chose to let <code>docker</code> download it for
+you from Docker Hub, either way the same command is used to run the container:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run -p 5099:5099 -t oubiwann/lfe-yaws-sample-app:latest</code></pre></div>
+
+<p>Almost immediately the YAWS app will be up and running. Visiting
+<code>http://&lt;HOSTMACHINE&gt;:5099</code> in a web browser will show the running YAWS LFE
+web app:</p>
+
+<p><img src="/assets/images/posts/docker-lfe-sample-app-main-page.png" /></p>
+
+<h2 id="the-lfe-repl">The LFE REPL</h2>
+
+<p>If, instead of running the app server, you'd like to use the LFE REPL on this
+image with all of the dependent libraries, you can run this command instead:</p>
+
+<div class="highlight"><pre><code class="language-bash"><span class="nv">$ </span>docker run -i -t oubiwann/lfe-yaws-sample-app:latest lfe</code></pre></div>
+
+<p><img src="/assets/images/posts/lfe-color-banner.png" /></p>
+
+<h2 id="why-the-update">Why the Update?</h2>
+
+<p>Due to the question of a curious community member, I'm now preparing a blog
+post on using YAWS websockets support with an LFE app. I wanted to use the
+sample app featured in the original LFE Docker blog post (linked at the
+beginning of this post), but it needed some updates and further finessing …
+upon the completion of which, it warranted a new post describing how to use it
+now.</p>
+
+<p>Keep your eyes peeled for the websockets post …</p>
+
+<h2 id="an-lfe-web-app-aside">An LFE Web App Aside</h2>
+
+<p>If you'd like to look at the source code for this sample app, it has been
+made available here:</p>
+
+<ul>
+  <li><a href="https://github.com/oubiwann/docker-lfe-yaws-sample-app">https://github.com/oubiwann/docker-lfe-yaws-sample-app</a></li>
+</ul>
+
+<p>It takes advantage of two interesting LFE libraries:</p>
+
+<ul>
+  <li><a href="https://github.com/lfex/lfest">lfest</a> - a
+Clojure/<a href="https://github.com/weavejester/compojure">Compojure</a>-like
+macro for defining app routes</li>
+  <li><a href="https://github.com/lfex/exemplar">exemplar</a> - an LFE library for HTML as
+LFE-native s-expressions</li>
+</ul>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/11/28/1721-lfe-friday---ets-introduction-part-1" title="LFE Friday - ETS Introduction, part 1">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2" title="LFE Friday - ETS Introduction, part 2">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>28 November 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#docker-ref">docker <span>3</span></a></li>
+     
+    	<li><a href="/tags.html#paas-ref">paas <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#howtos-ref">howtos <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#web-ref">web <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#apps-ref">apps <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#ops-ref">ops <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#lfest-ref">lfest <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#exemplar-ref">exemplar <span>2</span></a></li>
+     
+    	<li><a href="/tags.html#boot2docker-ref">boot2docker <span>2</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

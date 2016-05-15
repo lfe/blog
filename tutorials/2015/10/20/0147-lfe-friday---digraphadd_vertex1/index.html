@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - digraph:add_vertex/1
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - digraph:add_vertex/1
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday starts to dig into the <code>digraph</code> module, as promised last week, and takes a look at <a href="http://www.erlang.org/doc/man/digraph.html#add_vertex-1">digraph:add_vertex/1</a>.</p>
+
+<p>First we create a new directed graph, so we have something we can add vertices to.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">graph</span> <span class="p">(</span><span class="nv">digraph:new</span><span class="p">))</span>
+<span class="o">#(</span><span class="nv">digraph</span> <span class="mi">20495</span> <span class="mi">24592</span> <span class="mi">28689</span> <span class="nv">true</span><span class="p">)</span></code></pre></div>
+
+<p>We then add some vertices to the graph by using <code>digraph:add_vertex/1</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span></code></pre></div>
+
+<p>As we don't specify any information about the vertex we want to add, LFE will create a new vertex for us of the format <code>($v . i)</code>, with an empty list as the label where <code>i</code> is a non-negative integer.</p>
+
+<p>We can also use <code>digraph:add_vertex/2</code> to add a vertex if we wish to provide the vertex identifier, or provide vertex identifier and label in the case of <code>digraph:add_vertex/3</code>.  As with <code>digraph:add_vertex/1</code>, <code>digraph:add_vertex/2</code> uses the empty list as the label as well.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span> <span class="ss">&#39;vertex1</span><span class="p">)</span>
+<span class="nv">vertex1</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span> <span class="ss">&#39;vertex2</span> <span class="s">&quot;Vertex 2&quot;</span><span class="p">)</span>
+<span class="nv">vertex2</span></code></pre></div>
+
+<p>We have now added 5 vertices, and can check what vertices we have in the <code>digraph()</code> by using <a href="http://www.erlang.org/doc/man/digraph.html#vertices-1">digraph:vertices/1</a>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">graph</span><span class="p">)</span>
+<span class="p">((</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span> <span class="nv">vertex2</span> <span class="nv">vertex1</span><span class="p">)</span></code></pre></div>
+
+<p>If we decide we want to try to add a vertex ourselves of the format <code>($v . i)</code>, we can run into trouble if you call <code>digraph:add_vertex/1</code> after it.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span><span class="p">)</span>          
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">graph</span><span class="p">)</span>            
+<span class="p">((</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">vertex2</span> <span class="nv">vertex1</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:add_vertex</span> <span class="nv">graph</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">digraph:vertices</span> <span class="nv">graph</span><span class="p">)</span>            
+<span class="p">((</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nv">$v</span> <span class="o">.</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">vertex2</span> <span class="nv">vertex1</span><span class="p">)</span></code></pre></div>
+
+<p>So we add a vertex by specifying the <code>vertex()</code> we want to add, and then add a new vertex and let LFE take care of creating that vertex, and we wind up "losing" a vertex, as one essentially gets overridden when we look at the end state of the <code>digraph()</code>.</p>
+
+<p>- Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/10/18/1701-lfe-friday---the-digraph-module" title="LFE Friday - The digraph module">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4" title="LFE Friday - digraph:add_edge/4">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>20 October 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

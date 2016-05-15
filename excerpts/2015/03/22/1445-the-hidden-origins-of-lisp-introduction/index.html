@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - The Hidden Origins of Lisp: Introduction
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          The Hidden Origins of Lisp: Introduction
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/sicp.jpg"><img class="right medium" src="/assets/images/posts/sicp.jpg" /></a>
+As <a href="http://blog.lfe.io/update/2015/03/22/1342-sicp-the-lfe-edition-update/">mentioned earlier</a>,
+this post kicks off a blog series highlighting the new preface for the LFE
+edition of <em>Structure and Interpretation of Computer Programs</em>.
+(<a href="http://lfe.gitbooks.io/sicp/content/index.html">book</a>,
+<a href="https://github.com/lfe/sicp">source</a>) The posts will be comprised of the
+preface introduction and then a collection of short biographies as pertains to
+the foundation (laid by the given individual) which ended up being crucial to
+the development of Lisp, concluding with a section regarding Lisp's important
+role in the future of computer science and related industries:</p>
+
+<ul>
+  <li><a href="/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/">Introduction</a></li>
+  <li><a href="/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/">Giuseppe Peano</a></li>
+  <li><a href="/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell/">Bertrand Russell</a></li>
+  <li><a href="/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church/">Alonzo Church</a></li>
+  <li><a href="/excerpts/2015/03/26/1111-the-hidden-origins-of-lisp-mccarthy/">John McCarthy</a></li>
+  <li><a href="/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future">The Place of Lisp in the 21st Century</a></li>
+</ul>
+
+<p>The LFE preface in SICP also has a quick summary of the origins of Erlang
+and of LFE itself, discusses changes from the 2nd edition of SICP, then
+closes with instructions on how to obtain the source for the original, for the
+LFE edition, and for the code used in the LFE edition's chapters. Those bits
+are available in the book and won't be presented in this series of the LFE
+blog.</p>
+
+<p>If you find any issues or have questions, concerns, etc., you may provide
+feedback about the preface in the
+<a href="https://github.com/lfe/sicp/issues/6">dedicated ticket</a> created for tracking
+such things.</p>
+
+<p>Today we start with the preface introduction; look for the remaining sections
+in the coming days.</p>
+
+<h2 id="the-hidden-origins-of-lisp-introduction">The Hidden Origins of Lisp: Introduction</h2>
+
+<p>Beginnings are important. They may not fully dictate the trajectory of their
+antecedents, yet it does seem they do have a profound impact on the character
+of their effects. For the human observer, beginnings are also a source of
+inspiration: good beginnings lend a strength of purpose, the possibility of
+greater good. The story of Lisp has a good beginning – several of them, in
+fact – closely tied to the theories of numbers, mathematical logic, functions
+and types as well as that of computing itself.</p>
+
+<p>At their root, the histories of programming languages spring from, on one hand,
+the practical considerations of engineering and developer experience, and on
+the other hand, the principle of computability. This, in turn, ultimately
+traces its beginnings to the fundamental concepts of arithmetic and
+mathematical logic: what are numbers and how to we define them rigorously?
+These questions were asked and considered – sometimes from a fairly vague
+philosophical perspective – by great minds such as Leibniz (later 1600s;
+drafts published posthumously), Boole (1847), Grassmann (1861), Pierce (1881),
+Frege (1884), and Dedekind (1888). It was the Italian mathematician Giuseppe
+Peano, though, who in 1889 finally identified and distilled the essence of
+these explorations in terms that were more precisely formulated than those of
+his peers or intellectual fore bearers. These were subsequently elaborated by
+successive generations of mathematicians prior to the advent of "high-level"
+programming languages in the 1950s.</p>
+
+<p>Histories are complicated; complete ones are impossible and readable ones are
+necessarily limited and lacking in details. In our particular case, there is a
+complex lineage of mathematics leading to Lisp. However, for the sake of
+clarity and due to this being a preface and not a book in its own right, the
+mathematical and computational history leading to Lisp has been greatly
+simplified in this preface. The four dominant historical figures discussed
+provide distinct insights and represent corresponding themes as mathematics
+evolved unwittingly toward a support for computing. Due to the limitation of
+scope, however, it might be better to view these as archetypes of mathematical
+discovery rather than historical figures one might come to know when reading a
+full history. Of the many themes one could discern and extract from these great
+minds, we focus on the following:</p>
+
+<ul>
+  <li>Understanding and defining the underpinnings of arithmetic and logic ("What are
+numbers? What is counting?")</li>
+  <li>Attempting to formally unify all of mathematics in a consistent framework of
+logic ("Can I express all of math in discrete logical assertions and
+statements?")</li>
+  <li>Formally defining algorithms and computability ("Is there a procedure that can
+take any precise mathematical statement and decide whether the statement is
+true or false?")</li>
+  <li>Creating the means by which symbolic computation and artificial reasoning could
+be made manifest ("Can we make machines solve problems that are usually
+considered to require intelligence?") <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></li>
+</ul>
+
+<p>Each major topic above depended – in one form or another – upon the preceding
+topic, and the four famous mathematicians listed in the subsequent sections
+embodied each of these themes. Small excerpts from their lives and work are
+shared as believed to have impacted the course of events that lead to Lisp's
+inception.</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This is an almost word-for-word quote from John McCarthy's January 1962
+  submission in the quarterly progress report for MIT's RLE, titled
+  <a href="http://dspace.mit.edu/bitstream/handle/1721.1/53661/RLE_QPR_064_XXI.pdf">XXI. ARTIFICIAL INTELLIGENCE</a>,
+  page 189 on the original hard copy. The table of contents for the
+  original is available
+  <a href="http://dspace.mit.edu/bitstream/handle/1721.1/53645/RLE_QPR_064_TOC.pdf">here</a>. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/update/2015/03/22/1342-sicp-the-lfe-edition-update" title="SICP: the LFE Edition - Update">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/03/22/2108-lfe-friday---ordsetsis_disjoint2" title="LFE Friday - ordsets:is_disjoint/2">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>22 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              excerpts
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#books-ref">books <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#documentation-ref">documentation <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#education-ref">education <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#history-ref">history <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#lisp-ref">lisp <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#mathematics-ref">mathematics <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#sicp-ref">sicp <span>7</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

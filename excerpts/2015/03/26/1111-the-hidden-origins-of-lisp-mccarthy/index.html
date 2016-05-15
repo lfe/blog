@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - The Hidden Origins of Lisp: John McCarthy
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          The Hidden Origins of Lisp: John McCarthy
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/John-McCarthy.jpg"><img class="right medium" src="/assets/images/posts/John-McCarthy.jpg" /></a> John McCarthy: Creator of the prefix-notation programming language Lisp and founder of AI.</p>
+
+<p>This is one of a series of posts tracing the origins of Lisp through four brief
+biographical vignettes of individuals whose contributions to mathematics
+ultimately supported the creation of Lisp:</p>
+
+<ul>
+  <li><a href="/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction/">Introduction</a></li>
+  <li><a href="/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano/">Giuseppe Peano</a></li>
+  <li><a href="/excerpts/2015/03/24/0111-the-hidden-origins-of-lisp-russell/">Bertrand Russell</a></li>
+  <li><a href="/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church/">Alonzo Church</a></li>
+  <li><a href="/excerpts/2015/03/26/1111-the-hidden-origins-of-lisp-mccarthy/">John McCarthy</a></li>
+  <li><a href="/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future">The Place of Lisp in the 21st Century</a></li>
+</ul>
+
+<p>The material presented in these
+posts has been taken from early drafts of the new preface for the LFE edition
+of <em>Structure and Interpretation of Computer Programs</em>
+(<a href="http://lfe.gitbooks.io/sicp/content/index.html">book</a>,
+<a href="https://github.com/lfe/sicp">source</a>) and shared here for the purpose of
+community feedback and review – as well as to expose Lisp's pre-history to a
+wider audience!</p>
+
+<p>If you find any issues or have questions, concerns, etc., about this preface
+material, you may share these via the
+<a href="https://github.com/lfe/sicp/issues/6">ticket</a> which has been dedicated to
+tracking feedback.</p>
+
+<h2 id="the-hidden-origins-of-lisp-john-mccarthy">The Hidden Origins of Lisp: John McCarthy</h2>
+
+<p>John McCarthy was born in 1927, in the city of Boston. Due to difficulties
+finding work during the Great Depression, the family moved to New York, then
+finally settled in Los Angeles. Having established an early aptitude and
+proficiency in mathematics, McCarthy skipped two years of math upon his
+enrollment at Caltech. The year he received his undergraduate degree, he
+attended the 1948 Hixon Symposium on Cerebral Mechanisms in Behavior. The
+speakers at the symposium represented an intersection of mathematics,
+psychology, and the nascent field of computing science. <sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>At the symposium John von Neumann presented his paper "The General and Logical
+Theory of Automata", <sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup> where he covered the following topics:</p>
+
+<ol>
+  <li>Preliminary Considerations</li>
+  <li>Discussion of Certain Relevant Traits of Computing Machines</li>
+  <li>Comparisons Between Computing Machines And Living Organism</li>
+  <li>The Future Logical Theory of Automata</li>
+  <li>Principles of Digitalization</li>
+  <li>Formal Neural Networks</li>
+  <li>The Concept of Complication and Self-Reproduction</li>
+</ol>
+
+<p>von Neumann's erudite tour de force stunned audience members as well as fellow
+presenters. <sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup> McCarthy was captivated. Now intrigued with the idea of
+developing machines that could think as people do, he was set upon the
+path which he would follow for the rest of his life.</p>
+
+<p>McCarthy remained at Caltech for one year of grad school, but then pursed the
+remainder of his Ph.D. at Princeton, considered by him to be the greater
+institution for the study of mathematics. In a discussion with an enthusiastic
+von Neumann during a visit to Princeton Institute for Advanced Study, McCarthy
+shared his ideas about interacting finite automata – ideas inspired by von
+Neumann's talk at the Hixon Symposium. Though encouraged by von Neumann to
+write these ideas up in a paper, McCarthy never did. However, these thoughts
+continued to evolve over the course of the next 10 years and found their way –
+in modified form – to McCarthy's early AI papers and even Lisp itself.</p>
+
+<p>After completing his Ph.D. dissertation, Claude Shannon invited McCarthy and
+his friend Marvin Minsky to work at Bell Labs in New Jersey for the summer.
+McCarthy and Shannon collaborated on assembling a volume of papers entitled
+"Automata Studies," thought ultimately a bit of a disappointment to McCarthy
+since so few submissions concerned the topic of his primary interest: machine
+intelligence. A few years later, he had the opportunity to address this by
+proposing a summer research project which he and the head of IBM's Information
+Research pitched to Shannon and Minsky. They agreed, and a year later held the
+first Artificial Intelligence workshop at the Dartmouth campus in New
+Hampshire.</p>
+
+<p>It was here, thanks to Allen Newell and Herb Simon, that McCarthy was exposed
+to the idea of list processing for a "logical language" Newell and Simon were
+working on (later named IPL). McCarthy initially had high hopes for this effort
+but upon seeing that its implementation borrowed heavily from assembly, he gave
+up on it. That, in conjunction with his inability to gain any traction with the
+maintainers of FORTRAN for the support of recursion or conditionals, finally
+pushed him to create a language that suited his goals of exploring machine
+intelligence.</p>
+
+<p>With the seeds of Lisp sown in 1956 at the workshop, it was two more years
+before development of the programming language began in earnest. In 1958 a
+special project was established to carry out Lisp development and AI work under
+the auspices of the MIT Research Laboratory of Electronics – which granted
+McCarthy and his team one room, one secretary, two programmers, a key punch and
+six grad students.<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup> The MIT AI project was founded and the work of creating
+Lisp had begun.</p>
+
+<p>By the end of the year, the group had written – on paper – subroutines for
+reading and printing list structures as well as those to provide a Lisp
+environment. Over the course of a few months, these were then hand-compiled to
+SAP (<em>SHARE assembly program</em>), and eventually checked by running the SAP code
+on the IBM 704 which had been made available to MIT. <sup id="fnref:5"><a href="#fn:5" class="footnote">5</a></sup><sup>,</sup>
+<sup id="fnref:6"><a href="#fn:6" class="footnote">6</a></sup> Within a few years, Lisp had it's first interpreter
+(written in Lisp), and not too long after that saw the release of version 1.5
+of the language.</p>
+
+<p>At the 1980 Lisp conference held at Stanford, John McCarthy humorously
+commented on the previous two decades of Lisp's survival: <sup id="fnref:7"><a href="#fn:7" class="footnote">7</a></sup></p>
+<blockquote>
+"On LISP's approximate 21st anniversary, no doubt something could be said about
+coming of age, but it seems doubtful that the normal life expectancy of a
+programming language is three score and ten. In fact, LISP seems to be the
+second oldest surviving programming language after Fortran, so maybe we should
+plan on holding one of these newspaper interviews in which grandpa is asked to
+what he attributes having lived to 100."
+</blockquote>
+
+<p>Lisp's 50th anniversary was celebrated in 2008, and despite the AI Winter of
+the 1990s, it shows no signs of disuse or senescence. Quite to the contrary, it
+continues to have a profound impact on multiple generations of computer
+programmers meeting all number and variation of needs.</p>
+
+<hr />
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>The presenters at the <em>Hixon Symposium on Cerebral Mechanisms in Behavior</em>, per the notes in the Caltech publication <em>Engineering and Science</em>, <a href="http://resolver.caltech.edu/CaltechES:12.1.Pump2">Volume 12:1, October 1948</a>, were as follows:</p>
+      <ul><li>Professor Ward C. Halstead, University of Chicago</li>
+  <li>Professor Heinrich Kluver, University of Chicago</li>
+  <li>Professor Wolfgang Kohler , Swarthmore College</li>
+  <li>Professor K. S. Lashley, Harvard University</li>
+  <li>Dr. R. Lorente de No, Rockefeller Institute for Medical Research</li>
+  <li>Professor Warren S. Mc Culloch, University of Illinois</li>
+  <li>Dr. John von Neumann, Institute for Advanced Study</li>
+</ul>
+      <p><a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>A transcript of "The General and Logical Theory of Automata" is available in Volume V of John von Neumann "Collected Works". The talk concluded with an intensive period of question and answer, recorded at the end of the article. <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>At the beginning of the Q&amp;A session for von Neumann's talk at the Hixon Symposium, one Dr. Gerard comments "I have had the privilege of hearing Dr. von Neumann speak on various occasions, and I always find myself in the delightful but difficult role of hanging on to the tail of a kite. While I can follow him, I can't do much creative thinking as we go along." <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>Marvin Minsky and John McCarthy founded the MIT AI Lab together when McCarthy caught the acting head of the department, Jerome Weisner, in the hallway and asked him permission to do it. Weisner responded with "Well, what do you need?”. When McCarthy gave him the list, he asked "How about 6 graduate students?" as the department had agreed to support six mathematics students, but had yet to find work for them. See <a href="http://www-formal.stanford.edu/leora/hayes_morgenstern_birthday_mccarthy.pdf">On John McCarthy’s 80th Birthday, in Honor of his Contributions</a>, page 3. <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p>See the section "The implementation of LISP" in McCarthy's 1978 paper <em>History of Lisp</em>. <a href="#fnref:5" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p>See <em>Lisp Bulletin #3</em>, December 1979 in the article "Lisp History" by Herbert Stoyan, page 45. Stoyan's article aimed to fill in the missing details of McCarthy's earlier paper – of the same name – which McCarthy had presented at the SIGPLAN conference in June of 1979. <a href="#fnref:6" class="reversefootnote">&#8617;</a></p>
+    </li>
+    <li id="fn:7">
+      <p>See <a href="http://www-formal.stanford.edu/jmc/lisp20th/lisp20th.html">Lisp: Notes on Its Past and Future</a> in the "Introduction." <a href="#fnref:7" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/excerpts/2015/03/25/1108-the-hidden-origins-of-lisp-church" title="The Hidden Origins of Lisp: Alonzo Church">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/excerpts/2015/03/27/1101-the-hidden-origins-of-lisp-future" title="The Hidden Origins of Lisp: The Place of Lisp in the 21st Century">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Duncan McGreggor">Duncan McGreggor</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>26 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              excerpts
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#books-ref">books <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#documentation-ref">documentation <span>6</span></a></li>
+     
+    	<li><a href="/tags.html#education-ref">education <span>7</span></a></li>
+     
+    	<li><a href="/tags.html#history-ref">history <span>8</span></a></li>
+     
+    	<li><a href="/tags.html#lisp-ref">lisp <span>10</span></a></li>
+     
+    	<li><a href="/tags.html#mathematics-ref">mathematics <span>5</span></a></li>
+     
+    	<li><a href="/tags.html#sicp-ref">sicp <span>7</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

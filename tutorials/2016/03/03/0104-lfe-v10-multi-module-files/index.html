@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Coming in LFE v1.0: multi-module files
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Coming in LFE v1.0: multi-module files
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LFE-signal.jpg"><img class="right thumb" src="/assets/images/posts/LFE-signal.jpg" /></a>Finally LFE v1.0 is about to be released. Pretty soon anyway. So here are some new things which are coming. These can all be tested on the develop branch.
+<br /><br /></p>
+
+<p>First up is that the handling of multi-module files has now been finalized. So while the latest version of LFE has been able to handling multiple modules in one file it has never really been announced and described. The basics are simple: everything defined <em>before</em> the first module is visible in all the modules while that which is defined <em>inside</em> a module is only visible in that module.</p>
+
+<p>An example file:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="c1">;; A demo file.</span>
+<span class="c1">;; This is before all the modules.</span>
+
+<span class="p">(</span><span class="nb">defmacro</span> <span class="nv">before</span> <span class="p">(</span><span class="nv">a</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nv">tuple</span> <span class="ss">&#39;before</span> <span class="o">,</span><span class="nv">a</span><span class="p">))</span>
+
+<span class="c1">;; Define the first module.</span>
+
+<span class="p">(</span><span class="nv">defmodule</span> <span class="nv">1st-module</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="p">(</span><span class="nv">f</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defmacro</span> <span class="nv">inside</span> <span class="p">(</span><span class="nv">a</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nv">tuple</span> <span class="ss">&#39;inside</span> <span class="ss">&#39;1st-module</span> <span class="o">,</span><span class="nv">a</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">f</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">before</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="nv">inside</span> <span class="nv">x</span><span class="p">)))</span>
+
+<span class="c1">;; Define the second module.</span>
+
+<span class="p">(</span><span class="nv">defmodule</span> <span class="nv">2nd-module</span>
+  <span class="p">(</span><span class="nb">export</span> <span class="p">(</span><span class="nv">f</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nb">defmacro</span> <span class="nv">inside</span> <span class="p">(</span><span class="nv">a</span><span class="p">)</span>
+  <span class="o">`</span><span class="p">(</span><span class="nv">tuple</span> <span class="ss">&#39;inside</span> <span class="ss">&#39;2nd-module</span> <span class="o">,</span><span class="nv">a</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nb">defun</span> <span class="nv">f</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">before</span> <span class="nv">x</span><span class="p">)</span>
+        <span class="p">(</span><span class="nv">inside</span> <span class="nv">x</span><span class="p">)))</span></code></pre></div>
+
+<p>So this simple module contains the definition of the macro <code>before</code> and then two modules <code>1st-module</code> and <code>2nd-module</code>. Each module defines the macro <code>inside</code> and a function <code>f/1</code>. Compiling this module and calling the functions <code>f/1</code> gives us:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">c</span> <span class="ss">&#39;zip</span><span class="p">)</span>                 
+<span class="p">(</span><span class="o">#(</span><span class="nv">module</span> <span class="nv">1st-module</span><span class="p">)</span> <span class="o">#(</span><span class="nv">module</span> <span class="nv">2nd-module</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">1st-module:f</span> <span class="mi">42</span><span class="p">)</span>        
+<span class="p">(</span><span class="o">#(</span><span class="nv">before</span> <span class="mi">42</span><span class="p">)</span> <span class="o">#(</span><span class="nv">inside</span> <span class="nv">1st-module</span> <span class="mi">42</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">2nd-module:f</span> <span class="mi">42</span><span class="p">)</span>
+<span class="p">(</span><span class="o">#(</span><span class="nv">before</span> <span class="mi">42</span><span class="p">)</span> <span class="o">#(</span><span class="nv">inside</span> <span class="nv">2nd-module</span> <span class="mi">42</span><span class="p">))</span></code></pre></div>
+
+<p>Here we see that the <code>before</code> macro is the same in both modules while the <code>inside</code> macro is local to each module.</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts" title="LFE Friday - ETS selects, continuations and inserts">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2016/03/05/0407-lfe-v10-exporting-macros" title="Coming in LFE v1.0: exporting macros">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>03 March 2016</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#v1.0-ref">v1.0 <span>2</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

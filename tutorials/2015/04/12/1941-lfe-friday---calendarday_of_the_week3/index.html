@@ -1,0 +1,242 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - calendar:day_of_the_week/3
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - calendar:day_of_the_week/3
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today’s LFE Friday covers <a href="http://www.erlang.org/doc/man/calendar.html#day_of_the_week-3">calendar:day_of_the_week/3</a>.</p>
+
+<p><code>calendar:day_of_the_week/3</code> allows you to get the day of the week a day occurred on when passed a year, a month and a day.</p>
+
+<p>The first argument represents the year and must be a non-negative integer. The second argument is the month and must be an integer value between 1 and 12 inclusive, representing the 12 months of the Gregorian Calendar, with January being month one. The final argument to <code>calendar:day_of_the_week/3</code> is the date, and is expected to be a integer between 1 and 31 inclusive.</p>
+
+<p><code>calendar:day_of_the_week/3</code> returns an integer value in between 1 and 7 inclusive, with a return value of 1 representing Monday, and a 7 being Sunday.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">1970</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="mi">4</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">1999</span> <span class="mi">12</span> <span class="mi">31</span><span class="p">)</span>
+<span class="mi">5</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>     
+<span class="mi">6</span></code></pre></div>
+
+<p>As you can see that the publish date of this LFE Friday post<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>, 2015-04-10, returns a 5, which is in fact a Friday according to Erlang.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">2015</span> <span class="mi">4</span> <span class="mi">10</span><span class="p">)</span>
+<span class="mi">5</span></code></pre></div>
+
+<p>There is also a <code>calendar:day_of_the_week/1</code> function which has all the same constraints but instead of taking three arguments, takes one argument that is a three-tuple of the year, month, and day.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="o">#(</span><span class="mi">2015</span> <span class="mi">4</span> <span class="mi">10</span><span class="p">))</span>
+<span class="mi">5</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="o">#(</span><span class="mi">1970</span> <span class="mi">1</span> <span class="mi">1</span><span class="p">))</span> 
+<span class="mi">4</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="o">#(</span><span class="mi">1999</span> <span class="mi">12</span> <span class="mi">31</span><span class="p">))</span>
+<span class="mi">5</span></code></pre></div>
+
+<p>And in the spirit of helping to recognize error messages when we see them, let’s take a look at what we get when we pass some invalid inputs to <code>calendar:day_of_the_week/3</code>.</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>        
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">function_clause</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">calendar</span> <span class="nv">date_to_gregorian_days</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="nv">in</span> <span class="nv">calendar:day_of_the_week/3</span> <span class="p">(</span><span class="nv">calendar.erl,</span> <span class="nv">line</span> <span class="mi">151</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">1970</span> <span class="mi">2</span> <span class="mi">31</span><span class="p">)</span>   
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">if_clause</span>
+  <span class="nv">in</span> <span class="nv">calendar:date_to_gregorian_days/3</span> <span class="p">(</span><span class="nv">calendar.erl,</span> <span class="nv">line</span> <span class="mi">116</span><span class="p">)</span>
+  <span class="nv">in</span> <span class="nv">calendar:day_of_the_week/3</span> <span class="p">(</span><span class="nv">calendar.erl,</span> <span class="nv">line</span> <span class="mi">151</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">calendar:day_of_the_week</span> <span class="mi">1970</span> <span class="mi">13</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="nv">function_clause</span>
+  <span class="nv">in</span> <span class="p">(</span><span class="err">:</span> <span class="nv">calendar</span> <span class="nv">last_day_of_the_month1</span> <span class="mi">1970</span> <span class="mi">13</span><span class="p">)</span>
+  <span class="nv">in</span> <span class="nv">calendar:date_to_gregorian_days/3</span> <span class="p">(</span><span class="nv">calendar.erl,</span> <span class="nv">line</span> <span class="mi">115</span><span class="p">)</span>
+  <span class="nv">in</span> <span class="nv">calendar:day_of_the_week/3</span> <span class="p">(</span><span class="nv">calendar.erl,</span> <span class="nv">line</span> <span class="mi">151</span><span class="p">)</span></code></pre></div>
+
+<p>If you look at the error messages you see that <code>calendar:day_of_the_week/3</code> calls <code>calendar:date_to_gregorian_days/3</code>, which we will cover in next week’s LFE Friday.</p>
+
+<p>–Proctor, Robert</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>At least the day which should be the publish day. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/04/05/1332-ledis-using-redis-from-lfe" title="ledis: Using Redis from LFE">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/tutorials/2015/04/20/1707-lfe-friday---calendardate_to_gregorian_days3" title="LFE Friday - calendar:date_to_gregorian_days/3">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>12 April 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

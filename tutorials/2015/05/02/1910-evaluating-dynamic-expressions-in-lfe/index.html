@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - Evaluating dynamic expressions in LFE
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          Evaluating dynamic expressions in LFE
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="right small" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>Sometimes you need to evaluate a dynamic expression in LFE, one that has been created during the execution of the program. For example, imagine some other process has sent us an LFE expression which we need to evaluate.</p>
+
+<p>This can be done with the function <code>eval/1</code>. As one might guess, <code>eval/1</code> evaluates its argument as an expression.</p>
+
+<p>Here is an example:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">))</span>
+<span class="mi">6</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="o">&#39;</span><span class="p">(</span><span class="nv">calendar:is_leap_year</span> <span class="mi">1200</span><span class="p">))</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>This works well if the expression is a literal value, but what if the expression has free variables for which we want to import values. For example we want get the value of <code>x</code> into <code>(+ 1 2 3 x)</code>:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">x</span> <span class="mi">42</span><span class="p">)</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">))</span>
+<span class="nv">exception</span> <span class="nv">error:</span> <span class="o">#(</span><span class="nv">unbound_symb</span> <span class="nv">x</span><span class="p">)</span></code></pre></div>
+
+<p>which is not quite what we had hoped. The solution is to build a <code>let</code> form where we can import values for the variables which need binding:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="o">&#39;</span><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="mi">42</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="mi">48</span></code></pre></div>
+
+<p>However, if the expression and values are not static then we must build the whole <code>let</code> expression to evaluate:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">x</span> <span class="mi">42</span><span class="p">)</span>
+<span class="mi">42</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">set</span> <span class="nv">expr</span> <span class="o">&#39;</span><span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">list</span> <span class="ss">&#39;let</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nb">list</span> <span class="ss">&#39;x</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">expr</span><span class="p">)</span>
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="mi">42</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="p">(</span><span class="nb">list</span> <span class="ss">&#39;let</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nb">list</span> <span class="ss">&#39;x</span> <span class="nv">x</span><span class="p">))</span> <span class="nv">expr</span><span class="p">))</span>
+<span class="mi">48</span></code></pre></div>
+
+<p>Problem solved, now we can build expressions and import values into them. However, even with an expression as simple as this one building the structure can be quite complex. Fortunately, to the rescue comes the backquote <code>`</code> macro<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup> which quotes <em>and</em> lets us import values:</p>
+
+<div class="highlight"><pre><code class="language-lisp"><span class="nb">&gt;</span> <span class="o">`</span><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="o">,</span><span class="nv">x</span><span class="p">))</span> <span class="o">,</span><span class="nv">expr</span><span class="p">)</span>
+<span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="mi">42</span><span class="p">))</span> <span class="p">(</span><span class="nb">+</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="nv">x</span><span class="p">))</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nb">eval</span> <span class="o">`</span><span class="p">(</span><span class="k">let</span> <span class="p">((</span><span class="nv">x</span> <span class="o">,</span><span class="nv">x</span><span class="p">))</span> <span class="o">,</span><span class="nv">expr</span><span class="p">))</span>
+<span class="mi">48</span></code></pre></div>
+
+<p>You can read more about the backquote macro in the <a href="http://lfe.gitbooks.io/tutorial/content/macros/backquote.html">LFE Tutorial: The Backquote Macro</a>.</p>
+
+<p>Robert</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>This basically the same backquote as is in Common Lisp. <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/tutorials/2015/05/02/1744-lfe-friday---calendaris_leap_year1" title="LFE Friday - calendar:is_leap_year/1">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/design/2015/05/11/2251-spell1---ll1-parser-generator" title="spell1 - LL(1) parser generator">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>02 May 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#backquote-ref">backquote <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#techniques-ref">techniques <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#tips-ref">tips <span>1</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+

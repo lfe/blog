@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      LFE Blog
+      
+         - LFE Friday - ordsets:is_disjoint/2
+      
+    </title>
+    <meta name="description" content="">
+    <meta name="author" content="LFEuminati | Alien Alliance">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/assets/themes/lfe/css/reset.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/themes/lfe/css-social-buttons/css/zocial.stripped.css">
+    <link href="/assets/themes/lfe/css/darkstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/style.css?body=1" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/css/twilight.css" rel="stylesheet" type="text/css" media="all">
+
+    <link href="/assets/themes/lfe/css/lfetheme.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/assets/themes/lfe/css/pygments.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="/assets/css/overrides.css" rel="stylesheet" type="text/css" media="all">
+    <link rel="alternate" type="application/atom+xml" href="atom.xml" title="LFE News & Updates Atom Feed">
+  </head>
+  <body class="overview">
+    <div id="header-wrapper">
+      <div id="header">
+        <div>
+          <a class="logo" href="/">LFE Blog</a>
+          <ul class="nav">
+            <li><a href="/archive.html" class="nav-api">Archives</a></li>
+            <li><a href="/categories.html" class="nav-developers">Categories</a></li>
+            <li><a href="/tags.html" class="nav-developers">Tags</a></li>
+            <li><a href="/authors.html">Authors</a></li>
+            <li class="divider">|</li>
+            <li><a href="http://plan.lfe.io/">.plan</a></li>
+            <li><a href="http://docs.lfe.io/">docs.lfe.io</a></li>
+            <li><a href="http://lfe.io/">lfe.io</a></li>
+          </ul>
+        </div>
+      </div><!-- #header -->
+    </div><!-- #header-wrapper -->
+
+    
+
+<div class="wrapper">
+  <div class="container">
+    <div class="content">
+      
+      <div class="page-header">
+        <h1>
+          LFE Friday - ordsets:is_disjoint/2
+          
+        </h1>
+      </div>
+
+      <div class="row">
+        <div class="span8">
+          
+<p><a href="/assets/images/posts/LispFlavoredErlang-medium-square.png"><img class="left tiny" src="/assets/images/posts/LispFlavoredErlang-medium-square.png" /></a>This week's LFE Friday was translated with permission from the
+<a href="http://www.proctor-it.com/category/erlang/erlang-thursday/">Erlang Thursday</a>
+series by <a href="https://twitter.com/stevenproctor">Steven Proctor</a>.
+<em>This week's translator</em>: Robert Virding.</p>
+
+<p>Today's LFE Friday covers <a href="http://www.erlang.org/doc/man/ordsets.html#is_disjoint-2">ordsets:is_disjoint/2</a>.</p>
+
+<p>There are times in your in your coding day where you have problems where you need to know if given a list of items that none of those items appear in a secondary list.</p>
+
+<p>Your first intuition might be to write out the code as described, like such:</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nb">not</span> <span class="p">(</span><span class="nv">lists:any</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">item</span><span class="p">)</span> <span class="p">(</span><span class="nv">lists:member</span> <span class="nv">item</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)))</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">)))</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>And while that is accurate, if you redefine your problem in more mathematical terms, you can start to think in sets.  When you start to think in terms of sets, you realize that you can check to see if the intersection of the two sets is the empty set.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">=:=</span> <span class="p">(</span><span class="nv">ordsets:intersection</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">))</span> <span class="p">())</span>
+<span class="nv">true</span></code></pre></div>
+
+<p>This is becoming not only more concise, but also more explicit about what you are trying to check.</p>
+
+<p>We can do better still, by checking if the lists are disjoint sets.  Enter <code>ordsets:is_disjoint/2</code>.</p>
+
+<p><code>ordsets:is_disjoint/2</code> takes two lists, and returns <code>true</code> if no elements are in common.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nv">false</span></code></pre></div>
+
+<p>Because <code>ordsets:is_disjoint/2</code> operates against two lists, we do not have to make sure the elements are unique prior to calling <code>ordsets:is_disjoint/2</code>.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="mi">5</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nv">false</span></code></pre></div>
+
+<p>And if either list passed to <code>ordsets:is_disjoint/2</code> is an empty list, the result is that the lists are disjoint.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&#39;</span><span class="p">())</span>         
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">()</span> <span class="o">&#39;</span><span class="p">(</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span><span class="p">))</span>                 
+<span class="nv">true</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">ordsets:is_disjoint</span> <span class="o">&#39;</span><span class="p">()</span> <span class="o">&#39;</span><span class="p">())</span>     
+<span class="nv">true</span></code></pre></div>
+
+<p>And if you are curious, by running <code>ordsets:is_disjoint/2</code> through <code>timer:tc/3</code>, we can see that as soon as Erlang knows that the sets are not disjoint, it returns <code>false</code>.  And if you remember from the previous <a href="http://blog.lfe.io/tutorials/2015/01/10/2201-lfe-friday---timertc3/">LFE Friday on timer:tc/3</a>, the return value is a tuple with the first element being the number of <em>micro</em>seconds it took to complete.</p>
+
+<div class="highlight"><pre><code class="language-cl"><span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;ordsets</span> <span class="ss">&#39;is_disjoint</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">1000000</span><span class="p">)</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">2000000</span> <span class="mi">3000000</span><span class="p">)))</span>         
+<span class="o">#(</span><span class="mi">13627</span> <span class="nv">true</span><span class="p">)</span>
+<span class="nb">&gt;</span> <span class="p">(</span><span class="nv">timer:tc</span> <span class="ss">&#39;ordsets</span> <span class="ss">&#39;is_disjoint</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">1000000</span><span class="p">)</span> <span class="p">(</span><span class="nv">lists:seq</span> <span class="mi">1</span> <span class="mi">3000000</span><span class="p">)))</span>      
+<span class="o">#(</span><span class="mi">1</span> <span class="nv">false</span><span class="p">)</span></code></pre></div>
+
+<p>-Proctor, Robert</p>
+
+          <hr>
+          <div class="pagination btn-group">
+            
+            <a class="btn prev" href="/excerpts/2015/03/22/1445-the-hidden-origins-of-lisp-introduction" title="The Hidden Origins of Lisp: Introduction">&larr; Previous</a>
+            
+            <a class="btn" href="/archive.html">Archive</a>
+            
+            <a class="btn next" href="/excerpts/2015/03/23/1008-the-hidden-origins-of-lisp-peano" title="The Hidden Origins of Lisp: Giuseppe Peano">Next &rarr;</a>
+            
+          </div>
+          <hr>
+          
+        </div>
+
+        <div class="span4">
+          <section>
+            <h4>Author</h4>
+            <div class="author"><span><a href="/authors.html#Robert Virding">Robert Virding</a></span></div>
+          </section>
+          <section>
+            <h4>Published</h4>
+            <div class="date"><span>22 March 2015</span></div>
+          </section>
+          
+          <section>
+            <h4>Category</h4>
+            <span class="category">
+              tutorials
+            </span>
+          </section>
+          
+          
+          <section>
+            <h4>Tags</h4>
+            <ul class="tag_box">
+              
+              
+
+
+  
+     
+    	<li><a href="/tags.html#lfe friday-ref">lfe friday <span>58</span></a></li>
+     
+    	<li><a href="/tags.html#lfe-ref">lfe <span>63</span></a></li>
+     
+    	<li><a href="/tags.html#erlang-ref">erlang <span>71</span></a></li>
+    
+  
+
+
+
+            </ul>
+          </section>
+          
+        </div>
+      </div>
+
+
+    </div>
+  </div> <!-- /container -->
+</div>
+
+
+
+
+    <div id="footer" >
+    <div class="lower_footer">
+      <ul class="footer-cell">
+        <li><a href="/archive.html">Archives</a></li>
+        <li><a href="/categories.html">Categories</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/authors.html">Authors</a></li>
+        <li><a href="/pages.html">Pages</a></li>
+      </ul>
+
+      <span class="footer-cell">
+        <a href="/"><img src="/assets/themes/lfe/images/logo-white.png"/></a>
+      </span>
+
+      <ul class="footer-cell">
+        <li><a href="http://github.com/lfex">lfex</a></li>
+        <li><a href="https://groups.google.com/forum/#!forum/lisp-flavoured-erlang">List</a></li>
+        <li><a href="http://webchat.freenode.net/?channels=erlang-lisp">IRC</a></li>
+        <li><a href="http://feeds.feedburner.com/lfe/news-and-updates">RSS</a></li>
+        <li><a href="http://twitter.com/ErlangLisp">Twitter</a></li>
+        <li><a href="http://github.com/rvirding/lfe">Github</a></li>
+      </ul>
+    </div>
+
+    <div class="wrapper">
+      <p>Original Design &copy; <span class="js-year"></span> GitHub, Inc.</p>
+      <p>LFE Design and Content &copy; <span class="js-year"></span> LFEuminati | Alien Alliance</p>
+    </div>
+
+  </div><!-- /#footer -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/themes/lfe/js/jquery.min.js"><\/script>')</script>
+    <script src="/assets/themes/lfe/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-38274766-2', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
+
