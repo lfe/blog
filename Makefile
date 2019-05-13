@@ -27,16 +27,23 @@ $(GITHUB_PAGES)/.build: $(GITHUB_PAGES)
 
 build: clean-build $(GITHUB_PAGES)/.build
 	@docker build . -t lfe/blog
-	@docker run --volume="$(BUILD_DIR):/$(GUEST_BUILD_DIR)" lfe/blog build --verbose --trace --destination $(GUEST_BUILD_DIR)
+	@docker run \
+	--volume="$(BUILD_DIR):/$(GUEST_BUILD_DIR)" \
+	lfe/blog build --verbose --trace --destination $(GUEST_BUILD_DIR)
 	@cp -r $(BUILD_DIR)/* $(PUBLISH_DIR)/
 
 build-and-publish: build publish
 
-run: build
-	@docker run -p 4000:4000 --volume="$(BUILD_DIR):$(GUEST_BUILD_DIR)" lfe/blog serve --destination $(GUEST_BUILD_DIR)
+run:
+	@docker run -p 4000:4000 \
+	--volume="$(BUILD_DIR):$(GUEST_BUILD_DIR)" \
+	--volume="$(POSTS_DIR):$(GUEST_POSTS_DIR)" \
+	lfe/blog serve --watch --destination $(GUEST_BUILD_DIR)
 
 new:
-	@docker run --entrypoint=rake --volume="$(POSTS_DIR):$(GUEST_POSTS_DIR)" lfe/blog post title="$(TITLE)"
+	@docker run --entrypoint=rake \
+	--volume="$(POSTS_DIR):$(GUEST_POSTS_DIR)" \
+	lfe/blog post title="$(TITLE)"
 
 post:
 	@OUT=$$($(MAKE) new | cut -d ' ' -f 4-) ; \
