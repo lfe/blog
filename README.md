@@ -10,17 +10,15 @@ You can view the blog [here](http://blog.lfe.io/). The LFE blog is a member of
 [Planet Erlang](http://planeterlang.com/).
 
 
-## Requirements
+## Notes
 
-For those who will actually be executing the ``make publish`` target, ``git-subtree`` is required.
+The `make` targets for this repo all utilize Docker; this way, contributors 
+don't have to install specififc versions of Ruby, Jekyll, etc., ad naseum et
+insaniam. 
 
-Install [git-subtree](https://github.com/andrewmwhite/git-subtree):
-
-```bash
-$ git clone git@github.com:andrewmwhite/git-subtree.git
-$ cd git-subtree
-$ sudo make install
-```
+The most recent "release" of the published blog is visible in the `generated`
+directory. This is actually a git submodule that points to the `gh-pages`
+branch; it's content is dynamic and should not be edited.
 
 
 ## Workflow
@@ -32,7 +30,9 @@ $ sudo make install
 * Fork this repo (you might want to rename yours from "blog" to "lfe-blog")
 * See the usage below to create a post
 * Push to your fork
-* Issue a PR from your branch to lfe/blog ``master``
+* Issue a PR from your branch to lfe/blog `master`
+
+Details of these steps are given below, in the following subsections.
 
 
 #### Get the code
@@ -52,10 +52,13 @@ $ sudo make install
 $ TITLE="Exciting LFE News" make new
 ```
 
+If you have your `$EDITOR` env var set, you can `make post` instead, and the 
+post stub will open in your editor.
+
 Edit to your heart's content. Be sure to update the following:
  * Category (theme of your post)
  * Descriptive tags
- * Your name as ``author``
+ * Your name as `author`
 
 
 #### Add to the repo
@@ -66,13 +69,13 @@ $ git add src/_posts/2014-12-04-1323-exciting-lfe-news.md
 
 Also at this point you'll want to add any new directories that were created,
 e.g., for tags, archives, years, etc. Make sure you didn't miss anything by
-checkout the untracked files in the ``git status`` output.
+checkout the untracked files in the `git status` output.
 
 
 #### Issue a Pull Request
 
 Once you're stasified with your post, push your branch up to your fork of
-the blog and issue a PR to be merged with ``master`` of lfe/blog.
+the blog and issue a PR to be merged with `master` of lfe/blog.
 
 
 ### For Maintainers
@@ -81,17 +84,17 @@ the blog and issue a PR to be merged with ``master`` of lfe/blog.
 
 * Merge a contributor's PR
 * Regenerate the static content
-* Push the updated static content to ``gh-pages``
+* Push the updated static content to `gh-pages`
 
 
 #### Publish
 
 Once a contributor's code has been merged (either in the Web UI or via
 command line), you are ready to publish. This needs to be done locally,
-so if I've merged a PR on Github, you'll need to ``$ git pull origin master``.
+so if I've merged a PR on Github, you'll need to `$ git pull origin master`.
 
 The following command will regenerate the static content, commit it to
-master (interactively), and then push the static content to ``gh-pages``
+master (interactively), and then push the static content to `gh-pages`
 for the LFE blog repo on github (which will be renderable immediately on
 the blog):
 
@@ -106,19 +109,19 @@ To create a new post:
 ```bash
 $ TITLE="Super-Sweet LFE Tutorial" make new
 ```
-This will open a draft with ``vi``. Edit to your heart's content, save, commit,
+This will open a draft with `vi`. Edit to your heart's content, save, commit,
 push, and send the PR!
 
-Other useful ``make`` targets:
+Other useful `make` targets:
 
-*Rebuild the site static files in the ``./build`` directory*:
+*Rebuild the site static files in the `./build` directory*:
 
 ```bash
 $ make build
 ```
 
 *Run a local copy of the site available on http://localhost:4000, served from
-the ``./build`` directory*:
+the `./build` directory*:
 
 ```bash
 $ make run
@@ -137,18 +140,11 @@ jekyll, if it's not already installed*:
 $ make update
 ```
 
-*Publish your changes to ``master`` and ``gh-pages``*:
+*Publish your changes to `master` and `gh-pages`*:
 
 ```bash
 $ make publish
 ```
-
-*Publish your changes to staging-blog.lfe.io:
-
-```bash
-$ make staging
-```
-
 
 ## Built With
 

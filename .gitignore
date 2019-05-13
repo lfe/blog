@@ -4,7 +4,6 @@ src/_theme_packages/*
 src/Gemfile.lock
 src/_drafts/*.sw[po]
 src/_posts/*.sw[po]
-staged/*
 
 *.sw[po]
 
@@ -22,5 +21,3 @@ Thumbs.db
 
 !.gitkeep
 
-.rbenv-version
-.rvmrc

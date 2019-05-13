@@ -85,8 +85,8 @@ class Jekyll::Converters::Markdown::KramdownPygments
         :toc_levels           => @config['kramdown']['toc_levels'],
         :smart_quotes         => @config['kramdown']['smart_quotes'],
         :kramdown_default_lang => @config['kramdown']['default_lang'],
-        :hard_wrap => @config['kramdown']['default_lang'],
-        :input                => @config['kramdown']['input']
+        :input                => @config['kramdown']['input'],
+        :hard_wrap            => @config['kramdown']['hard_wrap']
     }).to_pygments_html
     return html;
   end
