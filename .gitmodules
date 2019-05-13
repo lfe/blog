@@ -1,0 +1,4 @@
+[submodule "generated"]
+	path = generated
+	url = git@github.com:lfe/blog.git
+	branch = gh-pages
