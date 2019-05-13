@@ -31,7 +31,7 @@ build: clean-build $(GITHUB_PAGES)/.build
 
 build-and-publish: build publish
 
-run:
+run: build
 	@docker run -p 4000:4000 --volume="$(BUILD_DIR):$(GUEST_BUILD_DIR)" lfe/blog serve --destination $(GUEST_BUILD_DIR)
 
 new:
