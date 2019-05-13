@@ -37,7 +37,7 @@ Details of these steps are given below, in the following subsections.
 
 #### Get the code
 
- * [Fork us](https://github.com/lfe/blog/fork).
+ * [Fork us](https://github.com/lfe/blog/fork)
  * Update the name in your new repo's settings, changing from "blog" to "lfe-blog"
  * Clone:
 
