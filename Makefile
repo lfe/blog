@@ -4,10 +4,11 @@ SRC = $(BASE_DIR)/src
 BUILD_DIR = $(BASE_DIR)/build
 POSTS_DIR = $(SRC)/_posts
 PUBLISH_DIR = $(BASE_DIR)/generated
+GITHUB_PAGES = $(BASE_DIR)/docker/gh-pages/pages-gem
 GUEST_BUILD_DIR = /blog/build
 GUEST_POSTS_DIR = /blog/_posts
 REPO = $(shell git config --get remote.origin.url)
-GITHUB_PAGES = docker/gh-pages/pages-gem
+
 
 .PHONY: build
 
