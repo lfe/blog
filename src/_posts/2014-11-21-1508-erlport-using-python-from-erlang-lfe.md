@@ -15,7 +15,7 @@ GitHub pages as a blogging platform for code-heavy posts. For year, I have found
 Google's blogger.com cumbersome as a medium for sharing code. The burden has
 finally grown too great. It makes sense to use the same platform to share the
 prose description of code as that which shares the code itself (i.e.,
-repositories and ``README`` files). I can only imagine this will be much less
+repositories and `README` files). I can only imagine this will be much less
 painful than creating gist code snippets and tweaking them in blogger. As a
 bonus, code should now appear in RSS/Atom feeds :-)
 
@@ -108,7 +108,7 @@ LFE Shell V6.2 (abort with ^G)
 ```
 
 Note that this will first download the necessary dependencies and compile them
-(that's what the ``[snip]`` is eliding).
+(that's what the `[snip]` is eliding).
 
 Now we're ready to take erlport for a quick trip down to the local:
 
