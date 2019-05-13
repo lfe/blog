@@ -38,11 +38,11 @@ Details of these steps are given below, in the following subsections.
 #### Get the code
 
  * [Fork us](https://github.com/lfe/blog/fork).
- * Update the name in your new repo's settings
+ * Update the name in your new repo's settings, changing from "blog" to "lfe-blog"
  * Clone:
 
     ```bash
-    $ git clone git@github.com:<YOURNAME>/lfe-blog.git
+    $ git clone --recurse-submodules git@github.com:<YOURNAME>/lfe-blog.git
     $ cd lfe-blog
     ```
 
@@ -89,9 +89,16 @@ the blog and issue a PR to be merged with `master` of lfe/blog.
 
 #### Publish
 
+Note that if you haven't updated your local clone of the LFE Blog repo after 
+May 2019, you'll need to do the following:
+
+```bash
+$ git submodule update --init --recursive
+```
+
 Once a contributor's code has been merged (either in the Web UI or via
 command line), you are ready to publish. This needs to be done locally,
-so if I've merged a PR on Github, you'll need to `$ git pull origin master`.
+so if you've merged a PR on Github, you'll need to `$ git pull origin master`.
 
 The following command will regenerate the static content, commit it to
 master (interactively), and then push the static content to `gh-pages`

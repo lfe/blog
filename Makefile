@@ -1,56 +1,58 @@
 TITLE ?= New Post
-SRC = ./src
 BASE_DIR = $(shell pwd)
+SRC = $(BASE_DIR)/src
 BUILD_DIR = $(BASE_DIR)/build
+POSTS_DIR = $(SRC)/_posts
+PUBLISH_DIR = $(BASE_DIR)/generated
+GUEST_BUILD_DIR = /blog/build
+GUEST_POSTS_DIR = /blog/_posts
 REPO = $(shell git config --get remote.origin.url)
 GITHUB_PAGES = docker/gh-pages/pages-gem
 
 .PHONY: build
 
-publish: clean build
-	-@git commit -a; git push origin master
-	@rm -rf $(BUILD_DIR)/.git
-	@cd $(BUILD_DIR) && \
-	git init && \
-	git add * > /dev/null && \
-	git commit -a -m "Generated content." > /dev/null && \
-	git push -f $(REPO) master:gh-pages
-
-force-publish: clean build
-	-@git commit -a --amend; git push --force origin master
-	@rm -rf $(BUILD_DIR)/.git
-	@cd $(BUILD_DIR) && \
-	git init && \
-	git add * > /dev/null && \
-	git commit -a -m "Generated content." > /dev/null && \
-	git push -f $(REPO) master:gh-pages
+default: build
 
 $(GITHUB_PAGES):
-	mkdir -p `basename $(GITHUB_PAGES)`
-	git clone git@github.com:github/pages-gem.git $(GITHUB_PAGES)
-	cd $(GITHUB_PAGES) && \
+	@mkdir -p `basename $(GITHUB_PAGES)`
+	@git clone git@github.com:github/pages-gem.git $(GITHUB_PAGES)
+	@cd $(GITHUB_PAGES) && \
 	git checkout v24
 
 $(GITHUB_PAGES)/.build: $(GITHUB_PAGES)
-	docker build docker/gh-pages -t github-pages && \
+	@cd docker/gh-pages && \
+	docker build . -t github-pages && \
 	touch $(GITHUB_PAGES)/.build
 
-clean-github-pages:
-	rm -rf $(GITHUB_PAGES)
+build: clean-build $(GITHUB_PAGES)/.build
+	@docker build . -t lfe/blog
+	@docker run --volume="$(BUILD_DIR):/$(GUEST_BUILD_DIR)" lfe/blog build --verbose --trace --destination $(GUEST_BUILD_DIR)
+	@cp -r $(BUILD_DIR)/* $(PUBLISH_DIR)/
 
-build: $(GITHUB_PAGES)/.build
-	# @mkdir -p $(BUILD_DIR)
-	# cd $(SRC) && \
-	# bundle exec jekyll build --destination $(BUILD_DIR)
-	docker build . -t lfe/blog
-	docker run --volume="`pwd`/build:/blog/build" lfe/blog build --verbose --trace --destination /blog/build
+build-and-publish: build publish
 
 run:
-	docker run -p 4000:4000 --volume="`pwd`/build:/blog/build" lfe/blog serve --destination $(BUILD_DIR)
+	@docker run -p 4000:4000 --volume="$(BUILD_DIR):$(GUEST_BUILD_DIR)" lfe/blog serve --destination $(GUEST_BUILD_DIR)
 
 new:
-	@docker run --entrypoint=rake --volume="`pwd`/src/_posts:/blog/_posts" lfe/blog post title="$(TITLE)"
+	@docker run --entrypoint=rake --volume="$(POSTS_DIR):$(GUEST_POSTS_DIR)" lfe/blog post title="$(TITLE)"
 
 post:
 	@OUT=$$($(MAKE) new | cut -d ' ' -f 4-) ; \
 	$(EDITOR) $(SRC)/$$OUT
+
+publish:
+	@cd $(PUBLISH_DIR) && \
+	git commit -am "Regenerated LFE blog content." > /dev/null && \
+	git push origin gh-pages
+	@git add $(PUBLISH_DIR)	&& \
+	git commit -m "Updated submodule to recently published blog content." && \
+	git push origin master
+
+clean-github-pages:
+	@rm -rf $(GITHUB_PAGES)
+
+clean-build:
+	@rm -rf $(BUILD_DIR)
+
+clean-all: clean-build clean-github-pages
