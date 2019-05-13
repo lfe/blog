@@ -5,10 +5,41 @@
         <description>LFE Blog - LFEuminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <atom:link href="http://blog.lfe.io//rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Mon, 13 May 2019 02:28:20 +0000</lastBuildDate>
-        <pubDate>Mon, 13 May 2019 02:28:20 +0000</pubDate>
+        <lastBuildDate>Mon, 13 May 2019 03:59:38 +0000</lastBuildDate>
+        <pubDate>Mon, 13 May 2019 03:59:38 +0000</pubDate>
         <ttl>60</ttl>
 
+
+        <item>
+                <title>Catch Up</title>
+                <description>
+&lt;p&gt;&lt;a href=&quot;/assets/images/posts/ketchup.png&quot;&gt;&lt;img class=&quot;right small&quot; src=&quot;/assets/images/posts/ketchup.png&quot; /&gt;&lt;/a&gt;
+While the three years since the last blog post might have flown by, and it may not seem 
+like much is going on in LFE land, there has been :-) There have been on-going discussions in
+Github tickets as well as some chatter on the mail list, but there has also been some quiet
+hacking going on in the project itself.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;246 commits were made to the main LFE development branch (177 in the remainder of 2016, 57 in 2017, 11 in 2018, and 1 in 2019)&lt;/li&gt;
+  &lt;li&gt;Robert&#39;s been giving lots of thought to an LFE based upon Erlang&#39;s AST instead of Core Erlang (see the &lt;a href=&quot;https://github.com/rvirding/lfe/tree/erlang-ast&quot;&gt;erlang-ast&lt;/a&gt; branch)&lt;/li&gt;
+  &lt;li&gt;Two core library modules have been added to LFE (and written in LFE, not Erlang!): Common Lisp and Clojure compatibility libraries&lt;/li&gt;
+  &lt;li&gt;The Github project has gotten a refresher with new tags (including status) and updates, new questions answered&lt;/li&gt;
+  &lt;li&gt;There are also several new pull requests that have been opened with about 40 new commits for
+2019&lt;/li&gt;
+  &lt;li&gt;The &lt;a href=&quot;https://github.com/lfex/dockerfiles/&quot;&gt;LFE Dockerfiles&lt;/a&gt; have been updated to be based upon the &lt;a href=&quot;https://hub.docker.com/_/erlang&quot;&gt;official Erlang Docker images&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;The LFE blog repo has received a significant update that makes it easier for new posts to be
+created&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lots of spicey goodness, and maybe even some stuff that will end up as some more new blog posts
+for 2019 ;-)&lt;/p&gt;
+
+&lt;p&gt;Stay tuned …&lt;/p&gt;
+</description>
+                <link>http://blog.lfe.io//news/2019/05/13/0250-catch-up</link>
+                <guid>http://blog.lfe.io//news/2019/05/13/0250-catch-up</guid>
+                <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+        </item>
 
         <item>
                 <title>Tracing LFE Functions</title>
@@ -2854,73 +2885,6 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
                 <link>http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3</guid>
                 <pubDate>Sat, 07 Nov 2015 00:00:00 +0000</pubDate>
-        </item>
-
-        <item>
-                <title>LFE Friday - digraph:add_edge/4</title>
-                <description>
-&lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
-&lt;a href=&quot;http://www.proctor-it.com/category/erlang/erlang-thursday/&quot;&gt;Erlang Thursday&lt;/a&gt;
-series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Proctor&lt;/a&gt;.
-&lt;em&gt;This week&#39;s translator&lt;/em&gt;: Robert Virding.&lt;/p&gt;
-
-&lt;p&gt;Today&#39;s LFE Friday is on &lt;a href=&quot;http://www.erlang.org/doc/man/digraph.html#add_edge-4&quot;&gt;digraph:add_edge/4&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;digraph:add_edge/4&lt;/code&gt; takes a graph as its first argument, the originating (&lt;a href=&quot;http://www.erlang.org/doc/man/digraph.html#emanate&quot;&gt;emanating&lt;/a&gt;) vertex as its second argument, the destination (&lt;a href=&quot;http://www.erlang.org/doc/man/digraph.html#incident&quot;&gt;incident&lt;/a&gt;) vertex as its third argument, and a label.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8207&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12304&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16401&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_vertex&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_vertex&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;edge-1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:edges&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;edge-2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:edges&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                                             
-&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code&gt;digraph&lt;/code&gt; module also contains &lt;code&gt;digraph:add_edge/3&lt;/code&gt; which allows you to not specify a label.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:edges&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                     
-&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code&gt;digraph&lt;/code&gt; module also contains &lt;code&gt;digraph:add_edge/5&lt;/code&gt; which allows you to specify the edge identifier, in this case we want the edge to be &lt;code&gt;my-edge&lt;/code&gt;, as well as the label.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;my-edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-1&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;my-label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;my-edge&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:edges&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                                        
-&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;my-edge&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And if you note in the examples for &lt;code&gt;digraph:add_edge/3&lt;/code&gt; and &lt;code&gt;digraph:add_edge/5&lt;/code&gt; we added a number of edges with the same emanate and incident vertices, and it was happy to create those edges for us.&lt;/p&gt;
-
-&lt;p&gt;We can also create acyclic digraphs by using &lt;code&gt;digraph:new/1&lt;/code&gt;, and specifying that we want the &lt;code&gt;digraph()&lt;/code&gt; to be &lt;code&gt;acyclic&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-lisp&quot;&gt;&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph-2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:new&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;acyclic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20498&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24595&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;28692&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_vertex&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-b&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_vertex&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph-2&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;&amp;#39;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;edge-ab&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph-2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-a&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$e&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;edge-ba&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;digraph:add_edge&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;graph-2&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-b&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;vertex-a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;#(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bad_edge&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;When we try to add an edge that will create a cycle in an acyclic directed graph, we get a return of a &lt;code&gt;bad_edge&lt;/code&gt; error with the two edges specified.&lt;/p&gt;
-
-&lt;p&gt;- Proctor, Robert&lt;/p&gt;
-</description>
-                <link>http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4</link>
-                <guid>http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4</guid>
-                <pubDate>Fri, 23 Oct 2015 00:00:00 +0000</pubDate>
         </item>
 
 
