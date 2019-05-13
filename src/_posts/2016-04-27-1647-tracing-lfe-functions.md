@@ -7,7 +7,6 @@ tags: [howto, libraries, tools, utilities, tracing, debugging]
 author: Eric Bailey
 ---
 {% include JB/setup %}
-
 What follows is an LFE translation of Roberto Aloi's
 [*Tracing Erlang Functions*][OP], originally posted to [my blog][blorg].
 
