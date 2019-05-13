@@ -5,8 +5,8 @@
         <description>LFE Blog - LFEuminati | Alien Alliance</description>
         <link>http://blog.lfe.io/</link>
         <atom:link href="http://blog.lfe.io//rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Sun, 15 May 2016 14:43:13 +0200</lastBuildDate>
-        <pubDate>Sun, 15 May 2016 14:43:13 +0200</pubDate>
+        <lastBuildDate>Mon, 13 May 2019 02:28:20 +0000</lastBuildDate>
+        <pubDate>Mon, 13 May 2019 02:28:20 +0000</pubDate>
         <ttl>60</ttl>
 
 
@@ -75,7 +75,7 @@
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/04/27/1647-tracing-lfe-functions</link>
                 <guid>http://blog.lfe.io//tutorials/2016/04/27/1647-tracing-lfe-functions</guid>
-                <pubDate>Wed, 27 Apr 2016 00:00:00 +0200</pubDate>
+                <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -317,7 +317,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/03/25/0858-lfe-and-rebar3</link>
                 <guid>http://blog.lfe.io//tutorials/2016/03/25/0858-lfe-and-rebar3</guid>
-                <pubDate>Fri, 25 Mar 2016 00:00:00 +0100</pubDate>
+                <pubDate>Fri, 25 Mar 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -422,7 +422,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/03/05/0407-lfe-v10-exporting-macros</link>
                 <guid>http://blog.lfe.io//tutorials/2016/03/05/0407-lfe-v10-exporting-macros</guid>
-                <pubDate>Sat, 05 Mar 2016 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 05 Mar 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -478,7 +478,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/03/03/0104-lfe-v10-multi-module-files</link>
                 <guid>http://blog.lfe.io//tutorials/2016/03/03/0104-lfe-v10-multi-module-files</guid>
-                <pubDate>Thu, 03 Mar 2016 00:00:00 +0100</pubDate>
+                <pubDate>Thu, 03 Mar 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -629,7 +629,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts</link>
                 <guid>http://blog.lfe.io//tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts</guid>
-                <pubDate>Sun, 31 Jan 2016 00:00:00 +0100</pubDate>
+                <pubDate>Sun, 31 Jan 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -842,7 +842,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit</link>
                 <guid>http://blog.lfe.io//tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit</guid>
-                <pubDate>Sat, 23 Jan 2016 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 23 Jan 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -939,7 +939,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions</link>
                 <guid>http://blog.lfe.io//tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions</guid>
-                <pubDate>Mon, 18 Jan 2016 00:00:00 +0100</pubDate>
+                <pubDate>Mon, 18 Jan 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -1278,7 +1278,7 @@ settled &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; ever.&lt;/code&gt;&lt;/
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/01/10/2016-lfe-friday---more-ets-data-matching</link>
                 <guid>http://blog.lfe.io//tutorials/2016/01/10/2016-lfe-friday---more-ets-data-matching</guid>
-                <pubDate>Sun, 10 Jan 2016 00:00:00 +0100</pubDate>
+                <pubDate>Sun, 10 Jan 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -1537,7 +1537,7 @@ settled &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; ever.&lt;/code&gt;&lt;/
 </description>
                 <link>http://blog.lfe.io//tutorials/2016/01/03/0106-lfe-friday---ets-data-matching</link>
                 <guid>http://blog.lfe.io//tutorials/2016/01/03/0106-lfe-friday---ets-data-matching</guid>
-                <pubDate>Sun, 03 Jan 2016 00:00:00 +0100</pubDate>
+                <pubDate>Sun, 03 Jan 2016 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -1784,7 +1784,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/12/25/2138-lfe-friday---ets-introduction-part-5</link>
                 <guid>http://blog.lfe.io//tutorials/2015/12/25/2138-lfe-friday---ets-introduction-part-5</guid>
-                <pubDate>Fri, 25 Dec 2015 00:00:00 +0100</pubDate>
+                <pubDate>Fri, 25 Dec 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -1949,7 +1949,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4</link>
                 <guid>http://blog.lfe.io//tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4</guid>
-                <pubDate>Tue, 22 Dec 2015 00:00:00 +0100</pubDate>
+                <pubDate>Tue, 22 Dec 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2127,7 +2127,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/12/12/1716-lfe-friday---ets-introduction-part-3</link>
                 <guid>http://blog.lfe.io//tutorials/2015/12/12/1716-lfe-friday---ets-introduction-part-3</guid>
-                <pubDate>Sat, 12 Dec 2015 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 12 Dec 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2314,7 +2314,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2</link>
                 <guid>http://blog.lfe.io//tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2</guid>
-                <pubDate>Sat, 05 Dec 2015 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2431,7 +2431,7 @@ LFE-native s-expressions&lt;/li&gt;
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/28/2110-lfe-yaws-docker-update</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/28/2110-lfe-yaws-docker-update</guid>
-                <pubDate>Sat, 28 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 28 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2549,7 +2549,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/28/1721-lfe-friday---ets-introduction-part-1</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/28/1721-lfe-friday---ets-introduction-part-1</guid>
-                <pubDate>Sat, 28 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 28 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2634,7 +2634,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/27/0242-lfe-friday---digraphdel_path3</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/27/0242-lfe-friday---digraphdel_path3</guid>
-                <pubDate>Fri, 27 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Fri, 27 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2711,7 +2711,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/16/0023-lfe-friday---digraphget_cycle2</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/16/0023-lfe-friday---digraphget_cycle2</guid>
-                <pubDate>Mon, 16 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Mon, 16 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2781,7 +2781,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/13/0117-lfe-friday---digraphin_neighbors2</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/13/0117-lfe-friday---digraphin_neighbors2</guid>
-                <pubDate>Fri, 13 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2853,7 +2853,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3</link>
                 <guid>http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3</guid>
-                <pubDate>Sat, 07 Nov 2015 00:00:00 +0100</pubDate>
+                <pubDate>Sat, 07 Nov 2015 00:00:00 +0000</pubDate>
         </item>
 
         <item>
@@ -2920,7 +2920,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
 </description>
                 <link>http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4</link>
                 <guid>http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4</guid>
-                <pubDate>Fri, 23 Oct 2015 00:00:00 +0200</pubDate>
+                <pubDate>Fri, 23 Oct 2015 00:00:00 +0000</pubDate>
         </item>
 
 

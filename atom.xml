@@ -4,7 +4,7 @@
  <title>LFE Blog</title>
  <link href="http://blog.lfe.io//atom.xml" rel="self"/>
  <link href="http://blog.lfe.io/"/>
- <updated>2016-05-15T14:43:13+02:00</updated>
+ <updated>2019-05-13T02:28:20+00:00</updated>
  <id>http://blog.lfe.io/</id>
  <author>
    <name>LFEuminati | Alien Alliance</name>
@@ -15,7 +15,7 @@
  <entry>
    <title>Tracing LFE Functions</title>
    <link href="http://blog.lfe.io//tutorials/2016/04/27/1647-tracing-lfe-functions"/>
-   <updated>2016-04-27T00:00:00+02:00</updated>
+   <updated>2016-04-27T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/04/27/1647-tracing-lfe-functions</id>
    <content type="html">
 &lt;p&gt;What follows is an LFE translation of Roberto Aloi&#39;s
@@ -83,7 +83,7 @@
  <entry>
    <title>LFE and rebar3</title>
    <link href="http://blog.lfe.io//tutorials/2016/03/25/0858-lfe-and-rebar3"/>
-   <updated>2016-03-25T00:00:00+01:00</updated>
+   <updated>2016-03-25T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/03/25/0858-lfe-and-rebar3</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/lfe-rebar3-logo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/lfe-rebar3-logo.png&quot; /&gt;&lt;/a&gt;
@@ -325,7 +325,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
  <entry>
    <title>Coming in LFE v1.0: exporting macros</title>
    <link href="http://blog.lfe.io//tutorials/2016/03/05/0407-lfe-v10-exporting-macros"/>
-   <updated>2016-03-05T00:00:00+01:00</updated>
+   <updated>2016-03-05T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/03/05/0407-lfe-v10-exporting-macros</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LFE-signal.jpg&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/LFE-signal.jpg&quot; /&gt;&lt;/a&gt;Here are some more new things which are coming in LFE v1.0. These can also be tested on the develop branch.
@@ -430,7 +430,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
  <entry>
    <title>Coming in LFE v1.0: multi-module files</title>
    <link href="http://blog.lfe.io//tutorials/2016/03/03/0104-lfe-v10-multi-module-files"/>
-   <updated>2016-03-03T00:00:00+01:00</updated>
+   <updated>2016-03-03T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/03/03/0104-lfe-v10-multi-module-files</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LFE-signal.jpg&quot;&gt;&lt;img class=&quot;right thumb&quot; src=&quot;/assets/images/posts/LFE-signal.jpg&quot; /&gt;&lt;/a&gt;Finally LFE v1.0 is about to be released. Pretty soon anyway. So here are some new things which are coming. These can all be tested on the develop branch.
@@ -486,7 +486,7 @@ YAWS, elli, and LFE Dragon templates.&lt;/p&gt;
  <entry>
    <title>LFE Friday - ETS selects, continuations and inserts</title>
    <link href="http://blog.lfe.io//tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts"/>
-   <updated>2016-01-31T00:00:00+01:00</updated>
+   <updated>2016-01-31T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/01/31/0030-lfe-friday---ets-selects-continuations-and-inserts</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -637,7 +637,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - Using ETS select with a limit</title>
    <link href="http://blog.lfe.io//tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit"/>
-   <updated>2016-01-23T00:00:00+01:00</updated>
+   <updated>2016-01-23T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/01/23/0122-lfe-friday---using-ets-select-with-a-limit</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -850,7 +850,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - ETS, match_specs and functions</title>
    <link href="http://blog.lfe.io//tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions"/>
-   <updated>2016-01-18T00:00:00+01:00</updated>
+   <updated>2016-01-18T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/01/18/1312-lfe-friday---ets-match_specs-and-functions</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -947,7 +947,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - More ETS data matching (and querying)</title>
    <link href="http://blog.lfe.io//tutorials/2016/01/10/2016-lfe-friday---more-ets-data-matching"/>
-   <updated>2016-01-10T00:00:00+01:00</updated>
+   <updated>2016-01-10T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/01/10/2016-lfe-friday---more-ets-data-matching</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -1286,7 +1286,7 @@ settled &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; ever.&lt;/code&gt;&lt;/
  <entry>
    <title>LFE Friday - ETS data matching</title>
    <link href="http://blog.lfe.io//tutorials/2016/01/03/0106-lfe-friday---ets-data-matching"/>
-   <updated>2016-01-03T00:00:00+01:00</updated>
+   <updated>2016-01-03T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2016/01/03/0106-lfe-friday---ets-data-matching</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -1545,7 +1545,7 @@ settled &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; ever.&lt;/code&gt;&lt;/
  <entry>
    <title>LFE Friday - ETS Introduction, part 5: keypos, read_concurrency and write_concurrency</title>
    <link href="http://blog.lfe.io//tutorials/2015/12/25/2138-lfe-friday---ets-introduction-part-5"/>
-   <updated>2015-12-25T00:00:00+01:00</updated>
+   <updated>2015-12-25T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/12/25/2138-lfe-friday---ets-introduction-part-5</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -1792,7 +1792,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - ETS Introduction, part 4: ETS Access Protections</title>
    <link href="http://blog.lfe.io//tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4"/>
-   <updated>2015-12-22T00:00:00+01:00</updated>
+   <updated>2015-12-22T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/12/22/0113-lfe-friday---ets-introduction-part-4</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -1957,7 +1957,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - ETS Introduction, part 3: ETS Table Types</title>
    <link href="http://blog.lfe.io//tutorials/2015/12/12/1716-lfe-friday---ets-introduction-part-3"/>
-   <updated>2015-12-12T00:00:00+01:00</updated>
+   <updated>2015-12-12T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/12/12/1716-lfe-friday---ets-introduction-part-3</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2135,7 +2135,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - ETS Introduction, part 2</title>
    <link href="http://blog.lfe.io//tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2"/>
-   <updated>2015-12-05T00:00:00+01:00</updated>
+   <updated>2015-12-05T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/12/05/1814-lfe-friday---ets-introduction-part-2</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2322,7 +2322,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>Update: Running an LFE YAWS app in Docker</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/28/2110-lfe-yaws-docker-update"/>
-   <updated>2015-11-28T00:00:00+01:00</updated>
+   <updated>2015-11-28T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/28/2110-lfe-yaws-docker-update</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/DockerLogo.png&quot;&gt;&lt;img class=&quot;left thumb&quot; src=&quot;/assets/images/posts/DockerLogo.png&quot; /&gt;&lt;/a&gt;Last December we posted a
@@ -2439,7 +2439,7 @@ LFE-native s-expressions&lt;/li&gt;
  <entry>
    <title>LFE Friday - ETS Introduction, part 1</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/28/1721-lfe-friday---ets-introduction-part-1"/>
-   <updated>2015-11-28T00:00:00+01:00</updated>
+   <updated>2015-11-28T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/28/1721-lfe-friday---ets-introduction-part-1</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2557,7 +2557,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - digraph:del_path/3</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/27/0242-lfe-friday---digraphdel_path3"/>
-   <updated>2015-11-27T00:00:00+01:00</updated>
+   <updated>2015-11-27T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/27/0242-lfe-friday---digraphdel_path3</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2642,7 +2642,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - digraph:get_cycle/2</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/16/0023-lfe-friday---digraphget_cycle2"/>
-   <updated>2015-11-16T00:00:00+01:00</updated>
+   <updated>2015-11-16T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/16/0023-lfe-friday---digraphget_cycle2</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2719,7 +2719,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - digraph:in_neighbors/2</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/13/0117-lfe-friday---digraphin_neighbors2"/>
-   <updated>2015-11-13T00:00:00+01:00</updated>
+   <updated>2015-11-13T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/13/0117-lfe-friday---digraphin_neighbors2</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2789,7 +2789,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - digraph:get_path/3</title>
    <link href="http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3"/>
-   <updated>2015-11-07T00:00:00+01:00</updated>
+   <updated>2015-11-07T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/11/07/2209-lfe-friday---digraphget_path3</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
@@ -2861,7 +2861,7 @@ series by &lt;a href=&quot;https://twitter.com/stevenproctor&quot;&gt;Steven Pro
  <entry>
    <title>LFE Friday - digraph:add_edge/4</title>
    <link href="http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4"/>
-   <updated>2015-10-23T00:00:00+02:00</updated>
+   <updated>2015-10-23T00:00:00+00:00</updated>
    <id>http://blog.lfe.io//tutorials/2015/10/23/2231-lfe-friday---digraphadd_edge4</id>
    <content type="html">
 &lt;p&gt;&lt;a href=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot;&gt;&lt;img class=&quot;left tiny&quot; src=&quot;/assets/images/posts/LispFlavoredErlang-medium-square.png&quot; /&gt;&lt;/a&gt;This week&#39;s LFE Friday was translated with permission from the
