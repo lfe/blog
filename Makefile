@@ -30,6 +30,9 @@ build: clean-build $(GITHUB_PAGES)/.build
 	@docker run \
 	--volume="$(BUILD_DIR):/$(GUEST_BUILD_DIR)" \
 	lfe/blog build --verbose --trace --destination $(GUEST_BUILD_DIR)
+	$(MAKE) update-generated
+
+update-generated:
 	@cp -r $(BUILD_DIR)/* $(PUBLISH_DIR)/
 
 build-and-publish: build publish
