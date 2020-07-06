@@ -58,6 +58,7 @@ publish:
 	git push origin gh-pages
 	-@git add $(PUBLISH_DIR) && \
 	git commit -m "Updated submodule to recently published blog content." && \
+	git submodule update && \
 	git push origin master
 
 clean-github-pages:
