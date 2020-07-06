@@ -21,6 +21,7 @@ http://blog.lfe.io//page10/index.html
 http://blog.lfe.io//page11/index.html
 http://blog.lfe.io//page12/index.html
 
+http://blog.lfe.io//tutorials/2019/05/13/1549-running-lfe-in-docker-updated
 http://blog.lfe.io//news/2019/05/13/0250-catch-up
 http://blog.lfe.io//tutorials/2016/04/27/1647-tracing-lfe-functions
 http://blog.lfe.io//tutorials/2016/03/25/0858-lfe-and-rebar3
