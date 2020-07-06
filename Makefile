@@ -53,10 +53,10 @@ post:
 	$(EDITOR) $(SRC)/$$OUT
 
 publish:
-	@cd $(PUBLISH_DIR) && \
+	-@cd $(PUBLISH_DIR) && \
 	git commit -am "Regenerated LFE blog content." > /dev/null && \
 	git push origin gh-pages
-	@git add $(PUBLISH_DIR)	&& \
+	-@git add $(PUBLISH_DIR) && \
 	git commit -m "Updated submodule to recently published blog content." && \
 	git push origin master
 
