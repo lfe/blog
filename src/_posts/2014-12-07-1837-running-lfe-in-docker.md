@@ -7,8 +7,13 @@ tags: [docker,paas,howtos,web,apps,ops,lfest,exemplar,boot2docker]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
-<a href="/assets/images/posts/DockerLogo.png"><img class="left thumb" src="{{ site.base_url }}/assets/images/posts/DockerLogo.png" /></a>With the growing prominence of
-[Docker]() in PaaS offerings, from
+<a href="/assets/images/posts/DockerLogo.png"><img class="left thumb" src="{{ site.base_url }}/assets/images/posts/DockerLogo.png" /></a>
+**Update**: This post has been <a href="{{ site.base_url }}/tutorials/2019/05/13/1549-running-lfe-in-docker-updated/">updated</a>
+to account for the recenrt changes in the newly published `lfex/lfe` Docker images. The examples given below in this post will
+no longer work as written ... original post follows:
+
+With the growing prominence of
+[Docker](https://www.docker.com/) in PaaS offerings, from
 [Linode](https://blog.linode.com/2014/01/03/docker-on-linode/) and
 [OpenShift](https://blog.openshift.com/openshift-v3-platform-combines-docker-kubernetes-atomic-and-more/) to
 [Google](https://cloud.google.com/appengine/docs/managed-vms/custom-runtimes) and
