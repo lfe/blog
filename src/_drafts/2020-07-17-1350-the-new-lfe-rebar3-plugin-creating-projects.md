@@ -7,3 +7,4 @@ tags: [howto, libraries, tools, utilities rebar3]
 author: Duncan McGreggor
 ---
 {% include JB/setup %}
+<a href="/assets/images/posts/lfe-rebar3-logo.png"><img class="left thumb" src="{{ site.base_url }}/assets/images/posts/lfe-rebar3-logo.png" /></a>
